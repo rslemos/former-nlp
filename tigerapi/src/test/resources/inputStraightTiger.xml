@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<corpus id="TESTCORPUS"
+	xmlns="http://www.ims.uni-stuttgart.de/projekte/TIGER/public/TigerXML.xsd">
+	<head>
+		<meta>
+			<name>Test corpus</name>
+			<author>Wolfgang Lezius</author>
+			<date>April 2003</date>
+			<description>illustrates the TIGER-XML format</description>
+			<format>NeGra format, version 3</format>
+			<history>first version</history>
+		</meta>
+
+		<annotation>
+
+			<feature name="word" domain="T" />
+
+			<feature name="pos" domain="T">
+				<value name="ART">determiner</value>
+				<value name="ADV">adverb</value>
+				<value name="KOKOM">conjunction</value>
+				<value name="NN">noun</value>
+				<value name="PIAT">indefinite attributive pronoun</value>
+				<value name="VVFIN">finite verb</value>
+			</feature>
+
+			<feature name="morph" domain="T">
+				<value name="Def.Fem.Nom.Sg" />
+				<value name="Fem.Nom.Sg.*" />
+				<value name="Masc.Akk.Pl.*" />
+				<value name="3.Sg.Pres.Ind" />
+				<value name="--">not bound</value>
+			</feature>
+
+			<feature name="cat" domain="NT">
+				<value name="AP">adjektive phrase</value>
+				<value name="AVP">adverbial phrase</value>
+				<value name="NP">noun phrase</value>
+				<value name="S">sentence</value>
+			</feature>
+
+			<edgelabel>
+				<value name="CC">comparative complement</value>
+				<value name="CM">comparative concjunction</value>
+				<value name="HD">head</value>
+				<value name="MO">modifier</value>
+				<value name="NK">noun kernel modifier</value>
+				<value name="OA">accusative object</value>
+				<value name="SB">subject</value>
+			</edgelabel>
+
+		</annotation>
+	</head>
+
+	<body>
+		<s id="s5">
+			<graph root="s5_504">
+				<terminals>
+					<t id="s5_1" word="Die" pos="ART" morph="Def.Fem.Nom.Sg" />
+					<t id="s5_2" word="Tagung" pos="NN" morph="Fem.Nom.Sg.*" />
+					<t id="s5_3" word="hat" pos="VVFIN" morph="3.Sg.Pres.Ind" />
+					<t id="s5_4" word="mehr" pos="PIAT" morph="--" />
+					<t id="s5_5" word="Teilnehmer" pos="NN" morph="Masc.Akk.Pl.*" />
+					<t id="s5_6" word="als" pos="KOKOM" morph="--" />
+					<t id="s5_7" word="je" pos="ADV" morph="--" />
+					<t id="s5_8" word="zuvor" pos="ADV" morph="--" />
+				</terminals>
+				<nonterminals>
+					<nt id="s5_500" cat="NP">
+						<edge label="NK" idref="s5_1" />
+						<edge label="NK" idref="s5_2" />
+					</nt>
+					<nt id="s5_501" cat="AVP">
+						<edge label="CM" idref="s5_6" />
+						<edge label="MO" idref="s5_7" />
+						<edge label="HD" idref="s5_8" />
+					</nt>
+					<nt id="s5_502" cat="AP">
+						<edge label="HD" idref="s5_4" />
+						<edge label="CC" idref="s5_501" />
+					</nt>
+					<nt id="s5_503" cat="NP">
+						<edge label="NK" idref="s5_502" />
+						<edge label="NK" idref="s5_5" />
+					</nt>
+					<nt id="s5_504" cat="S">
+						<edge label="SB" idref="s5_500" />
+						<edge label="HD" idref="s5_3" />
+						<edge label="OA" idref="s5_503" />
+					</nt>
+				</nonterminals>
+			</graph>
+		</s>
+	</body>
+</corpus>
