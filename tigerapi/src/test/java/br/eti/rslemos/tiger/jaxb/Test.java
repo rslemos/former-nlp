@@ -13,8 +13,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import br.eti.rslemos.tiger.jaxb.impl.HeadTypeImpl;
-import br.eti.rslemos.tiger.jaxb.impl.SentenceTypeImpl;
 
 public class Test {
 	public static void main(String[] args) throws Throwable {
@@ -40,13 +38,13 @@ public class Test {
 
 		event = (StartElement) xmlelementstream.peek();
 		if ("head".equals(event.getName().getLocalPart())) {
-			JAXBContext headContext = JAXBContext.newInstance(HeadTypeImpl.class);
+			JAXBContext headContext = JAXBContext.newInstance(Head.class);
 			Unmarshaller headUnmarshaller = headContext.createUnmarshaller();
 
-			JAXBElement<HeadTypeImpl> jaxbhead = headUnmarshaller.unmarshal(xmlstream, HeadTypeImpl.class);
-			HeadType head = jaxbhead.getValue();
+			JAXBElement<Head> jaxbhead = headUnmarshaller.unmarshal(xmlstream, Head.class);
+			Head head = jaxbhead.getValue();
 
-			MetaType meta = head.getMeta();
+			Meta meta = head.meta;
 			System.out.printf("METADATA\n" +
 					"name = %s\n" +
 					"author = %s\n" +
@@ -54,18 +52,18 @@ public class Test {
 					"date = %s\n" +
 					"history = %s\n" +
 					"format = %s\n\n",
-					meta.getName(), meta.getAuthor(), meta.getDescription(),
-					meta.getDate(), meta.getHistory(), meta.getFormat());
+					meta.name, meta.author, meta.description,
+					meta.date, meta.history, meta.format);
 
 
-			AnnotationType annotation = head.getAnnotation();
+			Annotation annotation = head.annotation;
 			System.out.printf("ANNOTATION:\n");
-			for (FeatureType feature : annotation.getFeature()) {
+			for (Feature feature : annotation.features) {
 				System.out.printf("FEATURE\n" +
 						"name = %s\n" +
 						"domain = %s\n\n",
-						feature.getName(),
-						feature.getDomain());
+						feature.name,
+						feature.domain);
 			}
 		} else
 			System.out.printf("No head\n");
@@ -74,13 +72,13 @@ public class Test {
 		event = (StartElement) xmlelementstream.nextEvent();
 
 		if (event != null && "body".equals(event.getName().getLocalPart())) {
-			JAXBContext sentenceContext = JAXBContext.newInstance(SentenceTypeImpl.class);
+			JAXBContext sentenceContext = JAXBContext.newInstance(Sentence.class);
 			Unmarshaller sentenceUnmarshaller = sentenceContext.createUnmarshaller();
 
 			while(xmlelementstream.peek() != null) {
-				JAXBElement<SentenceTypeImpl> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, SentenceTypeImpl.class);
-				SentenceType sentence = jaxbsentence.getValue();
-				System.out.printf("sentence id = %s\n", sentence.getId());
+				JAXBElement<Sentence> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, Sentence.class);
+				Sentence sentence = jaxbsentence.getValue();
+				System.out.printf("sentence id = %s\n", sentence.id);
 			}
 		}
 
