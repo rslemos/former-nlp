@@ -4,6 +4,7 @@
 	<groupId>br.eti.rslemos.tigerapi</groupId>
 	<artifactId>tigerapi</artifactId>
 	<version>1.0.0</version>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -13,6 +14,7 @@
 			<classifier>jdk15</classifier>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -20,7 +22,14 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.0</version>
+		</dependency>
 	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>mockito-repository</id>
@@ -33,4 +42,52 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>java.net</id>
+			<name>java.net Maven Repository</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- should be 1.5 or higher for jaxb -->
+					<target>1.6</target>
+					<source>1.6</source>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.sun.tools.xjc.maven2</groupId>
+				<artifactId>maven-jaxb-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<generatePackage>br.eti.rslemos.tiger.jaxb</generatePackage>
+					<includeSchemas>
+						<includeSchema>**/*.xsd</includeSchema>
+					</includeSchemas>
+
+					<includeBindings>
+						<includeBinding>*.xjb</includeBinding>
+					</includeBindings>
+
+					<strict>true</strict>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
