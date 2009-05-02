@@ -5,10 +5,12 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-public class Match {
+import br.eti.rslemos.tiger.Match;
+
+public class JAXBMatch implements Match {
 
 	private String subgraph;
-	private List<Variable> variables;
+	private List<JAXBVariable> variables;
 
 
 	@XmlAttribute(required = true)
@@ -21,11 +23,11 @@ public class Match {
 	}
 
 	@XmlElement(required = true, name = "variable")
-	public List<Variable> getVariables() {
+	public List<JAXBVariable> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<Variable> variables) {
+	public void setVariables(List<JAXBVariable> variables) {
 		this.variables = variables;
 	}
 

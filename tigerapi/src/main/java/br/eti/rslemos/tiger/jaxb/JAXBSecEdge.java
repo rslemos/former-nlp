@@ -2,7 +2,9 @@ package br.eti.rslemos.tiger.jaxb;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class SecEdge {
+import br.eti.rslemos.tiger.SecEdge;
+
+public class JAXBSecEdge implements SecEdge {
 
 	private String idref;
 	private String label;

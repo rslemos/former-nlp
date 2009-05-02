@@ -5,38 +5,40 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "annotationType", propOrder = {"features", "edgeLabel", "secEdgeLabel"})
-public class Annotation {
+import br.eti.rslemos.tiger.Annotation;
 
-	private List<Feature> features;
-	private EdgeLabel edgeLabel;
-	private EdgeLabel secEdgeLabel;
+@XmlType(name = "annotationType", propOrder = {"features", "edgeLabel", "secEdgeLabel"})
+public class JAXBAnnotation implements Annotation {
+
+	private List<JAXBFeature> features;
+	private JAXBEdgeLabel edgeLabel;
+	private JAXBEdgeLabel secEdgeLabel;
 
 
 	@XmlElement(required = true, name = "feature")
-	public List<Feature> getFeatures() {
+	public List<JAXBFeature> getFeatures() {
 		return features;
 	}
 
-	public void setFeatures(List<Feature> features) {
+	public void setFeatures(List<JAXBFeature> features) {
 		this.features = features;
 	}
 
 	@XmlElement(required = false, name = "edgelabel")
-	public EdgeLabel getEdgeLabel() {
+	public JAXBEdgeLabel getEdgeLabel() {
 		return edgeLabel;
 	}
 
-	public void setEdgeLabel(EdgeLabel edgeLabel) {
+	public void setEdgeLabel(JAXBEdgeLabel edgeLabel) {
 		this.edgeLabel = edgeLabel;
 	}
 
 	@XmlElement(required = false, name = "secedgelabel")
-	public EdgeLabel getSecEdgeLabel() {
+	public JAXBEdgeLabel getSecEdgeLabel() {
 		return secEdgeLabel;
 	}
 
-	public void setSecEdgeLabel(EdgeLabel secEdgeLabel) {
+	public void setSecEdgeLabel(JAXBEdgeLabel secEdgeLabel) {
 		this.secEdgeLabel = secEdgeLabel;
 	}
 

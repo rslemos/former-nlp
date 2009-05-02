@@ -3,8 +3,10 @@ package br.eti.rslemos.tiger.jaxb;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import br.eti.rslemos.tiger.Meta;
+
 @XmlType(name = "metaType", propOrder = {"name", "author", "date", "description", "format", "history"})
-public class Meta {
+public class JAXBMeta implements Meta {
 
 	private String name;
 	private String author;

@@ -13,6 +13,12 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import br.eti.rslemos.tiger.Annotation;
+import br.eti.rslemos.tiger.Feature;
+import br.eti.rslemos.tiger.Head;
+import br.eti.rslemos.tiger.Meta;
+import br.eti.rslemos.tiger.Sentence;
+
 
 public class Test {
 	public static void main(String[] args) throws Throwable {
@@ -38,10 +44,10 @@ public class Test {
 
 		event = (StartElement) xmlelementstream.peek();
 		if ("head".equals(event.getName().getLocalPart())) {
-			JAXBContext headContext = JAXBContext.newInstance(Head.class);
+			JAXBContext headContext = JAXBContext.newInstance(JAXBHead.class);
 			Unmarshaller headUnmarshaller = headContext.createUnmarshaller();
 
-			JAXBElement<Head> jaxbhead = headUnmarshaller.unmarshal(xmlstream, Head.class);
+			JAXBElement<JAXBHead> jaxbhead = headUnmarshaller.unmarshal(xmlstream, JAXBHead.class);
 			Head head = jaxbhead.getValue();
 
 			Meta meta = head.getMeta();
@@ -62,8 +68,8 @@ public class Test {
 				System.out.printf("FEATURE\n" +
 						"name = %s\n" +
 						"domain = %s\n\n",
-						feature.name,
-						feature.domain);
+						feature.getName(),
+						feature.getDomain());
 			}
 		} else
 			System.out.printf("No head\n");
@@ -72,11 +78,11 @@ public class Test {
 		event = (StartElement) xmlelementstream.nextEvent();
 
 		if (event != null && "body".equals(event.getName().getLocalPart())) {
-			JAXBContext sentenceContext = JAXBContext.newInstance(Sentence.class);
+			JAXBContext sentenceContext = JAXBContext.newInstance(JAXBSentence.class);
 			Unmarshaller sentenceUnmarshaller = sentenceContext.createUnmarshaller();
 
 			while(xmlelementstream.peek() != null) {
-				JAXBElement<Sentence> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, Sentence.class);
+				JAXBElement<JAXBSentence> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, JAXBSentence.class);
 				Sentence sentence = jaxbsentence.getValue();
 				System.out.printf("sentence id = %s\n", sentence.getId());
 			}

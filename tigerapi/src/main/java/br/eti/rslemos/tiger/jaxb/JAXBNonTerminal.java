@@ -11,12 +11,15 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-@XmlType(name = "tType")
-public class Terminal {
+import br.eti.rslemos.tiger.NonTerminal;
+
+@XmlType(name = "ntType", propOrder = {"edges", "secEdges"})
+public class JAXBNonTerminal implements NonTerminal {
 
 	private String id;
 	private Map<QName, String> features = new HashMap<QName, String>();
-	private List<SecEdge> secEdges;
+	private List<JAXBEdge> edges;
+	private List<JAXBSecEdge> secEdges;
 
 
 	@XmlAttribute(required = true)
@@ -38,12 +41,21 @@ public class Terminal {
 		this.features = features;
 	}
 
+	@XmlElement(required = false, name = "edge")
+	public List<JAXBEdge> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(List<JAXBEdge> edges) {
+		this.edges = edges;
+	}
+
 	@XmlElement(required = false, name = "secedge")
-	public List<SecEdge> getSecEdges() {
+	public List<JAXBSecEdge> getSecEdges() {
 		return secEdges;
 	}
 
-	public void setSecEdges(List<SecEdge> secEdges) {
+	public void setSecEdges(List<JAXBSecEdge> secEdges) {
 		this.secEdges = secEdges;
 	}
 

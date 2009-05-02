@@ -7,13 +7,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+import br.eti.rslemos.tiger.Graph;
+
 @XmlType(name = "graphType", propOrder = {"terminals", "nonTerminals"})
-public class Graph {
+public class JAXBGraph implements Graph {
 
 	private String root;
 	private Boolean discontinuous;
-	private List<Terminal> terminals;
-	private List<NonTerminal> nonTerminals;
+	private List<JAXBTerminal> terminals;
+	private List<JAXBNonTerminal> nonTerminals;
 
 
 	@XmlAttribute(required = true)
@@ -36,21 +38,21 @@ public class Graph {
 
 	@XmlElementWrapper(name = "terminals", required = true)
 	@XmlElement(name = "t", required = true)
-	public List<Terminal> getTerminals() {
+	public List<JAXBTerminal> getTerminals() {
 		return terminals;
 	}
 
-	public void setTerminals(List<Terminal> terminals) {
+	public void setTerminals(List<JAXBTerminal> terminals) {
 		this.terminals = terminals;
 	}
 
 	@XmlElementWrapper(name = "nonterminals", required = true)
 	@XmlElement(name = "nt", required = false)
-	public List<NonTerminal> getNonTerminals() {
+	public List<JAXBNonTerminal> getNonTerminals() {
 		return nonTerminals;
 	}
 
-	public void setNonTerminals(List<NonTerminal> nonTerminals) {
+	public void setNonTerminals(List<JAXBNonTerminal> nonTerminals) {
 		this.nonTerminals = nonTerminals;
 	}
 

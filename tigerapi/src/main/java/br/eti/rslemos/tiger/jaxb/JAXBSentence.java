@@ -8,12 +8,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlType;
 
+import br.eti.rslemos.tiger.Sentence;
+
 @XmlType(name = "sentenceType", propOrder = {"graph", "matches"})
-public class Sentence {
+public class JAXBSentence implements Sentence {
 
 	private String id;
-	private Graph graph;
-	private List<Match> matches;
+	private JAXBGraph graph;
+	private List<JAXBMatch> matches;
 
 
 	@XmlAttribute(required = true)
@@ -27,21 +29,21 @@ public class Sentence {
 	}
 
 	@XmlElement(required = false)
-	public Graph getGraph() {
+	public JAXBGraph getGraph() {
 		return graph;
 	}
 
-	public void setGraph(Graph graph) {
+	public void setGraph(JAXBGraph graph) {
 		this.graph = graph;
 	}
 
 	@XmlElementWrapper(required = false)
 	@XmlElement(required = true, name = "match")
-	public List<Match> getMatches() {
+	public List<JAXBMatch> getMatches() {
 		return matches;
 	}
 
-	public void setMatches(List<Match> matches) {
+	public void setMatches(List<JAXBMatch> matches) {
 		this.matches = matches;
 	}
 

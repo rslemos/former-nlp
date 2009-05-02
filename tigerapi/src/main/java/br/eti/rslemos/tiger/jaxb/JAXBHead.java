@@ -6,12 +6,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import br.eti.rslemos.tiger.Head;
+
 @XmlType(name = "headType", propOrder = {"meta", "annotation"})
-public class Head {
+public class JAXBHead implements Head {
 
 	private URI external;
-	private Meta meta;
-	private Annotation annotation;
+	private JAXBMeta meta;
+	private JAXBAnnotation annotation;
 
 
 	@XmlAttribute(required = false)
@@ -24,20 +26,20 @@ public class Head {
 	}
 
 	@XmlElement(required = false)
-	public Meta getMeta() {
+	public JAXBMeta getMeta() {
 		return meta;
 	}
 
-	public void setMeta(Meta meta) {
+	public void setMeta(JAXBMeta meta) {
 		this.meta = meta;
 	}
 
 	@XmlElement(required = false)
-	public Annotation getAnnotation() {
+	public JAXBAnnotation getAnnotation() {
 		return annotation;
 	}
 
-	public void setAnnotation(Annotation annotation) {
+	public void setAnnotation(JAXBAnnotation annotation) {
 		this.annotation = annotation;
 	}
 }

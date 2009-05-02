@@ -1,4 +1,4 @@
-package br.eti.rslemos.tiger.jaxb;
+package br.eti.rslemos.tiger;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;

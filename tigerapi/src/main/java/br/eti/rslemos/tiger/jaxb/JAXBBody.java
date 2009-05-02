@@ -5,18 +5,20 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "bodyType")
-public class Body {
+import br.eti.rslemos.tiger.Body;
 
-	private List<Sentence> sentences;
+@XmlType(name = "bodyType")
+public class JAXBBody implements Body {
+
+	private List<JAXBSentence> sentences;
 
 
 	@XmlElement(required = true, name = "s")
-	public List<Sentence> getSentences() {
+	public List<JAXBSentence> getSentences() {
 		return sentences;
 	}
 
-	public void setSentences(List<Sentence> sentences) {
+	public void setSentences(List<JAXBSentence> sentences) {
 		this.sentences = sentences;
 	}
 }

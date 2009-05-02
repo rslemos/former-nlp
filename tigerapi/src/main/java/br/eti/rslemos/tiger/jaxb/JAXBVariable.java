@@ -2,7 +2,9 @@ package br.eti.rslemos.tiger.jaxb;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class Variable {
+import br.eti.rslemos.tiger.Variable;
+
+public class JAXBVariable implements Variable {
 
 	private String name;
 	private String idref;
