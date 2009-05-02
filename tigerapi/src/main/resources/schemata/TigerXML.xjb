@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxb:bindings
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	version="2.0"
+	schemaLocation="TigerXML.xsd"
+	node="/xsd:schema" >
+	
+	<jaxb:globalBindings
+		generateValueClass="false"/>
+	
+	<jaxb:schemaBindings>
+    	<jaxb:package name="br.eti.rslemos.tiger.jaxb"/>
+   	</jaxb:schemaBindings>
+	
+	<jaxb:bindings node="xsd:complexType[@name='bodyType']">
+		<jaxb:class name="Body"/>
+
+		<jaxb:bindings node="xsd:choice">
+			<jaxb:property name="sentences">
+				<jaxb:baseType name="br.eti.rslemos.tiger.jaxb.SentenceType"/>
+			</jaxb:property>
+			
+			<jaxb:bindings node="xsd:element[@name='subcorpus']">
+			</jaxb:bindings>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

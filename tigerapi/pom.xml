@@ -75,13 +75,12 @@
 					</execution>
 				</executions>
 				<configuration>
-					<generatePackage>br.eti.rslemos.tiger.jaxb</generatePackage>
 					<includeSchemas>
 						<includeSchema>**/*.xsd</includeSchema>
 					</includeSchemas>
 
 					<includeBindings>
-						<includeBinding>*.xjb</includeBinding>
+						<includeBinding>**/*.xjb</includeBinding>
 					</includeBindings>
 
 					<strict>true</strict>

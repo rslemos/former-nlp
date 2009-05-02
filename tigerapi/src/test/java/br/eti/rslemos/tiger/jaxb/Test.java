@@ -13,11 +13,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import br.eti.rslemos.tiger.jaxb.AnnotationType;
-import br.eti.rslemos.tiger.jaxb.FeatureType;
-import br.eti.rslemos.tiger.jaxb.HeadType;
-import br.eti.rslemos.tiger.jaxb.MetaType;
-import br.eti.rslemos.tiger.jaxb.SentenceType;
+import br.eti.rslemos.tiger.jaxb.impl.HeadTypeImpl;
+import br.eti.rslemos.tiger.jaxb.impl.SentenceTypeImpl;
 
 public class Test {
 	public static void main(String[] args) throws Throwable {
@@ -43,10 +40,10 @@ public class Test {
 
 		event = (StartElement) xmlelementstream.peek();
 		if ("head".equals(event.getName().getLocalPart())) {
-			JAXBContext headContext = JAXBContext.newInstance(HeadType.class);
+			JAXBContext headContext = JAXBContext.newInstance(HeadTypeImpl.class);
 			Unmarshaller headUnmarshaller = headContext.createUnmarshaller();
 
-			JAXBElement<HeadType> jaxbhead = headUnmarshaller.unmarshal(xmlstream, HeadType.class);
+			JAXBElement<HeadTypeImpl> jaxbhead = headUnmarshaller.unmarshal(xmlstream, HeadTypeImpl.class);
 			HeadType head = jaxbhead.getValue();
 
 			MetaType meta = head.getMeta();
@@ -77,11 +74,11 @@ public class Test {
 		event = (StartElement) xmlelementstream.nextEvent();
 
 		if (event != null && "body".equals(event.getName().getLocalPart())) {
-			JAXBContext sentenceContext = JAXBContext.newInstance(SentenceType.class);
+			JAXBContext sentenceContext = JAXBContext.newInstance(SentenceTypeImpl.class);
 			Unmarshaller sentenceUnmarshaller = sentenceContext.createUnmarshaller();
 
 			while(xmlelementstream.peek() != null) {
-				JAXBElement<SentenceType> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, SentenceType.class);
+				JAXBElement<SentenceTypeImpl> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, SentenceTypeImpl.class);
 				SentenceType sentence = jaxbsentence.getValue();
 				System.out.printf("sentence id = %s\n", sentence.getId());
 			}
