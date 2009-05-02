@@ -1,7 +1,7 @@
 package br.eti.rslemos.tiger;
 
-import java.util.List;
+import java.util.Iterator;
 
 public interface Body {
-	List<? extends Sentence> getSentences();
+	Iterator<? extends Sentence> sentences();
 }

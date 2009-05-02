@@ -1,5 +1,6 @@
 package br.eti.rslemos.tiger.jaxb;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,5 +21,10 @@ public class JAXBBody implements Body {
 
 	public void setSentences(List<JAXBSentence> sentences) {
 		this.sentences = sentences;
+	}
+
+	@Override
+	public Iterator<JAXBSentence> sentences() {
+		return getSentences().iterator();
 	}
 }
