@@ -8,7 +8,6 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -126,14 +125,6 @@ public class StAXCorpus implements Corpus {
 
 	public String getId() {
 		return id;
-	}
-
-	public StAXMetadata getMetadata() {
-		return metadata;
-	}
-
-	public Map<String, StAXFeature> getFeatures() {
-		return features;
 	}
 
 	@Override
