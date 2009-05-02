@@ -9,16 +9,46 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "corpus")
 @XmlType(name = "", propOrder = {"head", "body"})
 public class Corpus {
+
+	private String id;
+	private String version;
+	private Head head;
+	private Body body;
+
 	@XmlAttribute(required = true)
 	@XmlID
-	public String id;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	@XmlAttribute(required = false)
-	public String version;
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	@XmlElement(required = false)
-	public Head head;
+	public Head getHead() {
+		return head;
+	}
+
+	public void setHead(Head head) {
+		this.head = head;
+	}
 
 	@XmlElement(required = true)
-	public Body body;
+	public Body getBody() {
+		return body;
+	}
+
+	public void setBody(Body body) {
+		this.body = body;
+	}
 }

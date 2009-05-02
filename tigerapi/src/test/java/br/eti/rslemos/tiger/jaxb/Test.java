@@ -44,7 +44,7 @@ public class Test {
 			JAXBElement<Head> jaxbhead = headUnmarshaller.unmarshal(xmlstream, Head.class);
 			Head head = jaxbhead.getValue();
 
-			Meta meta = head.meta;
+			Meta meta = head.getMeta();
 			System.out.printf("METADATA\n" +
 					"name = %s\n" +
 					"author = %s\n" +
@@ -52,13 +52,13 @@ public class Test {
 					"date = %s\n" +
 					"history = %s\n" +
 					"format = %s\n\n",
-					meta.name, meta.author, meta.description,
-					meta.date, meta.history, meta.format);
+					meta.getName(), meta.getAuthor(), meta.getDescription(),
+					meta.getDate(), meta.getHistory(), meta.getFormat());
 
 
-			Annotation annotation = head.annotation;
+			Annotation annotation = head.getAnnotation();
 			System.out.printf("ANNOTATION:\n");
-			for (Feature feature : annotation.features) {
+			for (Feature feature : annotation.getFeatures()) {
 				System.out.printf("FEATURE\n" +
 						"name = %s\n" +
 						"domain = %s\n\n",
@@ -78,7 +78,7 @@ public class Test {
 			while(xmlelementstream.peek() != null) {
 				JAXBElement<Sentence> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, Sentence.class);
 				Sentence sentence = jaxbsentence.getValue();
-				System.out.printf("sentence id = %s\n", sentence.id);
+				System.out.printf("sentence id = %s\n", sentence.getId());
 			}
 		}
 

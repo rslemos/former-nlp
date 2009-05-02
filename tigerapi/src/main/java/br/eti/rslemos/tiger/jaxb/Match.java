@@ -7,9 +7,27 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class Match {
 
+	private String subgraph;
+	private List<Variable> variables;
+
+
 	@XmlAttribute(required = true)
-	public String subgraph;
+	public String getSubgraph() {
+		return subgraph;
+	}
+
+	public void setSubgraph(String subgraph) {
+		this.subgraph = subgraph;
+	}
 
 	@XmlElement(required = true, name = "variable")
-	public List<Variable> variables;
+	public List<Variable> getVariables() {
+		return variables;
+	}
+
+	public void setVariables(List<Variable> variables) {
+		this.variables = variables;
+	}
+
+
 }
