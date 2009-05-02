@@ -4,16 +4,27 @@ import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 
 import java.io.Reader;
+import java.net.URI;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import br.eti.rslemos.tiger.Annotation;
+import br.eti.rslemos.tiger.Body;
+import br.eti.rslemos.tiger.Corpus;
+import br.eti.rslemos.tiger.Domain;
+import br.eti.rslemos.tiger.EdgeLabel;
+import br.eti.rslemos.tiger.Feature;
+import br.eti.rslemos.tiger.Head;
+import br.eti.rslemos.tiger.Meta;
 import br.eti.rslemos.tiger.TigerException;
 
-public class Corpus {
+public class StAXCorpus implements Corpus {
 	private static final String CORPUS_ELEMENT = "corpus";
 	private static final String CORPUS_HEAD_ELEMENT = "head";
 	private static final String CORPUS_HEAD_META_ELEMENT = "meta";
@@ -32,10 +43,10 @@ public class Corpus {
 	private final XMLStreamReader xmlstream;
 
 	private final String id;
-	private final Metadata metadata;
-	private final Map<String, Feature> features = new LinkedHashMap<String, Feature>();
+	private final StAXMetadata metadata;
+	private final LinkedHashMap<String, StAXFeature> features = new LinkedHashMap<String, StAXFeature>();
 
-	public Corpus(Reader input) throws TigerException {
+	public StAXCorpus(Reader input) throws TigerException {
 		XMLInputFactory factory = javax.xml.stream.XMLInputFactory.newInstance();
 		try {
 			xmlstream = factory.createXMLStreamReader(input);
@@ -57,7 +68,7 @@ public class Corpus {
 			xmlstream.require(START_ELEMENT, null, CORPUS_HEAD_ELEMENT);
 
 			// get metadata
-			metadata = new Metadata();
+			metadata = new StAXMetadata();
 
 			xmlstream.nextTag();
 			xmlstream.require(START_ELEMENT, null, CORPUS_HEAD_META_ELEMENT);
@@ -85,14 +96,14 @@ public class Corpus {
 				String featureName = xmlstream.getAttributeValue(null, "name");
 				String featureDomain = xmlstream.getAttributeValue(null, "domain");
 
-				Feature feature = new Feature(featureName, featureDomain);
+				StAXFeature feature = new StAXFeature(featureName, Domain.valueOf(featureDomain));
 
 				while(xmlstream.nextTag() != END_ELEMENT) {
 					xmlstream.require(START_ELEMENT, null, CORPUS_HEAD_ANNOTATION_FEATURE_VALUE_ELEMENT);
 					String name = xmlstream.getAttributeValue(null, "name");
 					String comment = xmlstream.getElementText();
 
-					feature.add(new FeatureValue(name, comment));
+					feature.add(new StAXFeatureValue(name, comment));
 				}
 
 				addFeature(feature);
@@ -109,7 +120,7 @@ public class Corpus {
 		return xmlstream.getElementText();
 	}
 
-	private void addFeature(Feature feature) {
+	private void addFeature(StAXFeature feature) {
 		features.put(feature.getName(), feature);
 	}
 
@@ -117,12 +128,62 @@ public class Corpus {
 		return id;
 	}
 
-	public Metadata getMetadata() {
+	public StAXMetadata getMetadata() {
 		return metadata;
 	}
 
-	public Map<String, Feature> getFeatures() {
+	public Map<String, StAXFeature> getFeatures() {
 		return features;
 	}
+
+	@Override
+	public Body getBody() {
+		return null;
+	}
+
+	@Override
+	public Head getHead() {
+		return new Head() {
+
+			@Override
+			public Annotation getAnnotation() {
+				return new Annotation() {
+
+					@Override
+					public EdgeLabel getEdgeLabel() {
+						return null;
+					}
+
+					@Override
+					public List<? extends Feature> getFeatures() {
+						return new LinkedList<Feature>(features.values());
+					}
+
+					@Override
+					public EdgeLabel getSecEdgeLabel() {
+						return null;
+					}
+
+				};
+			}
+
+			@Override
+			public URI getExternal() {
+				return null;
+			}
+
+			@Override
+			public Meta getMeta() {
+				return metadata;
+			}
+
+		};
+	}
+
+	@Override
+	public String getVersion() {
+		return null;
+	}
+
 
 }

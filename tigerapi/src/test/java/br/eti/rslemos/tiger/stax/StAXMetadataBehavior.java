@@ -6,12 +6,12 @@ import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
-import br.eti.rslemos.tiger.stax.Metadata;
+import br.eti.rslemos.tiger.stax.StAXMetadata;
 
 @Test(groups = {"br.eti.rslemos.tiger"})
-public class MetadataBehavior {
+public class StAXMetadataBehavior {
 
-	private static final Metadata METADATA_A = new Metadata(
+	private static final StAXMetadata METADATA_A = new StAXMetadata(
 			"Test corpus",
 			"Wolfgang Lezius",
 			"April 2003",
@@ -20,7 +20,7 @@ public class MetadataBehavior {
 			"first version"
 	);
 
-	private static final Metadata METADATA_B = new Metadata(
+	private static final StAXMetadata METADATA_B = new StAXMetadata(
 			"Test corpus",
 			"Wolfgang Lezius",
 			"April 2003",
@@ -29,7 +29,7 @@ public class MetadataBehavior {
 			"first version"
 	);
 
-	private static final Metadata METADATA_C = new Metadata(
+	private static final StAXMetadata METADATA_C = new StAXMetadata(
 			"X- Test corpus",
 			"X- Wolfgang Lezius",
 			"X- April 2003",
@@ -38,7 +38,7 @@ public class MetadataBehavior {
 			"X- first version"
 	);
 
-	private static final Metadata METADATA_NULL_A = new Metadata(
+	private static final StAXMetadata METADATA_NULL_A = new StAXMetadata(
 			null,
 			null,
 			null,
@@ -47,7 +47,7 @@ public class MetadataBehavior {
 			null
 	);
 
-	private static final Metadata METADATA_NULL_B = new Metadata(
+	private static final StAXMetadata METADATA_NULL_B = new StAXMetadata(
 			null,
 			null,
 			null,

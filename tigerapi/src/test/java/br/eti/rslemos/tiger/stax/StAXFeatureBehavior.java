@@ -2,33 +2,33 @@ package br.eti.rslemos.tiger.stax;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
-import br.eti.rslemos.tiger.stax.Feature;
-import br.eti.rslemos.tiger.stax.FeatureValue;
+import br.eti.rslemos.tiger.Domain;
 
 @Test(groups = {"br.eti.rslemos.tiger"})
-public class FeatureBehavior {
+public class StAXFeatureBehavior {
 
 	public void shouldHaveWorkingGetters() {
-		Feature feature = new Feature("name", "domain");
+		StAXFeature feature = new StAXFeature("name", Domain.T);
 		assertEquals(feature.getName(), "name");
-		assertEquals(feature.getDomain(), "domain");
+		assertSame(feature.getDomain(), Domain.T);
 	}
 
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldReturnSaneString() {
-		Feature feature = new Feature("name", "domain");
-		assertEquals(feature.toString(), "name(domain)");
+		StAXFeature feature = new StAXFeature("name", Domain.T);
+		assertEquals(feature.toString(), "name(T)");
 	}
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldBeEqual() {
-		Feature featureA = new Feature("name", "domain");
-		Feature featureB = new Feature("name", "domain");
+		StAXFeature featureA = new StAXFeature("name", Domain.T);
+		StAXFeature featureB = new StAXFeature("name", Domain.T);
 
 		assertTrue(featureA.equals(featureB));
 		assertTrue(featureB.equals(featureA));
@@ -39,11 +39,11 @@ public class FeatureBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldBeDeeplyEqual() {
-		Feature featureA = new Feature("name", "domain");
-		featureA.add(new FeatureValue("name", "comment"));
+		StAXFeature featureA = new StAXFeature("name", Domain.T);
+		featureA.add(new StAXFeatureValue("name", "comment"));
 
-		Feature featureB = new Feature("name", "domain");
-		featureB.add(new FeatureValue("name", "comment"));
+		StAXFeature featureB = new StAXFeature("name", Domain.T);
+		featureB.add(new StAXFeatureValue("name", "comment"));
 
 		assertTrue(featureA.equals(featureB));
 		assertTrue(featureB.equals(featureA));
@@ -54,9 +54,9 @@ public class FeatureBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldNotBeEqual() {
-		Feature featureA = new Feature("name", "domain");
-		Feature featureB = new Feature("other-name", "domain");
-		Feature featureC = new Feature("name", "other-domain");
+		StAXFeature featureA = new StAXFeature("name", Domain.T);
+		StAXFeature featureB = new StAXFeature("other-name", Domain.T);
+		StAXFeature featureC = new StAXFeature("name", Domain.NT);
 
 		assertFalse(featureA.equals(featureB));
 		assertFalse(featureA.equals(featureC));
@@ -73,11 +73,11 @@ public class FeatureBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldNotBeDeeplyEqual() {
-		Feature featureA = new Feature("name", "domain");
-		featureA.add(new FeatureValue("name", "comment"));
+		StAXFeature featureA = new StAXFeature("name", Domain.T);
+		featureA.add(new StAXFeatureValue("name", "comment"));
 
-		Feature featureB = new Feature("name", "domain");
-		featureB.add(new FeatureValue("name", "other-comment"));
+		StAXFeature featureB = new StAXFeature("name", Domain.T);
+		featureB.add(new StAXFeatureValue("name", "other-comment"));
 
 		assertFalse(featureA.equals(featureB));
 		assertFalse(featureB.equals(featureA));
@@ -85,19 +85,19 @@ public class FeatureBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldHashToSameCode() {
-		Feature featureA = new Feature("name", "domain");
-		featureA.add(new FeatureValue("name", "comment"));
+		StAXFeature featureA = new StAXFeature("name", Domain.T);
+		featureA.add(new StAXFeatureValue("name", "comment"));
 
-		Feature featureB = new Feature("name", "domain");
-		featureB.add(new FeatureValue("name", "comment"));
+		StAXFeature featureB = new StAXFeature("name", Domain.T);
+		featureB.add(new StAXFeatureValue("name", "comment"));
 
 		assertTrue(featureA.hashCode() == featureB.hashCode());
 	}
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldAcceptNulls() {
-		Feature featureA = new Feature(null, null);
-		Feature featureB = new Feature(null, null);
+		StAXFeature featureA = new StAXFeature(null, null);
+		StAXFeature featureB = new StAXFeature(null, null);
 
 		featureA.toString();
 		featureA.equals(featureB);

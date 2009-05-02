@@ -1,17 +1,21 @@
 package br.eti.rslemos.tiger.stax;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class Feature {
+import br.eti.rslemos.tiger.Domain;
+import br.eti.rslemos.tiger.Feature;
+
+public class StAXFeature implements Feature {
 
 	private final String name;
-	private final String domain;
+	private final Domain domain;
 
-	private final Map<String, FeatureValue> values = new LinkedHashMap<String, FeatureValue>();
+	private final Map<String, StAXFeatureValue> values = new LinkedHashMap<String, StAXFeatureValue>();
 
-	public Feature(String name, String domain) {
+	public StAXFeature(String name, Domain domain) {
 		this.name = name;
 		this.domain = domain;
 	}
@@ -20,15 +24,15 @@ public class Feature {
 		return name;
 	}
 
-	public String getDomain() {
+	public Domain getDomain() {
 		return domain;
 	}
 
-	public Collection<FeatureValue> getValues() {
-		return values.values();
+	public List<StAXFeatureValue> getValues() {
+		return new LinkedList<StAXFeatureValue>(values.values());
 	}
 
-	public void add(FeatureValue featureValue) {
+	public void add(StAXFeatureValue featureValue) {
 		values.put(featureValue.getName(), featureValue);
 	}
 
@@ -40,10 +44,10 @@ public class Feature {
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof Feature))
+		if (!(obj instanceof StAXFeature))
 			return false;
 
-		Feature other = (Feature)obj;
+		StAXFeature other = (StAXFeature)obj;
 
 		return
 		(name != null ? name.equals(other.name) : other.name == null) &&

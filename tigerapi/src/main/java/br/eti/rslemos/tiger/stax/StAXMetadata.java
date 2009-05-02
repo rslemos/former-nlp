@@ -2,7 +2,9 @@ package br.eti.rslemos.tiger.stax;
 
 import java.util.Formatter;
 
-public class Metadata {
+import br.eti.rslemos.tiger.Meta;
+
+public class StAXMetadata implements Meta {
 	private String name;
 	private String author;
 	private String date;
@@ -10,10 +12,10 @@ public class Metadata {
 	private String format;
 	private String history;
 
-	public Metadata() {
+	public StAXMetadata() {
 	}
 
-	public Metadata(String name, String author, String date,
+	public StAXMetadata(String name, String author, String date,
 			String description, String format, String history) {
 		this();
 
@@ -81,10 +83,10 @@ public class Metadata {
 		if (o == null)
 			return false;
 
-		if (!(o instanceof Metadata))
+		if (!(o instanceof StAXMetadata))
 			return false;
 
-		Metadata other = (Metadata)o;
+		StAXMetadata other = (StAXMetadata)o;
 
 		return
 		(name != null ? name.equals(other.name) : other.name == null) &&

@@ -6,13 +6,13 @@ import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
-import br.eti.rslemos.tiger.stax.FeatureValue;
+import br.eti.rslemos.tiger.stax.StAXFeatureValue;
 
 @Test(groups = {"br.eti.rslemos.tiger"})
-public class FeatureValueBehavior {
+public class StAXFeatureValueBehavior {
 
 	public void shouldHaveWorkingGetters() {
-		FeatureValue featureValue = new FeatureValue("name", "comment");
+		StAXFeatureValue featureValue = new StAXFeatureValue("name", "comment");
 		assertEquals(featureValue.getName(), "name");
 		assertEquals(featureValue.getComment(), "comment");
 	}
@@ -20,14 +20,14 @@ public class FeatureValueBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldReturnSaneString() {
-		FeatureValue featureValue = new FeatureValue("name", "comment");
+		StAXFeatureValue featureValue = new StAXFeatureValue("name", "comment");
 		assertEquals(featureValue.toString(), "name");
 	}
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldBeEqual() {
-		FeatureValue featureValueA = new FeatureValue("name", "comment");
-		FeatureValue featureValueB = new FeatureValue("name", "comment");
+		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
+		StAXFeatureValue featureValueB = new StAXFeatureValue("name", "comment");
 
 		assertTrue(featureValueA.equals(featureValueB));
 		assertTrue(featureValueB.equals(featureValueA));
@@ -38,9 +38,9 @@ public class FeatureValueBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldNotBeEqual() {
-		FeatureValue featureValueA = new FeatureValue("name", "comment");
-		FeatureValue featureValueB = new FeatureValue("other-name", "comment");
-		FeatureValue featureValueC = new FeatureValue("name", "other-comment");
+		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
+		StAXFeatureValue featureValueB = new StAXFeatureValue("other-name", "comment");
+		StAXFeatureValue featureValueC = new StAXFeatureValue("name", "other-comment");
 
 		assertFalse(featureValueA.equals(featureValueB));
 		assertFalse(featureValueA.equals(featureValueC));
@@ -57,16 +57,16 @@ public class FeatureValueBehavior {
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldHashToSameCode() {
-		FeatureValue featureValueA = new FeatureValue("name", "comment");
-		FeatureValue featureValueB = new FeatureValue("name", "comment");
+		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
+		StAXFeatureValue featureValueB = new StAXFeatureValue("name", "comment");
 
 		assertTrue(featureValueA.hashCode() == featureValueB.hashCode());
 	}
 
 	@Test(groups = "basics.java.lang.Object")
 	public void shouldAcceptNulls() {
-		FeatureValue featureValueA = new FeatureValue(null, null);
-		FeatureValue featureValueB = new FeatureValue(null, null);
+		StAXFeatureValue featureValueA = new StAXFeatureValue(null, null);
+		StAXFeatureValue featureValueB = new StAXFeatureValue(null, null);
 
 		featureValueA.toString();
 		featureValueA.equals(featureValueB);

@@ -1,16 +1,18 @@
 package br.eti.rslemos.tiger.stax;
 
-public class FeatureValue {
+import br.eti.rslemos.tiger.FeatureValue;
+
+public class StAXFeatureValue implements FeatureValue {
 
 	private final String name;
 	private final String comment;
 
-	public FeatureValue(String name, String comment) {
+	public StAXFeatureValue(String name, String comment) {
 		this.name = name;
 		this.comment = comment;
 	}
 
-	public FeatureValue(String name) {
+	public StAXFeatureValue(String name) {
 		this(name, "");
 	}
 
@@ -30,10 +32,10 @@ public class FeatureValue {
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof FeatureValue))
+		if (!(obj instanceof StAXFeatureValue))
 			return false;
 
-		FeatureValue other = (FeatureValue)obj;
+		StAXFeatureValue other = (StAXFeatureValue)obj;
 
 		return
 		(name != null ? name.equals(other.name) : other.name == null) &&
@@ -54,6 +56,11 @@ public class FeatureValue {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public String getValue() {
+		return getComment();
 	}
 
 
