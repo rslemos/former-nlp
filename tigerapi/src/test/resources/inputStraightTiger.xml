@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<corpus id="TESTCORPUS"
-	xmlns="http://www.ims.uni-stuttgart.de/projekte/TIGER/public/TigerXML.xsd">
+<corpus id="TESTCORPUS">
+	<!-- xmlns="http://www.ims.uni-stuttgart.de/projekte/TIGER/public/TigerXML.xsd" -->
 	<head>
 		<meta>
 			<name>Test corpus</name>
