@@ -1,4 +1,4 @@
-package br.eti.rslemos.tiger;
+package br.eti.rslemos.tiger.stax;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -13,6 +13,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
+
+import br.eti.rslemos.tiger.TigerException;
+import br.eti.rslemos.tiger.TigerInputMother;
+import br.eti.rslemos.tiger.stax.Corpus;
+import br.eti.rslemos.tiger.stax.Feature;
+import br.eti.rslemos.tiger.stax.FeatureValue;
+import br.eti.rslemos.tiger.stax.Metadata;
 
 @Test(groups = {"br.eti.rslemos.tiger"})
 public class CorpusBehavior {

@@ -1,10 +1,12 @@
-package br.eti.rslemos.tiger;
+package br.eti.rslemos.tiger.stax;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
+
+import br.eti.rslemos.tiger.stax.FeatureValue;
 
 @Test(groups = {"br.eti.rslemos.tiger"})
 public class FeatureValueBehavior {

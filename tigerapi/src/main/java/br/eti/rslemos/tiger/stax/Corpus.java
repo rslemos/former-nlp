@@ -1,4 +1,4 @@
-package br.eti.rslemos.tiger;
+package br.eti.rslemos.tiger.stax;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
+import br.eti.rslemos.tiger.TigerException;
 
 public class Corpus {
 	private static final String CORPUS_ELEMENT = "corpus";

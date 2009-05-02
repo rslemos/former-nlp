@@ -1,4 +1,4 @@
-package br.eti.rslemos.tiger;
+package br.eti.rslemos.tiger.stax;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

@@ -1,4 +1,4 @@
-package br.eti.rslemos.tiger;
+package br.eti.rslemos.tiger.stax;
 
 public class FeatureValue {
 
