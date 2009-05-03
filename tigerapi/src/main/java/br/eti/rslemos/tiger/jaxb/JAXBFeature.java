@@ -1,5 +1,6 @@
 package br.eti.rslemos.tiger.jaxb;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -35,8 +36,11 @@ public class JAXBFeature implements Feature {
 		this.domain = domain;
 	}
 
-	@XmlElement(required = false, name = "value")
+	@XmlElement(required = false, name = "value", nillable = false)
 	public List<JAXBFeatureValue> getValues() {
+		if (values == null)
+			values = new LinkedList<JAXBFeatureValue>();
+
 		return values;
 	}
 
