@@ -6,23 +6,15 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 
 public class TigerInputMother {
 
-	public static Reader getInputStraightTiger()
+	public static InputStream getInputStraightTiger()
 	throws UnsupportedEncodingException {
-		return getResourceAsReader("/inputStraightTiger.xml", "UTF-8");
-	}
-
-	private static Reader getResourceAsReader(String name, String encoding)
-	throws UnsupportedEncodingException {
-		InputStream stream = TigerInputMother.class.getResourceAsStream(name);
-		return new InputStreamReader(stream, encoding);
+		return TigerInputMother.class.getResourceAsStream("/inputStraightTiger.xml");
 	}
 
 	public static void testStraightCorpusAttributes(Corpus corpus) {

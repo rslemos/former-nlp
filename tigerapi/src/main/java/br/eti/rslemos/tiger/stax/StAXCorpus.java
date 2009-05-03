@@ -3,7 +3,7 @@ package br.eti.rslemos.tiger.stax;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 
-import java.io.Reader;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -45,7 +45,7 @@ public class StAXCorpus implements Corpus {
 	private final StAXMetadata metadata;
 	private final LinkedHashMap<String, StAXFeature> features = new LinkedHashMap<String, StAXFeature>();
 
-	public StAXCorpus(Reader input) throws TigerException {
+	public StAXCorpus(InputStream input) throws TigerException {
 		XMLInputFactory factory = javax.xml.stream.XMLInputFactory.newInstance();
 		try {
 			xmlstream = factory.createXMLStreamReader(input);
