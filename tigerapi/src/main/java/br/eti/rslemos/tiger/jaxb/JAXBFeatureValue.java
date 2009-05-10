@@ -31,5 +31,8 @@ public class JAXBFeatureValue implements FeatureValue {
 		this.value = value;
 	}
 
-
+	@Override
+	public String toString() {
+		return name;
+	}
 }

@@ -115,7 +115,6 @@ public class FastCorpus implements Corpus {
 				public Iterator<? extends Sentence> sentences() {
 					return it;
 				}
-
 			};
 			else
 				body = null;
