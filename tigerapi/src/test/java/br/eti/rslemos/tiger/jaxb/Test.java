@@ -1,55 +1,48 @@
 package br.eti.rslemos.tiger.jaxb;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
-import javax.xml.stream.EventFilter;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 
 import br.eti.rslemos.tiger.Annotation;
 import br.eti.rslemos.tiger.Feature;
 import br.eti.rslemos.tiger.Head;
 import br.eti.rslemos.tiger.Meta;
 import br.eti.rslemos.tiger.Sentence;
+import br.eti.rslemos.tiger.Terminal;
 
 
 public class Test {
+	private static final QName POS = new QName("pos");
+	private static final QName WORD = new QName("word");
+
 	public static void main(String[] args) throws Throwable {
 		InputStream stream = new URL("file:///home/rslemos/work/Bosque_CF_8.0.TigerXML.xml").openStream();
 
-		XMLInputFactory factory = XMLInputFactory.newInstance();
-		XMLEventReader xmlstream = factory.createXMLEventReader(stream);
+		FastCorpus corpus = new FastCorpus(stream);
 
-		//StartDocument start = (StartDocument) xmlstream.nextEvent();
+		System.out.printf("CORPUS id = %s, version = %s\n\n", corpus.getId(), corpus.getVersion());
 
-		XMLEventReader xmlelementstream = factory.createFilteredReader(xmlstream, new EventFilter() {
-			@Override
-			public boolean accept(XMLEvent event) {
-				return event.isStartElement();
-			}
-		});
+		Head head = corpus.getHead();
 
-		StartElement event;
-
-		// root
-		event = (StartElement) xmlelementstream.nextEvent();
-		System.out.printf("corpus id = %s\n", event.getAttributeByName(new QName("id")).getValue());
-
-		event = (StartElement) xmlelementstream.peek();
-		if ("head".equals(event.getName().getLocalPart())) {
-			JAXBContext headContext = JAXBContext.newInstance(JAXBHead.class);
-			Unmarshaller headUnmarshaller = headContext.createUnmarshaller();
-
-			JAXBElement<JAXBHead> jaxbhead = headUnmarshaller.unmarshal(xmlstream, JAXBHead.class);
-			Head head = jaxbhead.getValue();
-
+		if (head != null) {
 			Meta meta = head.getMeta();
 			System.out.printf("METADATA\n" +
 					"name = %s\n" +
@@ -67,27 +60,96 @@ public class Test {
 			for (Feature feature : annotation.getFeatures()) {
 				System.out.printf("FEATURE\n" +
 						"name = %s\n" +
-						"domain = %s\n\n",
+						"domain = %s\n" +
+						"values = %s\n\n",
 						feature.getName(),
-						feature.getDomain());
+						feature.getDomain(),
+						feature.getValues());
 			}
 		} else
 			System.out.printf("No head\n");
 
-		// skip body element
-		event = (StartElement) xmlelementstream.nextEvent();
+		final TreeMap<String, Map<String, Integer>> collect = new TreeMap<String, Map<String, Integer>>();
 
-		if (event != null && "body".equals(event.getName().getLocalPart())) {
-			JAXBContext sentenceContext = JAXBContext.newInstance(JAXBSentence.class);
-			Unmarshaller sentenceUnmarshaller = sentenceContext.createUnmarshaller();
+		Iterator<Sentence> it = (Iterator<Sentence>) corpus.getBody().sentences();
+		while(it.hasNext()) {
+			Sentence sentence = it.next();
+			List<? extends Terminal> terminals = sentence.getGraph().getTerminals();
+			for (Terminal terminal : terminals) {
+				Map<QName, String> features = terminal.getFeatures();
 
-			while(xmlelementstream.peek() != null) {
-				JAXBElement<JAXBSentence> jaxbsentence = sentenceUnmarshaller.unmarshal(xmlstream, JAXBSentence.class);
-				Sentence sentence = jaxbsentence.getValue();
-				System.out.printf("sentence id = %s\n", sentence.getId());
+				String word = features.get(WORD);
+				if (word != null) {
+					String pos = features.get(POS);
+
+					Map<String, Integer> w = collect.get(word);
+					if (w == null) {
+						w = new HashMap<String, Integer>();
+						collect.put(word, w);
+					}
+
+					Integer count = w.get(pos);
+					if (count == null)
+						count = Integer.valueOf(0);
+
+					w.put(pos, ++count);
+				}
 			}
 		}
 
-	}
+		List<String> words = new ArrayList<String>(collect.keySet());
+		Collections.sort(words, new Comparator<String>() {
 
+			@Override
+			public int compare(String w1, String w2) {
+				return count(collect.get(w2)) - count(collect.get(w1));
+			}
+
+			private int count(Map<String, Integer> c1) {
+				return sum(c1.values());
+			}
+
+			private int sum(Collection<Integer> values) {
+				int sum = 0;
+
+				for (Integer v : values)
+					sum += v;
+
+				return sum;
+			}
+		});
+
+		int i = 0;
+
+		File out = new File("/home/rslemos/work/Linguística Computacional/contratos/lexicon");
+		FileOutputStream fos = new FileOutputStream(out);
+		OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
+		PrintWriter pw = new PrintWriter(osw);
+		try {
+			for (String word : words) {
+				pw.printf("%s", word);
+
+				Map<String, Integer> map = collect.get(word);
+
+				Entry<String, Integer>[] w = map.entrySet().toArray(new Entry[map.size()]);
+				Arrays.sort(w, new Comparator<Entry<String, Integer>>() {
+
+					@Override
+					public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+						return o2.getValue() - o1.getValue();
+					}
+				});
+
+				for (Entry<String, Integer> pos : w) {
+					pw.printf(" %s", pos.getKey().toUpperCase());
+				}
+
+				pw.printf("\n");
+			}
+		} finally {
+			pw.close();
+			osw.close();
+			fos.close();
+		}
+	}
 }
