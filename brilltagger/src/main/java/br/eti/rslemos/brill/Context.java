@@ -4,7 +4,7 @@ public class Context {
 	private Token[] contents;
 	private int pointer;
 	
-	protected Context(Token[] contents) {
+	public Context(Token[] contents) {
 		this.contents = contents;
 	}
 

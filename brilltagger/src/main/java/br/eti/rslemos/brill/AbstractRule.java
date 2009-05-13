@@ -1,24 +1,30 @@
 package br.eti.rslemos.brill;
 
 public abstract class AbstractRule implements Rule {
-	private Token target;
+	private String from;
+	private String to;
 
 	public AbstractRule () {
 	}
 
-	public AbstractRule (Token target) {
-		this.target = target;
+	public AbstractRule (String from, String to) {
+		this.from = from;
+		this.to = to;
+	}
+	
+	public String getFrom() {
+		return from;
 	}
 
-	public Token getTarget() {
-		return target;
+	public String getTo() {
+		return to;
 	}
 
-	public void setTarget(Token target) {
-		this.target = target;
+	public boolean matches(Context context) {
+		String tag0 = context.getToken(0).getTag();
+		
+		return from != null ? from.equals(tag0) : tag0 == null;
 	}
-
-	public abstract boolean matches();
 
 	@Override
 	public boolean equals(Object o) {
@@ -33,7 +39,8 @@ public abstract class AbstractRule implements Rule {
 
 		AbstractRule other = (AbstractRule)o;
 
-		return target != null ? target.equals(other.target) : other.target == null;
+		return (to != null ? to.equals(other.to) : other.to == null) &&
+			(from != null ? from.equals(other.from) : other.from == null);
 	}
 
 	@Override
@@ -42,7 +49,9 @@ public abstract class AbstractRule implements Rule {
 
 		hashCode += this.getClass().hashCode();
 		hashCode *= 3;
-		hashCode += target != null ? target.hashCode() : 0;
+		hashCode += to != null ? to.hashCode() : 0;
+		hashCode *= 3;
+		hashCode += from != null ? from.hashCode() : 0;
 
 		return hashCode;
 	}

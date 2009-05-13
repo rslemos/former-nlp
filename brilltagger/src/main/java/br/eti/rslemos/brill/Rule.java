@@ -2,11 +2,12 @@ package br.eti.rslemos.brill;
 
 public interface Rule {
 
-	public Object getTarget();
+	public String getFrom();
 
-	public void setTarget(Object target);
-
-	public boolean matches();
+	public String getTo();
+	
+	
+	public boolean matches(Context context);
 
 	public boolean equals(Object o);
 
