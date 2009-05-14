@@ -8,6 +8,8 @@ public interface Rule {
 	
 	
 	public boolean matches(Context context);
+	
+	public boolean apply(Context context);
 
 	public boolean equals(Object o);
 

@@ -26,6 +26,14 @@ public abstract class AbstractRule implements Rule {
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}
 
+	public boolean apply(Context context) {
+		if (matches(context)) {
+			context.getToken(0).setTag(to);
+			return true;
+		} else
+			return false;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

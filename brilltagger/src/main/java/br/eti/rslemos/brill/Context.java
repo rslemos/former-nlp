@@ -8,6 +8,10 @@ public class Context {
 		this.contents = contents;
 	}
 
+	protected void setContents(Token[] contents) {
+		this.contents = contents;
+	}
+	
 	public Token getToken(int i) {
 		try {
 			return contents[i+pointer];
@@ -19,4 +23,5 @@ public class Context {
 	public void advance() {
 		pointer++;
 	}
+
 }
