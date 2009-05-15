@@ -23,7 +23,7 @@ public class WDPREVTAGRuleBehavior {
 		Context context = new Context(new Token[] { prev, token });
 		context.advance();
 		
-		Rule rule = new WDPREVTAGRule("foo", "bar", "this-word", "prev-tag");
+		Rule rule = new WDPREVTAGRule("foo", "bar", "prev-tag", "this-word");
 		assertFalse(rule.matches(context));
 	}
 
@@ -38,7 +38,7 @@ public class WDPREVTAGRuleBehavior {
 		Context context = new Context(new Token[] { prev, token });
 		context.advance();
 		
-		Rule rule = new WDPREVTAGRule("foo", "bar", "this-word", "prev-tag");
+		Rule rule = new WDPREVTAGRule("foo", "bar", "prev-tag", "this-word");
 		assertFalse(rule.matches(context));
 	}
 
@@ -54,7 +54,7 @@ public class WDPREVTAGRuleBehavior {
 		Context context = new Context(new Token[] { prev, token });
 		context.advance();
 		
-		Rule rule = new WDPREVTAGRule("foo", "bar", "this-word", "prev-tag");
+		Rule rule = new WDPREVTAGRule("foo", "bar", "prev-tag", "this-word");
 		assertTrue(rule.matches(context));
 	}
 }

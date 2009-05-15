@@ -29,7 +29,7 @@ public class TaggerExampleBehavior {
 		BaseTagger baseTagger = new LookupBaseTagger(lexicon);
 		
 		Rule rule1 = new PREVTAGRule("NN", "VB", "TO");
-		Rule rule2 = new WDPREVTAGRule("RB", "RP", "up", "VB");
+		Rule rule2 = new WDPREVTAGRule("RB", "RP", "VB", "up");
 		
 		Tagger tagger = new Tagger(baseTagger, Arrays.asList(rule1, rule2));
 		

@@ -9,7 +9,7 @@ public class WDPREVTAGRule extends AbstractRule implements Rule {
 	private final String word;
 	private final String prevTag;
 
-	public WDPREVTAGRule(String from, String to, String word, String prevTag) {
+	public WDPREVTAGRule(String from, String to, String prevTag, String word) {
 		super(from, to);
 		this.word = word;
 		this.prevTag = prevTag;
