@@ -67,6 +67,7 @@ public class Tagger {
 			super.setContents(bufferingContents);
 		}
 
+		@Override
 		public void reset() {
 			for (int i = 0; i < taggedBuffer.length; i++) {
 				if (taggedBuffer[i]) {
@@ -74,6 +75,7 @@ public class Tagger {
 					realContents[i].setTag(tagBuffer[i]);
 				}
 			}
+			super.reset();
 		}
 
 		private class BufferingToken implements Token {

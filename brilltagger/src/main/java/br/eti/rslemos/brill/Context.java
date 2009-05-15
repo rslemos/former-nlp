@@ -16,12 +16,16 @@ public class Context {
 		try {
 			return contents[i+pointer];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return null;
+			return Token.NULL;
 		}
 	}
 	
 	public void advance() {
 		pointer++;
+	}
+
+	public void reset() {
+		pointer = 0;
 	}
 
 }
