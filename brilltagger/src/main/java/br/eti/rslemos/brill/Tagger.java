@@ -25,14 +25,18 @@ public class Tagger {
 		applyBaseTagger(sentence);
 
 		Token[] tokens = sentence.toArray(new Token[sentence.size()]);
-		BufferingContext context = new BufferingContext(tokens);
+		Context context = new BufferingContext(tokens);
 		
 		for (Rule rule : rules) {
-			for (int i = 0; i < tokens.length; i++) {
-				rule.apply(context);
-				context.advance();
-			}
+			applyRule(context, rule);
 			context.reset();
+		}
+	}
+
+	private void applyRule(Context context, Rule rule) {
+		while(context.isValidPosition()) {
+			rule.apply(context);
+			context.advance();
 		}
 	}
 

@@ -20,6 +20,10 @@ public class Context {
 		}
 	}
 	
+	public boolean isValidPosition() {
+		return pointer < contents.length;
+	}
+
 	public void advance() {
 		pointer++;
 	}
