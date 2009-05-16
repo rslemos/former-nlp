@@ -12,22 +12,22 @@ public class LBIGRAMRuleBehavior {
 	private boolean matches(String prevWord, String word) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new LBIGRAMRule("this-tag", "to-tag", prevWord, word);
+		Rule rule = new LBIGRAMRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prevWord, word);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfWordMismatch() {
-		assertFalse(matches("prev1-word", "other-word"));
+		assertFalse(matches(RuleContextMother.PREV1_WORD, RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfLeftWordMismatch() {
-		assertFalse(matches("other-word", "this-word"));
+		assertFalse(matches(RuleContextMother.OTHER_WORD, RuleContextMother.THIS_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("prev1-word", "this-word"));
+		assertTrue(matches(RuleContextMother.PREV1_WORD, RuleContextMother.THIS_WORD));
 	}
 }

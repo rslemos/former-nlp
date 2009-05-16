@@ -12,17 +12,17 @@ public class CURWDRuleBehavior {
 	private boolean matches(String word) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new CURWDRule("this-tag", "to-tag", word);
+		Rule rule = new CURWDRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, word);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("other-word"));
+		assertFalse(matches(RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("this-word"));
+		assertTrue(matches(RuleContextMother.THIS_WORD));
 	}
 }

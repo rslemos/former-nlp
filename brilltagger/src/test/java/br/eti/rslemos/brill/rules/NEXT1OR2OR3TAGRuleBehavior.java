@@ -12,28 +12,28 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 	private boolean matches(String next1or2or3Tag) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new NEXT1OR2OR3TAGRule("this-tag", "to-tag", next1or2or3Tag);
+		Rule rule = new NEXT1OR2OR3TAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, next1or2or3Tag);
 		return rule.matches(context);
 	}
 	
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("neither-tag"));
+		assertFalse(matches(RuleContextMother.NEITHER_TAG));
 	}
 
 	@Test
 	public void shouldMatchBecauseOfNext1() {
-		assertTrue(matches("next1-tag"));
+		assertTrue(matches(RuleContextMother.NEXT1_TAG));
 	}
 
 	@Test
 	public void shouldMatchBecauseOfNext2() {
-		assertTrue(matches("next2-tag"));
+		assertTrue(matches(RuleContextMother.NEXT2_TAG));
 	}
 
 	@Test
 	public void shouldMatchBecauseOfNext3() {
-		assertTrue(matches("next3-tag"));
+		assertTrue(matches(RuleContextMother.NEXT3_TAG));
 	}
 
 }

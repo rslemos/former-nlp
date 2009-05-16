@@ -12,22 +12,22 @@ public class WDPREVTAGRuleBehavior {
 	private boolean matches(String prevTag, String word) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new WDPREVTAGRule("this-tag", "to-tag", prevTag, word);
+		Rule rule = new WDPREVTAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prevTag, word);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfWordMismatch() {
-		assertFalse(matches("prev1-tag", "other-word"));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfPrevTagMismatch() {
-		assertFalse(matches("other-tag", "this-word"));
+		assertFalse(matches(RuleContextMother.OTHER_TAG, RuleContextMother.THIS_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("prev1-tag", "this-word"));
+		assertTrue(matches(RuleContextMother.PREV1_TAG, RuleContextMother.THIS_WORD));
 	}
 }

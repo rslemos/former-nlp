@@ -12,17 +12,17 @@ public class NEXTTAGRuleBehavior {
 	private boolean matches(String nextTag) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new NEXTTAGRule("this-tag", "to-tag", nextTag);
+		Rule rule = new NEXTTAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, nextTag);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("other-tag"));
+		assertFalse(matches(RuleContextMother.OTHER_TAG));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("next1-tag"));
+		assertTrue(matches(RuleContextMother.NEXT1_TAG));
 	}
 }

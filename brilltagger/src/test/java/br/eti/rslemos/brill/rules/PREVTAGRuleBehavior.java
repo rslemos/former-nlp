@@ -12,17 +12,17 @@ public class PREVTAGRuleBehavior {
 	private boolean matches(String prevTag) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new PREVTAGRule("this-tag", "to-tag", prevTag);
+		Rule rule = new PREVTAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prevTag);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("other-tag"));
+		assertFalse(matches(RuleContextMother.OTHER_TAG));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("prev1-tag"));
+		assertTrue(matches(RuleContextMother.PREV1_TAG));
 	}
 }

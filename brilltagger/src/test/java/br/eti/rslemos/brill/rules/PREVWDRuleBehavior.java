@@ -12,17 +12,17 @@ public class PREVWDRuleBehavior {
 	private boolean matches(String prevWord) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new PREVWDRule("this-tag", "to-tag", prevWord);
+		Rule rule = new PREVWDRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prevWord);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("other-word"));
+		assertFalse(matches(RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("prev1-word"));
+		assertTrue(matches(RuleContextMother.PREV1_WORD));
 	}
 }

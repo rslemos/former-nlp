@@ -12,22 +12,22 @@ public class RBIGRAMRuleBehavior {
 	private boolean matches(String word, String nextWord) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new RBIGRAMRule("this-tag", "to-tag", word, nextWord);
+		Rule rule = new RBIGRAMRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, word, nextWord);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfWordMismatch() {
-		assertFalse(matches("other-word", "next1-word"));
+		assertFalse(matches(RuleContextMother.OTHER_WORD, RuleContextMother.NEXT1_WORD));
 	}
 
 	@Test
 	public void shouldNotMatchBecauseOfRightWordMismatch() {
-		assertFalse(matches("this-word", "other-word"));
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("this-word", "next1-word"));
+		assertTrue(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT1_WORD));
 	}
 }

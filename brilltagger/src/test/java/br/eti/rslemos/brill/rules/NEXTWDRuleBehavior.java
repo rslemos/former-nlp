@@ -12,17 +12,17 @@ public class NEXTWDRuleBehavior {
 	private boolean matches(String nextWord) {
 		Context context = RuleContextMother.buildContext();
 		
-		Rule rule = new NEXTWDRule("this-tag", "to-tag", nextWord);
+		Rule rule = new NEXTWDRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotMatch() {
-		assertFalse(matches("other-word"));
+		assertFalse(matches(RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
 	public void shouldMatch() {
-		assertTrue(matches("next1-word"));
+		assertTrue(matches(RuleContextMother.NEXT1_WORD));
 	}
 }
