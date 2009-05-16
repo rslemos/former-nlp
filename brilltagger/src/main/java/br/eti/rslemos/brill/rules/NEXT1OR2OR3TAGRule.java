@@ -7,10 +7,10 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule {
 
 	private final String next1or2or3Tag;
 
-	public NEXT1OR2OR3TAGRule(String from, String to, String next1or2or3Tagt) {
+	public NEXT1OR2OR3TAGRule(String from, String to, String next1or2or3Tag) {
 		super(from, to);
 		
-		this.next1or2or3Tag = next1or2or3Tagt;
+		this.next1or2or3Tag = next1or2or3Tag;
 	}
 
 	public boolean matches(Context context) {
