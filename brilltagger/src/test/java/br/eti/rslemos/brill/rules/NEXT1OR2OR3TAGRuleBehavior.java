@@ -18,7 +18,10 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 	
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.NEITHER_TAG));
+		assertFalse(matches(RuleContextMother.PREV3_TAG));
+		assertFalse(matches(RuleContextMother.PREV2_TAG));
+		assertFalse(matches(RuleContextMother.PREV1_TAG));
+		assertFalse(matches(RuleContextMother.THIS_TAG));
 	}
 
 	@Test

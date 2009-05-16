@@ -18,8 +18,19 @@ public class WDPREVTAGRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.OTHER_WORD));
-		assertFalse(matches(RuleContextMother.OTHER_TAG, RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV3_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV2_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV1_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT2_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT3_WORD));
+		
+		assertFalse(matches(RuleContextMother.PREV3_TAG, RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.PREV2_TAG, RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.THIS_TAG,  RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.NEXT1_TAG, RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.NEXT2_TAG, RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.NEXT3_TAG, RuleContextMother.THIS_WORD));
 	}
 
 	@Test

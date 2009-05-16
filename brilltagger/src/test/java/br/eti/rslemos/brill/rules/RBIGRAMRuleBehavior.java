@@ -18,8 +18,19 @@ public class RBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.OTHER_WORD, RuleContextMother.NEXT1_WORD));
-		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.OTHER_WORD));
+		assertFalse(matches(RuleContextMother.PREV3_WORD, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.PREV2_WORD, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_WORD, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.NEXT1_WORD, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.NEXT2_WORD, RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.NEXT3_WORD, RuleContextMother.NEXT1_WORD));
+		
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.PREV3_WORD));
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.PREV2_WORD));
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.PREV1_WORD));
+		assertFalse(matches(RuleContextMother.THIS_WORD,  RuleContextMother.THIS_WORD));
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT2_WORD));
+		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT3_WORD));
 	}
 
 	@Test

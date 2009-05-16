@@ -18,7 +18,12 @@ public class NEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.OTHER_TAG));
+		assertFalse(matches(RuleContextMother.PREV3_TAG));
+		assertFalse(matches(RuleContextMother.PREV2_TAG));
+		assertFalse(matches(RuleContextMother.PREV1_TAG));
+		assertFalse(matches(RuleContextMother.THIS_TAG));
+		assertFalse(matches(RuleContextMother.NEXT2_TAG));
+		assertFalse(matches(RuleContextMother.NEXT3_TAG));
 	}
 
 	@Test

@@ -18,7 +18,12 @@ public class CURWDRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.OTHER_WORD));
+		assertFalse(matches(RuleContextMother.PREV3_WORD));
+		assertFalse(matches(RuleContextMother.PREV2_WORD));
+		assertFalse(matches(RuleContextMother.PREV1_WORD));
+		assertFalse(matches(RuleContextMother.NEXT1_WORD));
+		assertFalse(matches(RuleContextMother.NEXT2_WORD));
+		assertFalse(matches(RuleContextMother.NEXT3_WORD));
 	}
 
 	@Test
