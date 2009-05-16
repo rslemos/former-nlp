@@ -17,23 +17,14 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 	}
 	
 	@Test
-	public void shouldNotMatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.NEITHER_TAG));
 	}
 
 	@Test
-	public void shouldMatchBecauseOfNext1() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.NEXT1_TAG));
-	}
-
-	@Test
-	public void shouldMatchBecauseOfNext2() {
 		assertTrue(matches(RuleContextMother.NEXT2_TAG));
-	}
-
-	@Test
-	public void shouldMatchBecauseOfNext3() {
 		assertTrue(matches(RuleContextMother.NEXT3_TAG));
 	}
-
 }

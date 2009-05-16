@@ -17,17 +17,13 @@ public class RBIGRAMRuleBehavior {
 	}
 
 	@Test
-	public void shouldNotMatchBecauseOfWordMismatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.OTHER_WORD, RuleContextMother.NEXT1_WORD));
-	}
-
-	@Test
-	public void shouldNotMatchBecauseOfRightWordMismatch() {
 		assertFalse(matches(RuleContextMother.THIS_WORD, RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
-	public void shouldMatch() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT1_WORD));
 	}
 }

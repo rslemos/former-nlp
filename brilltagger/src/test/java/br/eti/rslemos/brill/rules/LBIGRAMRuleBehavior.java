@@ -17,17 +17,13 @@ public class LBIGRAMRuleBehavior {
 	}
 
 	@Test
-	public void shouldNotMatchBecauseOfWordMismatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.PREV1_WORD, RuleContextMother.OTHER_WORD));
-	}
-
-	@Test
-	public void shouldNotMatchBecauseOfLeftWordMismatch() {
 		assertFalse(matches(RuleContextMother.OTHER_WORD, RuleContextMother.THIS_WORD));
 	}
 
 	@Test
-	public void shouldMatch() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_WORD, RuleContextMother.THIS_WORD));
 	}
 }

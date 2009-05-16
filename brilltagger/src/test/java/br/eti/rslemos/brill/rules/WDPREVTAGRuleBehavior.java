@@ -17,17 +17,13 @@ public class WDPREVTAGRuleBehavior {
 	}
 
 	@Test
-	public void shouldNotMatchBecauseOfWordMismatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.OTHER_WORD));
-	}
-
-	@Test
-	public void shouldNotMatchBecauseOfPrevTagMismatch() {
 		assertFalse(matches(RuleContextMother.OTHER_TAG, RuleContextMother.THIS_WORD));
 	}
 
 	@Test
-	public void shouldMatch() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_TAG, RuleContextMother.THIS_WORD));
 	}
 }

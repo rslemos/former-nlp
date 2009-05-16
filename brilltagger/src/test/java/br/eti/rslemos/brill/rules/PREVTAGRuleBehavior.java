@@ -17,12 +17,12 @@ public class PREVTAGRuleBehavior {
 	}
 
 	@Test
-	public void shouldNotMatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.OTHER_TAG));
 	}
 
 	@Test
-	public void shouldMatch() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_TAG));
 	}
 }

@@ -17,12 +17,12 @@ public class NEXTWDRuleBehavior {
 	}
 
 	@Test
-	public void shouldNotMatch() {
+	public void shouldNotFire() {
 		assertFalse(matches(RuleContextMother.OTHER_WORD));
 	}
 
 	@Test
-	public void shouldMatch() {
+	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.NEXT1_WORD));
 	}
 }
