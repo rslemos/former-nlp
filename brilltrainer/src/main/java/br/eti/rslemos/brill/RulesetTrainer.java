@@ -23,9 +23,7 @@ public class RulesetTrainer {
 		TrainingContext trainingContext = new TrainingContext(proofCorpus);
 
 		trainingContext.applyBaseTagger();
-		LinkedList<Rule> rules = trainingContext.discoverRules();
-		
-		return rules;
+		return trainingContext.discoverRules();
 	}
 
 	private class TrainingContext {
@@ -53,7 +51,7 @@ public class RulesetTrainer {
 		}
 
 
-		public LinkedList<Rule> discoverRules() {
+		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 			
 			while(countErrors() > 0) {
