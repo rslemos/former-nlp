@@ -17,135 +17,149 @@ public class RulesetTrainer {
 		this.baseTagger = baseTagger;
 	}
 
-	public List<Rule> train(List<List<Token>> sentences) {
-		BufferingContext[] workSentences = getBaseTaggedSentences(sentences);
-		
-		LinkedList<Rule> rules = new LinkedList<Rule>();
-		
-		while(countErrors(sentences, workSentences) > 0) {
-			List<List<Token>> sentences1 = sentences;
-			BufferingContext[] sentences2 = workSentences;
-			
-			Set<Rule> possibleRules = produceAllPossibleRules(sentences1, sentences2);
+	public List<Rule> train(List<List<Token>> proofCorpus) {
+		TrainingContext trainingContext = new TrainingContext(proofCorpus);
 
-			Rule bestRule = selectBestRule(possibleRules, sentences1, sentences2);
-
-			for (BufferingContext workSentence : workSentences)
-				Tagger.applyRule(workSentence, bestRule);
-			
-			rules.add(bestRule);
-		}
+		trainingContext.applyBaseTagger();
+		LinkedList<Rule> rules = trainingContext.discoverRules();
 		
 		return rules;
 	}
 
-	private Rule selectBestRule(Set<Rule> possibleRules,
-			List<List<Token>> sentences1, BufferingContext[] sentences2) {
+	private class TrainingContext {
+
+		private final List<List<Token>> proofCorpus;
+		private BufferingContext[] workCorpus;
+
+		public TrainingContext(List<List<Token>> proofCorpus) {
+			this.proofCorpus = proofCorpus;
+		}
 		
-		Rule bestRule = null;
-		int bestScore = 0;
-		
-		for (Rule rule : possibleRules) {
+		public void applyBaseTagger() {
+			workCorpus = new BufferingContext[proofCorpus.size()];
 			
-			int score = 0;
+			for (int i = 0; i < workCorpus.length; i++) {
+				List<Token> proofSentence = proofCorpus.get(i);
+				
+				DefaultToken[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
+				for (int j = 0; j < baseTaggedSentence.length; j++) {
+					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
+					baseTagger.tag(baseTaggedSentence[j]);
+				}
+				workCorpus[i] = Tagger.prepareContext(baseTaggedSentence);
+			}
+		}
+
+
+		public LinkedList<Rule> discoverRules() {
+			LinkedList<Rule> rules = new LinkedList<Rule>();
+			
+			while(countErrors() > 0) {
+				Rule bestRule = selectBestRule(produceAllPossibleRules());
+
+				for (BufferingContext workSentence : workCorpus)
+					Tagger.applyRule(workSentence, bestRule);
+				
+				rules.add(bestRule);
+			}
+			return rules;
+		}
+		
+		private Rule selectBestRule(Set<Rule> possibleRules) {
+			
+			Rule bestRule = null;
+			int bestScore = 0;
+			
+			for (Rule rule : possibleRules) {
+				
+				int score = 0;
+				
+				int i = 0;
+				for (List<Token> proofSentence : proofCorpus) {
+					BufferingContext workSentence = workCorpus[i++];
+
+					try {
+						for (Token proofToken : proofSentence) {
+							if (rule.matches(workSentence))
+								if (safeEquals(rule.getTo(), proofToken.getTag()))
+									score++;
+								else
+									score--;
+			
+							workSentence.advance();
+						}
+					} finally {
+						workSentence.reset();
+					}
+				}
+
+				if (score > bestScore) {
+					bestRule = rule;
+					bestScore = score;
+				}
+			}
+
+			return bestRule;
+		}
+
+		private Set<Rule> produceAllPossibleRules() {
+			Set<Rule> allPossibleRules = new HashSet<Rule>();
 			
 			int i = 0;
-			for (List<Token> sentence1 : sentences1) {
-				BufferingContext sentence2 = sentences2[i++];
+			for (List<Token> proofSentence : proofCorpus) {
+				BufferingContext workSentence = workCorpus[i++];
 
 				try {
-					for (Token token1 : sentence1) {
-						if (rule.matches(sentence2))
-							if (safeEquals(rule.getTo(), token1.getTag()))
-								score++;
-							else
-								score--;
+					for (Token proofToken : proofSentence) {
+						Token workToken = workSentence.getToken(0);
+						
+						if (!safeTokenEquals(proofToken, workToken)) {
+							Set<Rule> localPossibleRules = produceAllPossibleRules(proofToken.getTag(), workSentence);
+							allPossibleRules.addAll(localPossibleRules);
+						}
 		
-						sentence2.advance();
+						workSentence.advance();
 					}
 				} finally {
-					sentence2.reset();
+					workSentence.reset();
 				}
 			}
-
-			if (score > bestScore) {
-				bestRule = rule;
-				bestScore = score;
-			}
-		}
-
-		return bestRule;
-	}
-
-	private Set<Rule> produceAllPossibleRules(List<List<Token>> sentences1, BufferingContext[] sentences2) {
-		Set<Rule> allPossibleRules = new HashSet<Rule>();
-		
-		int i = 0;
-		for (List<Token> sentence1 : sentences1) {
-			BufferingContext sentence2 = sentences2[i++];
-
-			try {
-				for (Token token1 : sentence1) {
-					Token token2 = sentence2.getToken(0);
-					
-					if (!safeEquals(token2.getTag(), token1.getTag())) {
-						Set<Rule> localPossibleRules = produceAllPossibleRules(token1.getTag(), sentence2);
-						allPossibleRules.addAll(localPossibleRules);
-					}
-	
-					sentence2.advance();
-				}
-			} finally {
-				sentence2.reset();
-			}
-		}
-		
-		return allPossibleRules;
-	}
-
-	private Set<Rule> produceAllPossibleRules(String toTag,	BufferingContext context) {
-		Token token0 = context.getToken(0);
-		
-		return Collections.singleton((Rule)new CURWDRule(token0.getTag(), toTag, token0.getWord()));
-	}
-
-	private int countErrors(List<List<Token>> sentences1, BufferingContext[] sentences2) {
-		int errorCount = 0;
-		
-		int i = 0;
-		for (List<Token> sentence1 : sentences1) {
-			BufferingContext sentence2 = sentences2[i++];
-
-			int j = 0;
-			for (Token token1 : sentence1) {
-				Token token2 = sentence2.getToken(j++);
-				
-				if (!safeEquals(token2.getTag(), token1.getTag()))
-					errorCount++;
-			}
-		}
-		
-		return errorCount;
-	}
-
-	private BufferingContext[] getBaseTaggedSentences(List<List<Token>> sentences) {
-		BufferingContext[] baseTaggedSentences = new BufferingContext[sentences.size()];
-		
-		for (int i = 0; i < baseTaggedSentences.length; i++) {
-			List<Token> sentence = sentences.get(i);
 			
-			DefaultToken[] baseTaggedSentence = new DefaultToken[sentence.size()];
-			for (int j = 0; j < baseTaggedSentence.length; j++) {
-				baseTaggedSentence[j] = new DefaultToken(sentence.get(j).getWord());
-				baseTagger.tag(baseTaggedSentence[j]);
-			}
-			baseTaggedSentences[i] = Tagger.prepareContext(baseTaggedSentence);
+			return allPossibleRules;
 		}
-		
-		return baseTaggedSentences;
+
+		private Set<Rule> produceAllPossibleRules(String toTag, BufferingContext context) {
+			Token token0 = context.getToken(0);
+			
+			return Collections.singleton((Rule)new CURWDRule(token0.getTag(), toTag, token0.getWord()));
+		}
+
+		private int countErrors() {
+			int errorCount = 0;
+			
+			int i = 0;
+			for (List<Token> proofSentence : proofCorpus) {
+				BufferingContext workSentence = workCorpus[i++];
+
+				int j = 0;
+				for (Token proofToken : proofSentence) {
+					Token workToken = workSentence.getToken(j++);
+					
+					if (!safeTokenEquals(proofToken, workToken))
+						errorCount++;
+				}
+			}
+			
+			return errorCount;
+		}
 	}
 
 	private static final <T> boolean safeEquals(T o1, T o2) {
-		return o2 != null ? o2.equals(o1) : o1 == null;
+		return o1 != null ? o1.equals(o2) : o2 == null;
 	}
+	
+	private static final boolean safeTokenEquals(Token token1, Token token2) {
+		return safeEquals(token1.getTag(), token2.getTag());
+	}
+
 }
