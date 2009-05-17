@@ -12,11 +12,11 @@ public interface Token {
 		}
 
 		public void setTag(String tag) {
-			throw new NullPointerException("Can't set NULL token tag to '" + tag + "'");
+			throw new IllegalStateException("Can't set NULL token tag to '" + tag + "'");
 		}
 	};
 	
-	public String getWord();
-	public String getTag();
-	public void setTag(String tag);
+	String getWord();
+	String getTag();
+	void setTag(String tag);
 }

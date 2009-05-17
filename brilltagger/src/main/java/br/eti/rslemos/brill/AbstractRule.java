@@ -12,11 +12,11 @@ public abstract class AbstractRule implements Rule {
 		this.to = to;
 	}
 	
-	public String getFrom() {
+	public final String getFrom() {
 		return from;
 	}
 
-	public String getTo() {
+	public final String getTo() {
 		return to;
 	}
 
@@ -26,7 +26,7 @@ public abstract class AbstractRule implements Rule {
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}
 
-	public boolean apply(Context context) {
+	public final boolean apply(Context context) {
 		if (matches(context)) {
 			context.getToken(0).setTag(to);
 			return true;

@@ -53,10 +53,10 @@ public class Tagger {
 		}
 	}
 
-	private static class BufferingContext extends Context {
+	private static final class BufferingContext extends Context {
 		private final Token[] realContents;
-		public final String[] tagBuffer;
-		public final boolean[] taggedBuffer;
+		private final String[] tagBuffer;
+		private final boolean[] taggedBuffer;
 
 		private BufferingContext(Token[] contents) {
 			super(null);
