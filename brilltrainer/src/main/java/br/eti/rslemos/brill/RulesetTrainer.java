@@ -1,11 +1,13 @@
 package br.eti.rslemos.brill;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.collections15.Bag;
-import org.apache.commons.collections15.bag.HashBag;
-
+import br.eti.rslemos.brill.Tagger.BufferingContext;
 import br.eti.rslemos.brill.rules.CURWDRule;
 
 public class RulesetTrainer {
@@ -17,133 +19,134 @@ public class RulesetTrainer {
 	}
 
 	public List<Rule> train(List<List<Token>> sentences) {
-		DefaultToken[][] workSentences = getBaseTaggedSentences(sentences);
+		BufferingContext[] workSentences = getBaseTaggedSentences(sentences);
 		
 		LinkedList<Rule> rules = new LinkedList<Rule>();
 		
-		Bag<TagCorrection> corrections = compareSentences(sentences, workSentences);
-		while(corrections.size() > 0) {
-			TagCorrection correction = corrections.iterator().next();
+		while(countErrors(sentences, workSentences) > 0) {
+			List<List<Token>> sentences1 = sentences;
+			BufferingContext[] sentences2 = workSentences;
+			
+			Set<Rule> possibleRules = produceAllPossibleRules(sentences1, sentences2);
 
-			Rule newRule = produceRuleForCorrection(sentences, workSentences, correction);
-			rules.add(newRule);
+			Rule bestRule = selectBestRule(possibleRules, sentences1, sentences2);
+
+			for (BufferingContext workSentence : workSentences)
+				Tagger.applyRule(workSentence, bestRule);
 			
-			applyRule(workSentences, newRule);
-			
-			corrections = compareSentences(sentences, workSentences);
+			rules.add(bestRule);
 		}
 		
 		return rules;
 	}
 
-	private void applyRule(DefaultToken[][] workSentences, Rule newRule) {
-		for (DefaultToken[] workSentence : workSentences) {
-			Context context = new Context(workSentence);
-			while(context.isValidPosition()) {
-				newRule.apply(context);
-				context.advance();
-			}
-		}
-	}
-
-	private Rule produceRuleForCorrection(List<List<Token>> sentences, DefaultToken[][] workSentences, TagCorrection correction) {
-		for (int i = 0; i < workSentences.length; i++) {
-			DefaultToken[] workSentence = workSentences[i];
-			List<Token> sentence = sentences.get(i);
+	private Rule selectBestRule(Set<Rule> possibleRules,
+			List<List<Token>> sentences1, BufferingContext[] sentences2) {
+		
+		Rule bestRule = null;
+		int bestScore = 0;
+		
+		for (Rule rule : possibleRules) {
 			
-			for (int j = 0; j < workSentence.length; j++) {
-				DefaultToken workToken = workSentence[j];
-				Token token = sentence.get(j);
-				
-				String workTag = workToken.getTag();
-				String tag = token.getTag();
+			int score = 0;
+			
+			int i = 0;
+			for (List<Token> sentence1 : sentences1) {
+				BufferingContext sentence2 = sentences2[i++];
 
-				if (correction.equals(new TagCorrection(workTag, tag))) {
-					return new CURWDRule(workTag, tag, workToken.getWord());
+				try {
+					for (Token token1 : sentence1) {
+						if (rule.matches(sentence2))
+							if (safeEquals(rule.getTo(), token1.getTag()))
+								score++;
+							else
+								score--;
+		
+						sentence2.advance();
+					}
+				} finally {
+					sentence2.reset();
 				}
 			}
+
+			if (score > bestScore) {
+				bestRule = rule;
+				bestScore = score;
+			}
 		}
-		
-		return null;
+
+		return bestRule;
 	}
 
-	private Bag<TagCorrection> compareSentences(List<List<Token>> sentences, DefaultToken[][] workSentences) {
-		Bag<TagCorrection> corrections = new HashBag<TagCorrection>();
+	private Set<Rule> produceAllPossibleRules(List<List<Token>> sentences1, BufferingContext[] sentences2) {
+		Set<Rule> allPossibleRules = new HashSet<Rule>();
 		
-		for (int i = 0; i < workSentences.length; i++) {
-			DefaultToken[] workSentence = workSentences[i];
-			List<Token> sentence = sentences.get(i);
-			
-			for (int j = 0; j < workSentence.length; j++) {
-				DefaultToken workToken = workSentence[j];
-				Token token = sentence.get(j);
-				
-				String workTag = workToken.getTag();
-				String tag = token.getTag();
-				if (tag != null ? !tag.equals(workTag) : workTag != null)
-					corrections.add(new TagCorrection(workTag, tag));
+		int i = 0;
+		for (List<Token> sentence1 : sentences1) {
+			BufferingContext sentence2 = sentences2[i++];
+
+			try {
+				for (Token token1 : sentence1) {
+					Token token2 = sentence2.getToken(0);
+					
+					if (!safeEquals(token2.getTag(), token1.getTag())) {
+						Set<Rule> localPossibleRules = produceAllPossibleRules(token1.getTag(), sentence2);
+						allPossibleRules.addAll(localPossibleRules);
+					}
+	
+					sentence2.advance();
+				}
+			} finally {
+				sentence2.reset();
 			}
 		}
 		
-		return corrections;
+		return allPossibleRules;
 	}
 
-	private DefaultToken[][] getBaseTaggedSentences(List<List<Token>> sentences) {
-		DefaultToken[][] baseTaggedSentences = new DefaultToken[sentences.size()][];
+	private Set<Rule> produceAllPossibleRules(String toTag,	BufferingContext context) {
+		Token token0 = context.getToken(0);
+		
+		return Collections.singleton((Rule)new CURWDRule(token0.getTag(), toTag, token0.getWord()));
+	}
+
+	private int countErrors(List<List<Token>> sentences1, BufferingContext[] sentences2) {
+		int errorCount = 0;
+		
+		int i = 0;
+		for (List<Token> sentence1 : sentences1) {
+			BufferingContext sentence2 = sentences2[i++];
+
+			int j = 0;
+			for (Token token1 : sentence1) {
+				Token token2 = sentence2.getToken(j++);
+				
+				if (!safeEquals(token2.getTag(), token1.getTag()))
+					errorCount++;
+			}
+		}
+		
+		return errorCount;
+	}
+
+	private BufferingContext[] getBaseTaggedSentences(List<List<Token>> sentences) {
+		BufferingContext[] baseTaggedSentences = new BufferingContext[sentences.size()];
 		
 		for (int i = 0; i < baseTaggedSentences.length; i++) {
 			List<Token> sentence = sentences.get(i);
 			
-			DefaultToken[] baseTaggedSentence = baseTaggedSentences[i] = new DefaultToken[sentence.size()];
+			DefaultToken[] baseTaggedSentence = new DefaultToken[sentence.size()];
 			for (int j = 0; j < baseTaggedSentence.length; j++) {
-				DefaultToken token = baseTaggedSentence[j] = new DefaultToken(sentence.get(j).getWord());
-				baseTagger.tag(token);
+				baseTaggedSentence[j] = new DefaultToken(sentence.get(j).getWord());
+				baseTagger.tag(baseTaggedSentence[j]);
 			}
+			baseTaggedSentences[i] = Tagger.prepareContext(baseTaggedSentence);
 		}
 		
 		return baseTaggedSentences;
 	}
 
-	private static final class TagCorrection {
-
-		public final String from;
-		public final String to;
-
-		public TagCorrection(String from, String to) {
-			this.from = from;
-			this.to = to;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (o == null)
-				return false;
-			
-			if (o == this)
-				return true;
-			
-			if (!(o instanceof TagCorrection))
-				return false;
-			
-			TagCorrection other = (TagCorrection) o;
-			return (from != null ? from.equals(other.from) : other.from == null) &&
-				(to != null ? to.equals(other.to) : other.to == null);
-		}
-
-		@Override
-		public int hashCode() {
-			int hashCode = 0;
-			
-			hashCode += from != null ? from.hashCode() : 0;
-			hashCode *= 3;
-			hashCode += to != null ? to.hashCode() : 0;
-			
-			return hashCode;
-		}
-
-		@Override
-		public String toString() {
-			return from + "->" + to;
-		}
+	private static final <T> boolean safeEquals(T o1, T o2) {
+		return o2 != null ? o2.equals(o1) : o1 == null;
 	}
 }

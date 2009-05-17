@@ -63,4 +63,19 @@ public abstract class AbstractRule implements Rule {
 
 		return hashCode;
 	}
+
+	@Override
+	public String toString() {
+		return from + " " + to + " " + getType();
+	}
+
+	private final String getType() {
+		String simpleName = getClass().getSimpleName();
+		if (simpleName.endsWith("Rule"))
+			return simpleName.substring(0, simpleName.length() - 4);
+		else
+			return simpleName;
+	}
+	
+	
 }

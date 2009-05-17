@@ -50,17 +50,14 @@ public class RulesetTrainerBehavior {
 	}
 
 	private List<List<Token>> buildText_ToSignUp() {
-		Token to = mock(Token.class);
-		when(to.getWord()).thenReturn("to");
-		when(to.getTag()).thenReturn("TO");
+		Token to = new DefaultToken("to");
+		to.setTag("TO");
 		
-		Token sign = mock(Token.class);
-		when(sign.getWord()).thenReturn("sign");
-		when(sign.getTag()).thenReturn("VB");
+		Token sign = new DefaultToken("sign");
+		sign.setTag("VB");
 
-		Token up = mock(Token.class);
-		when(up.getWord()).thenReturn("up");
-		when(up.getTag()).thenReturn("RP");
+		Token up = new DefaultToken("up");
+		up.setTag("RP");
 
 		List<Token> sentence = Arrays.asList(to, sign, up);
 		return Collections.singletonList(sentence);

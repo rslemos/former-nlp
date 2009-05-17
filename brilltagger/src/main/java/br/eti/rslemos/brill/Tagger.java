@@ -24,20 +24,27 @@ public class Tagger {
 	public void tagSentence(List<Token> sentence) {
 		applyBaseTagger(sentence);
 
-		Token[] tokens = sentence.toArray(new Token[sentence.size()]);
-		Context context = new BufferingContext(tokens);
+		BufferingContext context = prepareContext(sentence);
 		
-		for (Rule rule : rules) {
+		for (Rule rule : rules)
 			applyRule(context, rule);
-			context.reset();
-		}
 	}
 
-	private void applyRule(Context context, Rule rule) {
+	static BufferingContext prepareContext(List<Token> sentence) {
+		Token[] tokens = sentence.toArray(new Token[sentence.size()]);
+		return prepareContext(tokens);
+	}
+
+	static BufferingContext prepareContext(Token[] tokens) {
+		return new BufferingContext(tokens);
+	}
+	
+	static void applyRule(BufferingContext context, Rule rule) {
 		while(context.isValidPosition()) {
 			rule.apply(context);
 			context.advance();
 		}
+		context.reset();
 	}
 
 	private void applyBaseTagger(List<Token> sentence) {
@@ -53,7 +60,7 @@ public class Tagger {
 		}
 	}
 
-	private static final class BufferingContext extends Context {
+	static final class BufferingContext extends Context {
 		private final Token[] realContents;
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;

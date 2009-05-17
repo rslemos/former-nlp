@@ -22,4 +22,8 @@ public class CURWDRule extends AbstractRule {
 		return word != null ? word.equals(word0) : word0 == null;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " " + word;
+	}
 }
