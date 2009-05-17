@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import br.eti.rslemos.brill.Tagger.BufferingContext;
 import br.eti.rslemos.brill.rules.CURWDRule;
 
@@ -81,7 +83,7 @@ public class RulesetTrainer {
 					try {
 						for (Token proofToken : proofSentence) {
 							if (rule.matches(workSentence))
-								if (safeEquals(rule.getTo(), proofToken.getTag()))
+								if (ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
 									score++;
 								else
 									score--;
@@ -113,7 +115,7 @@ public class RulesetTrainer {
 					for (Token proofToken : proofSentence) {
 						Token workToken = workSentence.getToken(0);
 						
-						if (!safeTokenEquals(proofToken, workToken)) {
+						if (!ObjectUtils.equals(proofToken.getTag(), workToken.getTag())) {
 							Set<Rule> localPossibleRules = produceAllPossibleRules(proofToken.getTag(), workSentence);
 							allPossibleRules.addAll(localPossibleRules);
 						}
@@ -145,21 +147,13 @@ public class RulesetTrainer {
 				for (Token proofToken : proofSentence) {
 					Token workToken = workSentence.getToken(j++);
 					
-					if (!safeTokenEquals(proofToken, workToken))
+					if (!ObjectUtils.equals(proofToken.getTag(), workToken.getTag()))
 						errorCount++;
 				}
 			}
 			
 			return errorCount;
 		}
-	}
-
-	private static final <T> boolean safeEquals(T o1, T o2) {
-		return o1 != null ? o1.equals(o2) : o2 == null;
-	}
-	
-	private static final boolean safeTokenEquals(Token token1, Token token2) {
-		return safeEquals(token1.getTag(), token2.getTag());
 	}
 
 }
