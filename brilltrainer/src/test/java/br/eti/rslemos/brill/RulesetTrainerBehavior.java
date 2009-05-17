@@ -33,7 +33,7 @@ public class RulesetTrainerBehavior {
 
 
 	@Test
-	public void shouldProduce3WDRulesForIncompetentBaseTagger() {
+	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
 		final String FROM_TAG = "TAG";
 		
 		List<List<Token>> sentences = buildText_ToSignUp();
