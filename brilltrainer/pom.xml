@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.eti.rslemos.nlp</groupId>
 	<artifactId>brilltrainer</artifactId>
+	<name>Brill Trainer</name>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<dependencies>
