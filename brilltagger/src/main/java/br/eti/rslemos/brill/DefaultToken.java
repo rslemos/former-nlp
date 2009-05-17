@@ -1,6 +1,6 @@
 package br.eti.rslemos.brill;
 
-public class DefaultToken implements Token {
+public final class DefaultToken implements Token {
 
 	private final String word;
 	private String tag;
