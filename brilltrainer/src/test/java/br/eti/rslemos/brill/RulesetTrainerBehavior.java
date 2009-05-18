@@ -12,6 +12,9 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRule;
+import br.eti.rslemos.brill.rules.PREVTAGRule;
+import br.eti.rslemos.brill.rules.RuleFactory;
+import br.eti.rslemos.brill.rules.WDPREVTAGRule;
 
 public class RulesetTrainerBehavior {
 	@Test
@@ -23,12 +26,12 @@ public class RulesetTrainerBehavior {
 		lexicon.put("sign", "VB");
 		lexicon.put("up", "RP");
 		
-		RulesetTrainer trainer = new RulesetTrainer(new LookupBaseTagger(lexicon));
+		List<RuleFactory> ruleFactories = Collections.emptyList();
+		RulesetTrainer trainer = new RulesetTrainer(new LookupBaseTagger(lexicon), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences);
 		assertEquals(rules.size(), 0);
 	}
-
 
 	@Test
 	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
@@ -36,15 +39,34 @@ public class RulesetTrainerBehavior {
 		
 		List<List<Token>> sentences = buildText_ToSignUp();
 		
-		RulesetTrainer trainer = new RulesetTrainer(new ConstantBaseTagger(FROM_TAG));
+		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
+		RulesetTrainer trainer = new RulesetTrainer(new ConstantBaseTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences);
-		System.out.printf("%s\n", rules);
 		
 		assertEquals(rules.size(), 3);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TO", "to")));
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "VB", "sign")));
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "RP", "up")));
+	}
+
+	@Test
+	public void shouldProduce2RulesForInnacurateBaseTagger() {
+		List<List<Token>> sentences = buildText_ToSignUp();
+		
+		Map<String, String> lexicon = new HashMap<String, String>();
+		lexicon.put("to", "TO");
+		lexicon.put("sign", "NN");
+		lexicon.put("up", "RB");
+		
+		List<RuleFactory> ruleFactories = Arrays.asList(PREVTAGRule.FACTORY);
+		RulesetTrainer trainer = new RulesetTrainer(new LookupBaseTagger(lexicon), ruleFactories);
+		
+		List<Rule> rules = trainer.train(sentences);
+		
+		assertEquals(rules.size(), 2);
+		assertTrue(rules.contains(new PREVTAGRule("NN", "VB", "TO")));
+		assertTrue(rules.contains(new PREVTAGRule("RB", "RP", "VB")));
 	}
 
 	private List<List<Token>> buildText_ToSignUp() {

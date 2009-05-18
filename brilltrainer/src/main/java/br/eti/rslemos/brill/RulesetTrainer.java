@@ -1,6 +1,7 @@
 package br.eti.rslemos.brill;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,14 +10,17 @@ import java.util.Set;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.Tagger.BufferingContext;
-import br.eti.rslemos.brill.rules.CURWDRule;
+import br.eti.rslemos.brill.rules.RuleCreationException;
+import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
 
 	private final BaseTagger baseTagger;
+	private final List<RuleFactory> ruleFactories;
 
-	public RulesetTrainer(BaseTagger baseTagger) {
+	public RulesetTrainer(BaseTagger baseTagger, List<RuleFactory> ruleFactories) {
 		this.baseTagger = baseTagger;
+		this.ruleFactories = ruleFactories;
 	}
 
 	public List<Rule> train(List<List<Token>> proofCorpus) {
@@ -114,7 +118,7 @@ public class RulesetTrainer {
 						Token workToken = workSentence.getToken(0);
 						
 						if (!ObjectUtils.equals(proofToken.getTag(), workToken.getTag())) {
-							Set<Rule> localPossibleRules = produceAllPossibleRules(proofToken.getTag(), workSentence);
+							Collection<Rule> localPossibleRules = produceAllPossibleRules(workSentence, proofToken);
 							allPossibleRules.addAll(localPossibleRules);
 						}
 		
@@ -128,10 +132,18 @@ public class RulesetTrainer {
 			return allPossibleRules;
 		}
 
-		private Set<Rule> produceAllPossibleRules(String toTag, BufferingContext context) {
-			Token token0 = context.getToken(0);
-			
-			return Collections.singleton((Rule)new CURWDRule(token0.getTag(), toTag, token0.getWord()));
+		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
+			try {
+				Rule[] rules = new Rule[ruleFactories.size()];
+				
+				int i = 0;
+				for (RuleFactory factory : ruleFactories)
+					rules[i++] = factory.create(context, target);
+
+				return Arrays.asList(rules);
+			} catch (RuleCreationException e) {
+				throw new RuntimeException("Error creating rule", e);
+			}
 		}
 
 		private int countErrors() {

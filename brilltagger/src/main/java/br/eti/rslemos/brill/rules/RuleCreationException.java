@@ -1,4 +1,4 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.brill.rules;
 
 public class RuleCreationException extends Exception {
 
