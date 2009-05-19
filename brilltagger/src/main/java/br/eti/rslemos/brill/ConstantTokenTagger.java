@@ -1,10 +1,10 @@
 package br.eti.rslemos.brill;
 
-public class ConstantBaseTagger implements BaseTagger {
+public class ConstantTokenTagger extends AbstractTokenTagger {
 
 	private final String tag;
 
-	public ConstantBaseTagger(String tag) {
+	public ConstantTokenTagger(String tag) {
 		this.tag = tag;
 	}
 

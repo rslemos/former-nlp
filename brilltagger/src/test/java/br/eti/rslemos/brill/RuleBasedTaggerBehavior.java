@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
-public class TaggerBehavior {
+public class RuleBasedTaggerBehavior {
 
 	@Test
 	public void shouldWorkOnEmptyInput() {
-		Tagger tagger = new Tagger();
+		RuleBasedTagger tagger = new RuleBasedTagger();
 		
 		List<Token> sentence = Collections.emptyList();
 		tagger.tagSentence(sentence);
@@ -27,14 +28,14 @@ public class TaggerBehavior {
 
 		List<Token> sentence = Arrays.asList(token);
 
-		BaseTagger baseTagger = new BaseTagger() {
+		Tagger baseTagger = new AbstractTokenTagger() {
 			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
 				token.setTag("foobar");
 			}
 		};
 
-		Tagger tagger = new Tagger(baseTagger);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger);
 		
 		tagger.tagSentence(sentence);
 
@@ -63,14 +64,14 @@ public class TaggerBehavior {
 		
 		List<Rule> rules = Arrays.asList(rule);
 
-		BaseTagger baseTagger = mock(BaseTagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 		
-		Tagger tagger = new Tagger(baseTagger, rules);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rules);
 		
 		tagger.tagSentence(sentence);
 
 		InOrder inOrder = inOrder(baseTagger, token);
-		inOrder.verify(baseTagger, times(1)).tag(token);
+		inOrder.verify(baseTagger, times(1)).tagSentence(anyTokenList());
 		inOrder.verify(token, times(1)).setTag("foobar");
 	}
 
@@ -80,19 +81,19 @@ public class TaggerBehavior {
 
 		List<Token> sentence = Arrays.asList(token);
 
-		BaseTagger baseTagger = mock(BaseTagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 
 		Rule rule1 = mock(Rule.class);
 		Rule rule2 = mock(Rule.class);
 		List<Rule> rules = Arrays.asList(rule1, rule2);
 
 		
-		Tagger tagger = new Tagger(baseTagger, rules);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rules);
 		
 		tagger.tagSentence(sentence);
 
 		InOrder inOrder = inOrder(baseTagger, rule1, rule2);
-		inOrder.verify(baseTagger, times(1)).tag(token);
+		inOrder.verify(baseTagger, times(1)).tagSentence(anyTokenList());
 		inOrder.verify(rule1, times(1)).apply((Context) anyObject());
 		inOrder.verify(rule2, times(1)).apply((Context) anyObject());
 	}
@@ -104,7 +105,7 @@ public class TaggerBehavior {
 
 		List<Token> sentence = Arrays.asList(token1, token2);
 
-		BaseTagger baseTagger = mock(BaseTagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 
 		Rule rule = new RuleAdapter() {
 			@Override
@@ -120,7 +121,7 @@ public class TaggerBehavior {
 		};
 		List<Rule> rules = Arrays.asList(rule);
 
-		Tagger tagger = new Tagger(baseTagger, rules);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rules);
 		
 		tagger.tagSentence(sentence);
 
@@ -144,5 +145,10 @@ public class TaggerBehavior {
 		public boolean apply(Context context) {
 			return false;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Token> anyTokenList() {
+		return (List<Token>) anyObject();
 	}
 }

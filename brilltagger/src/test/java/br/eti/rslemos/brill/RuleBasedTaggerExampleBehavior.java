@@ -13,7 +13,7 @@ import br.eti.rslemos.brill.rules.NEXTTAGRule;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 import br.eti.rslemos.brill.rules.WDPREVTAGRule;
 
-public class TaggerExampleBehavior {
+public class RuleBasedTaggerExampleBehavior {
 	
 	@Test
 	public void exampleMarkHepple2000() {
@@ -26,12 +26,12 @@ public class TaggerExampleBehavior {
 		lexicon.put("sign", "NN");
 		lexicon.put("up", "RB");
 		
-		BaseTagger baseTagger = new LookupBaseTagger(lexicon);
+		Tagger baseTagger = new LookupTokenTagger(lexicon);
 		
 		Rule rule1 = new PREVTAGRule("NN", "VB", "TO");
 		Rule rule2 = new WDPREVTAGRule("RB", "RP", "VB", "up");
 		
-		Tagger tagger = new Tagger(baseTagger, Arrays.asList(rule1, rule2));
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tagSentence(Arrays.asList(to, sign, up));
 		
@@ -42,7 +42,7 @@ public class TaggerExampleBehavior {
 
 	@Test
 	public void example1RocheAndSchabes1995() {
-		Tagger tagger = buildRocheAndSchabes1995SampleTagger();
+		RuleBasedTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
 		Token Chapman = new DefaultToken("Chapman");
 		Token killed = new DefaultToken("killed");
@@ -59,7 +59,7 @@ public class TaggerExampleBehavior {
 
 	@Test
 	public void example2RocheAndSchabes1995() {
-		Tagger tagger = buildRocheAndSchabes1995SampleTagger();
+		RuleBasedTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
 		Token John = new DefaultToken("John");
 		Token Lennon = new DefaultToken("Lennon");
@@ -80,7 +80,7 @@ public class TaggerExampleBehavior {
 
 	@Test
 	public void example3RocheAndSchabes1995() {
-		Tagger tagger = buildRocheAndSchabes1995SampleTagger();
+		RuleBasedTagger tagger = buildRocheAndSchabes1995SampleTagger();
 
 		Token He = new DefaultToken("He");
 		Token witnessed = new DefaultToken("witnessed");
@@ -99,7 +99,7 @@ public class TaggerExampleBehavior {
 		assertEquals(Chapman.getTag(), "NP");
 	}
 
-	private static Tagger buildRocheAndSchabes1995SampleTagger() {
+	private static RuleBasedTagger buildRocheAndSchabes1995SampleTagger() {
 		Map<String, String> lexicon = new HashMap<String, String>();
 		lexicon.put("killed", "VBN");
 		lexicon.put("was", "BEDZ");
@@ -108,16 +108,16 @@ public class TaggerExampleBehavior {
 		lexicon.put("He", "PPS");
 		lexicon.put("witnessed", "VBD");
 		
-		BaseTagger tagger1 = new LookupBaseTagger(lexicon);
-		BaseTagger tagger2 = new ConstantBaseTagger("NP");
-		List<BaseTagger> taggers = Arrays.asList(tagger1, tagger2);
-		BaseTagger baseTagger = new CompositeBaseTagger(taggers);
+		Tagger tagger1 = new LookupTokenTagger(lexicon);
+		Tagger tagger2 = new ConstantTokenTagger("NP");
+		List<Tagger> taggers = Arrays.asList(tagger1, tagger2);
+		Tagger baseTagger = new CompositeTagger(taggers);
 		
 		Rule rule1 = new PREVTAGRule("VBN", "VBD", "NP");
 		Rule rule2 = new NEXTTAGRule("VBD", "VBN", "BY");
 		List<Rule> rules = Arrays.asList(rule1, rule2);
 		
-		Tagger tagger = new Tagger(baseTagger, rules);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rules);
 		
 		return tagger;
 	}

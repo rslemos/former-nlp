@@ -9,16 +9,16 @@ import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.Tagger.BufferingContext;
+import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
 
-	private final BaseTagger baseTagger;
+	private final Tagger baseTagger;
 	private final List<RuleFactory> ruleFactories;
 
-	public RulesetTrainer(BaseTagger baseTagger, List<RuleFactory> ruleFactories) {
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
 	}
@@ -45,12 +45,12 @@ public class RulesetTrainer {
 			for (int i = 0; i < workCorpus.length; i++) {
 				List<Token> proofSentence = proofCorpus.get(i);
 				
-				DefaultToken[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
+				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
 					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
-					baseTagger.tag(baseTaggedSentence[j]);
 				}
-				workCorpus[i] = Tagger.prepareContext(baseTaggedSentence);
+				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
+				workCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
 			}
 		}
 
@@ -62,7 +62,7 @@ public class RulesetTrainer {
 				Rule bestRule = selectBestRule(produceAllPossibleRules());
 
 				for (BufferingContext workSentence : workCorpus)
-					Tagger.applyRule(workSentence, bestRule);
+					RuleBasedTagger.applyRule(workSentence, bestRule);
 				
 				rules.add(bestRule);
 			}

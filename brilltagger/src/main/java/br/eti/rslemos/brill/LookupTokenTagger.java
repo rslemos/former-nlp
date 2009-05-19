@@ -2,11 +2,11 @@ package br.eti.rslemos.brill;
 
 import java.util.Map;
 
-public class LookupBaseTagger implements BaseTagger {
+public class LookupTokenTagger extends AbstractTokenTagger {
 
 	private final Map<String, String> lexicon;
 
-	public LookupBaseTagger(Map<String, String> lexicon) {
+	public LookupTokenTagger(Map<String, String> lexicon) {
 		this.lexicon = lexicon;
 	}
 

@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 import br.eti.rslemos.brill.rules.RuleFactory;
-import br.eti.rslemos.brill.rules.WDPREVTAGRule;
 
 public class RulesetTrainerBehavior {
 	@Test
@@ -27,7 +26,7 @@ public class RulesetTrainerBehavior {
 		lexicon.put("up", "RP");
 		
 		List<RuleFactory> ruleFactories = Collections.emptyList();
-		RulesetTrainer trainer = new RulesetTrainer(new LookupBaseTagger(lexicon), ruleFactories);
+		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences);
 		assertEquals(rules.size(), 0);
@@ -40,7 +39,7 @@ public class RulesetTrainerBehavior {
 		List<List<Token>> sentences = buildText_ToSignUp();
 		
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
-		RulesetTrainer trainer = new RulesetTrainer(new ConstantBaseTagger(FROM_TAG), ruleFactories);
+		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences);
 		
@@ -60,7 +59,7 @@ public class RulesetTrainerBehavior {
 		lexicon.put("up", "RB");
 		
 		List<RuleFactory> ruleFactories = Arrays.asList(PREVTAGRule.FACTORY);
-		RulesetTrainer trainer = new RulesetTrainer(new LookupBaseTagger(lexicon), ruleFactories);
+		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences);
 		

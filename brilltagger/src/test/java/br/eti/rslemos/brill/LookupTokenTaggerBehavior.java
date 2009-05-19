@@ -8,12 +8,12 @@ import java.util.HashMap;
 
 import org.testng.annotations.Test;
 
-public class LookupBaseTaggerBehavior {
+public class LookupTokenTaggerBehavior {
 	@Test
 	public void shouldNotTagToken() {
 		Token token = mock(Token.class);
 		
-		BaseTagger tagger = new LookupBaseTagger(Collections.singletonMap("foo", "bar"));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", "bar"));
 		tagger.tag(token);
 		
 		verify(token, never()).setTag(anyString());
@@ -24,7 +24,7 @@ public class LookupBaseTaggerBehavior {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		
-		BaseTagger tagger = new LookupBaseTagger(Collections.singletonMap("foo", "bar"));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", "bar"));
 		tagger.tag(token);
 		
 		verify(token).setTag("bar");
@@ -35,7 +35,7 @@ public class LookupBaseTaggerBehavior {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		
-		BaseTagger tagger = new LookupBaseTagger(Collections.singletonMap("foo", (String)null));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (String)null));
 		tagger.tag(token);
 		
 		verify(token).setTag(null);
@@ -53,7 +53,7 @@ public class LookupBaseTaggerBehavior {
 		lexicon.put("foo", "tag-foo");
 		lexicon.put("bar", "tag-bar");
 		
-		BaseTagger tagger = new LookupBaseTagger(lexicon);
+		LookupTokenTagger tagger = new LookupTokenTagger(lexicon);
 
 		tagger.tag(token1);
 		verify(token1).setTag("tag-foo");
