@@ -17,10 +17,18 @@ public class RulesetTrainer {
 
 	private final Tagger baseTagger;
 	private final List<RuleFactory> ruleFactories;
+	
+	private final ScoreFunction scoreFunction;
+
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
+		this(baseTagger, ruleFactories, new BrillScoreFunction());
+	}
+
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoreFunction scoreFunction) {
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
+		this.scoreFunction = scoreFunction;
 	}
 
 	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
@@ -51,11 +59,11 @@ public class RulesetTrainer {
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
 					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
 				}
+				
 				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
 				workCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
 			}
 		}
-
 
 		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
@@ -78,26 +86,7 @@ public class RulesetTrainer {
 			
 			for (Rule rule : possibleRules) {
 				
-				int score = 0;
-				
-				int i = 0;
-				for (List<Token> proofSentence : proofCorpus) {
-					BufferingContext workSentence = workCorpus[i++];
-
-					try {
-						for (Token proofToken : proofSentence) {
-							if (rule.matches(workSentence))
-								if (ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
-									score++;
-								else
-									score--;
-			
-							workSentence.advance();
-						}
-					} finally {
-						workSentence.reset();
-					}
-				}
+				int score = scoreFunction.compute(proofCorpus, workCorpus, rule);
 
 				if (score > bestScore) {
 					bestRule = rule;
@@ -167,5 +156,4 @@ public class RulesetTrainer {
 			return errorCount;
 		}
 	}
-
 }
