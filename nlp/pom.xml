@@ -22,6 +22,7 @@
 		<module>../tigerapi</module>
 		<module>../brilltagger</module>
 		<module>../brilltrainer</module>
+		<module>../brillstats</module>
 	</modules>
 
 	<distributionManagement>

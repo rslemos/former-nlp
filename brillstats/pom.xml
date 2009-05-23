@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>br.eti.rslemos.nlp</groupId>
+		<artifactId>nlp</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../nlp/pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>brillstats</artifactId>
+	<name>Brill Statistics</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>brilltagger</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>brilltrainer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<weaveDependencies>
+						<weaveDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>brilltagger</artifactId>
+						</weaveDependency>
+
+						<weaveDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>brilltrainer</artifactId>
+						</weaveDependency>
+					</weaveDependencies>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<verbose>true</verbose>
+					<privateScope>true</privateScope>
+					<complianceLevel>1.5</complianceLevel>
+					<!-- ajdtBuildDefFile>build.ajproperties</ajdtBuildDefFile -->
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>aspectj-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+</project>
