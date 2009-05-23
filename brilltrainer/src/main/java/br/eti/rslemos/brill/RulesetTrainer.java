@@ -71,12 +71,16 @@ public class RulesetTrainer {
 			while(countErrors() > 0) {
 				Rule bestRule = selectBestRule(produceAllPossibleRules());
 
-				for (BufferingContext workSentence : workCorpus)
-					RuleBasedTagger.applyRule(workSentence, bestRule);
+				applyRule(bestRule);
 				
 				rules.add(bestRule);
 			}
 			return rules;
+		}
+
+		private void applyRule(Rule bestRule) {
+			for (BufferingContext workSentence : workCorpus)
+				RuleBasedTagger.applyRule(workSentence, bestRule);
 		}
 		
 		private Rule selectBestRule(Set<Rule> possibleRules) {
