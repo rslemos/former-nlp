@@ -28,7 +28,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Collections.emptyList();
 		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences);
+		List<Rule> rules = trainer.train(sentences).getRules();
 		assertEquals(rules.size(), 0);
 	}
 
@@ -41,7 +41,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences);
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 3);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TO", "to")));
@@ -61,7 +61,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Arrays.asList(PREVTAGRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences);
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 2);
 		assertTrue(rules.contains(new PREVTAGRule("NN", "VB", "TO")));

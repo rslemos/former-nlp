@@ -23,11 +23,13 @@ public class RulesetTrainer {
 		this.ruleFactories = ruleFactories;
 	}
 
-	public List<Rule> train(List<List<Token>> proofCorpus) {
+	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
 		TrainingContext trainingContext = new TrainingContext(proofCorpus);
 
 		trainingContext.applyBaseTagger();
-		return trainingContext.discoverRules();
+		List<Rule> rules = trainingContext.discoverRules();
+		
+		return new RuleBasedTagger(baseTagger, rules);
 	}
 
 	private class TrainingContext {

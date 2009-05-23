@@ -21,6 +21,10 @@ public class RuleBasedTagger implements Tagger {
 		this.rules = rules;
 	}
 
+	public List<Rule> getRules() {
+		return rules;
+	}
+
 	public void tagSentence(List<Token> sentence) {
 		applyBaseTagger(sentence);
 
