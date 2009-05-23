@@ -5,7 +5,7 @@ public final class DefaultToken implements Token {
 	private final String word;
 	private String tag;
 
-	protected DefaultToken(String word) {
+	public DefaultToken(String word) {
 		this.word = word;
 	}
 
