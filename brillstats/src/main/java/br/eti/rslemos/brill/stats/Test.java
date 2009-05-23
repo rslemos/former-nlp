@@ -24,14 +24,14 @@ public class Test {
 	}
 
 	private void test0() {
-		Map lexicon = new HashMap();
+		Map<String, String> lexicon = new HashMap<String, String>();
 		Tagger tagger1 = new LookupTokenTagger(lexicon);
 		Tagger tagger0 = new ConstantTokenTagger("tag");
 		
 		Token t = new DefaultToken("word");
-		List taggers = Arrays.asList(new Tagger[] {tagger1, tagger0});
+		List<Tagger> taggers = Arrays.asList(new Tagger[] {tagger1, tagger0});
 		
-		List sentence = Collections.singletonList(t);
+		List<Token> sentence = Collections.singletonList(t);
 		new CompositeTagger(taggers).tagSentence(sentence);
 	}
 }

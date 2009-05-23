@@ -27,7 +27,7 @@ public aspect Tracer {
 	Object around(): tracepoint() {
 		Signature aspectSignature = thisJoinPointStaticPart.getSignature();
 
-		List args = Arrays.asList(thisJoinPoint.getArgs());
+		List<Object> args = Arrays.asList(thisJoinPoint.getArgs());
 		
 		String argsStr = args.toString();
 		argsStr = argsStr.substring(1, argsStr.length() - 1);
@@ -65,7 +65,7 @@ public aspect Tracer {
 				if (result instanceof String)
 					resultStr = "\"" + result + "\"";
 				else if (result != null) {
-					Class clazz = result.getClass();
+					Class<?> clazz = result.getClass();
 					try {
 						Method toString = clazz.getMethod("toString", new Class[0]);
 						Method toString0 = Object.class.getMethod("toString", new Class[0]);
