@@ -6,16 +6,8 @@
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="src" path="/brilltagger"/>
-	<classpathentry kind="lib" path="/brilltagger/target/classes">
-		<attributes>
-			<attribute name="org.eclipse.ajdt.inpath" value="org.eclipse.ajdt.inpath"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/brilltagger/target/classes"/>
 	<classpathentry kind="src" path="/brilltrainer"/>
-	<classpathentry kind="lib" path="/brilltrainer/target/classes">
-		<attributes>
-			<attribute name="org.eclipse.ajdt.inpath" value="org.eclipse.ajdt.inpath"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/brilltrainer/target/classes"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

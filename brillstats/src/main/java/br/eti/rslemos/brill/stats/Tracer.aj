@@ -18,13 +18,30 @@ public aspect Tracer {
 	private pointcut methodcall(): call(* *(..));
 	private pointcut ctorcall(): call(*.new(..));
 	
+	private pointcut setter(Object value): set(* *) && args(value);
+	
 	private pointcut cflowJavaUtil(): cflow(call(* java.util.*.*(..)));
 	
 	private pointcut cflowJavaLang(): cflow(call(* java.lang.*.*(..)));
 	
-	private pointcut tracepoint(): (methodcall() || ctorcall()) && !cflowJavaUtil() && !cflowJavaLang() && !within(Tracer);
-	
-	Object around(): tracepoint() {
+	private pointcut tracecall(): (methodcall() || ctorcall()) && !cflowJavaUtil() && !cflowJavaLang() && !within(Tracer);
+
+	private pointcut traceset(Object value): setter(value) && !cflowJavaUtil() && !cflowJavaLang() && !within(Tracer);
+
+	Object around(Object value): traceset(value) {
+		char[] c = new char[indent + INDENT_SIZE];
+		Arrays.fill(c, ' ');
+		
+		String indentStr = new String(c);
+
+		System.out.print("\n" + indentStr + thisJoinPointStaticPart.getSignature().toString() + " = " + String.valueOf(value) + " (" + thisJoinPointStaticPart.getSourceLocation() + ")");
+		modCount++;
+		
+		return proceed(value);
+	}
+
+
+	Object around(): tracecall() {
 		Signature aspectSignature = thisJoinPointStaticPart.getSignature();
 
 		List<Object> args = Arrays.asList(thisJoinPoint.getArgs());
@@ -94,4 +111,5 @@ public aspect Tracer {
 			indent -= INDENT_SIZE;
 		}
 	}
+
 }
