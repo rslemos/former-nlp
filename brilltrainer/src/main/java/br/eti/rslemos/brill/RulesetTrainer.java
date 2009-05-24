@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.StopFunction.StopContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
@@ -19,16 +20,18 @@ public class RulesetTrainer {
 	private final List<RuleFactory> ruleFactories;
 	
 	private final ScoreFunction scoreFunction;
+	private final StopFunction stopFunction;
 
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, ruleFactories, new BrillScoreFunction());
+		this(baseTagger, ruleFactories, new BrillScoreFunction(), new ThresholdStopFunction(1));
 	}
 
-	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoreFunction scoreFunction) {
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoreFunction scoreFunction, StopFunction stopFunction) {
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
 		this.scoreFunction = scoreFunction;
+		this.stopFunction = stopFunction;
 	}
 
 	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
@@ -68,16 +71,25 @@ public class RulesetTrainer {
 		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 			
-			while(countErrors() > 0) {
+			StopContext stopContext = stopFunction.getContext(proofCorpus, workCorpus);
+			
+			boolean shouldTryMore;
+			do {
+				shouldTryMore = false;
 				Rule bestRule = selectBestRule(produceAllPossibleRules());
-
-				applyRule(bestRule);
 				
-				rules.add(bestRule);
-			}
+				if (bestRule != null) {
+					applyRule(bestRule);
+					
+					if (shouldTryMore = stopContext.updateAndTest(workCorpus))
+						rules.add(bestRule);
+				}
+				
+			} while(shouldTryMore);
+			
 			return rules;
 		}
-
+		
 		private void applyRule(Rule bestRule) {
 			for (BufferingContext workSentence : workCorpus)
 				RuleBasedTagger.applyRule(workSentence, bestRule);
@@ -141,23 +153,6 @@ public class RulesetTrainer {
 			}
 		}
 
-		private int countErrors() {
-			int errorCount = 0;
-			
-			int i = 0;
-			for (List<Token> proofSentence : proofCorpus) {
-				BufferingContext workSentence = workCorpus[i++];
-
-				int j = 0;
-				for (Token proofToken : proofSentence) {
-					Token workToken = workSentence.getToken(j++);
-					
-					if (!ObjectUtils.equals(proofToken.getTag(), workToken.getTag()))
-						errorCount++;
-				}
-			}
-			
-			return errorCount;
-		}
 	}
+
 }
