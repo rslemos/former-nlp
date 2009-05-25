@@ -10,7 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
-import br.eti.rslemos.brill.StopFunction.StopContext;
+import br.eti.rslemos.brill.HaltingStrategy.HaltingStrategyContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
@@ -19,19 +19,19 @@ public class RulesetTrainer {
 	private final Tagger baseTagger;
 	private final List<RuleFactory> ruleFactories;
 	
-	private final ScoreFunction scoreFunction;
-	private final StopFunction stopFunction;
+	private final ScoringStrategy scoringStrategy;
+	private final HaltingStrategy haltingStrategy;
 
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, ruleFactories, new BrillScoreFunction(), new ThresholdStopFunction(1));
+		this(baseTagger, ruleFactories, new BrillScoringStrategy(), new ThresholdHaltingStrategy(1));
 	}
 
-	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoreFunction scoreFunction, StopFunction stopFunction) {
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoringStrategy scoringStrategy, HaltingStrategy haltingStrategy) {
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
-		this.scoreFunction = scoreFunction;
-		this.stopFunction = stopFunction;
+		this.scoringStrategy = scoringStrategy;
+		this.haltingStrategy = haltingStrategy;
 	}
 
 	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
@@ -71,7 +71,7 @@ public class RulesetTrainer {
 		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 			
-			StopContext stopContext = stopFunction.getContext(proofCorpus, workCorpus);
+			HaltingStrategyContext haltingContext = haltingStrategy.getContext(proofCorpus, workCorpus);
 			
 			boolean shouldTryMore;
 			do {
@@ -81,7 +81,7 @@ public class RulesetTrainer {
 				if (bestRule != null) {
 					applyRule(bestRule);
 					
-					if (shouldTryMore = stopContext.updateAndTest(workCorpus))
+					if (shouldTryMore = haltingContext.updateAndTest(workCorpus))
 						rules.add(bestRule);
 				}
 				
@@ -102,7 +102,7 @@ public class RulesetTrainer {
 			
 			for (Rule rule : possibleRules) {
 				
-				int score = scoreFunction.compute(proofCorpus, workCorpus, rule);
+				int score = scoringStrategy.compute(proofCorpus, workCorpus, rule);
 
 				if (score > bestScore) {
 					bestRule = rule;

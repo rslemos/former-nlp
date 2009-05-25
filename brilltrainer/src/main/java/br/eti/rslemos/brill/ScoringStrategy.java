@@ -4,6 +4,6 @@ import java.util.List;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 
-public interface ScoreFunction {
+public interface ScoringStrategy {
 	int compute(List<List<Token>> proofCorpus, BufferingContext[] workCorpus, Rule rule);
 }

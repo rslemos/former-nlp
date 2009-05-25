@@ -6,7 +6,7 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 
-public class BrillScoreFunction implements ScoreFunction {
+public class BrillScoringStrategy implements ScoringStrategy {
 	public int compute(List<List<Token>> proofCorpus, BufferingContext[] workCorpus, Rule rule) {
 		int score = 0;
 

@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 
-public class ThresholdStopFunction implements StopFunction {
+public class ThresholdHaltingStrategy implements HaltingStrategy {
 	
 	private final int threshold;
 	
-	protected ThresholdStopFunction(int threshold) {
+	protected ThresholdHaltingStrategy(int threshold) {
 		this.threshold = threshold;
 	}
 
@@ -31,8 +31,8 @@ public class ThresholdStopFunction implements StopFunction {
 		return errorCount;
 	}
 
-	public StopContext getContext(final List<List<Token>> proofCorpus, final Context[] workCorpus) {
-		return new StopContext() {
+	public HaltingStrategyContext getContext(final List<List<Token>> proofCorpus, final Context[] workCorpus) {
+		return new HaltingStrategyContext() {
 			private int errorCount = countErrors(proofCorpus, workCorpus);
 			
 			public boolean updateAndTest(Context[] workCorpus) {
