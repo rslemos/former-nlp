@@ -34,19 +34,27 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 		return errorCount;
 	}
 
-	public HaltingStrategyContext getContext(final List<List<Token>> proofCorpus, final Context[] trainingCorpus) {
-		return new HaltingStrategyContext() {
-			private int errorCount = countErrors(proofCorpus, trainingCorpus);
-
-			public boolean updateAndTest(Context[] trainingCorpus) {
-				int errorCount = countErrors(proofCorpus, trainingCorpus);
-				try {
-					return !((this.errorCount - errorCount) < threshold);
-				} finally {
-					this.errorCount = errorCount;
-				}
-			}
-
-		};
+	public HaltingStrategyContext getContext(List<List<Token>> proofCorpus, Context[] trainingCorpus) {
+		return new ThresholdHaltingStrategyContext(proofCorpus, countErrors(proofCorpus, trainingCorpus));
 	}
+
+	private class ThresholdHaltingStrategyContext implements HaltingStrategyContext {
+		private final List<List<Token>> proofCorpus;
+		private int errorCount;
+		
+		public ThresholdHaltingStrategyContext(List<List<Token>> proofCorpus, int initialErrorCount) {
+			this.proofCorpus = proofCorpus;
+			this.errorCount = initialErrorCount;
+		}
+		
+		public boolean updateAndTest(Context[] trainingCorpus) {
+			int errorCount = countErrors(proofCorpus, trainingCorpus);
+			try {
+				return !((this.errorCount - errorCount) < threshold);
+			} finally {
+				this.errorCount = errorCount;
+			}
+		}
+		
+	};
 }
