@@ -68,7 +68,7 @@ public class RulesetTrainerBehavior {
 		assertTrue(rules.contains(new PREVTAGRule("RB", "RP", "VB")));
 	}
 
-	private List<List<Token>> buildText_ToSignUp() {
+	public static List<List<Token>> buildText_ToSignUp() {
 		Token to = new DefaultToken("to");
 		to.setTag("TO");
 		
