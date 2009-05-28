@@ -62,8 +62,8 @@ public abstract class RuleContextMother {
 	
 		Context context = new ArrayContext(new Token[] { prev3, prev2, prev1, token, next1, next2, next3 });
 		
-		for(int i = 0; i < 3; i++)
-			context.advance();
+		for(int i = 0; i < 4; i++)
+			context.next();
 		
 		return context;
 	}

@@ -122,14 +122,12 @@ public class RulesetTrainer {
 
 				try {
 					for (Token proofToken : proofSentence) {
-						Token trainingToken = trainingSentence.getToken(0);
+						Token trainingToken = trainingSentence.next();
 
 						if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
 							Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingSentence, proofToken);
 							allPossibleRules.addAll(localPossibleRules);
 						}
-
-						trainingSentence.advance();
 					}
 				} finally {
 					trainingSentence.reset();

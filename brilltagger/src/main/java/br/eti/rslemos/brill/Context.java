@@ -1,8 +1,8 @@
 package br.eti.rslemos.brill;
 
-public interface Context {
+import java.util.Iterator;
+
+public interface Context extends Iterator<Token> {
 	Token getToken(int offset);
-	boolean isValidPosition();
-	void advance();
 	void reset();
 }

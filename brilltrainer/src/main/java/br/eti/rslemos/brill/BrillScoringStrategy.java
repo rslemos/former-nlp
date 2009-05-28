@@ -16,13 +16,13 @@ public class BrillScoringStrategy implements ScoringStrategy {
 
 			try {
 				for (Token proofToken : proofSentence) {
+					trainingSentence.next();
+					
 					if (rule.matches(trainingSentence))
 						if (ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
 							score++;
 						else
 							score--;
-
-					trainingSentence.advance();
 				}
 			} finally {
 				trainingSentence.reset();

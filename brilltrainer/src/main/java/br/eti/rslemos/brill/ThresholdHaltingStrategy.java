@@ -19,12 +19,15 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 		for (List<Token> proofSentence : proofCorpus) {
 			Context trainingSentence = trainingCorpus[i++];
 
-			int j = 0;
-			for (Token proofToken : proofSentence) {
-				Token trainingToken = trainingSentence.getToken(j++);
+			try {
+				for (Token proofToken : proofSentence) {
+					Token trainingToken = trainingSentence.next();
 
-				if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
-					errorCount++;
+					if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
+						errorCount++;
+				}
+			} finally {
+				trainingSentence.reset();
 			}
 		}
 

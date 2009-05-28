@@ -1,35 +1,47 @@
 package br.eti.rslemos.brill;
 
+import java.util.NoSuchElementException;
+
 public class ArrayContext implements Context {
 	private Token[] contents;
 	private int pointer;
 
 	public ArrayContext(Token[] contents) {
 		this.contents = contents;
+		pointer = -1;
 	}
 
 	protected void setContents(Token[] contents) {
 		this.contents = contents;
+		pointer = -1;
 	}
 
-	public Token getToken(int i) {
+	public Token getToken(int offset) {
 		try {
-			return contents[i+pointer];
+			return contents[pointer+offset];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return Token.NULL;
 		}
 	}
 
-	public boolean isValidPosition() {
-		return pointer < contents.length;
-	}
-
-	public void advance() {
-		pointer++;
-	}
-
 	public void reset() {
-		pointer = 0;
+		pointer = -1;
+	}
+
+	public boolean hasNext() {
+		return pointer < contents.length - 1;
+	}
+
+	public Token next() {
+		try {
+			return contents[++pointer];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new NoSuchElementException();
+		}
+	}
+
+	public void remove() {
+		throw new UnsupportedOperationException();
 	}
 
 }

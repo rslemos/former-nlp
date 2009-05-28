@@ -44,9 +44,9 @@ public class RuleBasedTagger implements Tagger {
 	}
 	
 	static void applyRule(BufferingContext context, Rule rule) {
-		while(context.isValidPosition()) {
+		while(context.hasNext()) {
+			context.next();
 			rule.apply(context);
-			context.advance();
 		}
 		context.reset();
 	}
