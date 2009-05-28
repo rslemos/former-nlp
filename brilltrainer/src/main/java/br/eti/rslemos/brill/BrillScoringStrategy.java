@@ -7,25 +7,25 @@ import org.apache.commons.lang.ObjectUtils;
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 
 public class BrillScoringStrategy implements ScoringStrategy {
-	public int compute(List<List<Token>> proofCorpus, BufferingContext[] workCorpus, Rule rule) {
+	public int compute(List<List<Token>> proofCorpus, BufferingContext[] trainingCorpus, Rule rule) {
 		int score = 0;
 
 		int i = 0;
 		for (List<Token> proofSentence : proofCorpus) {
-			BufferingContext workSentence = workCorpus[i++];
+			BufferingContext trainingSentence = trainingCorpus[i++];
 
 			try {
 				for (Token proofToken : proofSentence) {
-					if (rule.matches(workSentence))
+					if (rule.matches(trainingSentence))
 						if (ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
 							score++;
 						else
 							score--;
 
-					workSentence.advance();
+					trainingSentence.advance();
 				}
 			} finally {
-				workSentence.reset();
+				trainingSentence.reset();
 			}
 		}
 		return score;

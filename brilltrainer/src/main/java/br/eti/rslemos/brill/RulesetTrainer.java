@@ -9,8 +9,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.HaltingStrategy.HaltingStrategyContext;
+import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
@@ -18,7 +18,7 @@ public class RulesetTrainer {
 
 	private final Tagger baseTagger;
 	private final List<RuleFactory> ruleFactories;
-	
+
 	private final ScoringStrategy scoringStrategy;
 	private final HaltingStrategy haltingStrategy;
 
@@ -39,70 +39,70 @@ public class RulesetTrainer {
 
 		trainingContext.applyBaseTagger();
 		List<Rule> rules = trainingContext.discoverRules();
-		
+
 		return new RuleBasedTagger(baseTagger, rules);
 	}
 
 	private class TrainingContext {
 
 		private final List<List<Token>> proofCorpus;
-		private BufferingContext[] workCorpus;
+		private BufferingContext[] trainingCorpus;
 
 		public TrainingContext(List<List<Token>> proofCorpus) {
 			this.proofCorpus = proofCorpus;
 		}
-		
+
 		public void applyBaseTagger() {
-			workCorpus = new BufferingContext[proofCorpus.size()];
-			
-			for (int i = 0; i < workCorpus.length; i++) {
+			trainingCorpus = new BufferingContext[proofCorpus.size()];
+
+			for (int i = 0; i < trainingCorpus.length; i++) {
 				List<Token> proofSentence = proofCorpus.get(i);
-				
+
 				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
 					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
 				}
-				
+
 				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
-				workCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
+				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
 			}
 		}
 
 		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
-			
-			HaltingStrategyContext haltingContext = haltingStrategy.getContext(proofCorpus, workCorpus);
-			
+
+			HaltingStrategyContext haltingContext = haltingStrategy.getContext(proofCorpus, trainingCorpus);
+
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
 				Rule bestRule = selectBestRule(produceAllPossibleRules());
-				
+
 				if (bestRule != null) {
 					applyRule(bestRule);
-					
-					if (shouldTryMore = haltingContext.updateAndTest(workCorpus))
+
+					if (shouldTryMore = haltingContext.updateAndTest(trainingCorpus))
 						rules.add(bestRule);
 				}
-				
+
 			} while(shouldTryMore);
-			
+
 			return rules;
 		}
-		
+
 		private void applyRule(Rule bestRule) {
-			for (BufferingContext workSentence : workCorpus)
-				RuleBasedTagger.applyRule(workSentence, bestRule);
+			for (BufferingContext trainingSentence : trainingCorpus)
+				RuleBasedTagger.applyRule(trainingSentence, bestRule);
 		}
-		
+
 		private Rule selectBestRule(Set<Rule> possibleRules) {
-			
+
 			Rule bestRule = null;
 			int bestScore = 0;
-			
+
 			for (Rule rule : possibleRules) {
-				
-				int score = scoringStrategy.compute(proofCorpus, workCorpus, rule);
+
+				int score = scoringStrategy.compute(proofCorpus, trainingCorpus, rule);
 
 				if (score > bestScore) {
 					bestRule = rule;
@@ -115,34 +115,34 @@ public class RulesetTrainer {
 
 		private Set<Rule> produceAllPossibleRules() {
 			Set<Rule> allPossibleRules = new HashSet<Rule>();
-			
+
 			int i = 0;
 			for (List<Token> proofSentence : proofCorpus) {
-				BufferingContext workSentence = workCorpus[i++];
+				BufferingContext trainingSentence = trainingCorpus[i++];
 
 				try {
 					for (Token proofToken : proofSentence) {
-						Token workToken = workSentence.getToken(0);
-						
-						if (!ObjectUtils.equals(proofToken.getTag(), workToken.getTag())) {
-							Collection<Rule> localPossibleRules = produceAllPossibleRules(workSentence, proofToken);
+						Token trainingToken = trainingSentence.getToken(0);
+
+						if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
+							Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingSentence, proofToken);
 							allPossibleRules.addAll(localPossibleRules);
 						}
-		
-						workSentence.advance();
+
+						trainingSentence.advance();
 					}
 				} finally {
-					workSentence.reset();
+					trainingSentence.reset();
 				}
 			}
-			
+
 			return allPossibleRules;
 		}
 
 		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
 			try {
 				Rule[] rules = new Rule[ruleFactories.size()];
-				
+
 				int i = 0;
 				for (RuleFactory factory : ruleFactories)
 					rules[i++] = factory.create(context, target);

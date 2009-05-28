@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface HaltingStrategy {
 	static interface HaltingStrategyContext {
-		boolean updateAndTest(Context[] workCorpus);
+		boolean updateAndTest(Context[] trainingCorpus);
 	}
-	
-	HaltingStrategy.HaltingStrategyContext getContext(List<List<Token>> proofCorpus, Context[] workCorpus);
+
+	HaltingStrategy.HaltingStrategyContext getContext(List<List<Token>> proofCorpus, Context[] trainingCorpus);
 }
