@@ -2,6 +2,7 @@ package br.eti.rslemos.brill.rules;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import br.eti.rslemos.brill.ArrayContext;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Token;
 
@@ -59,7 +60,7 @@ public abstract class RuleContextMother {
 		when(next3.getWord()).thenReturn(NEXT3_WORD);
 		when(next3.getTag() ).thenReturn(NEXT3_TAG);
 	
-		Context context = new Context(new Token[] { prev3, prev2, prev1, token, next1, next2, next3 });
+		Context context = new ArrayContext(new Token[] { prev3, prev2, prev1, token, next1, next2, next3 });
 		
 		for(int i = 0; i < 3; i++)
 			context.advance();
