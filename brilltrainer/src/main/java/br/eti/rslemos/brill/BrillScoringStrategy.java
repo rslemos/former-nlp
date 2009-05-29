@@ -6,6 +6,7 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
+import br.eti.rslemos.brill.ScoringRuleSelectStrategy.ScoringStrategy;
 
 public class BrillScoringStrategy implements ScoringStrategy {
 	private TrainingContext trainingContext;

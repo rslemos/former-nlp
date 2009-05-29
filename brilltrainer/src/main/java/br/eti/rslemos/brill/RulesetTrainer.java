@@ -13,7 +13,20 @@ import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
-
+	public static interface HaltingStrategy {
+		void setTrainingContext(TrainingContext trainingContext);
+		boolean updateAndTest();
+	}
+	
+	public static interface RuleSelectStrategy {
+		void setTrainingContext(TrainingContext trainingContext);
+		Rule selectBestRule(Set<Rule> possibleRules);
+	}
+	
+	public static interface RuleProducingStrategy {
+		Collection<Rule> produceAllPossibleRules(Context context, Token target);
+	}
+	
 	private final Tagger baseTagger;
 
 	private final HaltingStrategy haltingStrategy;

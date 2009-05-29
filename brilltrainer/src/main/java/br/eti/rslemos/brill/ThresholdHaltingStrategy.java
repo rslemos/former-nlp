@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import br.eti.rslemos.brill.RulesetTrainer.HaltingStrategy;
 import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public class ThresholdHaltingStrategy implements HaltingStrategy {

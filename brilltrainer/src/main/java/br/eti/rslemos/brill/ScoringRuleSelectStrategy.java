@@ -2,9 +2,15 @@ package br.eti.rslemos.brill;
 
 import java.util.Set;
 
+import br.eti.rslemos.brill.RulesetTrainer.RuleSelectStrategy;
 import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
+	public static interface ScoringStrategy {
+		void setTrainingContext(TrainingContext trainingContext);
+		int compute(Rule rule);
+	}
+	
 	private final ScoringStrategy scoringStrategy;
 	
 	public ScoringRuleSelectStrategy(ScoringStrategy scoringStrategy) {
