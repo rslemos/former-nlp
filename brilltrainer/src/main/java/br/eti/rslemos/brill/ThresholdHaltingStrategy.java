@@ -12,7 +12,7 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 	private final int threshold;
 	
 	private TrainingContext trainingContext;
-	private int errorCount;
+	private int errorCount = -1;
 
 	protected ThresholdHaltingStrategy(int threshold) {
 		this.threshold = threshold;
@@ -20,7 +20,10 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 
 	public void setTrainingContext(TrainingContext trainingContext) {
 		this.trainingContext = trainingContext;
-		this.errorCount = countErrors();
+		if (trainingContext != null)
+			this.errorCount = countErrors();
+		else
+			this.errorCount = -1;
 	}
 
 	private int countErrors() {

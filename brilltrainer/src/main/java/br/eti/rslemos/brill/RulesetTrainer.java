@@ -46,9 +46,9 @@ public class RulesetTrainer {
 		this.ruleSelectStrategy = ruleSelectStrategy;
 	}
 
-	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
+	public synchronized RuleBasedTagger train(List<List<Token>> proofCorpus) {
 		TrainingContext trainingContext = new TrainingContext(proofCorpus);
-
+		
 		trainingContext.applyBaseTagger();
 		List<Rule> rules = trainingContext.discoverRules();
 
@@ -84,11 +84,20 @@ public class RulesetTrainer {
 		}
 
 		private List<Rule> discoverRules() {
+			try {
+				ruleSelectStrategy.setTrainingContext(this);
+				haltingStrategy.setTrainingContext(this);
+		
+				return discoverRules0();
+			} finally {
+				ruleSelectStrategy.setTrainingContext(null);
+				haltingStrategy.setTrainingContext(null);			
+			}
+		}
+
+		private List<Rule> discoverRules0() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
-			ruleSelectStrategy.setTrainingContext(this);
-			haltingStrategy.setTrainingContext(this);
-			
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
