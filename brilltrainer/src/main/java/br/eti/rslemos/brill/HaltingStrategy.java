@@ -1,11 +1,8 @@
 package br.eti.rslemos.brill;
 
-import java.util.List;
+import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public interface HaltingStrategy {
-	static interface HaltingStrategyContext {
-		boolean updateAndTest(Context[] trainingCorpus);
-	}
-
-	HaltingStrategy.HaltingStrategyContext getContext(List<List<Token>> proofCorpus, Context[] trainingCorpus);
+	void setTrainingContext(TrainingContext trainingContext);
+	boolean updateAndTest();
 }

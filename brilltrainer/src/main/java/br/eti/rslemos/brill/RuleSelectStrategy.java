@@ -1,14 +1,10 @@
 package br.eti.rslemos.brill;
 
-import java.util.List;
 import java.util.Set;
 
-import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public interface RuleSelectStrategy {
-	public static interface RuleSelectStrategyContext {
-		Rule selectBestRule(Set<Rule> possibleRules);
-	}
-	
-	RuleSelectStrategy.RuleSelectStrategyContext getContext(List<List<Token>> proofCorpus, BufferingContext[] trainingCorpus);
+	void setTrainingContext(TrainingContext trainingContext);
+	Rule selectBestRule(Set<Rule> possibleRules);
 }

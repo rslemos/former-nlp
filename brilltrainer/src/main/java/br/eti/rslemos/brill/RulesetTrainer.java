@@ -9,9 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.HaltingStrategy.HaltingStrategyContext;
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
-import br.eti.rslemos.brill.RuleSelectStrategy.RuleSelectStrategyContext;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
@@ -44,17 +42,17 @@ public class RulesetTrainer {
 		return new RuleBasedTagger(baseTagger, rules);
 	}
 
-	private class TrainingContext {
+	public class TrainingContext {
 
-		private final List<List<Token>> proofCorpus;
-		private BufferingContext[] trainingCorpus;
+		public final List<List<Token>> proofCorpus;
+		public final BufferingContext[] trainingCorpus;
 
 		public TrainingContext(List<List<Token>> proofCorpus) {
 			this.proofCorpus = proofCorpus;
+			this.trainingCorpus = new BufferingContext[proofCorpus.size()];
 		}
 
-		public void applyBaseTagger() {
-			trainingCorpus = new BufferingContext[proofCorpus.size()];
+		private void applyBaseTagger() {
 
 			for (int i = 0; i < trainingCorpus.length; i++) {
 				List<Token> proofSentence = proofCorpus.get(i);
@@ -72,24 +70,21 @@ public class RulesetTrainer {
 			}
 		}
 
-		public List<Rule> discoverRules() {
+		private List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
-			HaltingStrategyContext haltingContext = haltingStrategy.getContext(
-					proofCorpus, trainingCorpus);
-
-			RuleSelectStrategyContext ruleSelectStrategyContext = ruleSelectStrategy.getContext(proofCorpus, trainingCorpus);
+			ruleSelectStrategy.setTrainingContext(this);
+			haltingStrategy.setTrainingContext(this);
 			
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
-				Rule bestRule = ruleSelectStrategyContext.selectBestRule(produceAllPossibleRules());
+				Rule bestRule = ruleSelectStrategy.selectBestRule(produceAllPossibleRules());
 
 				if (bestRule != null) {
 					applyRule(bestRule);
 
-					if (shouldTryMore = haltingContext
-							.updateAndTest(trainingCorpus))
+					if (shouldTryMore = haltingStrategy.updateAndTest())
 						rules.add(bestRule);
 				}
 

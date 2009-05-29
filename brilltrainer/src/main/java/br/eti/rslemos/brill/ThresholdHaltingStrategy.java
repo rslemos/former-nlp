@@ -4,20 +4,30 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
+
 public class ThresholdHaltingStrategy implements HaltingStrategy {
 
 	private final int threshold;
+	
+	private TrainingContext trainingContext;
+	private int errorCount;
 
 	protected ThresholdHaltingStrategy(int threshold) {
 		this.threshold = threshold;
 	}
 
-	private int countErrors(List<List<Token>> proofCorpus, Context[] trainingCorpus) {
+	public void setTrainingContext(TrainingContext trainingContext) {
+		this.trainingContext = trainingContext;
+		this.errorCount = countErrors();
+	}
+
+	private int countErrors() {
 		int errorCount = 0;
 
 		int i = 0;
-		for (List<Token> proofSentence : proofCorpus) {
-			Context trainingSentence = trainingCorpus[i++];
+		for (List<Token> proofSentence : trainingContext.proofCorpus) {
+			Context trainingSentence = trainingContext.trainingCorpus[i++];
 
 			try {
 				for (Token proofToken : proofSentence) {
@@ -34,27 +44,12 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 		return errorCount;
 	}
 
-	public HaltingStrategyContext getContext(List<List<Token>> proofCorpus, Context[] trainingCorpus) {
-		return new ThresholdHaltingStrategyContext(proofCorpus, countErrors(proofCorpus, trainingCorpus));
+	public boolean updateAndTest() {
+		int errorCount = countErrors();
+		try {
+			return !((this.errorCount - errorCount) < threshold);
+		} finally {
+			this.errorCount = errorCount;
+		}
 	}
-
-	private class ThresholdHaltingStrategyContext implements HaltingStrategyContext {
-		private final List<List<Token>> proofCorpus;
-		private int errorCount;
-		
-		public ThresholdHaltingStrategyContext(List<List<Token>> proofCorpus, int initialErrorCount) {
-			this.proofCorpus = proofCorpus;
-			this.errorCount = initialErrorCount;
-		}
-		
-		public boolean updateAndTest(Context[] trainingCorpus) {
-			int errorCount = countErrors(proofCorpus, trainingCorpus);
-			try {
-				return !((this.errorCount - errorCount) < threshold);
-			} finally {
-				this.errorCount = errorCount;
-			}
-		}
-		
-	};
 }

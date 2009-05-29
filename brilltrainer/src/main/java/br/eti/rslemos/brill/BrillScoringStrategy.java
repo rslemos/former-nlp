@@ -5,14 +5,21 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public class BrillScoringStrategy implements ScoringStrategy {
-	public int compute(List<List<Token>> proofCorpus, BufferingContext[] trainingCorpus, Rule rule) {
+	private TrainingContext trainingContext;
+
+	public void setTrainingContext(TrainingContext trainingContext) {
+		this.trainingContext = trainingContext;
+	}
+
+	public int compute(Rule rule) {
 		int score = 0;
 
 		int i = 0;
-		for (List<Token> proofSentence : proofCorpus) {
-			BufferingContext trainingSentence = trainingCorpus[i++];
+		for (List<Token> proofSentence : trainingContext.proofCorpus) {
+			BufferingContext trainingSentence = trainingContext.trainingCorpus[i++];
 
 			try {
 				for (Token proofToken : proofSentence) {

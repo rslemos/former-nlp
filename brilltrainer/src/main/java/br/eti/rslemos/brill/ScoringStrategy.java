@@ -1,9 +1,8 @@
 package br.eti.rslemos.brill;
 
-import java.util.List;
-
-import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public interface ScoringStrategy {
-	int compute(List<List<Token>> proofCorpus, BufferingContext[] trainingCorpus, Rule rule);
+	void setTrainingContext(TrainingContext trainingContext);
+	int compute(Rule rule);
 }
