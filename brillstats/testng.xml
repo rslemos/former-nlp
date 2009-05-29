@@ -5,7 +5,7 @@
 <suite name="brillstats">
 	<test name="all">
 		<packages>
-			<package name="br.eti.rslemos.brill.stats*"/>
+			<package name="br.eti.rslemos.brill.stats.*"/>
 		</packages>
 	</test>
 </suite>
