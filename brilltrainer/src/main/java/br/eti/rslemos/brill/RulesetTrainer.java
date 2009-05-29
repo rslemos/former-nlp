@@ -12,26 +12,25 @@ import org.apache.commons.lang.ObjectUtils;
 import br.eti.rslemos.brill.HaltingStrategy.HaltingStrategyContext;
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.RuleSelectStrategy.RuleSelectStrategyContext;
-import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
 
 	private final Tagger baseTagger;
-	private final List<RuleFactory> ruleFactories;
 
 	private final HaltingStrategy haltingStrategy;
 	private final RuleSelectStrategy ruleSelectStrategy;
+	private final RuleProducingStrategy ruleFactoryStrategy;
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, ruleFactories, new ThresholdHaltingStrategy(1),
+		this(baseTagger, new RuleFactoryStrategy(ruleFactories), new ThresholdHaltingStrategy(1),
 				new ScoringRuleSelectStrategy(new BrillScoringStrategy()));
 	}
 
-	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories,
+	public RulesetTrainer(Tagger baseTagger, RuleProducingStrategy ruleFactoryStrategy,
 			HaltingStrategy haltingStrategy, RuleSelectStrategy ruleSelectStrategy) {
 		this.baseTagger = baseTagger;
-		this.ruleFactories = ruleFactories;
+		this.ruleFactoryStrategy = ruleFactoryStrategy;
 		this.haltingStrategy = haltingStrategy;
 		this.ruleSelectStrategy = ruleSelectStrategy;
 	}
@@ -117,8 +116,7 @@ public class RulesetTrainer {
 
 						if (!ObjectUtils.equals(proofToken.getTag(),
 								trainingToken.getTag())) {
-							Collection<Rule> localPossibleRules = produceAllPossibleRules(
-									trainingSentence, proofToken);
+							Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
 							allPossibleRules.addAll(localPossibleRules);
 						}
 					}
@@ -129,21 +127,5 @@ public class RulesetTrainer {
 
 			return allPossibleRules;
 		}
-
-		private Collection<Rule> produceAllPossibleRules(Context context,
-				Token target) {
-			try {
-				Rule[] rules = new Rule[ruleFactories.size()];
-
-				int i = 0;
-				for (RuleFactory factory : ruleFactories)
-					rules[i++] = factory.create(context, target);
-
-				return Arrays.asList(rules);
-			} catch (RuleCreationException e) {
-				throw new RuntimeException("Error creating rule", e);
-			}
-		}
-
 	}
 }
