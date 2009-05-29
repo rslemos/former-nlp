@@ -11,6 +11,7 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.HaltingStrategy.HaltingStrategyContext;
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.RuleSelectStrategy.RuleSelectStrategyContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
@@ -19,19 +20,20 @@ public class RulesetTrainer {
 	private final Tagger baseTagger;
 	private final List<RuleFactory> ruleFactories;
 
-	private final ScoringStrategy scoringStrategy;
 	private final HaltingStrategy haltingStrategy;
-
+	private final RuleSelectStrategy ruleSelectStrategy;
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, ruleFactories, new BrillScoringStrategy(), new ThresholdHaltingStrategy(1));
+		this(baseTagger, ruleFactories, new ThresholdHaltingStrategy(1),
+				new ScoringRuleSelectStrategy(new BrillScoringStrategy()));
 	}
 
-	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, ScoringStrategy scoringStrategy, HaltingStrategy haltingStrategy) {
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories,
+			HaltingStrategy haltingStrategy, RuleSelectStrategy ruleSelectStrategy) {
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
-		this.scoringStrategy = scoringStrategy;
 		this.haltingStrategy = haltingStrategy;
+		this.ruleSelectStrategy = ruleSelectStrategy;
 	}
 
 	public RuleBasedTagger train(List<List<Token>> proofCorpus) {
@@ -58,34 +60,41 @@ public class RulesetTrainer {
 			for (int i = 0; i < trainingCorpus.length; i++) {
 				List<Token> proofSentence = proofCorpus.get(i);
 
-				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
+				Token[] baseTaggedSentence = new DefaultToken[proofSentence
+						.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
-					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
+					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(
+							j).getWord());
 				}
 
 				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
-				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
+				trainingCorpus[i] = RuleBasedTagger
+						.prepareContext(baseTaggedSentence);
 			}
 		}
 
 		public List<Rule> discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
-			HaltingStrategyContext haltingContext = haltingStrategy.getContext(proofCorpus, trainingCorpus);
+			HaltingStrategyContext haltingContext = haltingStrategy.getContext(
+					proofCorpus, trainingCorpus);
 
+			RuleSelectStrategyContext ruleSelectStrategyContext = ruleSelectStrategy.getContext(proofCorpus, trainingCorpus);
+			
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
-				Rule bestRule = selectBestRule(produceAllPossibleRules());
+				Rule bestRule = ruleSelectStrategyContext.selectBestRule(produceAllPossibleRules());
 
 				if (bestRule != null) {
 					applyRule(bestRule);
 
-					if (shouldTryMore = haltingContext.updateAndTest(trainingCorpus))
+					if (shouldTryMore = haltingContext
+							.updateAndTest(trainingCorpus))
 						rules.add(bestRule);
 				}
 
-			} while(shouldTryMore);
+			} while (shouldTryMore);
 
 			return rules;
 		}
@@ -93,24 +102,6 @@ public class RulesetTrainer {
 		private void applyRule(Rule bestRule) {
 			for (BufferingContext trainingSentence : trainingCorpus)
 				RuleBasedTagger.applyRule(trainingSentence, bestRule);
-		}
-
-		private Rule selectBestRule(Set<Rule> possibleRules) {
-
-			Rule bestRule = null;
-			int bestScore = 0;
-
-			for (Rule rule : possibleRules) {
-
-				int score = scoringStrategy.compute(proofCorpus, trainingCorpus, rule);
-
-				if (score > bestScore) {
-					bestRule = rule;
-					bestScore = score;
-				}
-			}
-
-			return bestRule;
 		}
 
 		private Set<Rule> produceAllPossibleRules() {
@@ -124,8 +115,10 @@ public class RulesetTrainer {
 					for (Token proofToken : proofSentence) {
 						Token trainingToken = trainingSentence.next();
 
-						if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-							Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingSentence, proofToken);
+						if (!ObjectUtils.equals(proofToken.getTag(),
+								trainingToken.getTag())) {
+							Collection<Rule> localPossibleRules = produceAllPossibleRules(
+									trainingSentence, proofToken);
 							allPossibleRules.addAll(localPossibleRules);
 						}
 					}
@@ -137,7 +130,8 @@ public class RulesetTrainer {
 			return allPossibleRules;
 		}
 
-		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
+		private Collection<Rule> produceAllPossibleRules(Context context,
+				Token target) {
 			try {
 				Rule[] rules = new Rule[ruleFactories.size()];
 
@@ -152,5 +146,4 @@ public class RulesetTrainer {
 		}
 
 	}
-
 }
