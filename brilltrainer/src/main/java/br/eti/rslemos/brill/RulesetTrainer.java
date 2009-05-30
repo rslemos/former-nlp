@@ -46,6 +46,23 @@ public class RulesetTrainer {
 		this.ruleSelectStrategy = ruleSelectStrategy;
 	}
 
+	
+	public Tagger getBaseTagger() {
+		return baseTagger;
+	}
+
+	public HaltingStrategy getHaltingStrategy() {
+		return haltingStrategy;
+	}
+
+	public RuleSelectStrategy getRuleSelectStrategy() {
+		return ruleSelectStrategy;
+	}
+
+	public RuleProducingStrategy getRuleFactoryStrategy() {
+		return ruleFactoryStrategy;
+	}
+
 	public synchronized RuleBasedTagger train(List<List<Token>> proofCorpus) {
 		TrainingContext trainingContext = new TrainingContext(proofCorpus);
 		
