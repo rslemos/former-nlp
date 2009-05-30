@@ -45,6 +45,11 @@
 					<weaveDependencies>
 						<weaveDependency>
 							<groupId>${project.groupId}</groupId>
+							<artifactId>brilltagger</artifactId>
+						</weaveDependency>
+
+						<weaveDependency>
+							<groupId>${project.groupId}</groupId>
 							<artifactId>brilltrainer</artifactId>
 						</weaveDependency>
 					</weaveDependencies>
