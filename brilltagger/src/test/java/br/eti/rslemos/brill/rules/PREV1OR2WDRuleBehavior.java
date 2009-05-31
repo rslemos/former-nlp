@@ -30,4 +30,10 @@ public class PREV1OR2WDRuleBehavior {
 		assertTrue(matches(RuleContextMother.PREV2_WORD));
 		assertTrue(matches(RuleContextMother.PREV1_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2WDRule.FACTORY1);
+		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2WDRule.FACTORY2);
+	}
 }

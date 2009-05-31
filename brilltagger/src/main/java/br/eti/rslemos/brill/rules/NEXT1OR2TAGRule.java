@@ -5,10 +5,20 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class NEXT1OR2TAGRule extends AbstractRule {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			throw new RuleCreationException("Oops. Modelo de fábrica não está preparada para regras OU");
+			String tag1 = context.getToken(1).getTag();
+			return new NEXT1OR2TAGRule(from, to, tag1);
+		}
+		
+	};
+
+	public static final RuleFactory FACTORY2 = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String tag2 = context.getToken(2).getTag();
+			return new NEXT1OR2TAGRule(from, to, tag2);
 		}
 		
 	};

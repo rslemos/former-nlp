@@ -30,4 +30,10 @@ public class PREV1OR2TAGRuleBehavior {
 		assertTrue(matches(RuleContextMother.PREV2_TAG));
 		assertTrue(matches(RuleContextMother.PREV1_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2TAGRule.FACTORY1);
+		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2TAGRule.FACTORY2);
+	}
 }

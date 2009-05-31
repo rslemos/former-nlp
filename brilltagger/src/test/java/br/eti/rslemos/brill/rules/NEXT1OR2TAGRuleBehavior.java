@@ -30,4 +30,10 @@ public class NEXT1OR2TAGRuleBehavior {
 		assertTrue(matches(RuleContextMother.NEXT1_TAG));
 		assertTrue(matches(RuleContextMother.NEXT2_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2TAGRule.FACTORY1);
+		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2TAGRule.FACTORY2);
+	}
 }

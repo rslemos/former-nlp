@@ -5,10 +5,20 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2WDRule extends AbstractRule {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			throw new RuleCreationException("Oops. Modelo de fábrica não está preparada para regras OU");
+			String word_1 = context.getToken(-1).getWord();
+			return new PREV1OR2WDRule(from, to, word_1);
+		}
+		
+	};
+
+	public static final RuleFactory FACTORY2 = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String word_2 = context.getToken(-2).getWord();
+			return new PREV1OR2WDRule(from, to, word_2);
 		}
 		
 	};
