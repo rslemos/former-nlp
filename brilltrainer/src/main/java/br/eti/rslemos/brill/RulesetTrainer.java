@@ -2,10 +2,10 @@ package br.eti.rslemos.brill;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -20,7 +20,7 @@ public class RulesetTrainer {
 	
 	public static interface RuleSelectStrategy {
 		void setTrainingContext(TrainingContext trainingContext);
-		Rule selectBestRule(Set<Rule> possibleRules);
+		Rule selectBestRule(Map<Rule, Integer> map);
 	}
 	
 	public static interface RuleProducingStrategy {
@@ -137,8 +137,8 @@ public class RulesetTrainer {
 				RuleBasedTagger.applyRule(trainingSentence, bestRule);
 		}
 
-		private Set<Rule> produceAllPossibleRules() {
-			Set<Rule> allPossibleRules = new HashSet<Rule>();
+		private Map<Rule, Integer> produceAllPossibleRules() {
+			Map<Rule, Integer> allPossibleRules = new HashMap<Rule, Integer>();
 
 			int i = 0;
 			for (List<Token> proofSentence : proofCorpus) {
@@ -151,7 +151,16 @@ public class RulesetTrainer {
 						if (!ObjectUtils.equals(proofToken.getTag(),
 								trainingToken.getTag())) {
 							Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
-							allPossibleRules.addAll(localPossibleRules);
+							for (Rule localPossibleRule : localPossibleRules) {
+								Integer count = allPossibleRules.get(localPossibleRule);
+								
+								if (count == null)
+									count = 0;
+								
+								count += 1;
+								
+								allPossibleRules.put(localPossibleRule, count);
+							}
 						}
 					}
 				} finally {

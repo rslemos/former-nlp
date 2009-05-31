@@ -15,19 +15,19 @@ public class BrillScoringStrategy implements ScoringStrategy {
 		this.trainingContext = trainingContext;
 	}
 
-	public int compute(Rule rule) {
-		int score = 0;
+	public int compute(Rule rule, int positiveScore) {
+		int score = positiveScore;
 
 		int i = 0;
 		for (List<Token> proofSentence : trainingContext.proofCorpus) {
 			BufferingContext trainingSentence = trainingContext.trainingCorpus[i++];
-			score += compute(rule, proofSentence, trainingSentence);
+			score += computeNegativeScore(rule, proofSentence, trainingSentence);
 		}
 		
 		return score;
 	}
 
-	private int compute(Rule rule, List<Token> proofSentence, BufferingContext trainingSentence) {
+	private int computeNegativeScore(Rule rule, List<Token> proofSentence, BufferingContext trainingSentence) {
 		try {
 			int score = 0;
 			
@@ -35,9 +35,7 @@ public class BrillScoringStrategy implements ScoringStrategy {
 				trainingSentence.next();
 				
 				if (rule.matches(trainingSentence))
-					if (ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
-						score++;
-					else
+					if (!ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
 						score--;
 			}
 			
