@@ -53,4 +53,24 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule {
 		? (next1or2or3Tag.equals(tag1) | next1or2or3Tag.equals(tag2) | next1or2or3Tag.equals(tag3)) 
 		: (tag1 == null | tag2 == null | tag3 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		NEXT1OR2OR3TAGRule other = (NEXT1OR2OR3TAGRule) o;
+		
+		return next1or2or3Tag != null ? next1or2or3Tag.equals(other.next1or2or3Tag) : other.next1or2or3Tag == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 7;
+		hashCode += next1or2or3Tag != null ? next1or2or3Tag.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

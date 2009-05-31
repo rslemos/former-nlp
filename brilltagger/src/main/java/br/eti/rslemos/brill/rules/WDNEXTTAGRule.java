@@ -36,4 +36,27 @@ public class WDNEXTTAGRule extends AbstractRule implements Rule {
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		WDNEXTTAGRule other = (WDNEXTTAGRule) o;
+		
+		return (word != null ? word.equals(other.word) : other.word == null) &&
+			(next1Tag != null ? next1Tag.equals(other.next1Tag) : other.next1Tag == null);
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 19;
+		hashCode += word != null ? word.hashCode() : 0;
+		hashCode *= 13;
+		hashCode += next1Tag != null ? next1Tag.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

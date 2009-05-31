@@ -43,4 +43,24 @@ public class NEXT1OR2WDRule extends AbstractRule {
 		? (next1or2Word.equals(word1) | next1or2Word.equals(word2)) 
 		: (word1 == null | word2 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		NEXT1OR2WDRule other = (NEXT1OR2WDRule) o;
+		
+		return next1or2Word != null ? next1or2Word.equals(other.next1or2Word) : other.next1or2Word == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 13;
+		hashCode += next1or2Word != null ? next1or2Word.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

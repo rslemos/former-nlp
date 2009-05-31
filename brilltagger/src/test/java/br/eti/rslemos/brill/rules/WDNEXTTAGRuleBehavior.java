@@ -42,4 +42,9 @@ public class WDNEXTTAGRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(WDNEXTTAGRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY);
+	}
 }

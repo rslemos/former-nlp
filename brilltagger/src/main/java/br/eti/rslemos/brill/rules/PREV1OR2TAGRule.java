@@ -43,4 +43,24 @@ public class PREV1OR2TAGRule extends AbstractRule {
 		? (prev1or2Tag.equals(tag_1) | prev1or2Tag.equals(tag_2)) 
 		: (tag_1 == null | tag_2 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		PREV1OR2TAGRule other = (PREV1OR2TAGRule) o;
+		
+		return prev1or2Tag != null ? prev1or2Tag.equals(other.prev1or2Tag) : other.prev1or2Tag == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 37;
+		hashCode += prev1or2Tag != null ? prev1or2Tag.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

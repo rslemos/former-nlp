@@ -42,4 +42,9 @@ public class NEXTBIGRAMRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(NEXTBIGRAMRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
+	}
 }

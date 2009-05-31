@@ -42,4 +42,9 @@ public class WDAND2TAGAFTRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(WDAND2TAGAFTRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDAND2TAGAFTRule.FACTORY);
+	}
 }

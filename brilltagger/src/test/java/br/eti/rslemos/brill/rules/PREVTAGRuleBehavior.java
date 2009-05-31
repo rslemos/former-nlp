@@ -35,4 +35,9 @@ public class PREVTAGRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(PREVTAGRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREVTAGRule.FACTORY);
+	}
 }

@@ -38,6 +38,29 @@ public class WDPREVTAGRule extends AbstractRule implements Rule {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		WDPREVTAGRule other = (WDPREVTAGRule) o;
+		
+		return (word != null ? word.equals(other.word) : other.word == null) &&
+			(prevTag != null ? prevTag.equals(other.prevTag) : other.prevTag == null);
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 23;
+		hashCode += word != null ? word.hashCode() : 0;
+		hashCode *= 5;
+		hashCode += prevTag != null ? prevTag.hashCode() : 0;
+		
+		return hashCode;
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() + " " + prevTag + " " + word;
 	}

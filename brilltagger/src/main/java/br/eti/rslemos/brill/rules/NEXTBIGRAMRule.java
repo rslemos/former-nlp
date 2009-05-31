@@ -36,4 +36,27 @@ public class NEXTBIGRAMRule extends AbstractRule implements Rule {
 		return (next1Word != null ? next1Word.equals(word1) : word1 == null) &&
 			(next2Word != null ? next2Word.equals(word2) : word2 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		NEXTBIGRAMRule other = (NEXTBIGRAMRule) o;
+		
+		return (next1Word != null ? next1Word.equals(other.next1Word) : other.next1Word == null) &&
+			(next2Word != null ? next2Word.equals(other.next2Word) : other.next2Word == null);
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 11;
+		hashCode += next1Word != null ? next1Word.hashCode() : 0;
+		hashCode *= 5;
+		hashCode += next2Word != null ? next2Word.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

@@ -36,4 +36,27 @@ public class RBIGRAMRule extends AbstractRule implements Rule {
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(nextWord != null ? nextWord.equals(word1) : word1 == null);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		RBIGRAMRule other = (RBIGRAMRule) o;
+		
+		return (word != null ? word.equals(other.word) : other.word == null) &&
+			(nextWord != null ? nextWord.equals(other.nextWord) : other.nextWord == null);
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 13;
+		hashCode += word != null ? word.hashCode() : 0;
+		hashCode *= 5;
+		hashCode += nextWord != null ? nextWord.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

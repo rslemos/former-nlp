@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
 
@@ -34,5 +33,10 @@ public class CURWDRuleBehavior {
 	@Test
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(CURWDRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() throws RuleCreationException {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(CURWDRule.FACTORY);
 	}
 }

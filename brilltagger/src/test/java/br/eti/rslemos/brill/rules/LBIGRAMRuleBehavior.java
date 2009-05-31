@@ -42,4 +42,9 @@ public class LBIGRAMRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(LBIGRAMRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(LBIGRAMRule.FACTORY);
+	}
 }

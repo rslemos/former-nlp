@@ -42,4 +42,9 @@ public class WDPREVTAGRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(WDPREVTAGRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDPREVTAGRule.FACTORY);
+	}
 }

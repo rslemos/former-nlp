@@ -33,6 +33,26 @@ public class CURWDRule extends AbstractRule {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		CURWDRule other = (CURWDRule) o;
+		
+		return word != null ? word.equals(other.word) : other.word == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 5;
+		hashCode += word != null ? word.hashCode() : 0;
+		
+		return hashCode;
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() + " " + word;
 	}

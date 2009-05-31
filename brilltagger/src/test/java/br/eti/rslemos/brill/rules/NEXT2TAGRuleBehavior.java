@@ -35,4 +35,9 @@ public class NEXT2TAGRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(NEXT2TAGRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT2TAGRule.FACTORY);
+	}
 }

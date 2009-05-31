@@ -42,4 +42,9 @@ public class WDAND2BFRRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(WDAND2BFRRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDAND2BFRRule.FACTORY);
+	}
 }

@@ -35,4 +35,9 @@ public class NEXTWDRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(NEXTWDRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXTWDRule.FACTORY);
+	}
 }

@@ -36,4 +36,10 @@ public class NEXT1OR2WDRuleBehavior {
 		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2WDRule.FACTORY1);
 		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2WDRule.FACTORY2);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2WDRule.FACTORY1);
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2WDRule.FACTORY2);
+	}
 }

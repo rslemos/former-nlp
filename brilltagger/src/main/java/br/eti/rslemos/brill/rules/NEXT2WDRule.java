@@ -32,4 +32,24 @@ public class NEXT2WDRule extends AbstractRule {
 		
 		return next2Word != null ? next2Word.equals(word2) : word2 == null;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		NEXT2WDRule other = (NEXT2WDRule) o;
+		
+		return next2Word != null ? next2Word.equals(other.next2Word) : other.next2Word == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 19;
+		hashCode += next2Word != null ? next2Word.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

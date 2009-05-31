@@ -32,4 +32,23 @@ public class PREV2WDRule extends AbstractRule implements Rule {
 		return prev2Word != null ? prev2Word.equals(word_2) : word_2 == null;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		PREV2WDRule other = (PREV2WDRule) o;
+		
+		return prev2Word != null ? prev2Word.equals(other.prev2Word) : other.prev2Word == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 47;
+		hashCode += prev2Word != null ? prev2Word.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

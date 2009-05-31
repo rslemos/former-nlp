@@ -32,4 +32,23 @@ public class PREV2TAGRule extends AbstractRule implements Rule {
 		return prev2Tag != null ? prev2Tag.equals(tag_2) : tag_2 == null;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		PREV2TAGRule other = (PREV2TAGRule) o;
+		
+		return prev2Tag != null ? prev2Tag.equals(other.prev2Tag) : other.prev2Tag == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 43;
+		hashCode += prev2Tag != null ? prev2Tag.hashCode() : 0;
+		
+		return hashCode;
+	}
 }

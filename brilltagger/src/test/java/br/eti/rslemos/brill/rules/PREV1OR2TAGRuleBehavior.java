@@ -36,4 +36,10 @@ public class PREV1OR2TAGRuleBehavior {
 		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2TAGRule.FACTORY1);
 		RuleFactoryBehaviorUtils.createAndTest(PREV1OR2TAGRule.FACTORY2);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY1);
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY2);
+	}
 }

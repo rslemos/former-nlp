@@ -42,4 +42,9 @@ public class SURROUNDTAGRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(SURROUNDTAGRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY);
+	}
 }

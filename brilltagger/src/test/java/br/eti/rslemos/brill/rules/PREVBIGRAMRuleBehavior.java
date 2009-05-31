@@ -42,4 +42,9 @@ public class PREVBIGRAMRuleBehavior {
 	public void shouldCreateRule() {
 		RuleFactoryBehaviorUtils.createAndTest(PREVBIGRAMRule.FACTORY);
 	}
+	
+	@Test
+	public void shouldHaveObjectSemantics() {
+		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY);
+	}
 }

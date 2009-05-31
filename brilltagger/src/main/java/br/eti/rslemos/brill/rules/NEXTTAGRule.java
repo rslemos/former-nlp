@@ -32,4 +32,24 @@ public class NEXTTAGRule extends AbstractRule {
 		
 		return nextTag != null ? nextTag.equals(tag1) : tag1 == null;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		
+		NEXTTAGRule other = (NEXTTAGRule) o;
+		
+		return nextTag != null ? nextTag.equals(other.nextTag) : other.nextTag == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = super.hashCode();
+		
+		hashCode *= 23;
+		hashCode += nextTag != null ? nextTag.hashCode() : 0;
+		
+		return hashCode;
+	}
 }
