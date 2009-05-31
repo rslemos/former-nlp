@@ -37,4 +37,9 @@ public class WDAND2TAGAFTRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT2_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(WDAND2TAGAFTRule.FACTORY);
+	}
 }

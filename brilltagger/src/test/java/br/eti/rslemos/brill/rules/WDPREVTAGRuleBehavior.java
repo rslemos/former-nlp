@@ -37,4 +37,9 @@ public class WDPREVTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_TAG, RuleContextMother.THIS_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(WDPREVTAGRule.FACTORY);
+	}
 }

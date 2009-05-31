@@ -5,6 +5,16 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class LBIGRAMRule extends AbstractRule implements Rule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String word0 = context.getToken(0).getWord();
+			String word_1 = context.getToken(-1).getWord();
+			
+			return new LBIGRAMRule(from, to, word_1, word0);
+		}
+		
+	};
 
 	private final String prevWord;
 	private final String word;

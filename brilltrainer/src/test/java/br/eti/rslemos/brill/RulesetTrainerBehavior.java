@@ -38,7 +38,7 @@ public class RulesetTrainerBehavior {
 		
 		List<List<Token>> sentences = buildText_ToSignUp();
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();
@@ -58,7 +58,7 @@ public class RulesetTrainerBehavior {
 		lexicon.put("sign", "NN");
 		lexicon.put("up", "RB");
 		
-		List<RuleFactory> ruleFactories = Arrays.asList(PREVTAGRule.FACTORY);
+		List<RuleFactory> ruleFactories = Arrays.asList((RuleFactory)PREVTAGRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();

@@ -5,6 +5,16 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class WDNEXTTAGRule extends AbstractRule implements Rule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String word0 = context.getToken(0).getWord();
+			String tag1 = context.getToken(1).getTag();
+			
+			return new WDNEXTTAGRule(from, to, word0, tag1);
+		}
+		
+	};
 
 	private final String word;
 	private final String next1Tag;

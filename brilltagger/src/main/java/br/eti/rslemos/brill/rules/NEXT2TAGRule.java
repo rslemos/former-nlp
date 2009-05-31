@@ -2,8 +2,18 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.brill.Rule;
 
 public class NEXT2TAGRule extends AbstractRule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String tag2 = context.getToken(2).getTag();
+			
+			return new NEXT2TAGRule(from, to, tag2);
+		}
+		
+	};
 
 	private final String next2Tag;
 

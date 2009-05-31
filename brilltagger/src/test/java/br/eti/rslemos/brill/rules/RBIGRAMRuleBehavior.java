@@ -37,4 +37,9 @@ public class RBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT1_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(RBIGRAMRule.FACTORY);
+	}
 }

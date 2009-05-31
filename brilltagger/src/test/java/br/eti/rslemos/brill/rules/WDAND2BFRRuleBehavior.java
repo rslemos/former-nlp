@@ -37,4 +37,9 @@ public class WDAND2BFRRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV2_WORD, RuleContextMother.THIS_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(WDAND2BFRRule.FACTORY);
+	}
 }

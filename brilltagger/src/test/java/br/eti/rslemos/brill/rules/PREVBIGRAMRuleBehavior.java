@@ -37,4 +37,9 @@ public class PREVBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV2_WORD, RuleContextMother.PREV1_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(PREVBIGRAMRule.FACTORY);
+	}
 }

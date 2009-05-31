@@ -30,4 +30,9 @@ public class NEXTTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.NEXT1_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(NEXTTAGRule.FACTORY);
+	}
 }

@@ -2,8 +2,16 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.brill.Rule;
 
 public class NEXT1OR2OR3TAGRule extends AbstractRule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			throw new RuleCreationException("Oops. Modelo de fábrica não está preparada para regras OU");
+		}
+		
+	};
 
 	private final String next1or2or3Tag;
 

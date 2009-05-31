@@ -30,4 +30,9 @@ public class CURWDRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.THIS_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(CURWDRule.FACTORY);
+	}
 }

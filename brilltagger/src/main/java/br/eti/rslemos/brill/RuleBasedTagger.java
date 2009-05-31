@@ -63,7 +63,7 @@ public class RuleBasedTagger implements Tagger {
 		}
 	}
 
-	static final class BufferingContext extends ArrayContext {
+	public static class BufferingContext extends ArrayContext {
 		private final Token[] realContents;
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;

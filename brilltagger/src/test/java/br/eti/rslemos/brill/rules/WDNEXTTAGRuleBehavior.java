@@ -37,4 +37,9 @@ public class WDNEXTTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.THIS_WORD, RuleContextMother.NEXT1_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(WDNEXTTAGRule.FACTORY);
+	}
 }

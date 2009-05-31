@@ -30,4 +30,9 @@ public class PREVWDRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(PREVWDRule.FACTORY);
+	}
 }

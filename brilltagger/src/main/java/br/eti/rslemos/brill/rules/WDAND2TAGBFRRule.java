@@ -5,6 +5,16 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class WDAND2TAGBFRRule extends AbstractRule implements Rule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String tag_2 = context.getToken(-2).getTag();
+			String word0 = context.getToken(0).getWord();
+			
+			return new WDAND2TAGBFRRule(from, to, tag_2, word0);
+		}
+		
+	};
 
 	private final String word;
 	private final String prev2Tag;

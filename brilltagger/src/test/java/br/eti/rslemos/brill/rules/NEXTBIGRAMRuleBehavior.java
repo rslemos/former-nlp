@@ -37,4 +37,9 @@ public class NEXTBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.NEXT1_WORD, RuleContextMother.NEXT2_WORD));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(NEXTBIGRAMRule.FACTORY);
+	}
 }

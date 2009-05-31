@@ -30,4 +30,9 @@ public class PREVTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_TAG));
 	}
+	
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(PREVTAGRule.FACTORY);
+	}
 }

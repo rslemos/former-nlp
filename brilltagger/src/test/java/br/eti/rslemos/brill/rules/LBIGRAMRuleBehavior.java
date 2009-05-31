@@ -37,4 +37,9 @@ public class LBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(RuleContextMother.PREV1_WORD, RuleContextMother.THIS_WORD));
 	}
+		
+	@Test
+	public void shouldCreateRule() {
+		RuleFactoryBehaviorUtils.createAndTest(LBIGRAMRule.FACTORY);
+	}
 }

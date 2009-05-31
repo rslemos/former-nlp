@@ -5,6 +5,16 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class PREVBIGRAMRule extends AbstractRule implements Rule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String word_2 = context.getToken(-2).getWord();
+			String word_1 = context.getToken(-1).getWord();
+			
+			return new PREVBIGRAMRule(from, to, word_2, word_1);
+		}
+		
+	};
 
 	private final String prev2Word;
 	private final String prev1Word;

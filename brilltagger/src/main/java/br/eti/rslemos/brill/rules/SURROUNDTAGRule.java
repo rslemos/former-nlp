@@ -5,6 +5,16 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class SURROUNDTAGRule extends AbstractRule implements Rule {
+	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
+
+		public Rule create(String from, String to, Context context) throws RuleCreationException {
+			String tag_1 = context.getToken(-1).getTag();
+			String tag1 = context.getToken(1).getTag();
+			
+			return new SURROUNDTAGRule(from, to, tag_1, tag1);
+		}
+		
+	};
 
 	private final String prev1Tag;
 	private final String next1Tag;
