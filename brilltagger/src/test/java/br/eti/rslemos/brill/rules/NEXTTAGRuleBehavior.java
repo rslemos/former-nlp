@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,25 +11,25 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXTTAGRuleBehavior {
 	private boolean matches(String nextTag) {
-		Context context = RuleContextMother.buildContext();
+		Context context = buildContext();
 		
-		Rule rule = new NEXTTAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, nextTag);
+		Rule rule = new NEXTTAGRule(THIS_TAG, TO_TAG, nextTag);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.PREV3_TAG));
-		assertFalse(matches(RuleContextMother.PREV2_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG));
-		assertFalse(matches(RuleContextMother.THIS_TAG));
-		assertFalse(matches(RuleContextMother.NEXT2_TAG));
-		assertFalse(matches(RuleContextMother.NEXT3_TAG));
+		assertFalse(matches(PREV3_TAG));
+		assertFalse(matches(PREV2_TAG));
+		assertFalse(matches(PREV1_TAG));
+		assertFalse(matches(THIS_TAG));
+		assertFalse(matches(NEXT2_TAG));
+		assertFalse(matches(NEXT3_TAG));
 	}
 
 	@Test
 	public void shouldFire() {
-		assertTrue(matches(RuleContextMother.NEXT1_TAG));
+		assertTrue(matches(NEXT1_TAG));
 	}
 	
 	@Test
@@ -39,5 +40,11 @@ public class NEXTTAGRuleBehavior {
 	@Test
 	public void shouldHaveObjectSemantics() {
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXTTAGRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldBeSerializableAsBrillText() {
+		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXTTAGRule.FACTORY, 
+				THIS_TAG + " " + TO_TAG + " NEXTTAG " + NEXT1_TAG);
 	}
 }

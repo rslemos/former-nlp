@@ -4,7 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREVBIGRAMRule extends AbstractRule implements Rule {
+public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
@@ -58,5 +58,10 @@ public class PREVBIGRAMRule extends AbstractRule implements Rule {
 		hashCode += prev1Word != null ? prev1Word.hashCode() : 0;
 		
 		return hashCode;
+	}
+
+	@Override
+	public String toBrillText() {
+		return super.toBrillText() + " " + prev2Word + " " + prev1Word;
 	}
 }

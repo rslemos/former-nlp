@@ -4,7 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREVTAGRule extends AbstractRule implements Rule {
+public class PREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final AbstractRuleFactory FACTORY = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
@@ -53,7 +53,7 @@ public class PREVTAGRule extends AbstractRule implements Rule {
 	}
 
 	@Override
-	public String toString() {
-		return super.toString() + " " + prevTag;
+	public String toBrillText() {
+		return super.toBrillText() + " " + prevTag;
 	}
 }

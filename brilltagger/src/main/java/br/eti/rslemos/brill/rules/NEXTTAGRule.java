@@ -4,7 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXTTAGRule extends AbstractRule {
+public class NEXTTAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
@@ -51,5 +51,10 @@ public class NEXTTAGRule extends AbstractRule {
 		hashCode += nextTag != null ? nextTag.hashCode() : 0;
 		
 		return hashCode;
+	}
+
+	@Override
+	public String toBrillText() {
+		return super.toBrillText() + " " + nextTag;
 	}
 }

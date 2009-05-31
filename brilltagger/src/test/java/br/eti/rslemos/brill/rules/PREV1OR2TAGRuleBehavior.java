@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,25 +11,25 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2TAGRuleBehavior {
 	private boolean matches(String prev1or2Tag) {
-		Context context = RuleContextMother.buildContext();
+		Context context = buildContext();
 		
-		Rule rule = new PREV1OR2TAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prev1or2Tag);
+		Rule rule = new PREV1OR2TAGRule(THIS_TAG, TO_TAG, prev1or2Tag);
 		return rule.matches(context);
 	}
 	
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.PREV3_TAG));
-		assertFalse(matches(RuleContextMother.THIS_TAG));
-		assertFalse(matches(RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.NEXT2_TAG));
-		assertFalse(matches(RuleContextMother.NEXT3_TAG));
+		assertFalse(matches(PREV3_TAG));
+		assertFalse(matches(THIS_TAG));
+		assertFalse(matches(NEXT1_TAG));
+		assertFalse(matches(NEXT2_TAG));
+		assertFalse(matches(NEXT3_TAG));
 	}
 
 	@Test
 	public void shouldFire() {
-		assertTrue(matches(RuleContextMother.PREV2_TAG));
-		assertTrue(matches(RuleContextMother.PREV1_TAG));
+		assertTrue(matches(PREV2_TAG));
+		assertTrue(matches(PREV1_TAG));
 	}
 	
 	@Test
@@ -41,5 +42,13 @@ public class PREV1OR2TAGRuleBehavior {
 	public void shouldHaveObjectSemantics() {
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY1);
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY2);
+	}
+	
+	@Test
+	public void shouldBeSerializableAsBrillText() {
+		RuleFactoryBehaviorUtils.createAndTestBrillText(PREV1OR2TAGRule.FACTORY1, 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV1_TAG);
+		RuleFactoryBehaviorUtils.createAndTestBrillText(PREV1OR2TAGRule.FACTORY2, 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV2_TAG);
 	}
 }

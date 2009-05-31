@@ -66,6 +66,10 @@ public abstract class AbstractRule implements Rule {
 
 	@Override
 	public String toString() {
+		return toBrillText();
+	}
+	
+	protected String toBrillText() {
 		return from + " " + to + " " + getType();
 	}
 

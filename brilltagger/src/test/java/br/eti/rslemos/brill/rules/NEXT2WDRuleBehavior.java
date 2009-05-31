@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,25 +11,25 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXT2WDRuleBehavior {
 	private boolean matches(String nextWord) {
-		Context context = RuleContextMother.buildContext();
+		Context context = buildContext();
 		
-		Rule rule = new NEXT2WDRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, nextWord);
+		Rule rule = new NEXT2WDRule(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.PREV3_WORD));
-		assertFalse(matches(RuleContextMother.PREV2_WORD));
-		assertFalse(matches(RuleContextMother.PREV1_WORD));
-		assertFalse(matches(RuleContextMother.THIS_WORD));
-		assertFalse(matches(RuleContextMother.NEXT1_WORD));
-		assertFalse(matches(RuleContextMother.NEXT3_WORD));
+		assertFalse(matches(PREV3_WORD));
+		assertFalse(matches(PREV2_WORD));
+		assertFalse(matches(PREV1_WORD));
+		assertFalse(matches(THIS_WORD));
+		assertFalse(matches(NEXT1_WORD));
+		assertFalse(matches(NEXT3_WORD));
 	}
 
 	@Test
 	public void shouldFire() {
-		assertTrue(matches(RuleContextMother.NEXT2_WORD));
+		assertTrue(matches(NEXT2_WORD));
 	}
 	
 	@Test
@@ -39,5 +40,11 @@ public class NEXT2WDRuleBehavior {
 	@Test
 	public void shouldHaveObjectSemantics() {
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT2WDRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldBeSerializableAsBrillText() {
+		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXT2WDRule.FACTORY, 
+				THIS_TAG + " " + TO_TAG + " NEXT2WD " + NEXT2_WORD);
 	}
 }

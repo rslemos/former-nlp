@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,32 +11,32 @@ import br.eti.rslemos.brill.Rule;
 
 public class SURROUNDTAGRuleBehavior {
 	private boolean matches(String prev1Tag, String next1Tag) {
-		Context context = RuleContextMother.buildContext();
+		Context context = buildContext();
 		
-		Rule rule = new SURROUNDTAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prev1Tag, next1Tag);
+		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
 		return rule.matches(context);
 	}
 
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.PREV3_TAG, RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.PREV2_TAG, RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.THIS_TAG,  RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.NEXT1_TAG, RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.NEXT2_TAG, RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.NEXT3_TAG, RuleContextMother.NEXT1_TAG));
+		assertFalse(matches(PREV3_TAG, NEXT1_TAG));
+		assertFalse(matches(PREV2_TAG, NEXT1_TAG));
+		assertFalse(matches(THIS_TAG,  NEXT1_TAG));
+		assertFalse(matches(NEXT1_TAG, NEXT1_TAG));
+		assertFalse(matches(NEXT2_TAG, NEXT1_TAG));
+		assertFalse(matches(NEXT3_TAG, NEXT1_TAG));
 		
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV3_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV2_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.PREV1_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.THIS_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT2_TAG));
-		assertFalse(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT3_TAG));
+		assertFalse(matches(PREV1_TAG, PREV3_TAG));
+		assertFalse(matches(PREV1_TAG, PREV2_TAG));
+		assertFalse(matches(PREV1_TAG, PREV1_TAG));
+		assertFalse(matches(PREV1_TAG, THIS_TAG));
+		assertFalse(matches(PREV1_TAG, NEXT2_TAG));
+		assertFalse(matches(PREV1_TAG, NEXT3_TAG));
 	}
 
 	@Test
 	public void shouldFire() {
-		assertTrue(matches(RuleContextMother.PREV1_TAG, RuleContextMother.NEXT1_TAG));
+		assertTrue(matches(PREV1_TAG, NEXT1_TAG));
 	}
 	
 	@Test
@@ -46,5 +47,11 @@ public class SURROUNDTAGRuleBehavior {
 	@Test
 	public void shouldHaveObjectSemantics() {
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldBeSerializableAsBrillText() {
+		RuleFactoryBehaviorUtils.createAndTestBrillText(SURROUNDTAGRule.FACTORY, 
+				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

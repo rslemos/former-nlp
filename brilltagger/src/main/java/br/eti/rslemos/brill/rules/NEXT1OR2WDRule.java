@@ -4,7 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXT1OR2WDRule extends AbstractRule {
+public class NEXT1OR2WDRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
 
 		public Rule create(String from, String to, Context context) throws RuleCreationException {
@@ -62,5 +62,10 @@ public class NEXT1OR2WDRule extends AbstractRule {
 		hashCode += next1or2Word != null ? next1or2Word.hashCode() : 0;
 		
 		return hashCode;
+	}
+
+	@Override
+	public String toBrillText() {
+		return super.toBrillText() + " " + next1or2Word;
 	}
 }

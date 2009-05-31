@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,25 +11,25 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2OR3TAGRuleBehavior {
 	private boolean matches(String prev1or2or3Tag) {
-		Context context = RuleContextMother.buildContext();
+		Context context = buildContext();
 		
-		Rule rule = new PREV1OR2OR3TAGRule(RuleContextMother.THIS_TAG, RuleContextMother.TO_TAG, prev1or2or3Tag);
+		Rule rule = new PREV1OR2OR3TAGRule(THIS_TAG, TO_TAG, prev1or2or3Tag);
 		return rule.matches(context);
 	}
 	
 	@Test
 	public void shouldNotFire() {
-		assertFalse(matches(RuleContextMother.THIS_TAG));
-		assertFalse(matches(RuleContextMother.NEXT1_TAG));
-		assertFalse(matches(RuleContextMother.NEXT2_TAG));
-		assertFalse(matches(RuleContextMother.NEXT3_TAG));
+		assertFalse(matches(THIS_TAG));
+		assertFalse(matches(NEXT1_TAG));
+		assertFalse(matches(NEXT2_TAG));
+		assertFalse(matches(NEXT3_TAG));
 	}
 
 	@Test
 	public void shouldFire() {
-		assertTrue(matches(RuleContextMother.PREV3_TAG));
-		assertTrue(matches(RuleContextMother.PREV2_TAG));
-		assertTrue(matches(RuleContextMother.PREV1_TAG));
+		assertTrue(matches(PREV3_TAG));
+		assertTrue(matches(PREV2_TAG));
+		assertTrue(matches(PREV1_TAG));
 	}
 	
 	@Test
@@ -43,5 +44,15 @@ public class PREV1OR2OR3TAGRuleBehavior {
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2OR3TAGRule.FACTORY1);
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2OR3TAGRule.FACTORY2);
 		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREV1OR2OR3TAGRule.FACTORY3);
+	}
+	
+	@Test
+	public void shouldBeSerializableAsBrillText() {
+		RuleFactoryBehaviorUtils.createAndTestBrillText(PREV1OR2OR3TAGRule.FACTORY1, 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV1_TAG);
+		RuleFactoryBehaviorUtils.createAndTestBrillText(PREV1OR2OR3TAGRule.FACTORY2, 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV2_TAG);
+		RuleFactoryBehaviorUtils.createAndTestBrillText(PREV1OR2OR3TAGRule.FACTORY3, 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV3_TAG);
 	}
 }
