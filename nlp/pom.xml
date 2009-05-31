@@ -25,6 +25,7 @@
 		<module>../brillevents</module>
 		<module>../brillstats</module>
 
+		<module>../specialist-pt_BR</module>
 		<module>../brilltrainer-tracer</module>
 	</modules>
 
