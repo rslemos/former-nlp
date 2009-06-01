@@ -10,4 +10,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>specialist-pt_BR</artifactId>
 	<name>Special Rules for pt_BR</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>brilltagger</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 </project>
