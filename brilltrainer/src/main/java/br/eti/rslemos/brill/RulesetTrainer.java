@@ -2,10 +2,14 @@ package br.eti.rslemos.brill;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -20,7 +24,7 @@ public class RulesetTrainer {
 	
 	public static interface RuleSelectStrategy {
 		void setTrainingContext(TrainingContext trainingContext);
-		Rule selectBestRule(Map<Rule, Integer> map);
+		Rule selectBestRule(Queue<Map.Entry<Rule, Integer>> rules);
 	}
 	
 	public static interface RuleProducingStrategy {
@@ -118,7 +122,19 @@ public class RulesetTrainer {
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
-				Rule bestRule = ruleSelectStrategy.selectBestRule(produceAllPossibleRules());
+				final Map<Rule, Integer> allRules = produceAllPossibleRules();
+				
+				Comparator<Entry<Rule, Integer>> comparator = new Comparator<Entry<Rule,Integer>>() {
+
+					public int compare(Entry<Rule, Integer> o1, Entry<Rule, Integer> o2) {
+						return o2.getValue() - o1.getValue();
+					}
+					
+				};
+				PriorityQueue<Entry<Rule, Integer>> priorules = new PriorityQueue<Map.Entry<Rule, Integer>>(allRules.size(), comparator);
+				priorules.addAll(allRules.entrySet());
+				
+				Rule bestRule = ruleSelectStrategy.selectBestRule(priorules);
 
 				if (bestRule != null) {
 					applyRule(bestRule);
