@@ -1,7 +1,7 @@
 package br.eti.rslemos.brill.rules;
 
-public interface BrillRules {
-	static final RuleFactory[] FACTORIES = {
+public interface RuleSets {
+	static final RuleFactory[] BRILL = {
 		CURWDRule.FACTORY,
 		LBIGRAMRule.FACTORY,
 		NEXT1OR2OR3TAGRule.FACTORY1, NEXT1OR2OR3TAGRule.FACTORY2, NEXT1OR2OR3TAGRule.FACTORY3,

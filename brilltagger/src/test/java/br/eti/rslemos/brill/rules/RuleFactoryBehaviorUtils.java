@@ -58,7 +58,7 @@ public abstract class RuleFactoryBehaviorUtils {
 
 		Rule model = modelFactory.create(context, context.getToken(0));
 	
-		for (RuleFactory factory : BrillRules.FACTORIES) {
+		for (RuleFactory factory : RuleSets.BRILL) {
 			Rule rule = factory.create(context, context.getToken(0));
 			if (modelFactory == factory) {
 				assertTrue(model.equals(rule));
@@ -73,7 +73,7 @@ public abstract class RuleFactoryBehaviorUtils {
 
 		// explicitly test the surrounding context (and 0-word)
 		Context altContext = buildAltContext();
-		for (RuleFactory factory : BrillRules.FACTORIES) {
+		for (RuleFactory factory : RuleSets.BRILL) {
 			Rule rule = factory.create(altContext, altContext.getToken(0));
 
 			String message = factory.getClass().getName();
