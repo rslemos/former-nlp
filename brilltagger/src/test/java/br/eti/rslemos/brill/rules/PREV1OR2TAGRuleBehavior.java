@@ -19,11 +19,13 @@ public class PREV1OR2TAGRuleBehavior {
 	
 	@Test
 	public void shouldNotFire() {
+		assertFalse(matches(PREV4_TAG));
 		assertFalse(matches(PREV3_TAG));
 		assertFalse(matches(THIS_TAG));
 		assertFalse(matches(NEXT1_TAG));
 		assertFalse(matches(NEXT2_TAG));
 		assertFalse(matches(NEXT3_TAG));
+		assertFalse(matches(NEXT4_TAG));
 	}
 
 	@Test

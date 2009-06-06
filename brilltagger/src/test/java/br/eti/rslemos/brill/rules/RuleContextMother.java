@@ -12,6 +12,9 @@ public abstract class RuleContextMother {
 	
 	public static final String TO_TAG = "to-tag";
 
+	public static final String PREV4_WORD = "prev4-word";
+	public static final String PREV4_TAG = "prev4-tag";
+
 	public static final String PREV3_WORD = "prev3-word";
 	public static final String PREV3_TAG = "prev3-tag";
 
@@ -33,7 +36,14 @@ public abstract class RuleContextMother {
 	public static final String NEXT3_WORD = "next3-word";
 	public static final String NEXT3_TAG = "next3-tag";
 
+	public static final String NEXT4_WORD = "next4-word";
+	public static final String NEXT4_TAG = "next4-tag";
+
 	public static Context buildContext() {
+		Token prev4 = mock(Token.class);
+		when(prev4.getWord()).thenReturn(PREV4_WORD);
+		when(prev4.getTag() ).thenReturn(PREV4_TAG);
+	
 		Token prev3 = mock(Token.class);
 		when(prev3.getWord()).thenReturn(PREV3_WORD);
 		when(prev3.getTag() ).thenReturn(PREV3_TAG);
@@ -62,10 +72,18 @@ public abstract class RuleContextMother {
 		when(next3.getWord()).thenReturn(NEXT3_WORD);
 		when(next3.getTag() ).thenReturn(NEXT3_TAG);
 	
-		return buildContext0(prev3, prev2, prev1, token, next1, next2, next3);
+		Token next4 = mock(Token.class);
+		when(next4.getWord()).thenReturn(NEXT4_WORD);
+		when(next4.getTag() ).thenReturn(NEXT4_TAG);
+	
+		return buildContext0(prev4, prev3, prev2, prev1, token, next1, next2, next3, next4);
 	}
 
 	public static Context buildAltContext() {
+		Token prev4 = mock(Token.class);
+		when(prev4.getWord()).thenReturn(ALT + PREV4_WORD);
+		when(prev4.getTag() ).thenReturn(ALT + PREV4_TAG);
+	
 		Token prev3 = mock(Token.class);
 		when(prev3.getWord()).thenReturn(ALT + PREV3_WORD);
 		when(prev3.getTag() ).thenReturn(ALT + PREV3_TAG);
@@ -94,14 +112,18 @@ public abstract class RuleContextMother {
 		when(next3.getWord()).thenReturn(ALT + NEXT3_WORD);
 		when(next3.getTag() ).thenReturn(ALT + NEXT3_TAG);
 	
-		return buildContext0(prev3, prev2, prev1, token, next1, next2, next3);
+		Token next4 = mock(Token.class);
+		when(next4.getWord()).thenReturn(ALT + NEXT4_WORD);
+		when(next4.getTag() ).thenReturn(ALT + NEXT4_TAG);
+	
+		return buildContext0(prev4, prev3, prev2, prev1, token, next1, next2, next3, next4);
 	}
 
-	private static Context buildContext0(Token prev3, Token prev2, Token prev1,
-			Token token, Token next1, Token next2, Token next3) {
-		Context context = new ArrayContext(new Token[] { prev3, prev2, prev1, token, next1, next2, next3 });
+	private static Context buildContext0(Token prev4, Token prev3, Token prev2, Token prev1,
+			Token token, Token next1, Token next2, Token next3, Token next4) {
+		Context context = new ArrayContext(new Token[] { prev4, prev3, prev2, prev1, token, next1, next2, next3, next4 });
 		
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 5; i++)
 			context.next();
 		
 		return context;

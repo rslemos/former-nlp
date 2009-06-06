@@ -27,7 +27,7 @@ public abstract class RuleFactoryBehaviorUtils {
 		Rule rule = factory.create(context, context.getToken(0));
 		context.reset();
 	
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			context.next();
 			assertFalse(rule.matches(context));
 		}
@@ -35,7 +35,7 @@ public abstract class RuleFactoryBehaviorUtils {
 		context.next();
 		assertTrue(rule.matches(context));
 	
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			context.next();
 			assertFalse(rule.matches(context));
 		}

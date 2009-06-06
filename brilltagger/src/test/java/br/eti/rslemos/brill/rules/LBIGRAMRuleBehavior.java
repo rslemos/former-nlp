@@ -19,19 +19,23 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
+		assertFalse(matches(PREV1_WORD, PREV4_WORD));
 		assertFalse(matches(PREV1_WORD, PREV3_WORD));
 		assertFalse(matches(PREV1_WORD, PREV2_WORD));
 		assertFalse(matches(PREV1_WORD, PREV1_WORD));
 		assertFalse(matches(PREV1_WORD, NEXT1_WORD));
 		assertFalse(matches(PREV1_WORD, NEXT2_WORD));
 		assertFalse(matches(PREV1_WORD, NEXT3_WORD));
+		assertFalse(matches(PREV1_WORD, NEXT4_WORD));
 		
+		assertFalse(matches(PREV4_WORD, THIS_WORD));
 		assertFalse(matches(PREV3_WORD, THIS_WORD));
 		assertFalse(matches(PREV2_WORD, THIS_WORD));
 		assertFalse(matches(THIS_WORD,  THIS_WORD));
 		assertFalse(matches(NEXT1_WORD, THIS_WORD));
 		assertFalse(matches(NEXT2_WORD, THIS_WORD));
 		assertFalse(matches(NEXT3_WORD, THIS_WORD));
+		assertFalse(matches(NEXT4_WORD, THIS_WORD));
 	}
 
 	@Test

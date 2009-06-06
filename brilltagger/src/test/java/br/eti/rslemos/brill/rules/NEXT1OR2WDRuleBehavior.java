@@ -19,11 +19,13 @@ public class NEXT1OR2WDRuleBehavior {
 	
 	@Test
 	public void shouldNotFire() {
+		assertFalse(matches(PREV4_WORD));
 		assertFalse(matches(PREV3_WORD));
 		assertFalse(matches(PREV2_WORD));
 		assertFalse(matches(PREV1_WORD));
 		assertFalse(matches(THIS_WORD));
 		assertFalse(matches(NEXT3_WORD));
+		assertFalse(matches(NEXT4_WORD));
 	}
 
 	@Test

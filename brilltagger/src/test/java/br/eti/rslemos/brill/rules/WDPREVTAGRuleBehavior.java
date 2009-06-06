@@ -19,19 +19,23 @@ public class WDPREVTAGRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
+		assertFalse(matches(PREV1_TAG, PREV4_WORD));
 		assertFalse(matches(PREV1_TAG, PREV3_WORD));
 		assertFalse(matches(PREV1_TAG, PREV2_WORD));
 		assertFalse(matches(PREV1_TAG, PREV1_WORD));
 		assertFalse(matches(PREV1_TAG, NEXT1_WORD));
 		assertFalse(matches(PREV1_TAG, NEXT2_WORD));
 		assertFalse(matches(PREV1_TAG, NEXT3_WORD));
+		assertFalse(matches(PREV1_TAG, NEXT4_WORD));
 		
+		assertFalse(matches(PREV4_TAG, THIS_WORD));
 		assertFalse(matches(PREV3_TAG, THIS_WORD));
 		assertFalse(matches(PREV2_TAG, THIS_WORD));
 		assertFalse(matches(THIS_TAG,  THIS_WORD));
 		assertFalse(matches(NEXT1_TAG, THIS_WORD));
 		assertFalse(matches(NEXT2_TAG, THIS_WORD));
 		assertFalse(matches(NEXT3_TAG, THIS_WORD));
+		assertFalse(matches(NEXT4_TAG, THIS_WORD));
 	}
 
 	@Test

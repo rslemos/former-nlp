@@ -19,19 +19,23 @@ public class WDAND2TAGAFTRuleBehavior {
 
 	@Test
 	public void shouldNotFire() {
+		assertFalse(matches(PREV4_WORD, NEXT2_TAG));
 		assertFalse(matches(PREV3_WORD, NEXT2_TAG));
 		assertFalse(matches(PREV2_WORD, NEXT2_TAG));
 		assertFalse(matches(PREV1_WORD, NEXT2_TAG));
 		assertFalse(matches(NEXT1_WORD, NEXT2_TAG));
 		assertFalse(matches(NEXT2_WORD, NEXT2_TAG));
 		assertFalse(matches(NEXT3_WORD, NEXT2_TAG));
+		assertFalse(matches(NEXT4_WORD, NEXT2_TAG));
 		
+		assertFalse(matches(THIS_WORD, PREV4_TAG));
 		assertFalse(matches(THIS_WORD, PREV3_TAG));
 		assertFalse(matches(THIS_WORD, PREV2_TAG));
 		assertFalse(matches(THIS_WORD, PREV1_TAG));
 		assertFalse(matches(THIS_WORD,  THIS_TAG));
 		assertFalse(matches(THIS_WORD, NEXT1_TAG));
 		assertFalse(matches(THIS_WORD, NEXT3_TAG));
+		assertFalse(matches(THIS_WORD, NEXT4_TAG));
 	}
 
 	@Test
