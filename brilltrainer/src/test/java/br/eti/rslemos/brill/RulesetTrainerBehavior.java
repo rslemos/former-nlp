@@ -49,25 +49,6 @@ public class RulesetTrainerBehavior {
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "RP", "up")));
 	}
 
-	@Test
-	public void shouldProduce2RulesForInnacurateBaseTagger() {
-		List<List<Token>> sentences = buildText_ToSignUp();
-		
-		Map<String, String> lexicon = new HashMap<String, String>();
-		lexicon.put("to", "TO");
-		lexicon.put("sign", "NN");
-		lexicon.put("up", "RB");
-		
-		List<RuleFactory> ruleFactories = Arrays.asList((RuleFactory)PREVTAGRule.FACTORY);
-		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
-		
-		List<Rule> rules = trainer.train(sentences).getRules();
-		
-		assertEquals(rules.size(), 2);
-		assertTrue(rules.contains(new PREVTAGRule("NN", "VB", "TO")));
-		assertTrue(rules.contains(new PREVTAGRule("RB", "RP", "VB")));
-	}
-
 	public static List<List<Token>> buildText_ToSignUp() {
 		Token to = new DefaultToken("to");
 		to.setTag("TO");

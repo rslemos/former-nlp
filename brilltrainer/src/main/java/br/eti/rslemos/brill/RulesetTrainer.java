@@ -131,18 +131,20 @@ public class RulesetTrainer {
 					}
 					
 				};
-				PriorityQueue<Entry<Rule, Integer>> priorules = new PriorityQueue<Map.Entry<Rule, Integer>>(allRules.size(), comparator);
-				priorules.addAll(allRules.entrySet());
 				
-				Rule bestRule = ruleSelectStrategy.selectBestRule(priorules);
-
-				if (bestRule != null) {
-					applyRule(bestRule);
-
-					if (shouldTryMore = haltingStrategy.updateAndTest())
-						rules.add(bestRule);
+				if (!allRules.isEmpty()) {
+					PriorityQueue<Entry<Rule, Integer>> priorules = new PriorityQueue<Map.Entry<Rule, Integer>>(allRules.size(), comparator);
+					priorules.addAll(allRules.entrySet());
+					
+					Rule bestRule = ruleSelectStrategy.selectBestRule(priorules);
+	
+					if (bestRule != null) {
+						applyRule(bestRule);
+	
+						if (shouldTryMore = haltingStrategy.updateAndTest())
+							rules.add(bestRule);
+					}
 				}
-
 			} while (shouldTryMore);
 
 			return rules;
