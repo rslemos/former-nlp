@@ -1,10 +1,9 @@
 package br.eti.rslemos.brill;
 
-import java.util.Map;
 import java.util.Queue;
-import java.util.Map.Entry;
 
 import br.eti.rslemos.brill.RulesetTrainer.RuleSelectStrategy;
+import br.eti.rslemos.brill.RulesetTrainer.Score;
 import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
 public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
@@ -23,15 +22,15 @@ public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 		scoringStrategy.setTrainingContext(trainingContext);
 	}
 
-	public Rule selectBestRule(Queue<Map.Entry<Rule, Integer>> possibleRules) {
+	public Rule selectBestRule(Queue<Score> possibleRules) {
 		Rule bestRule = null;
 		int bestScore = 0;
 
 		while(!possibleRules.isEmpty()) {
-			Map.Entry<Rule, Integer> entry = possibleRules.poll();
+			Score entry = possibleRules.poll();
 			
-			Rule rule = entry.getKey();
-			int positiveScore = entry.getValue();
+			Rule rule = entry.rule;
+			int positiveScore = entry.getPositiveScore();
 
 			if (positiveScore > bestScore) {
 				int score = scoringStrategy.compute(rule, positiveScore);

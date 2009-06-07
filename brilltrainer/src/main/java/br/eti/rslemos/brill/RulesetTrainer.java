@@ -2,7 +2,6 @@ package br.eti.rslemos.brill;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -25,7 +23,7 @@ public class RulesetTrainer {
 	
 	public static interface RuleSelectStrategy {
 		void setTrainingContext(TrainingContext trainingContext);
-		Rule selectBestRule(Queue<Map.Entry<Rule, Integer>> rules);
+		Rule selectBestRule(Queue<Score> rules);
 	}
 	
 	public static interface RuleProducingStrategy {
@@ -120,28 +118,17 @@ public class RulesetTrainer {
 			boolean shouldTryMore;
 			do {
 				shouldTryMore = false;
-				final Map<Rule, Integer> allRules = produceAllPossibleRules();
+				ScoreBoard board = new ScoreBoard();
 				
-				Comparator<Entry<Rule, Integer>> comparator = new Comparator<Entry<Rule,Integer>>() {
+				produceAllPossibleRules(board);
+				
+				Rule bestRule = ruleSelectStrategy.selectBestRule(board.getRulesByPriority());
 
-					public int compare(Entry<Rule, Integer> o1, Entry<Rule, Integer> o2) {
-						return o2.getValue() - o1.getValue();
-					}
-					
-				};
-				
-				if (!allRules.isEmpty()) {
-					PriorityQueue<Entry<Rule, Integer>> priorules = new PriorityQueue<Map.Entry<Rule, Integer>>(allRules.size(), comparator);
-					priorules.addAll(allRules.entrySet());
-					
-					Rule bestRule = ruleSelectStrategy.selectBestRule(priorules);
-	
-					if (bestRule != null) {
-						applyRule(bestRule);
-	
-						if (shouldTryMore = haltingStrategy.updateAndTest())
-							rules.add(bestRule);
-					}
+				if (bestRule != null) {
+					applyRule(bestRule);
+
+					if (shouldTryMore = haltingStrategy.updateAndTest())
+						rules.add(bestRule);
 				}
 			} while (shouldTryMore);
 
@@ -153,9 +140,7 @@ public class RulesetTrainer {
 				RuleBasedTagger.applyRule(trainingSentence, bestRule);
 		}
 
-		private Map<Rule, Integer> produceAllPossibleRules() {
-			Map<Rule, Integer> allPossibleRules = new HashMap<Rule, Integer>();
-
+		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
 			for (List<Token> proofSentence : proofCorpus) {
 				BufferingContext trainingSentence = trainingCorpus[i++];
@@ -168,14 +153,7 @@ public class RulesetTrainer {
 								trainingToken.getTag())) {
 							Collection<Rule> localPossibleRules = new LinkedHashSet<Rule>(ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken));
 							for (Rule localPossibleRule : localPossibleRules) {
-								Integer count = allPossibleRules.get(localPossibleRule);
-								
-								if (count == null)
-									count = 0;
-								
-								count += 1;
-								
-								allPossibleRules.put(localPossibleRule, count);
+								board.addTruePositive(localPossibleRule);
 							}
 						}
 					}
@@ -183,8 +161,49 @@ public class RulesetTrainer {
 					trainingSentence.reset();
 				}
 			}
-
-			return allPossibleRules;
 		}
+	}
+	
+	public static class Score implements Comparable<Score> {
+		public final Rule rule;
+		private int positiveScore;
+		
+		protected Score(Rule rule) {
+			this.rule = rule;
+			positiveScore = 0;
+		}
+		
+		public void inc() {
+			positiveScore++;
+		}
+		
+		public int getPositiveScore() {
+			return positiveScore;
+		}
+
+		public int compareTo(Score o) {
+			return o.positiveScore - positiveScore;
+		}
+	}
+
+	public static class ScoreBoard {
+		private Map<Rule, Score> rules = new HashMap<Rule, Score>();
+		
+		public void addTruePositive(Rule rule) {
+			Score score = rules.get(rule);
+			
+			if (score == null) {
+				score = new Score(rule);
+				rules.put(rule, score);
+			}
+			
+			score.inc();
+		}
+
+		public Queue<Score> getRulesByPriority() {
+			PriorityQueue<Score> queue = new PriorityQueue<Score>(rules.values());
+			
+			return queue;
+		}		
 	}
 }
