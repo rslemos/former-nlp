@@ -12,7 +12,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRule;
-import br.eti.rslemos.brill.rules.PREVTAGRule;
+import br.eti.rslemos.brill.rules.PREV1OR2OR3OR4WDRule;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainerBehavior {
@@ -48,18 +48,45 @@ public class RulesetTrainerBehavior {
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "VB", "sign")));
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "RP", "up")));
 	}
+	
+	@Test
+	public void shouldNeverConsiderTheSameRuleTwiceForTheSameWord() {
+		// [n v-fin PREV1OR2OR3OR4WD null] Context [3, me]: "null/null null/null null/null Ele/pron-pers está/n me/pron-pers municiando/v-ger e/conj-c me/pron-pers"
+		List<List<Token>> sentences = buildText(
+			buildToken("Ele", "pron-pers"),
+			buildToken("está", "v-fin"),
+			buildToken("me", "pron-pers"),
+			buildToken("municiando", "v-ger"),
+			buildToken("e", "conj-c"),
+			buildToken("me", "pron-pers")
+		);
+
+		List<RuleFactory> ruleFactories = Arrays.asList(CURWDRule.FACTORY, PREV1OR2OR3OR4WDRule.FACTORY1, PREV1OR2OR3OR4WDRule.FACTORY2, PREV1OR2OR3OR4WDRule.FACTORY3, PREV1OR2OR3OR4WDRule.FACTORY4);
+		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger("n"), ruleFactories);
+		
+		List<Rule> rules = trainer.train(sentences).getRules();
+		Rule firstRule = rules.get(0);
+		
+		assertEquals(firstRule, new CURWDRule("n", "pron-pers", "me"));
+	}
 
 	public static List<List<Token>> buildText_ToSignUp() {
-		Token to = new DefaultToken("to");
-		to.setTag("TO");
+		Token to = buildToken("to", "TO");
+		Token sign = buildToken("sign", "VB");
+		Token up = buildToken("up", "RP");
+
+		return buildText(to, sign, up);
+	}
+
+	private static List<List<Token>> buildText(Token... tokens) {
+		List<Token> sentence = Arrays.asList(tokens);
 		
-		Token sign = new DefaultToken("sign");
-		sign.setTag("VB");
-
-		Token up = new DefaultToken("up");
-		up.setTag("RP");
-
-		List<Token> sentence = Arrays.asList(to, sign, up);
 		return Collections.singletonList(sentence);
+	}
+
+	private static Token buildToken(String word, String tag) {
+		Token token = new DefaultToken(word);
+		token.setTag(tag);
+		return token;
 	}
 }

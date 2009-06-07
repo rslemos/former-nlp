@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +169,7 @@ public class RulesetTrainer {
 
 						if (!ObjectUtils.equals(proofToken.getTag(),
 								trainingToken.getTag())) {
-							Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
+							Collection<Rule> localPossibleRules = new LinkedHashSet<Rule>(ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken));
 							for (Rule localPossibleRule : localPossibleRules) {
 								Integer count = allPossibleRules.get(localPossibleRule);
 								
