@@ -147,17 +147,22 @@ public class RulesetTrainer {
 
 				try {
 					for (Token proofToken : proofSentence) {
-						Token trainingToken = trainingSentence.next();
-
-						if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-							Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
-							for (Rule localPossibleRule : localPossibleRules) {
-								board.addTruePositive(localPossibleRule);
-							}
-						}
+						produceAllPossibleRules(board, proofToken, trainingSentence);
 					}
 				} finally {
 					trainingSentence.reset();
+				}
+			}
+		}
+
+		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, BufferingContext trainingSentence) {
+			Token trainingToken = trainingSentence.next();
+
+			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
+				Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
+				
+				for (Rule localPossibleRule : localPossibleRules) {
+					board.addTruePositive(localPossibleRule);
 				}
 			}
 		}
