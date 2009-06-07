@@ -9,7 +9,7 @@ import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 	public static interface ScoringStrategy {
 		void setTrainingContext(TrainingContext trainingContext);
-		int compute(Rule rule, int positiveScore);
+		void compute(Score score);
 	}
 	
 	private final ScoringStrategy scoringStrategy;
@@ -29,15 +29,12 @@ public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 		while(!possibleRules.isEmpty()) {
 			Score entry = possibleRules.poll();
 			
-			Rule rule = entry.rule;
-			int positiveScore = entry.getPositiveScore();
-
-			if (positiveScore > bestScore) {
-				int score = scoringStrategy.compute(rule, positiveScore);
+			if (entry.getScore() > bestScore) {
+				scoringStrategy.compute(entry);
 	
-				if (score > bestScore) {
-					bestRule = rule;
-					bestScore = score;
+				if (entry.getScore() > bestScore) {
+					bestRule = entry.rule;
+					bestScore = entry.getScore();
 				}
 			} else
 				break; // cut

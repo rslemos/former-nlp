@@ -166,23 +166,27 @@ public class RulesetTrainer {
 	
 	public static class Score implements Comparable<Score> {
 		public final Rule rule;
-		private int positiveScore;
+		private int score;
 		
 		protected Score(Rule rule) {
 			this.rule = rule;
-			positiveScore = 0;
+			score = 0;
 		}
 		
 		public void inc() {
-			positiveScore++;
+			score++;
 		}
 		
-		public int getPositiveScore() {
-			return positiveScore;
+		public void dec() {
+			score--;
+		}
+		
+		public int getScore() {
+			return score;
 		}
 
 		public int compareTo(Score o) {
-			return o.positiveScore - positiveScore;
+			return o.score - score;
 		}
 	}
 
