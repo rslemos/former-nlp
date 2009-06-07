@@ -2,6 +2,7 @@ package br.eti.rslemos.brill;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import br.eti.rslemos.brill.RulesetTrainer.RuleProducingStrategy;
@@ -15,8 +16,7 @@ public class RuleFactoryStrategy implements RuleProducingStrategy {
 		this.ruleFactories = ruleFactories;
 	}
 
-	public Collection<Rule> produceAllPossibleRules(Context context,
-			Token target) {
+	public Collection<Rule> produceAllPossibleRules(Context context, Token target) {
 		try {
 			Rule[] rules = new Rule[ruleFactories.size()];
 
@@ -24,7 +24,7 @@ public class RuleFactoryStrategy implements RuleProducingStrategy {
 			for (RuleFactory factory : ruleFactories)
 				rules[i++] = factory.create(context, target);
 
-			return Arrays.asList(rules);
+			return new LinkedHashSet<Rule>(Arrays.asList(rules));
 		} catch (RuleCreationException e) {
 			throw new RuntimeException("Error creating rule", e);
 		}
