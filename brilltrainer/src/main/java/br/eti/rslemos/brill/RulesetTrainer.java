@@ -116,9 +116,10 @@ public class RulesetTrainer {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
 			boolean shouldTryMore;
+			ScoreBoard board = new ScoreBoard();
 			do {
 				shouldTryMore = false;
-				ScoreBoard board = new ScoreBoard();
+				board.newRound();
 				
 				produceAllPossibleRules(board);
 				
@@ -191,7 +192,7 @@ public class RulesetTrainer {
 	}
 
 	public static class ScoreBoard {
-		private Map<Rule, Score> rules = new HashMap<Rule, Score>();
+		private final Map<Rule, Score> rules = new HashMap<Rule, Score>();
 		
 		public void addTruePositive(Rule rule) {
 			Score score = rules.get(rule);
@@ -204,10 +205,12 @@ public class RulesetTrainer {
 			score.inc();
 		}
 
+		public void newRound() {
+			rules.clear();
+		}
+
 		public Queue<Score> getRulesByPriority() {
-			PriorityQueue<Score> queue = new PriorityQueue<Score>(rules.values());
-			
-			return queue;
+			return new PriorityQueue<Score>(rules.values());
 		}		
 	}
 }
