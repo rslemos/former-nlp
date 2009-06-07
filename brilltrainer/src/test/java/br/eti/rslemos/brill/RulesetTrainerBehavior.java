@@ -12,7 +12,6 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRule;
-import br.eti.rslemos.brill.rules.PREV1OR2OR3OR4WDRule;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainerBehavior {
@@ -50,24 +49,93 @@ public class RulesetTrainerBehavior {
 	}
 	
 	@Test
-	public void shouldNeverConsiderTheSameRuleTwiceForTheSameWord() {
-		// [n v-fin PREV1OR2OR3OR4WD null] Context [3, me]: "null/null null/null null/null Ele/pron-pers está/n me/pron-pers municiando/v-ger e/conj-c me/pron-pers"
+	public void shouldNeverConsiderTheSameRuleTwiceForTheSameWord() throws Throwable {
+		final String WORD1 = "WORD1";
+		final String WORD2 = "WORD2";
+		final String TAG = "TAG";
+		
 		List<List<Token>> sentences = buildText(
-			buildToken("Ele", "pron-pers"),
-			buildToken("está", "v-fin"),
-			buildToken("me", "pron-pers"),
-			buildToken("municiando", "v-ger"),
-			buildToken("e", "conj-c"),
-			buildToken("me", "pron-pers")
+				buildToken(WORD1, TAG), 
+				buildToken(WORD2, TAG)
 		);
 
-		List<RuleFactory> ruleFactories = Arrays.asList(CURWDRule.FACTORY, PREV1OR2OR3OR4WDRule.FACTORY1, PREV1OR2OR3OR4WDRule.FACTORY2, PREV1OR2OR3OR4WDRule.FACTORY3, PREV1OR2OR3OR4WDRule.FACTORY4);
-		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger("n"), ruleFactories);
+		class IdentityRule extends AbstractRule {
+			private final String name;
+
+			protected IdentityRule(String name) {
+				super(null, TAG);
+				this.name = name;
+			}
+
+			@Override
+			public boolean equals(Object o) {
+				return this == o;
+			}
+
+			@Override
+			public String toString() {
+				return name;
+			}
+		}
+		
+		class WordRule extends IdentityRule {
+			private final String word;
+
+			protected WordRule(String name, String word) {
+				super(name);
+				this.word = word;
+			}
+
+			@Override
+			public boolean matches(Context context) {
+				return (context.getToken(0).getWord() == word) && super.matches(context);
+			}
+		}
+		
+		class TheFactory implements RuleFactory {
+			private final Rule rule1;
+			private final Rule rule2;
+
+			protected TheFactory(Rule rule1, Rule rule2) {
+				this.rule1 = rule1;
+				this.rule2 = rule2;
+			}
+
+			public Rule create(Context context, Token target) {
+				String word = target.getWord();
+				
+				if (word == WORD1)
+					return rule1;
+				
+				if (word == WORD2)
+					return rule2;
+				
+				throw new RuntimeException();
+			}
+		}
+		
+		// rule1 will be returned thrice (factory1_a, factory1_b, factory1_c) for token1
+		// rule1_x will be returned once (factory1_x) for token1
+		// rule2 will be returned one time for each token
+		Rule rule1 = new WordRule("rule1", WORD1);
+		Rule rule1_a = new WordRule("rule1_a", WORD2);
+		Rule rule1_b = new WordRule("rule1_b", WORD2);
+		Rule rule1_c = new WordRule("rule1_c", WORD2);
+		Rule rule2 = new IdentityRule("rule2");
+
+		RuleFactory factory1_a = new TheFactory(rule1, rule1_a);
+		RuleFactory factory1_b = new TheFactory(rule1, rule1_b);
+		RuleFactory factory1_c = new TheFactory(rule1, rule1_c);
+		RuleFactory factory2 = new TheFactory(rule2, rule2);
+		
+		List<RuleFactory> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
+		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(null), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();
+		
 		Rule firstRule = rules.get(0);
 		
-		assertEquals(firstRule, new CURWDRule("n", "pron-pers", "me"));
+		assertEquals(firstRule, rule2);
 	}
 
 	public static List<List<Token>> buildText_ToSignUp() {
