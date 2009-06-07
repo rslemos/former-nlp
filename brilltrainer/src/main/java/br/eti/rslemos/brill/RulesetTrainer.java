@@ -92,16 +92,13 @@ public class RulesetTrainer {
 			for (int i = 0; i < trainingCorpus.length; i++) {
 				List<Token> proofSentence = proofCorpus.get(i);
 
-				Token[] baseTaggedSentence = new DefaultToken[proofSentence
-						.size()];
+				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
-					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(
-							j).getWord());
+					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
 				}
 
 				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
-				trainingCorpus[i] = RuleBasedTagger
-						.prepareContext(baseTaggedSentence);
+				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
 			}
 		}
 
