@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -36,27 +37,27 @@ public class PREVWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(PREVWDRule.FACTORY);
+		createAndTestBasicDependency(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextIndependency(PREVWDRule.FACTORY);
+		createAndTestContextIndependency(PREVWDRule.FACTORY);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(PREVWDRule.FACTORY);
+		createAndTestMatchability(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(PREVWDRule.FACTORY);
+		createAndTestObjectSemantics(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(PREVWDRule.FACTORY, 
+		createAndTestBrillText(PREVWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVWD " + PREV1_WORD);
 	}
 }

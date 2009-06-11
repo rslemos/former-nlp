@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -36,33 +37,33 @@ public class PREV1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(PREV1OR2WDRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestBasicDependency(PREV1OR2WDRule.FACTORY2);
+		createAndTestBasicDependency(PREV1OR2WDRule.FACTORY1);
+		createAndTestBasicDependency(PREV1OR2WDRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextIndependency(PREV1OR2WDRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestContextIndependency(PREV1OR2WDRule.FACTORY2);
+		createAndTestContextIndependency(PREV1OR2WDRule.FACTORY1);
+		createAndTestContextIndependency(PREV1OR2WDRule.FACTORY2);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(PREV1OR2WDRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestMatchability(PREV1OR2WDRule.FACTORY2);
+		createAndTestMatchability(PREV1OR2WDRule.FACTORY1);
+		createAndTestMatchability(PREV1OR2WDRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY2);
+		createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY1);
+		createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(PREV1OR2WDRule.FACTORY1, 
+		createAndTestBrillText(PREV1OR2WDRule.FACTORY1, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV1_WORD);
-		RuleBehaviorUtils.createAndTestBrillText(PREV1OR2WDRule.FACTORY2, 
+		createAndTestBrillText(PREV1OR2WDRule.FACTORY2, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV2_WORD);
 	}
 }

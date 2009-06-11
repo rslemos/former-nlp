@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -47,27 +46,27 @@ public class WDAND2TAGBFRRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(WDAND2TAGBFRRule.FACTORY);
+		createAndTestBasicDependency(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextDependency(WDAND2TAGBFRRule.FACTORY, F, F, T, F, F, F, F, F);
+		createAndTestContextDependency(WDAND2TAGBFRRule.FACTORY, F, F, T, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(WDAND2TAGBFRRule.FACTORY);
+		createAndTestMatchability(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(WDAND2TAGBFRRule.FACTORY);
+		createAndTestObjectSemantics(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(WDAND2TAGBFRRule.FACTORY, 
+		createAndTestBrillText(WDAND2TAGBFRRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGBFR " + PREV2_TAG + " " + THIS_WORD);
 	}
 }

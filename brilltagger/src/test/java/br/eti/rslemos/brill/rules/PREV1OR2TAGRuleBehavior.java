@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -38,33 +37,33 @@ public class PREV1OR2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(PREV1OR2TAGRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestBasicDependency(PREV1OR2TAGRule.FACTORY2);
+		createAndTestBasicDependency(PREV1OR2TAGRule.FACTORY1);
+		createAndTestBasicDependency(PREV1OR2TAGRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextDependency(PREV1OR2TAGRule.FACTORY1, F, F, F, T, F, F, F, F);
-		RuleBehaviorUtils.createAndTestContextDependency(PREV1OR2TAGRule.FACTORY2, F, F, T, F, F, F, F, F);
+		createAndTestContextDependency(PREV1OR2TAGRule.FACTORY1, F, F, F, T, F, F, F, F);
+		createAndTestContextDependency(PREV1OR2TAGRule.FACTORY2, F, F, T, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(PREV1OR2TAGRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestMatchability(PREV1OR2TAGRule.FACTORY2);
+		createAndTestMatchability(PREV1OR2TAGRule.FACTORY1);
+		createAndTestMatchability(PREV1OR2TAGRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY1);
-		RuleBehaviorUtils.createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY2);
+		createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY1);
+		createAndTestObjectSemantics(PREV1OR2TAGRule.FACTORY2);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(PREV1OR2TAGRule.FACTORY1, 
+		createAndTestBrillText(PREV1OR2TAGRule.FACTORY1, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV1_TAG);
-		RuleBehaviorUtils.createAndTestBrillText(PREV1OR2TAGRule.FACTORY2, 
+		createAndTestBrillText(PREV1OR2TAGRule.FACTORY2, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV2_TAG);
 	}
 }

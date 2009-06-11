@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -47,27 +46,27 @@ public class WDNEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(WDNEXTTAGRule.FACTORY);
+		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextDependency(WDNEXTTAGRule.FACTORY, F, F, F, F, T, F, F, F);
+		createAndTestContextDependency(WDNEXTTAGRule.FACTORY, F, F, F, F, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(WDNEXTTAGRule.FACTORY);
+		createAndTestMatchability(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY);
+		createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(WDNEXTTAGRule.FACTORY, 
+		createAndTestBrillText(WDNEXTTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDNEXTTAG " + THIS_WORD + " " + NEXT1_TAG);
 	}
 }

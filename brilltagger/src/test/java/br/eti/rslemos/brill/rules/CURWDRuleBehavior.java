@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -36,27 +37,27 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(CURWDRule.FACTORY);
+		createAndTestBasicDependency(CURWDRule.FACTORY);
 	}
 
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextIndependency(CURWDRule.FACTORY);
+		createAndTestContextIndependency(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(CURWDRule.FACTORY);
+		createAndTestMatchability(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(CURWDRule.FACTORY);
+		createAndTestObjectSemantics(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(CURWDRule.FACTORY, 
+		createAndTestBrillText(CURWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

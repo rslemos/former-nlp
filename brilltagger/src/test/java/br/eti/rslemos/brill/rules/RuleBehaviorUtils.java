@@ -104,7 +104,7 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestBasicDependency(RuleFactory factory) {
 		try {
-			RuleBehaviorUtils.createAndTestBasicDependency0(factory);
+			createAndTestBasicDependency0(factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
@@ -119,12 +119,12 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	public static void createAndTestContextIndependency(RuleFactory factory) {
-		RuleBehaviorUtils.createAndTestContextDependency(factory, F, F, F, F, F, F, F, F);
+		createAndTestContextDependency(factory, F, F, F, F, F, F, F, F);
 	}
 
 	public static void createAndTestContextDependency(RuleFactory factory, boolean... dependencies) {
 		try {
-			RuleBehaviorUtils.createAndTestContextDependency0(factory, dependencies);
+			createAndTestContextDependency0(factory, dependencies);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}

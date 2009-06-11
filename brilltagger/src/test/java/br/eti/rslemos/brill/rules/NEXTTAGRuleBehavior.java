@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -38,27 +37,27 @@ public class NEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(NEXTTAGRule.FACTORY);
+		createAndTestBasicDependency(NEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextDependency(NEXTTAGRule.FACTORY, F, F, F, F, T, F, F, F);
+		createAndTestContextDependency(NEXTTAGRule.FACTORY, F, F, F, F, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(NEXTTAGRule.FACTORY);
+		createAndTestMatchability(NEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(NEXTTAGRule.FACTORY);
+		createAndTestObjectSemantics(NEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(NEXTTAGRule.FACTORY, 
+		createAndTestBrillText(NEXTTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTTAG " + NEXT1_TAG);
 	}
 }

@@ -1,5 +1,6 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -45,27 +46,27 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		RuleBehaviorUtils.createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY);
+		createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		RuleBehaviorUtils.createAndTestContextIndependency(NEXTBIGRAMRule.FACTORY);
+		createAndTestContextIndependency(NEXTBIGRAMRule.FACTORY);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		RuleBehaviorUtils.createAndTestMatchability(NEXTBIGRAMRule.FACTORY);
+		createAndTestMatchability(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleBehaviorUtils.createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
+		createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleBehaviorUtils.createAndTestBrillText(NEXTBIGRAMRule.FACTORY, 
+		createAndTestBrillText(NEXTBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }
