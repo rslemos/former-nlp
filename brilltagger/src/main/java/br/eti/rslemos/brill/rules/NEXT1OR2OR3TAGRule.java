@@ -53,6 +53,12 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 		? (next1or2or3Tag.equals(tag1) | next1or2or3Tag.equals(tag2) | next1or2or3Tag.equals(tag3)) 
 		: (tag1 == null | tag2 == null | tag3 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(next1or2or3Tag != null ? next1or2or3Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

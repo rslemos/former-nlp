@@ -4,25 +4,25 @@ import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
-
-import org.testng.Assert;
-
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.Token;
 
-public abstract class RuleFactoryBehaviorUtils {
+public abstract class RuleBehaviorUtils {
 
-	public static void createAndTest(RuleFactory factory) {
+	public static final boolean T = true;
+	public static final boolean F = false;
+	
+	public static void createAndTestMatchability(RuleFactory factory) {
 		try {
-			createAndTest0(factory);
+			createAndTestMatchability0(factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
 		
 	}
 
-	private static void createAndTest0(RuleFactory factory) throws RuleCreationException {
+	private static void createAndTestMatchability0(RuleFactory factory) throws RuleCreationException {
 		Context context = buildContext();
 		Rule rule = factory.create(context, context.getToken(0));
 		context.reset();
@@ -67,7 +67,7 @@ public abstract class RuleFactoryBehaviorUtils {
 				String message = factory.getClass().getName();
 				
 				assertFalse(model.equals(rule), message);
-				Assert.assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
+				assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
 			}
 		}
 
@@ -79,7 +79,7 @@ public abstract class RuleFactoryBehaviorUtils {
 			String message = factory.getClass().getName();
 			
 			assertFalse(model.equals(rule), message);
-			Assert.assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
+			assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
 		}
 
 	}
@@ -100,6 +100,49 @@ public abstract class RuleFactoryBehaviorUtils {
 		
 		SerializableAsBrillText rule = (SerializableAsBrillText) factory.create(context, token);
 		assertEquals(rule.toBrillText(), expected);
+	}
+
+	public static void createAndTestBasicDependency(RuleFactory factory) {
+		try {
+			RuleBehaviorUtils.createAndTestBasicDependency0(factory);
+		} catch (RuleCreationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void createAndTestBasicDependency0(RuleFactory factory) throws RuleCreationException {
+		Context context = buildContext();
+		Rule rule = factory.create(context, context.getToken(0));
+	
+		assertTrue(rule.firingDependsOnTag(THIS_TAG));
+		assertFalse(rule.firingDependsOnTag(TO_TAG));
+	}
+
+	public static void createAndTestContextIndependency(RuleFactory factory) {
+		RuleBehaviorUtils.createAndTestContextDependency(factory, F, F, F, F, F, F, F, F);
+	}
+
+	public static void createAndTestContextDependency(RuleFactory factory, boolean... dependencies) {
+		try {
+			RuleBehaviorUtils.createAndTestContextDependency0(factory, dependencies);
+		} catch (RuleCreationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void createAndTestContextDependency0(RuleFactory factory, boolean... dependencies) throws RuleCreationException {
+		Context context = buildContext();
+		Rule rule = factory.create(context, context.getToken(0));
+	
+		assertEquals(rule.firingDependsOnTag(PREV4_TAG), dependencies[0]);
+		assertEquals(rule.firingDependsOnTag(PREV3_TAG), dependencies[1]);
+		assertEquals(rule.firingDependsOnTag(PREV2_TAG), dependencies[2]);
+		assertEquals(rule.firingDependsOnTag(PREV1_TAG), dependencies[3]);
+		assertEquals(rule.firingDependsOnTag(THIS_TAG), true);
+		assertEquals(rule.firingDependsOnTag(NEXT1_TAG), dependencies[4]);
+		assertEquals(rule.firingDependsOnTag(NEXT2_TAG), dependencies[5]);
+		assertEquals(rule.firingDependsOnTag(NEXT3_TAG), dependencies[6]);
+		assertEquals(rule.firingDependsOnTag(NEXT4_TAG), dependencies[7]);
 	}
 
 }

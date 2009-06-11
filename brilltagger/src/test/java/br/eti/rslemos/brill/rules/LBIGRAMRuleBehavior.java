@@ -42,20 +42,30 @@ public class LBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV1_WORD, THIS_WORD));
 	}
-		
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(LBIGRAMRule.FACTORY);
+	}
+
+	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(LBIGRAMRule.FACTORY);
+	}
+
 	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(LBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(LBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(LBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(LBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(LBIGRAMRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(LBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " LBIGRAM " + PREV1_WORD + " " + THIS_WORD);
 	}
 }

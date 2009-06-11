@@ -43,6 +43,12 @@ public class NEXT1OR2TAGRule extends AbstractRule implements SerializableAsBrill
 		? (next1or2Tag.equals(tag1) | next1or2Tag.equals(tag2)) 
 		: (tag1 == null | tag2 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(next1or2Tag != null ? next1or2Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

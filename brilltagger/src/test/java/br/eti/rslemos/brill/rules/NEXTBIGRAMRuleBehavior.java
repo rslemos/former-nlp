@@ -42,20 +42,30 @@ public class NEXTBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(NEXT1_WORD, NEXT2_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(NEXTBIGRAMRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(NEXTBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXTBIGRAMRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(NEXTBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }

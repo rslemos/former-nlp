@@ -1,5 +1,7 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -33,28 +35,42 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 		assertTrue(matches(NEXT2_TAG));
 		assertTrue(matches(NEXT3_TAG));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(NEXT1OR2OR3TAGRule.FACTORY1);
+		RuleBehaviorUtils.createAndTestBasicDependency(NEXT1OR2OR3TAGRule.FACTORY2);
+		RuleBehaviorUtils.createAndTestBasicDependency(NEXT1OR2OR3TAGRule.FACTORY3);
+	}
+	
+	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextDependency(NEXT1OR2OR3TAGRule.FACTORY1, F, F, F, F, T, F, F, F);
+		RuleBehaviorUtils.createAndTestContextDependency(NEXT1OR2OR3TAGRule.FACTORY2, F, F, F, F, F, T, F, F);
+		RuleBehaviorUtils.createAndTestContextDependency(NEXT1OR2OR3TAGRule.FACTORY3, F, F, F, F, F, F, T, F);
+	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2OR3TAGRule.FACTORY1);
-		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2OR3TAGRule.FACTORY2);
-		RuleFactoryBehaviorUtils.createAndTest(NEXT1OR2OR3TAGRule.FACTORY3);
+		RuleBehaviorUtils.createAndTestMatchability(NEXT1OR2OR3TAGRule.FACTORY1);
+		RuleBehaviorUtils.createAndTestMatchability(NEXT1OR2OR3TAGRule.FACTORY2);
+		RuleBehaviorUtils.createAndTestMatchability(NEXT1OR2OR3TAGRule.FACTORY3);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY1);
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY2);
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY3);
+		RuleBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY1);
+		RuleBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY2);
+		RuleBehaviorUtils.createAndTestObjectSemantics(NEXT1OR2OR3TAGRule.FACTORY3);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY1, 
+		RuleBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY1, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT1_TAG);
-		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY2, 
+		RuleBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY2, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT2_TAG);
-		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY3, 
+		RuleBehaviorUtils.createAndTestBrillText(NEXT1OR2OR3TAGRule.FACTORY3, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT3_TAG);
 	}
 }

@@ -34,6 +34,10 @@ public abstract class AbstractRule implements Rule {
 			return false;
 	}
 
+	public boolean firingDependsOnTag(String tag) {
+		return from != null ? from.equals(tag) : tag == null;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

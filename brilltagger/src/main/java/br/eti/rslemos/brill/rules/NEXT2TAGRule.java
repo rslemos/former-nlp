@@ -32,6 +32,12 @@ public class NEXT2TAGRule extends AbstractRule implements SerializableAsBrillTex
 		
 		return next2Tag != null ? next2Tag.equals(tag2) : tag2 == null;
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(next2Tag != null ? next2Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

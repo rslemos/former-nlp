@@ -36,6 +36,12 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

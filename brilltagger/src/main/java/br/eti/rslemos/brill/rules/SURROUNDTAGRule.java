@@ -36,6 +36,13 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 		return (prev1Tag != null ? prev1Tag.equals(tag_1) : tag_1 == null) &&
 			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(prev1Tag != null ? prev1Tag.equals(tag) : tag == null) ||
+			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

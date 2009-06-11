@@ -25,17 +25,22 @@ public class BrillScoringStrategy implements ScoringStrategy {
 	}
 
 	private void computeNegativeScore(Score score, List<Token> proofSentence, BufferingContext trainingSentence) {
-		Rule rule = score.rule;
 		try {
 			for (Token proofToken : proofSentence) {
 				trainingSentence.next();
-				
-				if (rule.matches(trainingSentence))
-					if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
-						score.dec();
+
+				computeNegativeScore(score, proofToken, trainingSentence);
 			}
 		} finally {
 			trainingSentence.reset();
 		}
+	}
+
+	private void computeNegativeScore(Score score, Token proofToken, BufferingContext trainingSentence) {
+		Rule rule = score.rule;
+
+		if (rule.matches(trainingSentence))
+			if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
+				score.dec();
 	}
 }

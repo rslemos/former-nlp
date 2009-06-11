@@ -35,18 +35,28 @@ public class CURWDRuleBehavior {
 	}
 	
 	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(CURWDRule.FACTORY);
+	}
+
+	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(CURWDRule.FACTORY);
+	}
+	
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(CURWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(CURWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(CURWDRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(CURWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

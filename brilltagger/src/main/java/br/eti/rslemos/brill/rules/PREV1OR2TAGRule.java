@@ -43,6 +43,12 @@ public class PREV1OR2TAGRule extends AbstractRule implements SerializableAsBrill
 		? (prev1or2Tag.equals(tag_1) | prev1or2Tag.equals(tag_2)) 
 		: (tag_1 == null | tag_2 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(prev1or2Tag != null ? prev1or2Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

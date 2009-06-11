@@ -1,5 +1,7 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -42,20 +44,30 @@ public class WDPREVTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV1_TAG, THIS_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(WDPREVTAGRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextDependency(WDPREVTAGRule.FACTORY, F, F, F, T, F, F, F, F);
+	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(WDPREVTAGRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(WDPREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDPREVTAGRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(WDPREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(WDPREVTAGRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(WDPREVTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDPREVTAG " + PREV1_TAG + " " + THIS_WORD);
 	}
 }

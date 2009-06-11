@@ -42,20 +42,30 @@ public class PREVBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV2_WORD, PREV1_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(PREVBIGRAMRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldNotDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(PREVBIGRAMRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(PREVBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(PREVBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(PREVBIGRAMRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(PREVBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

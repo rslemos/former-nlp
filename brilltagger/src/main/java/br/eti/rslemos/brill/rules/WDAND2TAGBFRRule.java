@@ -36,6 +36,12 @@ public class WDAND2TAGBFRRule extends AbstractRule implements SerializableAsBril
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(prev2Tag != null ? prev2Tag.equals(tag_2) : tag_2 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(prev2Tag != null ? prev2Tag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

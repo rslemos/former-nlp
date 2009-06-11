@@ -22,7 +22,7 @@ public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 		scoringStrategy.setTrainingContext(trainingContext);
 	}
 
-	public Rule selectBestRule(Queue<Score> possibleRules) {
+	public Rule selectBestRule(Object round, Queue<Score> possibleRules) {
 		Rule bestRule = null;
 		int bestScore = 0;
 
@@ -30,7 +30,7 @@ public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 			Score entry = possibleRules.poll();
 			
 			if (entry.getScore() > bestScore) {
-				scoringStrategy.compute(entry);
+				compute(round, entry);
 	
 				if (entry.getScore() > bestScore) {
 					bestRule = entry.rule;
@@ -41,6 +41,13 @@ public class ScoringRuleSelectStrategy implements RuleSelectStrategy {
 		}
 
 		return bestRule;
+	}
+
+	private void compute(Object round, Score entry) {
+		if (!entry.negativeMatchesComputed()) {
+			entry.dec();
+			scoringStrategy.compute(entry);
+		}
 	}
 
 }

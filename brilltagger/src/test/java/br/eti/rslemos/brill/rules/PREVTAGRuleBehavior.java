@@ -1,5 +1,7 @@
 package br.eti.rslemos.brill.rules;
 
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.F;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.T;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -33,20 +35,30 @@ public class PREVTAGRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV1_TAG));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(PREVTAGRule.FACTORY);
+	}
+	
+	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextDependency(PREVTAGRule.FACTORY, F, F, F, T, F, F, F, F);
+	}
 	
 	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(PREVTAGRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(PREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREVTAGRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(PREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(PREVTAGRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(PREVTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVTAG " + PREV1_TAG);
 	}
 }

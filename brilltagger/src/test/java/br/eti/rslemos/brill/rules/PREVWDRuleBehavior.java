@@ -33,20 +33,30 @@ public class PREVWDRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV1_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(PREVWDRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldNotDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(PREVWDRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(PREVWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(PREVWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(PREVWDRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(PREVWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVWD " + PREV1_WORD);
 	}
 }

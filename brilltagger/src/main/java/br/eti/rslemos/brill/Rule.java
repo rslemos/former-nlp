@@ -15,4 +15,6 @@ public interface Rule {
 
 	int hashCode();
 
+	boolean firingDependsOnTag(String tag);
+
 }

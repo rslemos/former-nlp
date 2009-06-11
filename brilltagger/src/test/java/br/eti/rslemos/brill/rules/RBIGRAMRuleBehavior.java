@@ -42,20 +42,30 @@ public class RBIGRAMRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(THIS_WORD, NEXT1_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(RBIGRAMRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldNotDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(RBIGRAMRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(RBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(RBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(RBIGRAMRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(RBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(RBIGRAMRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(RBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " RBIGRAM " + THIS_WORD + " " + NEXT1_WORD);
 	}
 }

@@ -31,6 +31,12 @@ public class PREVTAGRule extends AbstractRule implements SerializableAsBrillText
 		
 		return prevTag != null ? prevTag.equals(tag_1) : tag_1 == null;
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(prevTag != null ? prevTag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

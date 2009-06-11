@@ -145,6 +145,10 @@ public class RuleBasedTaggerBehavior {
 		public boolean apply(Context context) {
 			return false;
 		}
+
+		public boolean firingDependsOnTag(String tag) {
+			return false;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -33,20 +33,30 @@ public class NEXTWDRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(NEXT1_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(NEXTWDRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(NEXTWDRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(NEXTWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(NEXTWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(NEXTWDRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(NEXTWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(NEXTWDRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(NEXTWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTWD " + NEXT1_WORD);
 	}
 }

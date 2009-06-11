@@ -42,20 +42,30 @@ public class WDAND2BFRRuleBehavior {
 	public void shouldFire() {
 		assertTrue(matches(PREV2_WORD, THIS_WORD));
 	}
+
+	@Test
+	public void shouldDependOnFromTag() {
+		RuleBehaviorUtils.createAndTestBasicDependency(WDAND2BFRRule.FACTORY);
+	}
 	
 	@Test
+	public void shouldNotDependOnContextTag() {
+		RuleBehaviorUtils.createAndTestContextIndependency(WDAND2BFRRule.FACTORY);
+	}
+
+	@Test
 	public void shouldCreateRule() {
-		RuleFactoryBehaviorUtils.createAndTest(WDAND2BFRRule.FACTORY);
+		RuleBehaviorUtils.createAndTestMatchability(WDAND2BFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		RuleFactoryBehaviorUtils.createAndTestObjectSemantics(WDAND2BFRRule.FACTORY);
+		RuleBehaviorUtils.createAndTestObjectSemantics(WDAND2BFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		RuleFactoryBehaviorUtils.createAndTestBrillText(WDAND2BFRRule.FACTORY, 
+		RuleBehaviorUtils.createAndTestBrillText(WDAND2BFRRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2BFR " + PREV2_WORD + " " + THIS_WORD);
 	}
 }

@@ -36,6 +36,12 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(prevTag != null ? prevTag.equals(tag_1) : tag_1 == null);
 	}
+	
+	@Override
+	public boolean firingDependsOnTag(String tag) {
+		return super.firingDependsOnTag(tag) || 
+			(prevTag != null ? prevTag.equals(tag) : tag == null);
+	}
 
 	@Override
 	public boolean equals(Object o) {

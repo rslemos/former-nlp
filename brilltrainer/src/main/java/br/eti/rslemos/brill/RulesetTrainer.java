@@ -3,6 +3,7 @@ package br.eti.rslemos.brill;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class RulesetTrainer {
 	
 	public static interface RuleSelectStrategy {
 		void setTrainingContext(TrainingContext trainingContext);
-		Rule selectBestRule(Queue<Score> rules);
+		Rule selectBestRule(Object round, Queue<Score> rules);
 	}
 	
 	public static interface RuleProducingStrategy {
@@ -118,17 +119,27 @@ public class RulesetTrainer {
 			ScoreBoard board = new ScoreBoard();
 			do {
 				shouldTryMore = false;
-				board.newRound();
+				Object round = board.newRound();
 				
 				produceAllPossibleRules(board);
 				
-				Rule bestRule = ruleSelectStrategy.selectBestRule(board.getRulesByPriority());
+				Rule bestRule = ruleSelectStrategy.selectBestRule(round, board.getRulesByPriority());
 
 				if (bestRule != null) {
 					applyRule(bestRule);
 
-					if (shouldTryMore = haltingStrategy.updateAndTest())
+					if (shouldTryMore = haltingStrategy.updateAndTest()) {
 						rules.add(bestRule);
+						for (Iterator<Rule> iterator = board.iterator(); iterator.hasNext();) {
+							Rule rule = iterator.next();
+							if (rule == bestRule)
+								iterator.remove();
+							else {
+								if (rule.firingDependsOnTag(bestRule.getFrom()) || rule.firingDependsOnTag(bestRule.getTo()))
+									iterator.remove();
+							}
+						}
+					}
 				}
 			} while (shouldTryMore);
 
@@ -169,47 +180,62 @@ public class RulesetTrainer {
 	}
 	
 	public static class Score implements Comparable<Score> {
-		public final Rule rule;
-		private int score;
+		public final Object roundCreated;
+		public Object roundComputed;
 		
-		protected Score(Rule rule) {
+		public final Rule rule;
+
+		private int positiveMatches = 0;
+		private int negativeMatches = -1;
+		
+		protected Score(Object roundCreated, Rule rule) {
+			this.roundCreated = roundCreated;
 			this.rule = rule;
-			score = 0;
 		}
 		
 		public void inc() {
-			score++;
+			positiveMatches++;
 		}
 		
 		public void dec() {
-			score--;
+			negativeMatches++;
+		}
+		
+		public boolean negativeMatchesComputed() {
+			return negativeMatches != -1;
 		}
 		
 		public int getScore() {
-			return score;
+			return positiveMatches - negativeMatches;
 		}
 
 		public int compareTo(Score o) {
-			return o.score - score;
+			return o.getScore() - getScore();
 		}
 	}
 
 	public static class ScoreBoard {
 		private final Map<Rule, Score> rules = new HashMap<Rule, Score>();
+		private Object round;
 		
 		public void addTruePositive(Rule rule) {
 			Score score = rules.get(rule);
 			
 			if (score == null) {
-				score = new Score(rule);
+				score = new Score(round, rule);
 				rules.put(rule, score);
 			}
 			
-			score.inc();
+			if (round == score.roundCreated)
+				score.inc();
 		}
 
-		public void newRound() {
-			rules.clear();
+		public Iterator<Rule> iterator() {
+			return rules.keySet().iterator();
+		}
+		
+		public Object newRound() {
+			return round = new Object();
 		}
 
 		public Queue<Score> getRulesByPriority() {

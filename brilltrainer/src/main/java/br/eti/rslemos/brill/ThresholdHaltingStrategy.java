@@ -33,18 +33,24 @@ public class ThresholdHaltingStrategy implements HaltingStrategy {
 		for (List<Token> proofSentence : trainingContext.proofCorpus) {
 			Context trainingSentence = trainingContext.trainingCorpus[i++];
 
-			try {
-				for (Token proofToken : proofSentence) {
-					Token trainingToken = trainingSentence.next();
-
-					if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
-						errorCount++;
-				}
-			} finally {
-				trainingSentence.reset();
-			}
+			errorCount = countErrors(proofSentence, trainingSentence, errorCount);
 		}
 
+		return errorCount;
+	}
+
+	private int countErrors(List<Token> proofSentence, Context trainingSentence, int errorCount) {
+		try {
+			for (Token proofToken : proofSentence) {
+				Token trainingToken = trainingSentence.next();
+
+				if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
+					errorCount++;
+			}
+		} finally {
+			trainingSentence.reset();
+		}
+		
 		return errorCount;
 	}
 
