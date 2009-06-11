@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Queue;
 
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.ScoringRuleSelectStrategy;
-import br.eti.rslemos.brill.ThresholdHaltingStrategy;
-import br.eti.rslemos.brill.RulesetTrainer.RuleSelectStrategy;
 import br.eti.rslemos.brill.RulesetTrainer.Score;
 import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
 
@@ -21,39 +18,19 @@ public privileged aspect Progress {
 	private long start;
 	private long before;
 
-	private boolean firstTime = true;
-	
-	before(): execution(List<Rule> TrainingContext.discoverRules0()) {
+	before(): execution(List<Rule> TrainingContext.discoverRules()) {
 		start = System.currentTimeMillis();
 		rules = 0;
 	}
 
-	after(ThresholdHaltingStrategy haltingStrategy) returning(int errorCount):
-		execution(int ThresholdHaltingStrategy.countErrors()) &&
+	after(TrainingContext haltingStrategy) returning(int errorCount):
+		execution(int TrainingContext.countErrors()) &&
 //		withincode(boolean ThresholdHaltingStrategy.updateAndTest()) &&
 		target(haltingStrategy) {
 		System.out.printf("Error count dropped from %7d to %7d\n", haltingStrategy.errorCount, errorCount);
 	}
 	
-	Rule around(Object round, Queue<Score> rules): call(Rule RuleSelectStrategy.selectBestRule(Object, Queue<Score>)) && args(round, rules) {
-/*
-		if (firstTime) {
-			firstTime = false;
-			
-			System.out.printf("CURWD rules\n");
-			int i = 0;
-			for (Map.Entry<Rule, Integer> entry : rules.entrySet()) {
-				Rule rule = entry.getKey();
-				int score = entry.getValue();
-				
-				if (rule instanceof CURWDRule)
-					System.out.printf("%5d. %-40s (%4d)\n", ++i, rule.toString(), score);
-				
-			}
-			
-			System.out.printf("\n");
-		}
-*/		
+	Rule around(Queue<Score> rules): call(Rule TrainingContext.selectBestRule(Queue<Score>)) && args(rules) {
 		
 		System.out.printf("Considering %7d rules...\n", rules.size());
 		
@@ -61,7 +38,7 @@ public privileged aspect Progress {
 		total = rules.size();
 		
 		before = System.currentTimeMillis();
-		Rule bestRule = proceed(round, rules);
+		Rule bestRule = proceed(rules);
 		long after = System.currentTimeMillis();
 
 		this.rules++;
@@ -73,7 +50,7 @@ public privileged aspect Progress {
 		return bestRule;
 	}
 	
-	void around(Object round, Score score): call(void ScoringRuleSelectStrategy.compute(Object, Score)) && args(round, score) {
+	void around(Score score): call(void TrainingContext.computeNegativeScore(Score)) && args(score) {
 		current++;
 		
 		if (current % 10000 == 0) {
@@ -86,7 +63,7 @@ public privileged aspect Progress {
 		}
 
 		//int scoreBefore = score.getScore();
-		proceed(round, score);
+		proceed(score);
 		//int scoreAfter = score.getScore();
 
 		//if (round != score.roundComputed)

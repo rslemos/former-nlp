@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,61 +14,31 @@ import java.util.Queue;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class RulesetTrainer {
-	public static interface HaltingStrategy {
-		void setTrainingContext(TrainingContext trainingContext);
-		boolean updateAndTest();
-	}
-	
-	public static interface RuleSelectStrategy {
-		void setTrainingContext(TrainingContext trainingContext);
-		Rule selectBestRule(Object round, Queue<Score> rules);
-	}
-	
-	public static interface RuleProducingStrategy {
-		Collection<Rule> produceAllPossibleRules(Context context, Token target);
-	}
-	
 	private final Tagger baseTagger;
 
-	private final HaltingStrategy haltingStrategy;
-	private final RuleSelectStrategy ruleSelectStrategy;
-	private final RuleProducingStrategy ruleFactoryStrategy;
+	private final List<RuleFactory> ruleFactories;
+	private final int threshold;
 
 	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, new RuleFactoryStrategy(ruleFactories), new ThresholdHaltingStrategy(1),
-				new ScoringRuleSelectStrategy(new BrillScoringStrategy()));
+		this(baseTagger, ruleFactories, 1);
 	}
 
-	public RulesetTrainer(Tagger baseTagger, RuleProducingStrategy ruleFactoryStrategy,
-			HaltingStrategy haltingStrategy, RuleSelectStrategy ruleSelectStrategy) {
+	public RulesetTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, int threshold) {
 		this.baseTagger = baseTagger;
-		this.ruleFactoryStrategy = ruleFactoryStrategy;
-		this.haltingStrategy = haltingStrategy;
-		this.ruleSelectStrategy = ruleSelectStrategy;
+		this.ruleFactories = ruleFactories;
+		this.threshold = threshold;
 	}
 
-	
-	public Tagger getBaseTagger() {
-		return baseTagger;
-	}
-
-	public HaltingStrategy getHaltingStrategy() {
-		return haltingStrategy;
-	}
-
-	public RuleSelectStrategy getRuleSelectStrategy() {
-		return ruleSelectStrategy;
-	}
-
-	public RuleProducingStrategy getRuleFactoryStrategy() {
-		return ruleFactoryStrategy;
+	private TrainingContext createTrainingContext(List<List<Token>> proofCorpus) {
+		return new TrainingContext(proofCorpus);
 	}
 
 	public synchronized RuleBasedTagger train(List<List<Token>> proofCorpus) {
-		TrainingContext trainingContext = new TrainingContext(proofCorpus);
+		TrainingContext trainingContext = createTrainingContext(proofCorpus);
 		
 		trainingContext.applyBaseTagger();
 		List<Rule> rules = trainingContext.discoverRules();
@@ -79,6 +50,8 @@ public class RulesetTrainer {
 
 		public final List<List<Token>> proofCorpus;
 		public final BufferingContext[] trainingCorpus;
+		
+		private int errorCount;
 
 		public TrainingContext(List<List<Token>> proofCorpus) {
 			this.proofCorpus = proofCorpus;
@@ -100,35 +73,25 @@ public class RulesetTrainer {
 			}
 		}
 
-		private List<Rule> discoverRules() {
-			try {
-				ruleSelectStrategy.setTrainingContext(this);
-				haltingStrategy.setTrainingContext(this);
-		
-				return discoverRules0();
-			} finally {
-				ruleSelectStrategy.setTrainingContext(null);
-				haltingStrategy.setTrainingContext(null);			
-			}
-		}
-
-		private List<Rule> discoverRules0() {
+		public List<Rule> discoverRules() {
+			this.errorCount = countErrors();
+			
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
 			boolean shouldTryMore;
 			ScoreBoard board = new ScoreBoard();
 			do {
 				shouldTryMore = false;
-				Object round = board.newRound();
+				board.newRound();
 				
 				produceAllPossibleRules(board);
 				
-				Rule bestRule = ruleSelectStrategy.selectBestRule(round, board.getRulesByPriority());
+				Rule bestRule = selectBestRule(board.getRulesByPriority());
 
 				if (bestRule != null) {
 					applyRule(bestRule);
 
-					if (shouldTryMore = haltingStrategy.updateAndTest()) {
+					if (shouldTryMore = updateAndTest()) {
 						rules.add(bestRule);
 						for (Iterator<Rule> iterator = board.iterator(); iterator.hasNext();) {
 							Rule rule = iterator.next();
@@ -170,13 +133,119 @@ public class RulesetTrainer {
 			Token trainingToken = trainingSentence.next();
 
 			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-				Collection<Rule> localPossibleRules = ruleFactoryStrategy.produceAllPossibleRules(trainingSentence, proofToken);
+				Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingSentence, proofToken);
 				
 				for (Rule localPossibleRule : localPossibleRules) {
 					board.addTruePositive(localPossibleRule);
 				}
 			}
 		}
+		
+		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
+			try {
+				Rule[] rules = new Rule[ruleFactories.size()];
+
+				int i = 0;
+				for (RuleFactory factory : ruleFactories)
+					rules[i++] = factory.create(context, target);
+
+				return new LinkedHashSet<Rule>(Arrays.asList(rules));
+			} catch (RuleCreationException e) {
+				throw new RuntimeException("Error creating rule", e);
+			}
+		}
+
+		private int countErrors() {
+			int errorCount = 0;
+
+			int i = 0;
+			for (List<Token> proofSentence : proofCorpus) {
+				Context trainingSentence = trainingCorpus[i++];
+
+				errorCount = countErrors(proofSentence, trainingSentence, errorCount);
+			}
+
+			return errorCount;
+		}
+
+		private int countErrors(List<Token> proofSentence, Context trainingSentence, int errorCount) {
+			try {
+				for (Token proofToken : proofSentence) {
+					Token trainingToken = trainingSentence.next();
+
+					if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
+						errorCount++;
+				}
+			} finally {
+				trainingSentence.reset();
+			}
+			
+			return errorCount;
+		}
+
+		private boolean updateAndTest() {
+			int errorCount = countErrors();
+			try {
+				return !((this.errorCount - errorCount) < threshold);
+			} finally {
+				this.errorCount = errorCount;
+			}
+		}
+
+		private Rule selectBestRule(Queue<Score> possibleRules) {
+			Rule bestRule = null;
+			int bestScore = 0;
+
+			while(!possibleRules.isEmpty()) {
+				Score entry = possibleRules.poll();
+				
+				if (entry.getScore() > bestScore) {
+					computeNegativeScore(entry);
+		
+					if (entry.getScore() > bestScore) {
+						bestRule = entry.rule;
+						bestScore = entry.getScore();
+					}
+				} else
+					break; // cut
+			}
+
+			return bestRule;
+		}
+
+		private void computeNegativeScore(Score entry) {
+			if (!entry.negativeMatchesComputed()) {
+				entry.dec();
+				
+				int i = 0;
+				for (List<Token> proofSentence : proofCorpus) {
+					BufferingContext trainingSentence = trainingCorpus[i++];
+					computeNegativeScore(entry, proofSentence, trainingSentence);
+				}
+			}
+		}
+
+		private void computeNegativeScore(Score score, List<Token> proofSentence, BufferingContext trainingSentence) {
+			try {
+				for (Token proofToken : proofSentence) {
+					trainingSentence.next();
+
+					computeNegativeScore(score, proofToken, trainingSentence);
+				}
+			} finally {
+				trainingSentence.reset();
+			}
+		}
+
+		private void computeNegativeScore(Score score, Token proofToken, BufferingContext trainingSentence) {
+			Rule rule = score.rule;
+
+			if (rule.matches(trainingSentence))
+				if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
+					score.dec();
+		}
+
+
 	}
 	
 	public static class Score implements Comparable<Score> {
