@@ -31,7 +31,7 @@ public class BrillScoringStrategy implements ScoringStrategy {
 				trainingSentence.next();
 				
 				if (rule.matches(trainingSentence))
-					if (!ObjectUtils.equals(rule.getTo(), proofToken.getTag()))
+					if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
 						score.dec();
 			}
 		} finally {
