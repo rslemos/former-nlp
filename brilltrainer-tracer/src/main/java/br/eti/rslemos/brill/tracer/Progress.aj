@@ -23,14 +23,7 @@ public privileged aspect Progress {
 		rules = 0;
 	}
 
-	after(TrainingContext haltingStrategy) returning(int errorCount):
-		execution(int TrainingContext.countErrors()) &&
-//		withincode(boolean ThresholdHaltingStrategy.updateAndTest()) &&
-		target(haltingStrategy) {
-		System.out.printf("Error count dropped from %7d to %7d\n", haltingStrategy.errorCount, errorCount);
-	}
-	
-	Rule around(Queue<Score> rules): call(Rule TrainingContext.selectBestRule(Queue<Score>)) && args(rules) {
+	Score around(Queue<Score> rules): call(Score TrainingContext.selectBestRule(Queue<Score>)) && args(rules) {
 		
 		System.out.printf("Considering %7d rules...\n", rules.size());
 		
@@ -38,16 +31,16 @@ public privileged aspect Progress {
 		total = rules.size();
 		
 		before = System.currentTimeMillis();
-		Rule bestRule = proceed(rules);
+		Score bestScore = proceed(rules);
 		long after = System.currentTimeMillis();
 
 		this.rules++;
 		Frequency freq = computeFrequency(this.rules, after - start);
 		ETA eta = computeETA(this.rules, 200, after - start);
 
-		System.out.printf("%3d. Best found (%4ds): %-40s -- % 7.3f rules%-10s -- ETA % 7.3f%-10s\n", this.rules, (after-before)/1000, String.valueOf(bestRule), freq.per_, freq.unit, eta.time, eta.unit);
+		System.out.printf("%3d. Best found (%4ds): %-40s -- % 7.3f rules%-10s -- ETA % 7.3f%-10s\n", this.rules, (after-before)/1000, String.valueOf(bestScore.rule), freq.per_, freq.unit, eta.time, eta.unit);
 
-		return bestRule;
+		return bestScore;
 	}
 	
 	void around(Score score): call(void TrainingContext.computeNegativeScore(Score)) && args(score) {

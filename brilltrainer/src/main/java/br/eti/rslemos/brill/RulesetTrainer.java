@@ -51,8 +51,6 @@ public class RulesetTrainer {
 		public final List<List<Token>> proofCorpus;
 		public final BufferingContext[] trainingCorpus;
 		
-		private int errorCount;
-
 		public TrainingContext(List<List<Token>> proofCorpus) {
 			this.proofCorpus = proofCorpus;
 			this.trainingCorpus = new BufferingContext[proofCorpus.size()];
@@ -74,24 +72,21 @@ public class RulesetTrainer {
 		}
 
 		public List<Rule> discoverRules() {
-			this.errorCount = countErrors();
-			
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
-			boolean shouldTryMore;
 			ScoreBoard board = new ScoreBoard();
 			do {
-				shouldTryMore = false;
 				board.newRound();
 				
 				produceAllPossibleRules(board);
 				
-				Rule bestRule = selectBestRule(board.getRulesByPriority());
-
+				Score bestScore = selectBestRule(board.getRulesByPriority());
+				Rule bestRule = bestScore.rule;
+				
 				if (bestRule != null) {
 					applyRule(bestRule);
 
-					if (shouldTryMore = updateAndTest()) {
+					if (bestScore.getScore() >= threshold) {
 						rules.add(bestRule);
 						for (Iterator<Rule> iterator = board.iterator(); iterator.hasNext();) {
 							Rule rule = iterator.next();
@@ -102,9 +97,13 @@ public class RulesetTrainer {
 									iterator.remove();
 							}
 						}
-					}
-				}
-			} while (shouldTryMore);
+						
+						continue;
+					} 
+				} 
+				
+				break;
+			} while (true);
 
 			return rules;
 		}
@@ -155,62 +154,24 @@ public class RulesetTrainer {
 			}
 		}
 
-		private int countErrors() {
-			int errorCount = 0;
-
-			int i = 0;
-			for (List<Token> proofSentence : proofCorpus) {
-				Context trainingSentence = trainingCorpus[i++];
-
-				errorCount = countErrors(proofSentence, trainingSentence, errorCount);
-			}
-
-			return errorCount;
-		}
-
-		private int countErrors(List<Token> proofSentence, Context trainingSentence, int errorCount) {
-			try {
-				for (Token proofToken : proofSentence) {
-					Token trainingToken = trainingSentence.next();
-
-					if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag()))
-						errorCount++;
-				}
-			} finally {
-				trainingSentence.reset();
-			}
-			
-			return errorCount;
-		}
-
-		private boolean updateAndTest() {
-			int errorCount = countErrors();
-			try {
-				return !((this.errorCount - errorCount) < threshold);
-			} finally {
-				this.errorCount = errorCount;
-			}
-		}
-
-		private Rule selectBestRule(Queue<Score> possibleRules) {
-			Rule bestRule = null;
-			int bestScore = 0;
+		private Score selectBestRule(Queue<Score> possibleRules) {
+			Score bestScore = new Score(null, null);
+			bestScore.dec();
 
 			while(!possibleRules.isEmpty()) {
 				Score entry = possibleRules.poll();
 				
-				if (entry.getScore() > bestScore) {
+				if (entry.getScore() > bestScore.getScore()) {
 					computeNegativeScore(entry);
 		
-					if (entry.getScore() > bestScore) {
-						bestRule = entry.rule;
-						bestScore = entry.getScore();
+					if (entry.getScore() > bestScore.getScore()) {
+						bestScore = entry;
 					}
 				} else
 					break; // cut
 			}
 
-			return bestRule;
+			return bestScore;
 		}
 
 		private void computeNegativeScore(Score entry) {
