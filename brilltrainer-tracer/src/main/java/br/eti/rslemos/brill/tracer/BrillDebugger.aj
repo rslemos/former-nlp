@@ -3,17 +3,16 @@ package br.eti.rslemos.brill.tracer;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import br.eti.rslemos.brill.AbstractRule;
-import br.eti.rslemos.brill.BrillScoringStrategy;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RulesetTrainer;
-import br.eti.rslemos.brill.ThresholdHaltingStrategy;
 import br.eti.rslemos.brill.Token;
 import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
 import br.eti.rslemos.brill.RulesetTrainer.Score;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
-import org.apache.commons.lang.ObjectUtils;
 
 public abstract aspect BrillDebugger {
 	

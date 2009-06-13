@@ -12,9 +12,6 @@ public privileged aspect Progress {
 	
 	private int rules;
 	
-	private int current;
-	private int total;
-	
 	private long start;
 	private long before;
 
@@ -27,8 +24,7 @@ public privileged aspect Progress {
 		
 		System.out.printf("Considering %7d rules...\n", rules.size());
 		
-		current = bestScore = 0;
-		total = rules.size();
+		bestScore = 0;
 		
 		before = System.currentTimeMillis();
 		Score bestScore = proceed(rules);
@@ -44,25 +40,7 @@ public privileged aspect Progress {
 	}
 	
 	void around(Score score): call(void TrainingContext.computeNegativeScore(Score)) && args(score) {
-		current++;
-		
-		if (current % 10000 == 0) {
-			long now = System.currentTimeMillis();
-			
-			Frequency freq = computeFrequency(current, now - before);
-			ETA eta = computeETA(current, total, now - before);
-			
-			System.out.printf("      % 6d/% 6d (% 3d%%) -- % 7.3f rules%-10s -- ETA % 7.3f%-10s\n", current, total, (current * 100)/total, freq.per_, freq.unit, eta.time, eta.unit);
-		}
-
-		//int scoreBefore = score.getScore();
 		proceed(score);
-		//int scoreAfter = score.getScore();
-
-		//if (round != score.roundComputed)
-		//	System.out.printf("Considering rule %-40s [!!!!!!!!! %5d]\n", score.rule.toString(), scoreBefore, scoreAfter);
-		//else
-		//	System.out.printf("Considering rule %-40s [%5d -> %5d]\n", score.rule.toString(), scoreBefore, scoreAfter);
 				
 		if (score.getScore() > bestScore) {
 			bestScore = score.getScore();
@@ -76,7 +54,7 @@ public privileged aspect Progress {
 		final float time;
 		final String unit;
 		
-		final float ms = ms_per * total;
+		final float ms = ms_per * (total - current);
 		if (ms < 10) {
 			time = ms;
 			unit = "ms";
