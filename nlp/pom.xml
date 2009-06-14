@@ -20,6 +20,7 @@
 
 	<modules>
 		<module>../tigerapi</module>
+		<module>../adapi</module>
 		<module>../brilltagger</module>
 		<module>../brilltrainer</module>
 		<module>../brillevents</module>

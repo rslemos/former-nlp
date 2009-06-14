@@ -1,0 +1,139 @@
+<ext id=1000 cad="Esporte" sec="des" sem="94a">
+<t>
+<s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
+SOURCE: ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
+CF1000-1 Consolação
+A1
+X:n("consolação" <act> F S)	Consolação
+
+</s>
+</t>
+<p>
+<s id="2" ref="CF1000-2" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
+SOURCE: ref="CF1000-2" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
+CF1000-2 As seleções do Brasil, Cuba, Coréia do Sul, Angola, Argentina e Egito, eliminadas na primeira fase, participarão do torneio de consolação, em Hamilton, que definirá as colocações do nono ao 16o.
+A1
+STA:fcl
+=S:np
+==DN:pron-indef("o" <artd> DET F P)	As
+==H:n("seleção" <HH> F P)	seleções
+==DN:pp
+===H:prp("de" <sam-> <np-close>)	de
+===DP:par
+====CJT:np
+=====DN:pron-indef("o" <artd> <-sam> DET M S)	o
+=====H:prop("Brasil" <cjt-head> <civ> M S)	Brasil
+====,
+====CJT:prop("Cuba" <cjt-DP> <civ> F S)	Cuba
+====,
+====CJT:prop("Coréia_do_Sul" <cjt-DP> <civ> F S)	Coréia_do_Sul
+====,
+====CJT:prop("Angola" <cjt-DP> <civ> F S)	Angola
+====,
+====CJT:prop("Argentina" <cjt-DP> <civ> F S)	Argentina
+====CO:conj-c("e" <co-prparg>)	e
+====CJT:np
+=====H:prop("Egito" <cjt-DP> <civ> M S)	Egito
+=====,
+=====DNc:icl
+======P:v-pcp("eliminar" <mv> F P)	eliminadas
+======fA:pp
+=======H:prp("em" <sam->)	em
+=======DP:np
+========DN:pron-indef("o" <artd> <-sam> DET F S)	a
+========DN:adj("primeiro" <NUM-ord> F S)	primeira
+========H:n("fase" <per> F S)	fase
+=,
+=P:v-fin("participar" <fmc> <mv> FUT 3P IND VFIN)	participarão
+=Op:pp
+==H:prp("de" <sam->)	de
+==DP:np
+===DN:pron-indef("o" <artd> <-sam> DET M S)	o
+===H:n("torneio" <occ> M S)	torneio
+===DN:pp
+====H:prp("de" <np-close>)	de
+====DP:n("consolação" <act> F S)	consolação
+=,
+=fA:pp
+==H:prp("em")	em
+==DP:np
+===H:prop("Hamilton" <civ> M S)	Hamilton
+===,
+===DN:fcl
+====S:spec("que" <clb> <rel> M S)	que
+====P:v-fin("definir" <mv> <np-close> FUT 3S IND VFIN)	definirá
+====Od:np
+=====DN:pron-indef("o" <artd> DET F P)	as
+=====H:n("colocação" <act> F P)	colocações
+=====DN:pp
+======H:prp("de" <sam-> <np-close>)	de
+======DP:np
+=======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+=======H:adj("nono" <n> <NUM-ord> M S)	nono
+====fA:pp
+=====H:prp("a" <sam->)	a
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+======H:num("16o" <card> M P)	16o
+.
+
+</s>
+<s id="3" ref="CF1000-3" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
+SOURCE: ref="CF1000-3" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
+CF1000-3 lugares.
+A1
+X:n("lugar" <L> M P)	lugares
+.
+
+</s>
+</p>
+<p>
+<s id="4" ref="CF1000-4" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
+SOURCE: ref="CF1000-4" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
+CF1000-4 Embora esteja fora das disputas finais, o basquete brasileiro torce para que as equipes das Américas se classifiquem entre as seis melhores do Mundial.
+A1
+STA:fcl
+=fA:fcl
+==SUB:conj-s("embora" <clb>)	Embora
+==P:v-fin("estar" <mv> PR 1/3S SUBJ VFIN)	esteja
+==As:pp
+===H:prp("fora_de" <sam->)	fora_de
+===DP:np
+====DN:pron-indef("o" <-sam> <artd> DET F P)	as
+====H:n("disputa" <talk> F P)	disputas
+====DN:adj("final" <np-close> F P)	finais
+=,
+=S:np
+==DN:pron-indef("o" <artd> DET M S)	o
+==H:n("basquete" <sport> M S)	basquete
+==DN:adj("brasileiro" <nat> <np-close> M S)	brasileiro
+=P:v-fin("torcer" <fmc> <mv> PR 3S IND VFIN)	torce
+=fA:pp
+==H:prp("para")	para
+==DP:fcl
+===SUB:conj-s("que" <clb>)	que
+===S:np
+====DN:pron-indef("o" <artd> DET F P)	as
+====H:n("equipe" <HH> F P)	equipes
+====DN:pp
+=====H:prp("de" <sam-> <np-close>)	de
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET F P)	as
+======H:n("américa" <prop> <sit> F P)	Américas
+==Od:pron-pers("se" <refl> <pass> M/F 3P ACC)	se
+===P:v-fin("classificar" <mv> PR 3P SUBJ VFIN)	classifiquem
+===fA:pp
+====H:prp("entre")	entre
+====DP:np
+=====DN:pron-indef("o" <artd> DET F P)	as
+=====DN:num("seis" <card> F P)	seis
+=====H:adj("bom" <n> <SUP> <KOMP> F P)	melhores
+=====DN:pp
+======H:prp("de" <sam-> <np-close>)	de
+======DP:np
+=======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+=======H:adj("mundial" <prop> <n> M S)	Mundial
+.
+
+</s>
+</p>
