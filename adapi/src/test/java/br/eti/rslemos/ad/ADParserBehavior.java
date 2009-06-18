@@ -15,6 +15,6 @@ public class ADParserBehavior {
         ADLexer lexer = new ADLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ADParser parser = new ADParser(tokens);
-        parser.bosque();
+        parser.arquivo();
 	}
 }
