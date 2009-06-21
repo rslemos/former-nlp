@@ -669,10 +669,7 @@ public class ADParserBehavior {
 		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
-		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 	}
 
@@ -697,10 +694,7 @@ public class ADParserBehavior {
 		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
-		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
 	}
@@ -726,10 +720,7 @@ public class ADParserBehavior {
 		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
-		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
-		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
 		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c2_children.hasNext(), false);

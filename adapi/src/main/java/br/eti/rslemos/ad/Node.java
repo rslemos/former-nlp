@@ -59,6 +59,7 @@ public abstract class Node {
 
 		children = new Iterator<Node>() {
 			private ADCorpus corpus0 = corpus;
+			private Node lastNode;
 			
 			public boolean hasNext() {
 				if (corpus0 == null)
@@ -69,19 +70,22 @@ public abstract class Node {
 					return true;
 				} else {
 					corpus0 = null;
+					lastNode = null;
 					
 					return false;
 				}
 			}
 
 			public Node next() {
-				Node subNode;
+				if (lastNode != null)
+					lastNode.readAll();
+				
 				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
-					subNode = new TerminalNode(corpus0);
+					lastNode = new TerminalNode(corpus0);
 				else
-					subNode = new NonTerminalNode(corpus0);
+					lastNode = new NonTerminalNode(corpus0);
 
-				return subNode;
+				return lastNode;
 			}
 
 			public void remove() {
@@ -107,6 +111,11 @@ public abstract class Node {
 
 	public Iterator<Node> getChildren() {
 		return children;
+	}
+
+	void readAll() {
+		while(children.hasNext())
+			children.next().readAll();
 	}
 
 	private static String buildDepthPrefix(int length) {
