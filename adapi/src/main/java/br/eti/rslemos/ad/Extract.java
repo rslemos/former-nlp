@@ -64,7 +64,7 @@ public class Extract {
 
 	public Iterator<Paragraph> paragraphs() {
 		// skip title
-		title().readAll();
+		title().skipOver();
 		
 		return new Iterator<Paragraph>() {
 

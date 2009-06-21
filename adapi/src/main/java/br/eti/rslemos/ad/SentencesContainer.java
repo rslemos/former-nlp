@@ -40,9 +40,9 @@ public abstract class SentencesContainer {
 
 	protected abstract void sentencesTail(ADCorpus corpus);
 
-	void readAll() {
+	void skipOver() {
 		while(sentences.hasNext())
-			sentences.next().readAll();
+			sentences.next().skipOver();
 	}
 
 }

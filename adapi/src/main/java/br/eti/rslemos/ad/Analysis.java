@@ -25,7 +25,7 @@ public class Analysis {
 		return rootNode;
 	}
 
-	void readAll() {
+	void skipOver() {
 		tree();
 	}
 

@@ -78,7 +78,7 @@ public abstract class Node {
 
 			public Node next() {
 				if (lastNode != null)
-					lastNode.readAll();
+					lastNode.skipOver();
 				
 				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
 					lastNode = new TerminalNode(corpus0);
@@ -113,9 +113,9 @@ public abstract class Node {
 		return children;
 	}
 
-	void readAll() {
+	void skipOver() {
 		while(children.hasNext())
-			children.next().readAll();
+			children.next().skipOver();
 	}
 
 	private static String buildDepthPrefix(int length) {

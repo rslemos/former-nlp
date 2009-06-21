@@ -94,9 +94,9 @@ public class Sentence {
 		return analyses;
 	}
 
-	void readAll() {
+	void skipOver() {
 		while(analyses.hasNext())
-			analyses.next().readAll();
+			analyses.next().skipOver();
 	}
 
 }
