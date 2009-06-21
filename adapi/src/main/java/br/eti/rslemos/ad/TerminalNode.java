@@ -7,10 +7,14 @@ public class TerminalNode extends Node {
 	TerminalNode(ADCorpus corpus) {
 		super(corpus);
 		
-		assert corpus.line.contains("\t");
-		
 		String line = corpus.line;
-		text = line.substring(line.indexOf('\t') + 1);
+		if (line.contains(":")) {
+			assert line.contains("\t");
+			
+			text = line.substring(line.indexOf('\t') + 1);
+		} else {
+			text = line.substring(depth);
+		}
 		
 		corpus.readNextLine();
 	}

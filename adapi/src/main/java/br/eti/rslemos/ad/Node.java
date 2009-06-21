@@ -10,7 +10,7 @@ public abstract class Node {
 	private final String function;
 	private final String form;
 	private final Info info;
-	private final int depth;
+	protected final int depth;
 
 	Node(ADCorpus corpus) {
 		this.corpus = corpus;
@@ -24,34 +24,40 @@ public abstract class Node {
 		line = line.substring(depth);
 		
 		String[] parts;
-		
-		// X:n("consolação" <act> F S)	Consolação
-		parts = line.split(":");
-		
-		assert parts[0].length() > 0;
-		function = parts[0];
-		
-		line = line.substring((function + ":").length());
-		parts = line.split("[(\t]");
-		
-		assert parts[0].length() > 0;
-		form = parts[0];
-		
-		line = line.substring(form.length());
-		if (line.length() > 0 && line.charAt(0) == '(') {
-			String info_chunk = line.substring(1, line.indexOf(')'));
-			if ("n".equals(form))
-				info = new Info_n(info_chunk);
-			else if("pron-indef".equals(form))
-				info = new Info_pron_indef(info_chunk);
-			else if("prp".equals(form))
-				info = new Info_prp(info_chunk);
-			else if("prop".equals(form))
-				info = new Info_prop(info_chunk);
-			else
-				throw new RuntimeException();
-		} else
+
+		if (line.contains(":")) {
+			// X:n("consolação" <act> F S)	Consolação
+			parts = line.split(":");
+			
+			assert parts[0].length() > 0;
+			function = parts[0];
+			
+			line = line.substring((function + ":").length());
+			parts = line.split("[(\t]");
+			
+			assert parts[0].length() > 0;
+			form = parts[0];
+			
+			line = line.substring(form.length());
+			if (line.length() > 0 && line.charAt(0) == '(') {
+				String info_chunk = line.substring(1, line.indexOf(')'));
+				if ("n".equals(form))
+					info = new Info_n(info_chunk);
+				else if("pron-indef".equals(form))
+					info = new Info_pron_indef(info_chunk);
+				else if("prp".equals(form))
+					info = new Info_prp(info_chunk);
+				else if("prop".equals(form))
+					info = new Info_prop(info_chunk);
+				else
+					throw new RuntimeException();
+			} else
+				info = null;
+		} else {
+			function = null;
+			form = null;
 			info = null;
+		}
 	}
 
 	public String getFunction() {
@@ -80,7 +86,7 @@ public abstract class Node {
 
 			public Node next() {
 				Node subNode;
-				if (corpus.line.contains("\t"))
+				if (corpus.line.contains("\t") || !corpus.line.contains(":"))
 					subNode = new TerminalNode(corpus);
 				else
 					subNode = new NonTerminalNode(corpus);
