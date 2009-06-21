@@ -31,7 +31,8 @@ public class ADCorpus implements Iterable<Extract> {
 				} else {
 					try {
 						input.close();
-					} catch (IOException e) {}
+					} catch (IOException e) {
+					}
 					
 					return false;
 				}
