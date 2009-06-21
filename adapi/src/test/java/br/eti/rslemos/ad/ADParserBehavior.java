@@ -809,11 +809,9 @@ public class ADParserBehavior {
 		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c2_children.hasNext(), false);
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t) {
-		Info e_1000_p1_s2_A1_root_c1_c3_c2_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_c2_t.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t) {
+		String[] e_1000_p1_s2_A1_root_c1_c3_c2_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_c2_t.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_c1_c3_c2_c2_info);
-		
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c2_info;
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children) {
@@ -835,22 +833,12 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c2_c2_t;
 	}
 
-	private Info_prop checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t) {
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t) {
 		// ("Brasil" <cjt-head> <civ> M S)
-		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t.getInfo();
+		String[] e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t.getInfo();
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info instanceof Info_prop);
-		Info_prop e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop = (Info_prop) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getLemma(), "Brasil");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary().length, 2);
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary()[0], "<cjt-head>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary()[1], "<civ>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getGender(), "M");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getNumber(), "S");
 
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop;
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info, new String[] {"\"Brasil\"", "<cjt-head>", "<civ>", "M", "S"});
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
@@ -872,23 +860,12 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t;
 	}
 
-	private Info_pron_indef checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t) {
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t) {
 		// ("o" <artd> <-sam> DET M S)
-		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t.getInfo();
+		String[] e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t.getInfo();
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info instanceof Info_pron_indef);
-		Info_pron_indef e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef = (Info_pron_indef) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getLemma(), "o");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary().length, 2);
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary()[0], "<artd>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary()[1], "<-sam>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getUnknown(), "DET");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getGender(), "M");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getNumber(), "S");
 
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef;
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info, new String[] {"\"o\"", "<artd>", "<-sam>", "DET", "M", "S"});
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
@@ -910,11 +887,9 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt) {
-		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt) {
+		String[] e_1000_p1_s2_A1_root_c1_c3_c2_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_info);
-		
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children) {
@@ -934,11 +909,9 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt) {
-		Info e_1000_p1_s2_A1_root_c1_c3_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_nt.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt) {
+		String[] e_1000_p1_s2_A1_root_c1_c3_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_nt.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_c1_c3_c2_info);
-		
-		return e_1000_p1_s2_A1_root_c1_c3_c2_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
@@ -958,19 +931,12 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c2_nt;
 	}
 
-	private Info_prp checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t) {
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t) {
 		// ("de" <sam-> <np-close>)
-		Info e_1000_p1_s2_A1_root_c1_c3_c1_info = e_1000_p1_s2_A1_root_c1_c3_c1_t.getInfo();
+		String[] e_1000_p1_s2_A1_root_c1_c3_c1_info = e_1000_p1_s2_A1_root_c1_c3_c1_t.getInfo();
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c1_info);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c1_info instanceof Info_prp);
-		Info_prp e_1000_p1_s2_A1_root_c1_c3_c1_info_prp = (Info_prp) e_1000_p1_s2_A1_root_c1_c3_c1_info;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getLemma(), "de");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getSecondary(), "<sam->");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getUnknown(), "<np-close>");
 
-		return e_1000_p1_s2_A1_root_c1_c3_c1_info_prp;
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info, new String[] {"\"de\"", "<sam->", "<np-close>"});
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
@@ -992,11 +958,9 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_c1_t;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt) {
-		Info e_1000_p1_s2_A1_root_c1_c3_info = e_1000_p1_s2_A1_root_c1_c3_nt.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt) {
+		String[] e_1000_p1_s2_A1_root_c1_c3_info = e_1000_p1_s2_A1_root_c1_c3_nt.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_c1_c3_info);
-		
-		return e_1000_p1_s2_A1_root_c1_c3_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
@@ -1016,20 +980,12 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_nt;
 	}
 
-	private Info_n checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c2_t) {
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c2_t) {
 		// ("seleção" <HH> F P)
-		Info e_1000_p1_s2_A1_root_c1_c2_info = e_1000_p1_s2_A1_root_c1_c2_t.getInfo();
+		String[] e_1000_p1_s2_A1_root_c1_c2_info = e_1000_p1_s2_A1_root_c1_c2_t.getInfo();
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c2_info);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c2_info instanceof Info_n);
-		Info_n e_1000_p1_s2_A1_root_c1_c2_info_n = (Info_n) e_1000_p1_s2_A1_root_c1_c2_info;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getLemma(), "seleção");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getSecondary(), "<HH>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getGender(), "F");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getNumber(), "P");
 
-		return e_1000_p1_s2_A1_root_c1_c2_info_n;
+		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info, new String[] {"\"seleção\"", "<HH>", "F", "P"});
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
@@ -1051,22 +1007,12 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c2_t;
 	}
 
-	private Info_pron_indef checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c1_t) {
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c1_t) {
 		// ("o" <artd> DET F P)
-		Info e_1000_p1_s2_A1_root_c1_c1_info = e_1000_p1_s2_A1_root_c1_c1_t.getInfo();
+		String[] e_1000_p1_s2_A1_root_c1_c1_info = e_1000_p1_s2_A1_root_c1_c1_t.getInfo();
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c1_info);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c1_info instanceof Info_pron_indef);
-		Info_pron_indef e_1000_p1_s2_A1_root_c1_c1_info_pron_indef = (Info_pron_indef) e_1000_p1_s2_A1_root_c1_c1_info;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getLemma(), "o");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getSecondary().length, 1);
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getSecondary()[0], "<artd>");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getUnknown(), "DET");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getGender(), "F");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getNumber(), "P");
 
-		return e_1000_p1_s2_A1_root_c1_c1_info_pron_indef;
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info, new String[] {"\"o\"", "<artd>", "DET", "F", "P"});
 	}
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
@@ -1088,11 +1034,9 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c1_t;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_nt) {
-		Info e_1000_p1_s2_A1_root_c1_info = e_1000_p1_s2_A1_root_c1_nt.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_nt) {
+		String[] e_1000_p1_s2_A1_root_c1_info = e_1000_p1_s2_A1_root_c1_nt.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_c1_info);
-		
-		return e_1000_p1_s2_A1_root_c1_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1(Iterator<Node> e_1000_p1_s2_A1_root_children) {
@@ -1112,11 +1056,9 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_nt;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeInfo(NonTerminalNode e_1000_p1_s2_A1_root) {
-		Info e_1000_p1_s2_A1_root_info = e_1000_p1_s2_A1_root.getInfo();
+	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeInfo(NonTerminalNode e_1000_p1_s2_A1_root) {
+		String[] e_1000_p1_s2_A1_root_info = e_1000_p1_s2_A1_root.getInfo();
 		assertNull(e_1000_p1_s2_A1_root_info);
-		
-		return e_1000_p1_s2_A1_root_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNode(Analysis e_1000_p1_s2_A1) {
@@ -1169,19 +1111,12 @@ public class ADParserBehavior {
 		return e_1000_p1;
 	}
 
-	private Info_n checkExtract1000TitleSentence1AnalysisA1RootNodeInfo(TerminalNode e_1000_t_s1_A1_root_t) {
-		Info e_1000_t_s1_A1_root_info = e_1000_t_s1_A1_root_t.getInfo();
+	private void checkExtract1000TitleSentence1AnalysisA1RootNodeInfo(TerminalNode e_1000_t_s1_A1_root_t) {
+		// "consolação" <act> F S
+		String[] e_1000_t_s1_A1_root_info = e_1000_t_s1_A1_root_t.getInfo();
 		assertNotNull(e_1000_t_s1_A1_root_info);
 		
-		assertTrue(e_1000_t_s1_A1_root_info instanceof Info_n);
-		Info_n e_1000_t_s1_A1_root_info_n = (Info_n) e_1000_t_s1_A1_root_info;
-		
-		assertEquals(e_1000_t_s1_A1_root_info_n.getLemma(), "consolação");
-		assertEquals(e_1000_t_s1_A1_root_info_n.getSecondary(), "<act>");
-		assertEquals(e_1000_t_s1_A1_root_info_n.getGender(), "F");
-		assertEquals(e_1000_t_s1_A1_root_info_n.getNumber(), "S");
-		
-		return e_1000_t_s1_A1_root_info_n;
+		assertEquals(e_1000_t_s1_A1_root_info, new String[] {"\"consolação\"", "<act>", "F", "S"});		
 	}
 
 	private TerminalNode checkExtract1000TitleSentence1AnalysisA1RootNode(Analysis e_1000_t_s1_A1) {

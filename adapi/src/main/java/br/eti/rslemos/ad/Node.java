@@ -7,7 +7,7 @@ public abstract class Node {
 
 	private final String function;
 	private final String form;
-	private final Info info;
+	private final String[] info;
 	protected final int depth;
 
 	private Iterator<Node> children;
@@ -39,16 +39,7 @@ public abstract class Node {
 			line = line.substring(form.length());
 			if (line.length() > 0 && line.charAt(0) == '(') {
 				String info_chunk = line.substring(1, line.indexOf(')'));
-				if ("n".equals(form))
-					info = new Info_n(info_chunk);
-				else if("pron-indef".equals(form))
-					info = new Info_pron_indef(info_chunk);
-				else if("prp".equals(form))
-					info = new Info_prp(info_chunk);
-				else if("prop".equals(form))
-					info = new Info_prop(info_chunk);
-				else
-					throw new RuntimeException();
+				info = info_chunk.split(" ");
 			} else
 				info = null;
 		} else {
@@ -101,7 +92,7 @@ public abstract class Node {
 		return form;
 	}
 
-	public Info getInfo() {
+	public String[] getInfo() {
 		return info;
 	}
 
