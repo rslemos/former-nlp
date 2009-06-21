@@ -324,6 +324,331 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1(e_1000_p1_s2_A1_root_c1_c3_children);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info(e_1000_p1_s2_A1_root_c1_c3_c1_t);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1NoChildren() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c1_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_children.hasNext(), false);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2(e_1000_p1_s2_A1_root_c1_c3_children);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1NoChildren() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_children.hasNext(), false);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t);
+	}
+
+	@Test
+	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2NoChildren() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Extract e_1000 = getNextExtract(extracts);
+		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);
+		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
+		Analysis e_1000_p1_s2_A1 = getNextAnalysis(e_1000_p1_s2_analyses);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		Iterator<Node> e_1000_p1_s2_A1_root_children = getChildren(e_1000_p1_s2_A1_root_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+		getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = (TerminalNode) getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_children.hasNext(), false);
+	}
+	
+	@Test
 	public void shouldFullyParseExt1000() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = checkExtract1000(extracts);
@@ -369,21 +694,203 @@ public class ADParserBehavior {
 		
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3(e_1000_p1_s2_A1_root_c1_children);
 		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(e_1000_p1_s2_A1_root_c1_c3_nt);
+		
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_nt);
 
 		// .... continua a partir da linha 21
-	}
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1(e_1000_p1_s2_A1_root_c1_c3_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info(e_1000_p1_s2_A1_root_c1_c3_c1_t);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c1_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_children.hasNext(), false);
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(NonTerminalNode e_1000_p1_s2_a1_root_c1_c3_nt) {
-		Info e_1000_p1_s2_a1_root_c1_c3_info = e_1000_p1_s2_a1_root_c1_c3_nt.getInfo();
-		assertNull(e_1000_p1_s2_a1_root_c1_c3_info);
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2(e_1000_p1_s2_A1_root_c1_c3_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
 		
-		return e_1000_p1_s2_a1_root_c1_c3_info;
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
+		
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
+
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_children.hasNext(), false);
+
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t);
+		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_children.hasNext(), false);
 	}
 
-	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3(Iterator<Node> e_1000_p1_s2_a1_root_c1_children) {
+	private Info_prop checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t) {
+		// ("Brasil" <cjt-head> <civ> M S)
+		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t.getInfo();
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info instanceof Info_prop);
+		Info_prop e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop = (Info_prop) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getLemma(), "Brasil");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary().length, 2);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary()[0], "<cjt-head>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getSecondary()[1], "<civ>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getGender(), "M");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop.getNumber(), "S");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_info_prop;
+	}
+
+	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
+		// =====H:prop("Brasil" <cjt-head> <civ> M S)	Brasil
+		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2);
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getFunction(), "H");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getForm(), "prop");
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getDepth(), 5);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2 instanceof TerminalNode);
+
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t.getText(), "Brasil");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t;
+	}
+
+	private Info_pron_indef checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t) {
+		// ("o" <artd> <-sam> DET M S)
+		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t.getInfo();
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info instanceof Info_pron_indef);
+		Info_pron_indef e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef = (Info_pron_indef) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getLemma(), "o");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary().length, 2);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary()[0], "<artd>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getSecondary()[1], "<-sam>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getUnknown(), "DET");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getGender(), "M");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef.getNumber(), "S");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_info_pron_indef;
+	}
+
+	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
+		// =====DN:pron-indef("o" <artd> <-sam> DET M S)	o
+		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1);
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getFunction(), "DN");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getForm(), "pron-indef");
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getDepth(), 5);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1 instanceof TerminalNode);
+
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t.getText(), "o");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t;
+	}
+
+	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt) {
+		Info e_1000_p1_s2_A1_root_c1_c3_c2_c1_info = e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt.getInfo();
+		assertNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_info);
+		
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_info;
+	}
+
+	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children) {
+		// ====CJT:np
+		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1);
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getFunction(), "CJT");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getForm(), "np");
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getDepth(), 4);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1 instanceof NonTerminalNode);
+
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1;
+		
+		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt;
+	}
+
+	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt) {
+		Info e_1000_p1_s2_A1_root_c1_c3_c2_info = e_1000_p1_s2_A1_root_c1_c3_c2_nt.getInfo();
+		assertNull(e_1000_p1_s2_A1_root_c1_c3_c2_info);
+		
+		return e_1000_p1_s2_A1_root_c1_c3_c2_info;
+	}
+
+	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
+		// ===DP:par
+		Node e_1000_p1_s2_A1_root_c1_c3_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2);
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getFunction(), "DP");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getForm(), "par");
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getDepth(), 3);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2 instanceof NonTerminalNode);
+
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2;
+		
+		return e_1000_p1_s2_A1_root_c1_c3_c2_nt;
+	}
+
+	private Info_prp checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t) {
+		// ("de" <sam-> <np-close>)
+		Info e_1000_p1_s2_A1_root_c1_c3_c1_info = e_1000_p1_s2_A1_root_c1_c3_c1_t.getInfo();
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c1_info);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c1_info instanceof Info_prp);
+		Info_prp e_1000_p1_s2_A1_root_c1_c3_c1_info_prp = (Info_prp) e_1000_p1_s2_A1_root_c1_c3_c1_info;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getLemma(), "de");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getSecondary(), "<sam->");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_info_prp.getUnknown(), "<np-close>");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c1_info_prp;
+	}
+
+	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
+		// ===H:prp("de" <sam-> <np-close>)	de
+		Node e_1000_p1_s2_A1_root_c1_c3_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c1);
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getFunction(), "H");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getForm(), "prp");
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getDepth(), 3);
+		
+		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c1 instanceof TerminalNode);
+
+		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c1;
+		
+		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_t.getText(), "de");
+
+		return e_1000_p1_s2_A1_root_c1_c3_c1_t;
+	}
+
+	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt) {
+		Info e_1000_p1_s2_A1_root_c1_c3_info = e_1000_p1_s2_A1_root_c1_c3_nt.getInfo();
+		assertNull(e_1000_p1_s2_A1_root_c1_c3_info);
+		
+		return e_1000_p1_s2_A1_root_c1_c3_info;
+	}
+
+	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==DN:pp
-		Node e_1000_p1_s2_A1_root_c1_c3 = getNextChild(e_1000_p1_s2_a1_root_c1_children);
+		Node e_1000_p1_s2_A1_root_c1_c3 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c3);
 		
 		assertEquals(e_1000_p1_s2_A1_root_c1_c3.getFunction(), "DN");
@@ -398,25 +905,25 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c3_nt;
 	}
 
-	private Info_n checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2Info(TerminalNode e_1000_p1_s2_a1_root_c1_c2_t) {
+	private Info_n checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c2_t) {
 		// ("seleção" <HH> F P)
-		Info e_1000_p1_s2_a1_root_c1_c2_info = e_1000_p1_s2_a1_root_c1_c2_t.getInfo();
-		assertNotNull(e_1000_p1_s2_a1_root_c1_c2_info);
+		Info e_1000_p1_s2_A1_root_c1_c2_info = e_1000_p1_s2_A1_root_c1_c2_t.getInfo();
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c2_info);
 		
-		assertTrue(e_1000_p1_s2_a1_root_c1_c2_info instanceof Info_n);
-		Info_n e_1000_p1_s2_a1_root_c1_c2_info_n = (Info_n) e_1000_p1_s2_a1_root_c1_c2_info;
+		assertTrue(e_1000_p1_s2_A1_root_c1_c2_info instanceof Info_n);
+		Info_n e_1000_p1_s2_A1_root_c1_c2_info_n = (Info_n) e_1000_p1_s2_A1_root_c1_c2_info;
 		
-		assertEquals(e_1000_p1_s2_a1_root_c1_c2_info_n.getLemma(), "seleção");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c2_info_n.getSecondary(), "<HH>");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c2_info_n.getGender(), "F");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c2_info_n.getNumber(), "P");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getLemma(), "seleção");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getSecondary(), "<HH>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getGender(), "F");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c2_info_n.getNumber(), "P");
 
-		return e_1000_p1_s2_a1_root_c1_c2_info_n;
+		return e_1000_p1_s2_A1_root_c1_c2_info_n;
 	}
 
-	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2(Iterator<Node> e_1000_p1_s2_a1_root_c1_children) {
+	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==H:n("seleção" <HH> F P)	seleções
-		Node e_1000_p1_s2_A1_root_c1_c2 = getNextChild(e_1000_p1_s2_a1_root_c1_children);
+		Node e_1000_p1_s2_A1_root_c1_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c2);
 		
 		assertEquals(e_1000_p1_s2_A1_root_c1_c2.getFunction(), "H");
@@ -433,26 +940,27 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c2_t;
 	}
 
-	private Info_pron_indef checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1Info(TerminalNode e_1000_p1_s2_a1_root_c1_c1_t) {
+	private Info_pron_indef checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c1_t) {
 		// ("o" <artd> DET F P)
-		Info e_1000_p1_s2_a1_root_c1_c1_info = e_1000_p1_s2_a1_root_c1_c1_t.getInfo();
-		assertNotNull(e_1000_p1_s2_a1_root_c1_c1_info);
+		Info e_1000_p1_s2_A1_root_c1_c1_info = e_1000_p1_s2_A1_root_c1_c1_t.getInfo();
+		assertNotNull(e_1000_p1_s2_A1_root_c1_c1_info);
 		
-		assertTrue(e_1000_p1_s2_a1_root_c1_c1_info instanceof Info_pron_indef);
-		Info_pron_indef e_1000_p1_s2_a1_root_c1_c1_info_pron_indef = (Info_pron_indef) e_1000_p1_s2_a1_root_c1_c1_info;
+		assertTrue(e_1000_p1_s2_A1_root_c1_c1_info instanceof Info_pron_indef);
+		Info_pron_indef e_1000_p1_s2_A1_root_c1_c1_info_pron_indef = (Info_pron_indef) e_1000_p1_s2_A1_root_c1_c1_info;
 		
-		assertEquals(e_1000_p1_s2_a1_root_c1_c1_info_pron_indef.getLemma(), "o");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c1_info_pron_indef.getSecondary(), "<artd>");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c1_info_pron_indef.getUnknown(), "DET");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c1_info_pron_indef.getGender(), "F");
-		assertEquals(e_1000_p1_s2_a1_root_c1_c1_info_pron_indef.getNumber(), "P");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getLemma(), "o");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getSecondary().length, 1);
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getSecondary()[0], "<artd>");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getUnknown(), "DET");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getGender(), "F");
+		assertEquals(e_1000_p1_s2_A1_root_c1_c1_info_pron_indef.getNumber(), "P");
 
-		return e_1000_p1_s2_a1_root_c1_c1_info_pron_indef;
+		return e_1000_p1_s2_A1_root_c1_c1_info_pron_indef;
 	}
 
-	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1(Iterator<Node> e_1000_p1_s2_a1_root_c1_children) {
+	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==DN:pron-indef("o" <artd> DET F P)	As
-		Node e_1000_p1_s2_A1_root_c1_c1 = getNextChild(e_1000_p1_s2_a1_root_c1_children);
+		Node e_1000_p1_s2_A1_root_c1_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
 		assertNotNull(e_1000_p1_s2_A1_root_c1_c1);
 		
 		assertEquals(e_1000_p1_s2_A1_root_c1_c1.getFunction(), "DN");
@@ -469,11 +977,11 @@ public class ADParserBehavior {
 		return e_1000_p1_s2_A1_root_c1_c1_t;
 	}
 
-	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Info(NonTerminalNode e_1000_p1_s2_a1_root_c1_nt) {
-		Info e_1000_p1_s2_a1_root_c1_info = e_1000_p1_s2_a1_root_c1_nt.getInfo();
-		assertNull(e_1000_p1_s2_a1_root_c1_info);
+	private Info checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_nt) {
+		Info e_1000_p1_s2_A1_root_c1_info = e_1000_p1_s2_A1_root_c1_nt.getInfo();
+		assertNull(e_1000_p1_s2_A1_root_c1_info);
 		
-		return e_1000_p1_s2_a1_root_c1_info;
+		return e_1000_p1_s2_A1_root_c1_info;
 	}
 
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1(Iterator<Node> e_1000_p1_s2_A1_root_children) {

@@ -44,6 +44,10 @@ public abstract class Node {
 				info = new Info_n(info_chunk);
 			else if("pron-indef".equals(form))
 				info = new Info_pron_indef(info_chunk);
+			else if("prp".equals(form))
+				info = new Info_prp(info_chunk);
+			else if("prop".equals(form))
+				info = new Info_prop(info_chunk);
 			else
 				throw new RuntimeException();
 		} else
