@@ -3,7 +3,7 @@ package br.eti.rslemos.ad;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public abstract class Node {
+public abstract class Node implements Iterable<Node> {
 
 	private final String function;
 	private final String form;
@@ -100,8 +100,12 @@ public abstract class Node {
 		return depth;
 	}
 
-	public Iterator<Node> getChildren() {
+	public Iterator<Node> children() {
 		return children;
+	}
+	
+	public Iterator<Node> iterator() {
+		return children();
 	}
 
 	void skipOver() {

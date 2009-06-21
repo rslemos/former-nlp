@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public class Extract {
+public class Extract implements Iterable<Paragraph> {
 
 	private final int id;
 	private final String cad;
@@ -80,6 +80,10 @@ public class Extract {
 			}
 			
 		};
+	}
+
+	public Iterator<Paragraph> iterator() {
+		return paragraphs();
 	}
 
 }

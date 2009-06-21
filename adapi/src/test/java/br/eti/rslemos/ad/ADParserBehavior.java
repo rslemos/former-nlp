@@ -1,9 +1,11 @@
 package br.eti.rslemos.ad;
 
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
@@ -727,7 +729,7 @@ public class ADParserBehavior {
 	}
 	
 	@Test
-	public void shouldFullyParseExt1000() {
+	public void shouldPartiallyParseExt1000() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = checkExtract1000(extracts);
 
@@ -807,6 +809,42 @@ public class ADParserBehavior {
 		checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2Info(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
 		Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c2_children = getChildren(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
 		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c2_children.hasNext(), false);
+	}
+
+	@Test
+	public void shouldFullyParseExt1000() {
+		ADCorpus corpus = getCorpus("ext_1000.ad");
+		fullyParse(corpus);
+	}
+
+	@Test
+	public void shouldCloseInputReader() throws Throwable {
+		InputStream ext_1000 = ADParserBehavior.class.getResourceAsStream("ext_1000.ad");
+		Reader ext_1000r = new InputStreamReader(ext_1000, Charset.forName("UTF-8"));
+		Reader ext_1000r_spy = spy(ext_1000r);
+		ADCorpus corpus = new ADCorpus(ext_1000r_spy);
+		
+		fullyParse(corpus);
+		
+		verify(ext_1000r_spy, times(1)).close();
+	}
+
+	private void fullyParse(ADCorpus corpus) {
+		for (Extract extract : corpus) {
+			Title title = extract.title();
+			for (Sentence sentence : title) {
+				for (Analysis analysis : sentence) {
+					Node node = analysis.tree();
+					processNode(node);
+				}
+			}
+		}
+	}
+	
+	private void processNode(Node node) {
+		for (Node child : node) {
+			processNode(child);
+		}
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t) {
@@ -1237,7 +1275,7 @@ public class ADParserBehavior {
 	}
 
 	private Iterator<Node> getChildren(Node node) {
-		Iterator<Node> children = node.getChildren();
+		Iterator<Node> children = node.children();
 		assertNotNull(children);
 		return children;
 	}

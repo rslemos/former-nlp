@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public class Sentence {
+public class Sentence implements Iterable<Analysis> {
 
 	private final String id;
 	private final String ref;
@@ -92,6 +92,10 @@ public class Sentence {
 
 	public Iterator<Analysis> analyses() {
 		return analyses;
+	}
+
+	public Iterator<Analysis> iterator() {
+		return analyses();
 	}
 
 	void skipOver() {

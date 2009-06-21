@@ -2,22 +2,22 @@ package br.eti.rslemos.ad;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Iterator;
 
-public class ADCorpus {
+public class ADCorpus implements Iterable<Extract> {
 
 	private final BufferedReader input;
 	String line;
 	
-	public ADCorpus(InputStreamReader input) {
+	public ADCorpus(Reader input) {
 		this.input = new BufferedReader(input);
 		readNextLine();
 	}
 
 	void readNextLine() {
 		try {
-			line = this.input.readLine();
+			line = input.readLine();
 		} catch (IOException e) {
 		}
 	}
@@ -26,7 +26,15 @@ public class ADCorpus {
 		return new Iterator<Extract>() {
 
 			public boolean hasNext() {
-				return line.startsWith("<ext");
+				if (line.startsWith("<ext")) {
+					return true;
+				} else {
+					try {
+						input.close();
+					} catch (IOException e) {}
+					
+					return false;
+				}
 			}
 
 			public Extract next() {
@@ -37,6 +45,10 @@ public class ADCorpus {
 			}
 			
 		};
+	}
+
+	public Iterator<Extract> iterator() {
+		return extracts();
 	}
 
 }

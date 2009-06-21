@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public abstract class SentencesContainer {
+public abstract class SentencesContainer implements Iterable<Sentence> {
 
 	private final Iterator<Sentence> sentences;
 
@@ -36,6 +36,10 @@ public abstract class SentencesContainer {
 
 	public Iterator<Sentence> sentences() {
 		return sentences;
+	}
+	
+	public Iterator<Sentence> iterator() {
+		return sentences();
 	}
 
 	protected abstract void sentencesTail(ADCorpus corpus);
