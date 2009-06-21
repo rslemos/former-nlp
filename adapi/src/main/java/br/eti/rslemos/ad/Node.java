@@ -5,16 +5,14 @@ import java.util.Iterator;
 
 public abstract class Node {
 
-	private final ADCorpus corpus;
-
 	private final String function;
 	private final String form;
 	private final Info info;
 	protected final int depth;
 
-	Node(ADCorpus corpus) {
-		this.corpus = corpus;
-		
+	private Iterator<Node> children;
+
+	Node(final ADCorpus corpus) {
 		String line = corpus.line;
 		
 		int i = 0;
@@ -58,6 +56,37 @@ public abstract class Node {
 			form = null;
 			info = null;
 		}
+
+		children = new Iterator<Node>() {
+			private ADCorpus corpus0 = corpus;
+			
+			public boolean hasNext() {
+				if (corpus0 == null)
+					return false;
+				
+				String prefix = buildDepthPrefix(depth + 1);
+				if (corpus0.line.startsWith(prefix)) {
+					return true;
+				} else {
+					corpus0 = null;
+					
+					return false;
+				}
+			}
+
+			public Node next() {
+				Node subNode;
+				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
+					subNode = new TerminalNode(corpus0);
+				else
+					subNode = new NonTerminalNode(corpus0);
+
+				return subNode;
+			}
+
+			public void remove() {
+			}
+		};
 	}
 
 	public String getFunction() {
@@ -77,26 +106,7 @@ public abstract class Node {
 	}
 
 	public Iterator<Node> getChildren() {
-		return new Iterator<Node>() {
-
-			public boolean hasNext() {
-				String prefix = buildDepthPrefix(depth + 1);
-				return corpus.line.startsWith(prefix);
-			}
-
-			public Node next() {
-				Node subNode;
-				if (corpus.line.contains("\t") || !corpus.line.contains(":"))
-					subNode = new TerminalNode(corpus);
-				else
-					subNode = new NonTerminalNode(corpus);
-
-				return subNode;
-			}
-
-			public void remove() {
-			}
-		};
+		return children;
 	}
 
 	private static String buildDepthPrefix(int length) {
