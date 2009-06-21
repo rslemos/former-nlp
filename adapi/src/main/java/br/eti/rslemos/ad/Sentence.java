@@ -4,20 +4,14 @@ import java.util.Iterator;
 
 public class Sentence {
 
-	private final ADCorpus corpus;
-
 	private final String id;
 	private final String ref;
 	private final String source;
 	private final String text;
 
-	private boolean closed;
+	private final  Iterator<Analysis> analyses;
 
-	private Iterator<Analysis> analyses;
-
-	Sentence(ADCorpus corpus) {
-		this.corpus = corpus;
-		
+	Sentence(final ADCorpus corpus) {
 		// <s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
 		String[] parts = corpus.line.split(" ", 4);
 
@@ -48,6 +42,36 @@ public class Sentence {
 		text = corpus.line.substring((ref + " ").length());
 		
 		corpus.readNextLine();
+
+		analyses = new Iterator<Analysis>() {
+			private ADCorpus corpus0 = corpus;
+			
+			public boolean hasNext() {
+				if (corpus0 == null)
+					return false;
+
+				if (corpus0.line.startsWith("A"))
+					return true;
+				else {
+					assert corpus0.line.length() == 0;
+					corpus0.readNextLine();
+					assert "</s>".equals(corpus0.line);
+					corpus0.readNextLine();
+
+					corpus0 = null;
+					
+					return false;
+				}
+			}
+
+			public Analysis next() {
+				return new Analysis(corpus0);
+			}
+
+			public void remove() {
+			}
+
+		};
 	}
 
 	public String getId() {
@@ -67,49 +91,12 @@ public class Sentence {
 	}
 
 	public Iterator<Analysis> analyses() {
-		if (closed)
-			return null;
-		
-		if (analyses == null) {
-			analyses = new Iterator<Analysis>() {
-
-				public boolean hasNext() {
-					if (closed)
-						return false;
-
-					if (corpus.line.startsWith("A"))
-						return true;
-					else {
-						assert corpus.line.length() == 0;
-						corpus.readNextLine();
-						assert "</s>".equals(corpus.line);
-						corpus.readNextLine();
-
-						closed = true;
-
-						return false;
-					}
-				}
-
-				public Analysis next() {
-					return new Analysis(corpus);
-				}
-
-				public void remove() {
-				}
-
-			};
-		}
-		
 		return analyses;
 	}
 
 	void readAll() {
-		if (!closed) {
-			Iterator<Analysis> analyses = analyses();
-			while(analyses.hasNext())
-				analyses.next().readAll();
-		}
+		while(analyses.hasNext())
+			analyses.next().readAll();
 	}
 
 }

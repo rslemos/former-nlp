@@ -12,7 +12,7 @@ public class Title extends SentencesContainer {
 	}
 
 	@Override
-	protected void sentencesTail() {
+	protected void sentencesTail(ADCorpus corpus) {
 		assert "</t>".equals(corpus.line);
 		corpus.readNextLine();
 	}

@@ -12,7 +12,7 @@ public class Paragraph extends SentencesContainer {
 	}
 
 	@Override
-	protected void sentencesTail() {
+	protected void sentencesTail(ADCorpus corpus) {
 		assert "</p>".equals(corpus.line);
 		corpus.readNextLine();
 	}

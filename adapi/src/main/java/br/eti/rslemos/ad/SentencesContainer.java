@@ -4,57 +4,45 @@ import java.util.Iterator;
 
 public abstract class SentencesContainer {
 
-	protected final ADCorpus corpus;
+	private final Iterator<Sentence> sentences;
 
-	protected boolean closed;
-	private Iterator<Sentence> sentences;
+	public SentencesContainer(final ADCorpus corpus) {
+		sentences = new Iterator<Sentence>() {
+			private ADCorpus corpus0 = corpus;
+			
+			public boolean hasNext() {
+				if (corpus0 == null)
+					return false;
 
-	public SentencesContainer(ADCorpus corpus) {
-		this.corpus = corpus;
+				if (corpus0.line.startsWith("<s")) {
+					return true;
+				} else {
+					sentencesTail(corpus0);
+
+					corpus0 = null;
+					
+					return false;
+				}
+			}
+
+			public Sentence next() {
+				return new Sentence(corpus0);
+			}
+
+			public void remove() {
+			}
+		};
 	}
 
 	public Iterator<Sentence> sentences() {
-		if (closed)
-			return null;
-		
-		if (sentences == null) {
-			sentences = new Iterator<Sentence>() {
-	
-				public boolean hasNext() {
-					if (closed)
-						return false;
-	
-					if (corpus.line.startsWith("<s")) {
-						return true;
-					} else {
-						sentencesTail();
-	
-						closed = true;
-	
-						return false;
-					}
-				}
-	
-				public Sentence next() {
-					return new Sentence(corpus);
-				}
-	
-				public void remove() {
-				}
-			};
-		}
-		
 		return sentences;
 	}
 
-	protected abstract void sentencesTail();
+	protected abstract void sentencesTail(ADCorpus corpus);
 
 	void readAll() {
-		if (!closed) {
-			Iterator<Sentence> sentences = sentences();
-			while(sentences.hasNext())
-				sentences.next().readAll();
-		}
+		while(sentences.hasNext())
+			sentences.next().readAll();
 	}
 
 }
