@@ -881,21 +881,7 @@ public class ADParserBehavior {
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
 		// =====H:prop("Brasil" <cjt-head> <civ> M S)	Brasil
-		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getFunction(), "H");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getForm(), "prop");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2.getDepth(), 5);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2 instanceof TerminalNode);
-
-		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t.getText(), "Brasil");
-
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t;
+		return checkNextChildAsTerminalNode(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children, 5, "H", "prop", "Brasil");
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t) {
@@ -908,21 +894,7 @@ public class ADParserBehavior {
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_c1_children) {
 		// =====DN:pron-indef("o" <artd> <-sam> DET M S)	o
-		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getFunction(), "DN");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getForm(), "pron-indef");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1.getDepth(), 5);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1 instanceof TerminalNode);
-
-		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t.getText(), "o");
-
-		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t;
+		return checkNextChildAsTerminalNode(e_1000_p1_s2_A1_root_c1_c3_c2_c1_children, 5, "DN", "pron-indef", "o");
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt) {
@@ -933,16 +905,7 @@ public class ADParserBehavior {
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_c2_children) {
 		// ====CJT:np
 		Node e_1000_p1_s2_A1_root_c1_c3_c2_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2_c1);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getFunction(), "CJT");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getForm(), "np");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2_c1.getDepth(), 4);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2_c1 instanceof NonTerminalNode);
-
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2_c1;
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = checkNonTerminalNode(e_1000_p1_s2_A1_root_c1_c3_c2_c1, 4, "CJT", "np");
 		
 		return e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt;
 	}
@@ -955,16 +918,7 @@ public class ADParserBehavior {
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
 		// ===DP:par
 		Node e_1000_p1_s2_A1_root_c1_c3_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c2);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getFunction(), "DP");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getForm(), "par");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c2.getDepth(), 3);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c2 instanceof NonTerminalNode);
-
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1_c3_c2;
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = checkNonTerminalNode(e_1000_p1_s2_A1_root_c1_c3_c2, 3, "DP", "par");
 		
 		return e_1000_p1_s2_A1_root_c1_c3_c2_nt;
 	}
@@ -979,21 +933,7 @@ public class ADParserBehavior {
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_c3_children) {
 		// ===H:prp("de" <sam-> <np-close>)	de
-		Node e_1000_p1_s2_A1_root_c1_c3_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_c3_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3_c1);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getFunction(), "H");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getForm(), "prp");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1.getDepth(), 3);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3_c1 instanceof TerminalNode);
-
-		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c3_c1;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3_c1_t.getText(), "de");
-
-		return e_1000_p1_s2_A1_root_c1_c3_c1_t;
+		return checkNextChildAsTerminalNode(e_1000_p1_s2_A1_root_c1_c3_children, 3, "H", "prp", "de");
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt) {
@@ -1004,16 +944,7 @@ public class ADParserBehavior {
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==DN:pp
 		Node e_1000_p1_s2_A1_root_c1_c3 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c3);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3.getFunction(), "DN");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3.getForm(), "pp");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c3.getDepth(), 2);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c3 instanceof NonTerminalNode);
-
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1_c3;
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = checkNonTerminalNode(e_1000_p1_s2_A1_root_c1_c3, 2, "DN", "pp");
 		
 		return e_1000_p1_s2_A1_root_c1_c3_nt;
 	}
@@ -1028,21 +959,7 @@ public class ADParserBehavior {
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==H:n("seleção" <HH> F P)	seleções
-		Node e_1000_p1_s2_A1_root_c1_c2 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c2);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2.getFunction(), "H");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2.getForm(), "n");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2.getDepth(), 2);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c2 instanceof TerminalNode);
-
-		TerminalNode e_1000_p1_s2_A1_root_c1_c2_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c2;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c2_t.getText(), "seleções");
-
-		return e_1000_p1_s2_A1_root_c1_c2_t;
+		return checkNextChildAsTerminalNode(e_1000_p1_s2_A1_root_c1_children, 2, "H", "n", "seleções");
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1Info(TerminalNode e_1000_p1_s2_A1_root_c1_c1_t) {
@@ -1055,21 +972,7 @@ public class ADParserBehavior {
 
 	private TerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1(Iterator<Node> e_1000_p1_s2_A1_root_c1_children) {
 		// ==DN:pron-indef("o" <artd> DET F P)	As
-		Node e_1000_p1_s2_A1_root_c1_c1 = getNextChild(e_1000_p1_s2_A1_root_c1_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1_c1);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1.getFunction(), "DN");
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1.getForm(), "pron-indef");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1.getDepth(), 2);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1_c1 instanceof TerminalNode);
-
-		TerminalNode e_1000_p1_s2_A1_root_c1_c1_t = (TerminalNode) e_1000_p1_s2_A1_root_c1_c1;
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1_c1_t.getText(), "As");
-
-		return e_1000_p1_s2_A1_root_c1_c1_t;
+		return checkNextChildAsTerminalNode(e_1000_p1_s2_A1_root_c1_children, 2, "DN", "pron-indef", "As");
 	}
 
 	private void checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1Info(NonTerminalNode e_1000_p1_s2_A1_root_c1_nt) {
@@ -1080,16 +983,7 @@ public class ADParserBehavior {
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNodeChild1(Iterator<Node> e_1000_p1_s2_A1_root_children) {
 		// =S:np
 		Node e_1000_p1_s2_A1_root_c1 = getNextChild(e_1000_p1_s2_A1_root_children);
-		assertNotNull(e_1000_p1_s2_A1_root_c1);
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1.getFunction(), "S");
-		assertEquals(e_1000_p1_s2_A1_root_c1.getForm(), "np");
-		
-		assertEquals(e_1000_p1_s2_A1_root_c1.getDepth(), 1);
-		
-		assertTrue(e_1000_p1_s2_A1_root_c1 instanceof NonTerminalNode);
-
-		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = (NonTerminalNode) e_1000_p1_s2_A1_root_c1;
+		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = checkNonTerminalNode(e_1000_p1_s2_A1_root_c1, 1, "S", "np");
 		
 		return e_1000_p1_s2_A1_root_c1_nt;
 	}
@@ -1102,16 +996,7 @@ public class ADParserBehavior {
 	private NonTerminalNode checkExtract1000Paragraph1Sentence1AnalysisA1RootNode(Analysis e_1000_p1_s2_A1) {
 		// STA:fcl
 		Node e_1000_p1_s2_A1_root = getRootNode(e_1000_p1_s2_A1);
-		assertNotNull(e_1000_p1_s2_A1_root);
-
-		assertEquals(e_1000_p1_s2_A1_root.getFunction(), "STA");
-		assertEquals(e_1000_p1_s2_A1_root.getForm(), "fcl");
-		
-		assertEquals(e_1000_p1_s2_A1_root.getDepth(), 0);
-		
-		assertTrue(e_1000_p1_s2_A1_root instanceof NonTerminalNode);
-
-		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) e_1000_p1_s2_A1_root;
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = checkNonTerminalNode(e_1000_p1_s2_A1_root, 0, "STA", "fcl");
 		
 		return e_1000_p1_s2_A1_root_nt;
 	}
@@ -1160,17 +1045,8 @@ public class ADParserBehavior {
 	private TerminalNode checkExtract1000TitleSentence1AnalysisA1RootNode(Analysis e_1000_t_s1_A1) {
 		// X:n("consolação" <act> F S)	Consolação
 		Node e_1000_t_s1_A1_root = getRootNode(e_1000_t_s1_A1);
+		TerminalNode e_1000_t_s1_A1_root_t = checkTerminalNode(e_1000_t_s1_A1_root, 0, "X", "n", "Consolação");
 		
-		assertNotNull(e_1000_t_s1_A1_root);
-
-		assertEquals(e_1000_t_s1_A1_root.getFunction(), "X");
-		assertEquals(e_1000_t_s1_A1_root.getForm(), "n");
-		
-		assertTrue(e_1000_t_s1_A1_root instanceof TerminalNode);
-		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) e_1000_t_s1_A1_root;
-		
-		assertEquals(e_1000_t_s1_A1_root_t.getText(), "Consolação");
-
 		return e_1000_t_s1_A1_root_t;
 	}
 
@@ -1303,4 +1179,40 @@ public class ADParserBehavior {
 		assertEquals(children.hasNext(), true);
 		return children.next();
 	}
+
+	private TerminalNode checkNextChildAsTerminalNode(Iterator<Node> children, int depth, String function, String form, String text) {
+		Node node = getNextChild(children);
+		return checkTerminalNode(node, depth, function, form, text);
+	}
+
+
+	private TerminalNode checkTerminalNode(Node node, int depth, String function, String form, String text) {
+		checkNode(node, depth, function, form);
+		
+		assertTrue(node instanceof TerminalNode);
+
+		TerminalNode node_t = (TerminalNode) node;
+		
+		assertEquals(node_t.getText(), text);
+		
+		return node_t;
+	}
+
+	private NonTerminalNode checkNonTerminalNode(Node node, int depth, String function, String form) {
+		checkNode(node, depth, function, form);
+				
+		assertTrue(node instanceof NonTerminalNode);
+
+		return (NonTerminalNode) node;
+	}
+
+	private void checkNode(Node node, int depth, String function, String form) {
+		assertNotNull(node);
+		
+		assertEquals(node.getDepth(), depth);
+		assertEquals(node.getFunction(), function);
+		assertEquals(node.getForm(), form);
+	}
+
+
 }
