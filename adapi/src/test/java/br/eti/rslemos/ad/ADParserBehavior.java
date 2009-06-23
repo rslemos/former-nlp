@@ -22,14 +22,14 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Title() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNextExtract(extracts);
+		Extract e_1000 = getNext(extracts);
 		checkExtract1000Title(e_1000);
 	}
 
 	@Test
 	public void shouldParseExt1000TitleSentence1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNextExtract(extracts);
+		Extract e_1000 = getNext(extracts);
 		Title e_1000_t = getTitle(e_1000);
 		Iterator<Sentence> e_1000_t_sentences = getSentences(e_1000_t);
 		checkExtract1000TitleSentence1(e_1000_t_sentences);
@@ -54,7 +54,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNextExtract(extracts);
+		Extract e_1000 = getNext(extracts);
 		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
 		checkExtract1000Paragraph1(e_1000_p);
 	}
@@ -62,9 +62,9 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNextExtract(extracts);
+		Extract e_1000 = getNext(extracts);
 		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
-		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Paragraph e_1000_p1 = getNext(e_1000_p);
 		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);		
 		checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
 	}
@@ -173,7 +173,7 @@ public class ADParserBehavior {
 		Iterator<Sentence> e_1000_t_sentences = getSentences(e_1000_t);
 		Sentence e_1000_t_s1 = checkExtract1000TitleSentence1(e_1000_t_sentences);
 		Iterator<Analysis> e_1000_t_s1_analyses = getAnalyses(e_1000_t_s1);
-		Analysis e_1000_t_s1_A1 = getNextAnalysis(e_1000_t_s1_analyses);
+		Analysis e_1000_t_s1_A1 = getNext(e_1000_t_s1_analyses);
 		checkAnalysis(e_1000_t_s1_A1, 1);
 		
 		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1);
@@ -188,7 +188,7 @@ public class ADParserBehavior {
 		Sentence e_1000_p1_s2 = checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
 		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
 		// A1
-		Analysis e_1000_p1_s2_A11 = getNextAnalysis(e_1000_p1_s2_analyses);
+		Analysis e_1000_p1_s2_A11 = getNext(e_1000_p1_s2_analyses);
 		checkAnalysis(e_1000_p1_s2_A11, 1);
 		Analysis e_1000_p1_s2_A1 = e_1000_p1_s2_A11;
 		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
@@ -332,7 +332,7 @@ public class ADParserBehavior {
 		// SOURCE: ref="CF1000-2" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
 		// CF1000-2 As seleções do Brasil, Cuba, Coréia do Sul, Angola, Argentina e Egito, eliminadas na primeira fase, participarão do torneio de consolação, em Hamilton, que definirá as colocações do nono ao 16o.
 
-		Sentence e_1000_p1_s2 = getNextSentence(e_1000_p1_sentences);
+		Sentence e_1000_p1_s2 = getNext(e_1000_p1_sentences);
 		assertNotNull(e_1000_p1_s2);
 
 		assertEquals(e_1000_p1_s2.getId(), "2");
@@ -344,7 +344,7 @@ public class ADParserBehavior {
 	}
 
 	private Paragraph checkExtract1000Paragraph1(Iterator<Paragraph> e_1000_p) {
-		Paragraph e_1000_p1 = getNextParagraph(e_1000_p);
+		Paragraph e_1000_p1 = getNext(e_1000_p);
 		assertNotNull(e_1000_p1);
 		
 		return e_1000_p1;
@@ -359,7 +359,7 @@ public class ADParserBehavior {
 		// <s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
 		// SOURCE: ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
 		// CF1000-1 Consolação
-		Sentence e_1000_t_s1 = getNextSentence(e_1000_t_sentences);
+		Sentence e_1000_t_s1 = getNext(e_1000_t_sentences);
 		
 		assertNotNull(e_1000_t_s1);
 		
@@ -380,7 +380,7 @@ public class ADParserBehavior {
 
 	private Extract checkExtract1000(Iterator<Extract> extracts) {
 		// <ext id=1000 cad="Esporte" sec="des" sem="94a">
-		Extract e_1000 = getNextExtract(extracts);
+		Extract e_1000 = getNext(extracts);
 		
 		assertNotNull(e_1000);
 		
@@ -407,11 +407,6 @@ public class ADParserBehavior {
 		return extracts;
 	}
 
-	private Extract getNextExtract(Iterator<Extract> extracts) {
-		assertEquals(extracts.hasNext(), true);
-		return extracts.next();
-	}
-
 	private Title getTitle(Extract extract) {
 		return extract.title();
 	}
@@ -423,21 +418,11 @@ public class ADParserBehavior {
 		return sentences;
 	}
 
-	private Sentence getNextSentence(Iterator<Sentence> sentences) {
-		assertEquals(sentences.hasNext(), true);
-		return sentences.next();
-	}
-
 	private Iterator<Analysis> getAnalyses(Sentence sentence) {
 		Iterator<Analysis> analyses = sentence.analyses();
 		assertNotNull(analyses);
 		
 		return analyses;
-	}
-
-	private Analysis getNextAnalysis(Iterator<Analysis> analyses) {
-		assertEquals(analyses.hasNext(), true);
-		return analyses.next();
 	}
 
 	private Node getRootNode(Analysis analysis) {
@@ -457,11 +442,11 @@ public class ADParserBehavior {
 		return paragraphs;
 	}
 
-	private Paragraph getNextParagraph(Iterator<Paragraph> paragraphs) {
-		assertEquals(paragraphs.hasNext(), true);
-		return paragraphs.next();
+	private <T> T getNext(Iterator<T> iterator) {
+		assertEquals(iterator.hasNext(), true);
+		return iterator.next();	
 	}
-
+	
 	private Iterator<Sentence> getSentences(Paragraph paragraph) {
 		Iterator<Sentence> sentences = paragraph.sentences();
 		assertNotNull(sentences);
@@ -470,8 +455,7 @@ public class ADParserBehavior {
 	}
 
 	private <T extends Node> T getNextChild(Iterator<Node> children, Class<T> clazz) {
-		assertEquals(children.hasNext(), true);
-		Node child = children.next();
+		Node child = getNext(children);
 		
 		assertTrue(clazz.isInstance(child));
 		return clazz.cast(child);
@@ -565,43 +549,43 @@ public class ADParserBehavior {
 
 	private Analysis getAnalysis(Iterator<Extract> extracts, int n_extract, int n_paragraph, int n_sentence, int n_analysis) {
 		for (int i = 0; i < n_extract; i++)
-			getNextExtract(extracts);
-		Extract extract = getNextExtract(extracts);
+			getNext(extracts);
+		Extract extract = getNext(extracts);
 
 		Iterator<Paragraph> paragraphs = getParagraphs(extract);
 		for (int i = 0; i < n_paragraph; i++)
-			getNextParagraph(paragraphs);
-		Paragraph paragraph = getNextParagraph(paragraphs);
+			getNext(paragraphs);
+		Paragraph paragraph = getNext(paragraphs);
 
 		Iterator<Sentence> sentences = getSentences(paragraph);
 		for (int i = 0; i < n_sentence; i++)
-			getNextSentence(sentences);
-		Sentence sentence = getNextSentence(sentences);
+			getNext(sentences);
+		Sentence sentence = getNext(sentences);
 
 		Iterator<Analysis> analyses = getAnalyses(sentence);
 		for (int i = 0; i < n_analysis; i++)
-			getNextAnalysis(analyses);
-		Analysis analysis = getNextAnalysis(analyses);
+			getNext(analyses);
+		Analysis analysis = getNext(analyses);
 
 		return analysis;
 	}
 
 	private Analysis getTitleAnalysis(Iterator<Extract> extracts,int n_extract, int n_sentence, int n_analysis) {
 		for (int i = 0; i < n_extract; i++)
-			getNextExtract(extracts);
-		Extract extract = getNextExtract(extracts);
+			getNext(extracts);
+		Extract extract = getNext(extracts);
 		
 		Title title = getTitle(extract);
 		
 		Iterator<Sentence> sentences = getSentences(title);
 		for (int i = 0; i < n_sentence; i++)
-			getNextSentence(sentences);
-		Sentence sentence = getNextSentence(sentences);
+			getNext(sentences);
+		Sentence sentence = getNext(sentences);
 		
 		Iterator<Analysis> analyses = getAnalyses(sentence);
 		for (int i = 0; i < n_analysis; i++)
-			getNextAnalysis(analyses);
-		Analysis analysis = getNextAnalysis(analyses);
+			getNext(analyses);
+		Analysis analysis = getNext(analyses);
 		
 		return analysis;
 	}
