@@ -53,7 +53,7 @@ public class Sentence implements Iterable<Analysis> {
 				if (corpus0.line.startsWith("A"))
 					return true;
 				else {
-					assert corpus0.line.length() == 0;
+					assert corpus0.line.length() == 0 : corpus0.line;
 					corpus0.readNextLine();
 					assert "</s>".equals(corpus0.line);
 					corpus0.readNextLine();

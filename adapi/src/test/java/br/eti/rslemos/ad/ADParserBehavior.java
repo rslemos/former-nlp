@@ -47,7 +47,7 @@ public class ADParserBehavior {
 	public void shouldParseExt1000TitleSentence1AnalysisA1RootNode() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_t_s1_A1 = getTitleAnalysis(extracts, 0, 0, 0);
-		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1);
+		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1, 0);
 		check_e_1000_t_s1_A1_0(e_1000_t_s1_A1_root_t);
 	}
 
@@ -80,7 +80,7 @@ public class ADParserBehavior {
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNode() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
-		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1, 0);
 		check_e_1000_p1_s2_A1_0(e_1000_p1_s2_A1_root_nt);
 	}
 		
@@ -176,7 +176,7 @@ public class ADParserBehavior {
 		Analysis e_1000_t_s1_A1 = getNext(e_1000_t_s1_analyses);
 		checkAnalysis(e_1000_t_s1_A1, 1);
 		
-		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1);
+		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1, 0);
 		check_e_1000_t_s1_A1_0(e_1000_t_s1_A1_root_t);
 
 		assertEquals(e_1000_t_s1_analyses.hasNext(), false);
@@ -191,7 +191,7 @@ public class ADParserBehavior {
 		Analysis e_1000_p1_s2_A11 = getNext(e_1000_p1_s2_analyses);
 		checkAnalysis(e_1000_p1_s2_A11, 1);
 		Analysis e_1000_p1_s2_A1 = e_1000_p1_s2_A11;
-		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1, 0);
 		check_e_1000_p1_s2_A1_0(e_1000_p1_s2_A1_root_nt);
 
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = getNonTerminalChild(e_1000_p1_s2_A1_root_nt, 0);
@@ -254,8 +254,9 @@ public class ADParserBehavior {
 			Title title = extract.title();
 			for (Sentence sentence : title) {
 				for (Analysis analysis : sentence) {
-					Node node = analysis.tree();
-					processNode(node);
+					for (Node node : analysis) {
+						processNode(node);
+					}
 				}
 			}
 		}
@@ -425,10 +426,6 @@ public class ADParserBehavior {
 		return analyses;
 	}
 
-	private Node getRootNode(Analysis analysis) {
-		return analysis.tree();
-	}
-
 	private Iterator<Node> getChildren(Node node) {
 		Iterator<Node> children = node.children();
 		assertNotNull(children);
@@ -537,13 +534,25 @@ public class ADParserBehavior {
 		return node;
 	}
 
+	private Node getRootNode(Analysis analysis, int n) {
+		Iterator<Node> children = analysis.children();
+		assertNotNull(children);
+		
+		for (int i = 0; i < n; i++)
+			getNextChild(children, Node.class);
+
+		return getNextChild(children, Node.class);
+	}
+
 	private NonTerminalNode getNonTerminalChild(Analysis analysis, int... n) {
-		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(analysis);
+		Node rootNode = getRootNode(analysis, 0);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) rootNode;
 		return getNonTerminalChild(e_1000_p1_s2_A1_root_nt, n);
 	}
 	
 	private TerminalNode getTerminalChild(Analysis analysis, int... n) {
-		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(analysis);
+		Node rootNode = getRootNode(analysis, 0);
+		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) rootNode;
 		return getTerminalChild(e_1000_p1_s2_A1_root_nt, n);
 	}
 
