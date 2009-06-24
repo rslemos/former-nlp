@@ -10,32 +10,50 @@ public class Extract implements Iterable<Paragraph> {
 	private final String sem;
 	
 	private transient ADCorpus corpus;
-	private Title title;
+	private final Title title;
 
 	Extract(ADCorpus corpus) {
 		this.corpus = corpus;
 		
+		assert corpus.line.startsWith("<ext ");
+		
 		// <ext id=1000 cad="Esporte" sec="des" sem="94a">
-		String[] parts = corpus.line.split(" ");
-
-		assert "<ext".equals(parts[0]);
-
-		assert parts[1].startsWith("id=");
-		id = Integer.parseInt(parts[1].substring("id=".length()));
+		// <ext id=1003 cad="Caderno Especial" sec="nd" sem="94a">
 		
-		assert parts[2].startsWith("cad=\"");
-		assert parts[2].endsWith("\"");
-		cad = parts[2].substring("cad=\"".length(), parts[2].length() - "\"".length());
+		String[] parts;
 		
-		assert parts[3].startsWith("sec=\"");
-		assert parts[3].endsWith("\"");
-		sec = parts[3].substring("sec=\"".length(), parts[3].length() - "\"".length());
+		parts = corpus.line.substring("<ext ".length()).split("=", 2);
+		assert parts[0].equals("id");
+		parts = parts[1].split(" ", 2);
+		id = Integer.parseInt(parts[0]);
 		
-		assert parts[4].startsWith("sem=\"");
-		assert parts[4].endsWith("\">");
-		sem = parts[4].substring("sem=\"".length(), parts[4].length() - "\">".length());
+		parts = parts[1].split("=", 2);
+		assert parts[0].equals("cad");
+		parts = parts[1].split("\"", 3);
+		assert parts[0].length() == 0;
+		cad = parts[1];
+		
+		parts = parts[2].trim().split("=", 2);
+		assert parts[0].equals("sec");
+		parts = parts[1].split("\"", 3);
+		assert parts[0].length() == 0;
+		sec = parts[1];
+		
+		parts = parts[2].trim().split("=", 2);
+		assert parts[0].equals("sem");
+		parts = parts[1].split("\"", 4);
+		assert parts[0].length() == 0;
+		sem = parts[1];
+		
+		assert parts[2].equals(">");
 		
 		corpus.readNextLine();
+
+		
+		if (corpus.line.equals("<t>"))
+			title = new Title(corpus);
+		else
+			title = null;
 	}
 
 	public int getId() {
@@ -55,16 +73,13 @@ public class Extract implements Iterable<Paragraph> {
 	}
 
 	public Title title() {
-		if (title == null) {
-			title = new Title(corpus);
-		}
-		
 		return title;
 	}
 
 	public Iterator<Paragraph> paragraphs() {
 		// skip title
-		title().skipOver();
+		if (title != null)
+			title.skipOver();
 		
 		return new Iterator<Paragraph>() {
 

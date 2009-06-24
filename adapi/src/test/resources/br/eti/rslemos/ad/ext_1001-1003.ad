@@ -1,0 +1,399 @@
+<ext id=1001 cad="Cotidiano" sec="soc" sem="94b">
+<t>
+<s id="5" ref="CF1001-1" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-1" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-1 Polêmica teve início em 92
+A1
+STA:fcl
+=S:n("polêmica" <fight> F S)	Polêmica
+=P:v-fin("ter" <fmc> <mv> PS 3S IND VFIN)	teve
+=Od:n("início" <temp> M S)	início
+=fA:pp
+==H:prp("em")	em
+==DP:num("92" <card> M/F S)	92
+
+</s>
+</t>
+<p>
+<s id="6" ref="CF1001-2" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-2" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-2 O jornalista Raimundo Gadelha comprou um título do Clube Paineiras em maio de 92 e vem pagando mensalmente as prestações, sem poder frequentá-lo.
+A1
+STA:fcl
+=S:np
+==DN:pron-indef("o" <artd> DET M S)	O
+==H:n("jornalista" <Hprof> M S)	jornalista
+==DN:prop("Raimundo_Gadelha" <hum> <np-close> M S)	Raimundo_Gadelha
+=X:par
+==CJT:x
+===P:v-fin("comprar" <predco>  <fmc> <mv> PS 3S IND VFIN)	comprou
+===Od:np
+====DN:pron-indef("um" <arti> DET M S)	um
+====H:n("título" <f-right> M S)	título
+====DN:pp
+=====H:prp("de" <sam-> <np-close>)	de
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+======H:prop("Clube_Paineiras" <org> M S)	Clube_Paineiras
+===fA:pp
+====H:prp("em")	em
+====DP:np
+=====H:n("maio" M S)	maio
+=====DN:pp
+======H:prp("de" <np-close>)	de
+======DP:num("92" <card> M/F P)	92
+==CO:conj-c("e" <co-fmc> <co-fin>)	e
+==CJT:x
+===P:vp
+====Vaux:v-fin("vir" <nosubj> <cjt-STA> <fmc> <aux> PR 3S IND VFIN)	vem
+====Vm:v-ger("pagar" <clb> <mv> )	pagando
+===fA:adv("mensalmente")	mensalmente
+===Od:np
+====DN:pron-indef("o" <artd> DET F P)	as
+====H:n("prestação" <mon> F P)	prestações
+===,
+===fA:pp
+====H:prp("sem")	sem
+====DP:icl
+=====P:vp
+======Vaux:v-inf("poder" <aux> )	poder
+======Vm:v-inf("frequentar" <hyfen> <mv> )	frequentar-
+=====Od:pron-pers("ele" M 3S ACC)	lo
+.
+
+</s>
+<s id="7" ref="CF1001-3" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-3" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-3 Segundo o clube, o fato de ele possuir um título não o torna sócio.
+A1
+fA:pp
+=H:prp("segundo" <com> <adv-rel>)	Segundo
+=DP:par
+==CJT:np
+===DN:pron-indef("o" <artd> DET M S)	o
+===H:n("clube" <cjt-head> <asarg> <HH> M S)	clube
+==,
+==CJT:np
+===DN:pron-indef("o" <artd> DET M S)	o
+===H:n("fato" <cjt-DP> <asarg> <ac> <AAdom> M S)	fato
+===DN:pp
+====H:prp("de" <np-close>)	de
+=STA:fcl
+==S:pron-pers("ele" <clb> M 3S NOM)	ele
+====DP:icl
+=====P:v-inf("possuir" <mv> 3S)	possuir
+=====Od:np
+======DN:pron-indef("um" <arti> DET M S)	um
+======H:n("título" <f-c> M S)	título
+===fA:adv("não")	não
+===Od:pron-pers("ele" M 3S ACC)	o
+===P:v-fin("tornar" <fmc> <mv> PR 3S IND VFIN)	torna
+===Co:n("sócio" <H> M S)	sócio
+.
+
+</s>
+</p>
+<p>
+<s id="8" ref="CF1001-4" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-4" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-4 Ele foi indicado no clube por um sócio que estava querendo vender o título.
+A1
+STA:fcl
+=S:pron-pers("ele" M 3S NOM)	Ele
+=P:vp
+==Vaux:v-fin("ser" <fmc> <aux> PS 3S IND VFIN)	foi
+==Vm:v-pcp("indicar" <mv> M S)	indicado
+=fA:pp
+==H:prp("em" <sam->)	em
+==DP:np
+===DN:pron-indef("o" <artd> <-sam> DET M S)	o
+===H:n("clube" <HH> M S)	clube
+=fA:pp
+==H:prp("por")	por
+==DP:np
+===DN:pron-indef("um" <arti> DET M S)	um
+===H:n("sócio" <H> M S)	sócio
+===DN:fcl
+====S:spec("que" <clb> <rel> M S)	que
+====P:vp
+=====Vaux:v-fin("estar" <aux> <np-close> IMPF 3S IND VFIN)	estava
+=====Vm:v-ger("querer" <mv> )	querendo
+====Od:icl
+=====P:v-inf("vender" <mv> )	vender
+=====Od:np
+======DN:pron-indef("o" <artd> DET M S)	o
+======H:n("título" <f-c> M S)	título
+.
+
+</s>
+<s id="9" ref="CF1001-5" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-5" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-5 Gadelha o comprou por US 2,6 mil.
+A1
+STA:fcl
+=S:prop("Gadelha" <hum> M/F S)	Gadelha
+=Od:pron-pers("ele" M 3S ACC)	o
+=P:v-fin("comprar" <fmc> <mv> PS 3S IND VFIN)	comprou
+=fA:pp
+==H:prp("por")	por
+==DP:prop("US$_2,6_mil" <currency> M/F S/P)	US$_2,6_mil
+.
+
+</s>
+<s id="10" ref="CF1001-6" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-6" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-6 Ontem, ele disse que não quer mais ser sócio do clube.
+A1
+STA:fcl
+=fA:adv("ontem")	Ontem
+=,
+=S:pron-pers("ele" M 3S NOM)	ele
+=P:v-fin("dizer" <fmc> <mv> PS 3S IND VFIN)	disse
+=Od:fcl
+==SUB:conj-s("que" <clb>)	que
+==fA:adv("não")	não
+==P:v-fin("querer" <mv> PR 3S IND VFIN)	quer
+==Od:fcl
+===S:pron-indef("muito" <KOMP> <quant> DET M S)	mais
+===P:v-inf("ser" <mv> 3S)	ser
+===Cs:np
+====H:n("sócio" <H> M S)	sócio
+====DN:pp
+=====H:prp("de" <sam-> <np-close>)	de
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+======H:n("clube" <HH> M S)	clube
+.
+
+</s>
+<s id="11" ref="CF1001-7" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-7" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-7  «Eu só quero provar que não há nada contra mim que justifique que algum clube me recuse» .
+A1
+STA:fcl
+"
+=S:pron-pers("eu" M/F 1S NOM)	Eu
+=fA:adv("só")	só
+=X:par
+==CJT:x
+===P:v-fin("querer" <predco>  <fmc> <mv> PR 1S IND VFIN)	quero
+===Od:icl
+====P:v-inf("provar" <mv> )	provar
+====Od:fcl
+=====SUB:conj-s("que" <clb>)	que
+=====fA:adv("não")	não
+=====P:v-fin("haver" <mv> PR 3S IND VFIN)	há
+=====Od:spec("nada" <quant> M S)	nada
+=====Op:pp
+======H:prp("contra")	contra
+======DP:pron-pers("eu" M/F 1S PIV)	mim
+==CJT:x
+===SUB:conj-s("que" <clb>)	que
+===P:v-fin("justificar" <nosubj> <cjt-STA> <fmc> <mv> PR 1/3S SUBJ VFIN)	justifique
+===Od:fcl
+====SUB:conj-s("que" <clb>)	que
+====S:np
+=====DN:pron-indef("algum" <quant> DET M S)	algum
+=====H:n("clube" <HH> M S)	clube
+====Od:pron-pers("eu" M/F 1S ACC)	me
+====P:v-fin("recusar" <mv> PR 3S SUBJ VFIN)	recuse
+"
+.
+
+</s>
+</p>
+<ext id=1002 cad="Brasil" sec="pol" sem="94a">
+<p>
+<s id="12" ref="CF1002-1" source="CETENFolha id=1002 cad=Brasil sec=pol sem=94a">
+SOURCE: ref="CF1002-1" source="CETENFolha id=1002 cad=Brasil sec=pol sem=94a"
+CF1002-1 Para ele, o Brasil vai vencer a luta contra a inflação por causa da determinação da sua população.
+A1
+STA:fcl
+=fA:pp
+==H:prp("para")	Para
+==DP:pron-pers("ele" M 3S NOM/PIV)	ele
+=,
+=DN:pron-indef("o" <artd> DET M S)	o
+=S:prop("Brasil" <org> M S)	Brasil
+=P:vp
+==Vaux:v-fin("ir" <fmc> <aux> PR 3S IND VFIN)	vai
+==Vm:v-inf("vencer" <mv> )	vencer
+=Od:np
+==DN:pron-indef("o" <artd> DET F S)	a
+==H:n("luta" <fight> F S)	luta
+==DN:pp
+===H:prp("contra" <np-close>)	contra
+===DP:np
+====DN:pron-indef("o" <artd> DET F S)	a
+====H:n("inflação" <process> <state-h> <am> F S)	inflação
+=fA:pp
+==H:prp("por_causa_de" <sam->)	por_causa_de
+==DP:np
+===DN:pron-indef("o" <-sam> <artd> DET F S)	a
+===H:n("determinação" <act> F S)	determinação
+===DN:pp
+====H:prp("de" <sam-> <np-close>)	de
+====DP:np
+=====DN:pron-indef("o" <artd> <-sam> DET F S)	a
+=====DN:pron-poss("seu" <poss 3S> DET F S)	sua
+=====H:n("população" <HH> F S)	população
+.
+
+</s>
+</p>
+<p>
+<s id="13" ref="CF1002-2" source="CETENFolha id=1002 cad=Brasil sec=pol sem=94a">
+SOURCE: ref="CF1002-2" source="CETENFolha id=1002 cad=Brasil sec=pol sem=94a"
+CF1002-2  «A vitória virá nem que seja na decisão por pênaltis depois de um jogo difícil e com empate na prorrogação» , disse.
+A1
+STA:par
+"
+=CJT:fcl
+==S:np
+===DN:pron-indef("o" <artd> DET F S)	A
+===H:n("vitória" <event> F S)	vitória
+==P:v-fin("vir" <cjt-head> <fmc> <mv> FUT 3S IND VFIN)	virá
+==fA:fcl
+===SUB:conj-s("nem_que" <clb>)	nem_que
+===P:v-fin("ser" <mv> PR 3S SUBJ VFIN)	seja
+===Cs:pp
+====H:prp("em" <sam->)	em
+====DP:np
+=====DN:pron-indef("o" <artd> <-sam> DET F S)	a
+=====H:n("decisão" <act> F S)	decisão
+===fA:pp
+====H:prp("por")	por
+====DP:n("penalti" <ac> M P)	pênaltis
+===fA:advp
+====H:adv("depois")	depois
+====DA:pp
+=====H:prp("de")	de
+=====DP:np
+======DN:pron-indef("um" <arti> DET M S)	um
+======H:n("jogo" <cc-h> M S)	jogo
+======DN:adj("difícil" <np-close> M S)	difícil
+=CO:conj-c("e" <co-fmc> <co-fin>)	e
+=FOC:pp
+====H:prp("com")	com
+====DP:n("empate" <sit> M S)	empate
+===fA:pp
+====H:prp("em" <sam->)	em
+====DP:np
+=====DN:pron-indef("o" <artd> <-sam> DET F S)	a
+=====H:n("prorrogação" <act> F S)	prorrogação
+"
+=,
+=CJT:v-fin("dizer" <cjt-STA> <fmc> <mv> PS 3S IND VFIN)	disse
+.
+
+</s>
+</p>
+<ext id=1003 cad="Caderno Especial" sec="nd" sem="94a">
+<p>
+<s id="14" ref="CF1003-1" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a">
+SOURCE: ref="CF1003-1" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a"
+CF1003-1 A equipe econômica tem prontos alguns remendos ao plano.
+A1
+STA:fcl
+=S:np
+==DN:pron-indef("o" <artd> DET F S)	A
+==H:n("equipe" <HH> F S)	equipe
+==DN:adj("econômico" <np-close> F S)	econômica
+=P:v-fin("ter" <fmc> <mv> PR 3S IND VFIN)	tem
+=Od:par
+==CJT:adj("pronto" <cjt-head> M P)	prontos
+==CJT:np
+===DN:pron-indef("algum" <quant> DET M P)	alguns
+===H:n("remendo" <cjt-Od> <act-d> M P)	remendos
+=fA:pp
+==H:prp("a" <sam->)	a
+==DP:np
+===DN:pron-indef("o" <artd> <-sam> DET M S)	o
+===H:n("plano" <sem-c> M S)	plano
+.
+
+</s>
+<s id="15" ref="CF1003-2" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a">
+SOURCE: ref="CF1003-2" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a"
+CF1003-2 Planeja-se, por um lado, estimular a poupança.
+A1
+STA:fcl
+=P:v-fin("planejar" <hyfen> <fmc> <mv> PR 3S IND VFIN)	Planeja-
+=S:pron-pers("se" M/F 3S/P ACC)	se
+=,
+=fA:adv("por_um_lado" <pp>)	por_um_lado
+=,
+=Od:icl
+==P:v-inf("estimular" <mv> )	estimular
+==Od:np
+===DN:pron-indef("o" <artd> DET F S)	a
+===H:n("poupança" <f-psych> F S)	poupança
+.
+
+</s>
+<s id="16" ref="CF1003-3" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a">
+SOURCE: ref="CF1003-3" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a"
+CF1003-3 E, por outro, conter o consumo.
+A1
+fA:pp
+=CO:conj-c("e")	E
+=,
+=H:prp("por")	por
+=DP:pron-indef("outro" <KOMP> <diff> DET M S)	outro
+,
+UTT:icl
+=P:v-inf("conter" <mv> )	conter
+=Od:np
+==DN:pron-indef("o" <artd> DET M S)	o
+==H:n("consumo" <act-d> M S)	consumo
+.
+
+</s>
+</p>
+<p>
+<s id="17" ref="CF1003-4" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a">
+SOURCE: ref="CF1003-4" source="CETENFolha id=1003 cad=Caderno Especial sec=nd sem=94a"
+CF1003-4 São providências que, se adotadas, devem esvaziar as feiras e os shoppings, interrompendo o espasmo de euforia que anima o consumidor brasileiro.
+A1
+STA:fcl
+=P:v-fin("ser" <fmc> <mv> PR 3P IND VFIN)	São
+=Cs:np
+==H:n("providência" <am> F P)	providências
+=Od:spec("que" <clb> <rel> M S)	que
+==,
+==DN:fcl
+===SUB:conj-s("se" <clb>)	se
+===S:adj("adotado" F P)	adotadas
+===,
+===P:vp
+====Vaux:v-fin("dever" <aux> <np-close> PR 3P IND VFIN)	devem
+====Vm:v-inf("esvaziar" <mv> )	esvaziar
+===Od:par
+====CJT:np
+=====DN:pron-indef("o" <artd> DET F P)	as
+=====H:n("feira" <cjt-head> <occ> F P)	feiras
+====CO:conj-c("e" <co-acc>)	e
+====CJT:np
+=====DN:pron-indef("o" <artd> DET M P)	os
+=====H:n("shopping" <cjt-Od> <Lh> M P)	shoppings
+===,
+===fA:advp
+====P:v-ger("interromper" <clb> <mv> )	interrompendo
+====Od:np
+=====DN:pron-indef("o" <artd> DET M S)	o
+=====H:n("espasmo" <event> M S)	espasmo
+=====DN:pp
+======H:prp("de" <np-close>)	de
+======DP:np
+=======H:n("euforia" <state-h> F S)	euforia
+=======DN:fcl
+========S:spec("que" <clb> <rel> M S)	que
+========P:v-fin("animar" <mv> <np-close> PR 3S IND VFIN)	anima
+========Od:np
+=========DN:pron-indef("o" <artd> DET M S)	o
+=========H:n("consumidor" <H> M S)	consumidor
+=========DN:adj("brasileiro" <nat> <np-close> M S)	brasileiro
+.
+
+</s>
+</p>

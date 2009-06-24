@@ -244,6 +244,12 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldFullyParseExt1001_1003() {
+		ADCorpus corpus = getCorpus("ext_1001-1003.ad");
+		fullyParse(corpus);
+	}
+
+	@Test
 	public void shouldCloseInputReader() throws Throwable {
 		InputStream ext_1000 = ADParserBehavior.class.getResourceAsStream("ext_1000.ad");
 		Reader ext_1000r = new InputStreamReader(ext_1000, Charset.forName("UTF-8"));
@@ -258,7 +264,8 @@ public class ADParserBehavior {
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
 			Title title = extract.title();
-			fullyParse(title);
+			if (title != null)
+				fullyParse(title);
 			fullyParse(extract);
 		}
 	}
