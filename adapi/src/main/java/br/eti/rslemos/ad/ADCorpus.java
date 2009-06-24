@@ -8,6 +8,7 @@ import java.util.Iterator;
 public class ADCorpus implements Iterable<Extract> {
 
 	private final BufferedReader input;
+	int lineNumber;
 	String line;
 	
 	public ADCorpus(Reader input) {
@@ -18,6 +19,7 @@ public class ADCorpus implements Iterable<Extract> {
 	void readNextLine() {
 		try {
 			line = input.readLine();
+			lineNumber++;
 		} catch (IOException e) {
 			line = null;
 		}
