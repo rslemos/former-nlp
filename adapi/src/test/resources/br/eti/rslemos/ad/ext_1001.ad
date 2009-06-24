@@ -1,0 +1,204 @@
+<ext id=1001 cad="Cotidiano" sec="soc" sem="94b">
+<t>
+<s id="5" ref="CF1001-1" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-1" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-1 Polêmica teve início em 92
+A1
+STA:fcl
+=S:n("polêmica" <fight> F S)	Polêmica
+=P:v-fin("ter" <fmc> <mv> PS 3S IND VFIN)	teve
+=Od:n("início" <temp> M S)	início
+=fA:pp
+==H:prp("em")	em
+==DP:num("92" <card> M/F S)	92
+
+</s>
+</t>
+<p>
+<s id="6" ref="CF1001-2" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-2" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-2 O jornalista Raimundo Gadelha comprou um título do Clube Paineiras em maio de 92 e vem pagando mensalmente as prestações, sem poder frequentá-lo.
+A1
+STA:fcl
+=S:np
+==DN:pron-indef("o" <artd> DET M S)	O
+==H:n("jornalista" <Hprof> M S)	jornalista
+==DN:prop("Raimundo_Gadelha" <hum> <np-close> M S)	Raimundo_Gadelha
+=X:par
+==CJT:x
+===P:v-fin("comprar" <predco>  <fmc> <mv> PS 3S IND VFIN)	comprou
+===Od:np
+====DN:pron-indef("um" <arti> DET M S)	um
+====H:n("título" <f-right> M S)	título
+====DN:pp
+=====H:prp("de" <sam-> <np-close>)	de
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+======H:prop("Clube_Paineiras" <org> M S)	Clube_Paineiras
+===fA:pp
+====H:prp("em")	em
+====DP:np
+=====H:n("maio" M S)	maio
+=====DN:pp
+======H:prp("de" <np-close>)	de
+======DP:num("92" <card> M/F P)	92
+==CO:conj-c("e" <co-fmc> <co-fin>)	e
+==CJT:x
+===P:vp
+====Vaux:v-fin("vir" <nosubj> <cjt-STA> <fmc> <aux> PR 3S IND VFIN)	vem
+====Vm:v-ger("pagar" <clb> <mv> )	pagando
+===fA:adv("mensalmente")	mensalmente
+===Od:np
+====DN:pron-indef("o" <artd> DET F P)	as
+====H:n("prestação" <mon> F P)	prestações
+===,
+===fA:pp
+====H:prp("sem")	sem
+====DP:icl
+=====P:vp
+======Vaux:v-inf("poder" <aux> )	poder
+======Vm:v-inf("frequentar" <hyfen> <mv> )	frequentar-
+=====Od:pron-pers("ele" M 3S ACC)	lo
+.
+
+</s>
+<s id="7" ref="CF1001-3" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-3" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-3 Segundo o clube, o fato de ele possuir um título não o torna sócio.
+A1
+fA:pp
+=H:prp("segundo" <com> <adv-rel>)	Segundo
+=DP:par
+==CJT:np
+===DN:pron-indef("o" <artd> DET M S)	o
+===H:n("clube" <cjt-head> <asarg> <HH> M S)	clube
+==,
+==CJT:np
+===DN:pron-indef("o" <artd> DET M S)	o
+===H:n("fato" <cjt-DP> <asarg> <ac> <AAdom> M S)	fato
+===DN:pp
+====H:prp("de" <np-close>)	de
+=STA:fcl
+==S:pron-pers("ele" <clb> M 3S NOM)	ele
+====DP:icl
+=====P:v-inf("possuir" <mv> 3S)	possuir
+=====Od:np
+======DN:pron-indef("um" <arti> DET M S)	um
+======H:n("título" <f-c> M S)	título
+===fA:adv("não")	não
+===Od:pron-pers("ele" M 3S ACC)	o
+===P:v-fin("tornar" <fmc> <mv> PR 3S IND VFIN)	torna
+===Co:n("sócio" <H> M S)	sócio
+.
+
+</s>
+</p>
+<p>
+<s id="8" ref="CF1001-4" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-4" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-4 Ele foi indicado no clube por um sócio que estava querendo vender o título.
+A1
+STA:fcl
+=S:pron-pers("ele" M 3S NOM)	Ele
+=P:vp
+==Vaux:v-fin("ser" <fmc> <aux> PS 3S IND VFIN)	foi
+==Vm:v-pcp("indicar" <mv> M S)	indicado
+=fA:pp
+==H:prp("em" <sam->)	em
+==DP:np
+===DN:pron-indef("o" <artd> <-sam> DET M S)	o
+===H:n("clube" <HH> M S)	clube
+=fA:pp
+==H:prp("por")	por
+==DP:np
+===DN:pron-indef("um" <arti> DET M S)	um
+===H:n("sócio" <H> M S)	sócio
+===DN:fcl
+====S:spec("que" <clb> <rel> M S)	que
+====P:vp
+=====Vaux:v-fin("estar" <aux> <np-close> IMPF 3S IND VFIN)	estava
+=====Vm:v-ger("querer" <mv> )	querendo
+====Od:icl
+=====P:v-inf("vender" <mv> )	vender
+=====Od:np
+======DN:pron-indef("o" <artd> DET M S)	o
+======H:n("título" <f-c> M S)	título
+.
+
+</s>
+<s id="9" ref="CF1001-5" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-5" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-5 Gadelha o comprou por US 2,6 mil.
+A1
+STA:fcl
+=S:prop("Gadelha" <hum> M/F S)	Gadelha
+=Od:pron-pers("ele" M 3S ACC)	o
+=P:v-fin("comprar" <fmc> <mv> PS 3S IND VFIN)	comprou
+=fA:pp
+==H:prp("por")	por
+==DP:prop("US$_2,6_mil" <currency> M/F S/P)	US$_2,6_mil
+.
+
+</s>
+<s id="10" ref="CF1001-6" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-6" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-6 Ontem, ele disse que não quer mais ser sócio do clube.
+A1
+STA:fcl
+=fA:adv("ontem")	Ontem
+=,
+=S:pron-pers("ele" M 3S NOM)	ele
+=P:v-fin("dizer" <fmc> <mv> PS 3S IND VFIN)	disse
+=Od:fcl
+==SUB:conj-s("que" <clb>)	que
+==fA:adv("não")	não
+==P:v-fin("querer" <mv> PR 3S IND VFIN)	quer
+==Od:fcl
+===S:pron-indef("muito" <KOMP> <quant> DET M S)	mais
+===P:v-inf("ser" <mv> 3S)	ser
+===Cs:np
+====H:n("sócio" <H> M S)	sócio
+====DN:pp
+=====H:prp("de" <sam-> <np-close>)	de
+=====DP:np
+======DN:pron-indef("o" <artd> <-sam> DET M S)	o
+======H:n("clube" <HH> M S)	clube
+.
+
+</s>
+<s id="11" ref="CF1001-7" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b">
+SOURCE: ref="CF1001-7" source="CETENFolha id=1001 cad=Cotidiano sec=soc sem=94b"
+CF1001-7  «Eu só quero provar que não há nada contra mim que justifique que algum clube me recuse» .
+A1
+STA:fcl
+"
+=S:pron-pers("eu" M/F 1S NOM)	Eu
+=fA:adv("só")	só
+=X:par
+==CJT:x
+===P:v-fin("querer" <predco>  <fmc> <mv> PR 1S IND VFIN)	quero
+===Od:icl
+====P:v-inf("provar" <mv> )	provar
+====Od:fcl
+=====SUB:conj-s("que" <clb>)	que
+=====fA:adv("não")	não
+=====P:v-fin("haver" <mv> PR 3S IND VFIN)	há
+=====Od:spec("nada" <quant> M S)	nada
+=====Op:pp
+======H:prp("contra")	contra
+======DP:pron-pers("eu" M/F 1S PIV)	mim
+==CJT:x
+===SUB:conj-s("que" <clb>)	que
+===P:v-fin("justificar" <nosubj> <cjt-STA> <fmc> <mv> PR 1/3S SUBJ VFIN)	justifique
+===Od:fcl
+====SUB:conj-s("que" <clb>)	que
+====S:np
+=====DN:pron-indef("algum" <quant> DET M S)	algum
+=====H:n("clube" <HH> M S)	clube
+====Od:pron-pers("eu" M/F 1S ACC)	me
+====P:v-fin("recusar" <mv> PR 3S SUBJ VFIN)	recuse
+"
+.
+
+</s>
+</p>
