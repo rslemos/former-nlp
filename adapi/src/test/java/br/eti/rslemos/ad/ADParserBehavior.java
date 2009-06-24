@@ -252,19 +252,44 @@ public class ADParserBehavior {
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
 			Title title = extract.title();
-			for (Sentence sentence : title) {
-				for (Analysis analysis : sentence) {
-					for (Node node : analysis) {
-						processNode(node);
-					}
-				}
-			}
+			fullyParse(title);
+			fullyParse(extract);
+		}
+	}
+
+	private void fullyParse(Title title) {
+		for (Sentence sentence : title) {
+			fullyParse(sentence);
+		}
+	}
+
+	private void fullyParse(Extract extract) {
+		for (Paragraph paragraph : extract) {
+			fullyParse(paragraph);
+		}
+	}
+
+	private void fullyParse(Paragraph paragraph) {
+		for (Sentence sentence : paragraph) {
+			fullyParse(sentence);
+		}
+	}
+
+	private void fullyParse(Sentence sentence) {
+		for (Analysis analysis : sentence) {
+			fullyParse(analysis);
+		}
+	}
+
+	private void fullyParse(Analysis analysis) {
+		for (Node node : analysis) {
+			fullyParse(node);
 		}
 	}
 	
-	private void processNode(Node node) {
+	private void fullyParse(Node node) {
 		for (Node child : node) {
-			processNode(child);
+			fullyParse(child);
 		}
 	}
 

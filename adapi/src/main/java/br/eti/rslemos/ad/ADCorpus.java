@@ -19,7 +19,10 @@ public class ADCorpus implements Iterable<Extract> {
 		try {
 			line = input.readLine();
 		} catch (IOException e) {
+			line = null;
 		}
+		if (line == null)
+			line = "";
 	}
 
 	public Iterator<Extract> extracts() {
