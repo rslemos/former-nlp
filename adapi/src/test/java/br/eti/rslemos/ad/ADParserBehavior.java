@@ -165,6 +165,14 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldParseExt1000Paragraph1Sentence2AnalysisA1RootNode() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Analysis e_1000_p1_s3_A1 = getAnalysis(extracts, 0, 0, 1, 0);
+		TerminalNode e_1000_p1_s3_A1_root_t = (TerminalNode) getRootNode(e_1000_p1_s3_A1, 0);
+		check_e_1000_p1_s3_A1_0(e_1000_p1_s3_A1_root_t);
+	}
+
+	@Test
 	public void shouldPartiallyParseExt1000() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = checkExtract1000(extracts);
@@ -364,6 +372,11 @@ public class ADParserBehavior {
 	private void check_e_1000_p1_s2_A1_0_0_2_1_1(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t) {
 		// ====,
 		checkTerminalNodeNoInfo(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t, 4, null, null, ",");
+	}
+
+	private void check_e_1000_p1_s3_A1_0(TerminalNode e_1000_p1_s3_A1_root_c1_t) {
+		// X:n("lugar" <L> M P)	lugares
+		checkTerminalNode(e_1000_p1_s3_A1_root_c1_t, 0, "X", "n", "lugares", "\"lugar\"", "<L>", "M", "P");
 	}
 
 	private Sentence checkExtract1000Paragraph1Sentence1(Iterator<Sentence> e_1000_p1_sentences) {

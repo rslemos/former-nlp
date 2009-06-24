@@ -9,10 +9,13 @@ public abstract class SentencesContainer implements Iterable<Sentence> {
 	public SentencesContainer(final ADCorpus corpus) {
 		sentences = new Iterator<Sentence>() {
 			private ADCorpus corpus0 = corpus;
+			private Sentence lastElement;
 			
 			public boolean hasNext() {
 				if (corpus0 == null)
 					return false;
+
+				skipLastElement();
 
 				if (corpus0.line.startsWith("<s")) {
 					return true;
@@ -26,7 +29,17 @@ public abstract class SentencesContainer implements Iterable<Sentence> {
 			}
 
 			public Sentence next() {
-				return new Sentence(corpus0);
+				skipLastElement();
+				
+				lastElement = new Sentence(corpus0);
+				return lastElement;
+			}
+
+			private void skipLastElement() {
+				if (lastElement != null) {
+					lastElement.skipOver();
+					lastElement = null;
+				}
 			}
 
 			public void remove() {
