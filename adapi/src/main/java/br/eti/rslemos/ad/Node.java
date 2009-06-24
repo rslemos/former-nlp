@@ -117,7 +117,7 @@ public abstract class Node implements Iterable<Node> {
 		char[] prefixChars = new char[length];
 		Arrays.fill(prefixChars, '=');
 		
-		return new String(prefixChars).intern();
+		return new String(prefixChars);
 	}
 
 }
