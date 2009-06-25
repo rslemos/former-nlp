@@ -165,7 +165,19 @@ public class ADParserBehavior {
 	}
 
 	@Test
-	public void shouldParseExt1000Paragraph1Sentence2AnalysisA1RootNode() {
+	public void shouldSkipAnalyses() {
+		// actually we don't have more than 1 analysis per sentence
+		// but hasNext should know how to tell this
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Sentence sentence = getSentence(extracts, 0, 0, 0);
+		
+		Iterator<Analysis> analyses = getAnalyses(sentence);
+		getNext(analyses);
+		assertEquals(analyses.hasNext(), false);
+	}
+
+	@Test
+	public void shouldSkipSentences() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s3_A1 = getAnalysis(extracts, 0, 0, 1, 0);
 		TerminalNode e_1000_p1_s3_A1_root_t = (TerminalNode) getRootNode(e_1000_p1_s3_A1, 0);
@@ -173,7 +185,7 @@ public class ADParserBehavior {
 	}
 
 	@Test
-	public void shouldParseExt1000Paragraph2Sentence1AnalysisA1RootNodeChild5Child2Child2Child1() {
+	public void shouldSkipParagraphs() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p2_s4_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p2_s4_A1_root_c5_c2_c2_c1_t = getTerminalChild(e_1000_p2_s4_A1, 4, 1, 1, 0);
@@ -181,7 +193,7 @@ public class ADParserBehavior {
 	}
 
 	@Test
-	public void shouldParseExt1003Paragraph2Sentence1AnalysisA1RootNodeChild3Child2Child7Child2Child3Child2Child2Child3Child3 () {
+	public void shouldSkipExtracts () {
 		Iterator<Extract> extracts = getExtracts("ext_1001-1003.ad");
 		Analysis e_1003_p2_s17_A1 = getAnalysis(extracts, 2, 1, 0, 0);
 		TerminalNode e_1000_p2_s17_A1_root_c3_c2_c7_c2_c3_c2_c2_c3_c3_t = getTerminalChild(e_1003_p2_s17_A1, 2, 1, 6, 1, 2, 1, 1, 2, 2);
@@ -634,6 +646,17 @@ public class ADParserBehavior {
 	}
 
 	private Analysis getAnalysis(Iterator<Extract> extracts, int n_extract, int n_paragraph, int n_sentence, int n_analysis) {
+		Sentence sentence = getSentence(extracts, n_extract, n_paragraph, n_sentence);
+
+		Iterator<Analysis> analyses = getAnalyses(sentence);
+		for (int i = 0; i < n_analysis; i++)
+			getNext(analyses);
+		Analysis analysis = getNext(analyses);
+
+		return analysis;
+	}
+
+	private Sentence getSentence(Iterator<Extract> extracts, int n_extract, int n_paragraph, int n_sentence) {
 		for (int i = 0; i < n_extract; i++)
 			getNext(extracts);
 		Extract extract = getNext(extracts);
@@ -647,13 +670,8 @@ public class ADParserBehavior {
 		for (int i = 0; i < n_sentence; i++)
 			getNext(sentences);
 		Sentence sentence = getNext(sentences);
-
-		Iterator<Analysis> analyses = getAnalyses(sentence);
-		for (int i = 0; i < n_analysis; i++)
-			getNext(analyses);
-		Analysis analysis = getNext(analyses);
-
-		return analysis;
+		
+		return sentence;
 	}
 
 	private Analysis getTitleAnalysis(Iterator<Extract> extracts,int n_extract, int n_sentence, int n_analysis) {

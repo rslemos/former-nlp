@@ -45,11 +45,14 @@ public class Sentence implements Iterable<Analysis> {
 
 		analyses = new Iterator<Analysis>() {
 			private ADCorpus corpus0 = corpus;
+			private Analysis lastElement;
 			
 			public boolean hasNext() {
 				if (corpus0 == null)
 					return false;
 
+				skipLastElement();
+				
 				if (corpus0.line.startsWith("A"))
 					return true;
 				else {
@@ -65,7 +68,17 @@ public class Sentence implements Iterable<Analysis> {
 			}
 
 			public Analysis next() {
-				return new Analysis(corpus0);
+				skipLastElement();
+				
+				lastElement = new Analysis(corpus0);
+				return lastElement;
+			}
+
+			private void skipLastElement() {
+				if (lastElement != null) {
+					lastElement.skipOver();
+					lastElement = null;
+				}
 			}
 
 			public void remove() {
