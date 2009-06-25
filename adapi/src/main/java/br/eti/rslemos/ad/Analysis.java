@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public class Analysis implements Iterable<Node> {
+public class Analysis implements Iterable<Node>, Skippable {
 
 	private final int index;
 
@@ -14,46 +14,7 @@ public class Analysis implements Iterable<Node> {
 		
 		corpus.readNextLine();
 
-		children = new Iterator<Node>() {
-			private ADCorpus corpus0 = corpus;
-			private Node lastElement;
-
-			public boolean hasNext() {
-				if (corpus0 == null)
-					return false;
-				
-				skipLastElement();
-				
-				if (corpus0.line.length() > 0) {
-					return true;
-				} else {
-					corpus0 = null;
-					
-					return false;
-				}
-			}
-
-			public Node next() {
-				skipLastElement();
-				
-				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
-					lastElement = new TerminalNode(corpus0);
-				else
-					lastElement = new NonTerminalNode(corpus0);
-
-				return lastElement;
-			}
-
-			private void skipLastElement() {
-				if (lastElement != null) {
-					lastElement.skipOver();
-					lastElement = null;
-				}
-			}
-
-			public void remove() {
-			}
-		};
+		children = new RootNodeIterator(corpus);
 	}
 
 	public int getIndex() {
@@ -68,9 +29,28 @@ public class Analysis implements Iterable<Node> {
 		return children();
 	}
 
-	void skipOver() {
+	public void skip() {
 		while(children.hasNext())
-			children.next().skipOver();
+			children.next().skip();
+	}
+
+	static class RootNodeIterator extends BaseIterator<Node> {
+		RootNodeIterator(ADCorpus corpus) {
+			super(corpus);
+		}
+
+		@Override
+		protected boolean testForNext() {
+			return corpus.line.length() > 0;
+		}
+
+		@Override
+		protected Node buildNext() {
+			if (corpus.line.contains("\t") || !corpus.line.contains(":"))
+				return new TerminalNode(corpus);
+			else
+				return new NonTerminalNode(corpus);
+		}
 	}
 
 }

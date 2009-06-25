@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public class Extract implements Iterable<Paragraph> {
+public class Extract implements Iterable<Paragraph>, Skippable {
 
 	private final int id;
 	private final String cad;
@@ -53,34 +53,7 @@ public class Extract implements Iterable<Paragraph> {
 		else
 			title = null;
 		
-		paragraphs = new Iterator<Paragraph>() {
-
-			private Paragraph lastElement;
-
-			public boolean hasNext() {
-				skipLastElement();
-
-				return corpus.line.equals("<p>");
-			}
-
-			public Paragraph next() {
-				skipLastElement();
-				
-				lastElement = new Paragraph(corpus);
-				return lastElement;
-			}
-
-			private void skipLastElement() {
-				if (lastElement != null) {
-					lastElement.skipOver();
-					lastElement = null;
-				}
-			}
-
-			public void remove() {
-			}
-			
-		};
+		paragraphs = new ParagraphIterator(corpus);
 
 	}
 
@@ -107,7 +80,7 @@ public class Extract implements Iterable<Paragraph> {
 	public Iterator<Paragraph> paragraphs() {
 		// skip title
 		if (title != null)
-			title.skipOver();
+			title.skip();
 		
 		return paragraphs;
 	}
@@ -116,12 +89,27 @@ public class Extract implements Iterable<Paragraph> {
 		return paragraphs();
 	}
 
-	void skipOver() {
+	public void skip() {
 		if (title != null)
-			title.skipOver();
+			title.skip();
 
 		while(paragraphs.hasNext())
-			paragraphs.next().skipOver();
+			paragraphs.next().skip();
 	}
 
+	private static class ParagraphIterator extends BaseIterator<Paragraph> {
+		private ParagraphIterator(ADCorpus corpus) {
+			super(corpus);
+		}
+
+		@Override
+		protected boolean testForNext() {
+			return corpus.line.equals("<p>");
+		}
+
+		@Override
+		protected Paragraph buildNext() {
+			return new Paragraph(corpus);
+		}
+	}
 }

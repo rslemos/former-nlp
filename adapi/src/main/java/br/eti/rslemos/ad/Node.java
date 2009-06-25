@@ -3,7 +3,7 @@ package br.eti.rslemos.ad;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public abstract class Node implements Iterable<Node> {
+public abstract class Node implements Iterable<Node>, Skippable {
 
 	private final String function;
 	private final String form;
@@ -48,40 +48,7 @@ public abstract class Node implements Iterable<Node> {
 			info = null;
 		}
 
-		children = new Iterator<Node>() {
-			private ADCorpus corpus0 = corpus;
-			private Node lastNode;
-			
-			public boolean hasNext() {
-				if (corpus0 == null)
-					return false;
-				
-				String prefix = buildDepthPrefix(depth + 1);
-				if (corpus0.line.startsWith(prefix)) {
-					return true;
-				} else {
-					corpus0 = null;
-					lastNode = null;
-					
-					return false;
-				}
-			}
-
-			public Node next() {
-				if (lastNode != null)
-					lastNode.skipOver();
-				
-				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
-					lastNode = new TerminalNode(corpus0);
-				else
-					lastNode = new NonTerminalNode(corpus0);
-
-				return lastNode;
-			}
-
-			public void remove() {
-			}
-		};
+		children = new NodeIterator(this, corpus);
 	}
 
 	public String getFunction() {
@@ -108,9 +75,9 @@ public abstract class Node implements Iterable<Node> {
 		return children();
 	}
 
-	void skipOver() {
+	public void skip() {
 		while(children.hasNext())
-			children.next().skipOver();
+			children.next().skip();
 	}
 
 	private static String buildDepthPrefix(int length) {
@@ -118,6 +85,20 @@ public abstract class Node implements Iterable<Node> {
 		Arrays.fill(prefixChars, '=');
 		
 		return new String(prefixChars);
+	}
+
+	private static class NodeIterator extends Analysis.RootNodeIterator {
+		private final Node node;
+
+		private NodeIterator(Node node, ADCorpus corpus) {
+			super(corpus);
+			this.node = node;
+		}
+
+		@Override
+		protected boolean testForNext() {
+			return corpus.line.startsWith(buildDepthPrefix(node.depth + 1));
+		}
 	}
 
 }

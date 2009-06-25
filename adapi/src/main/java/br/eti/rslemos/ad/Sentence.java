@@ -2,7 +2,7 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public class Sentence implements Iterable<Analysis> {
+public class Sentence implements Iterable<Analysis>, Skippable {
 
 	private final String id;
 	private final String ref;
@@ -43,48 +43,7 @@ public class Sentence implements Iterable<Analysis> {
 		
 		corpus.readNextLine();
 
-		analyses = new Iterator<Analysis>() {
-			private ADCorpus corpus0 = corpus;
-			private Analysis lastElement;
-			
-			public boolean hasNext() {
-				if (corpus0 == null)
-					return false;
-
-				skipLastElement();
-				
-				if (corpus0.line.startsWith("A"))
-					return true;
-				else {
-					assert corpus0.line.length() == 0 : corpus0.line;
-					corpus0.readNextLine();
-					assert "</s>".equals(corpus0.line);
-					corpus0.readNextLine();
-
-					corpus0 = null;
-					
-					return false;
-				}
-			}
-
-			public Analysis next() {
-				skipLastElement();
-				
-				lastElement = new Analysis(corpus0);
-				return lastElement;
-			}
-
-			private void skipLastElement() {
-				if (lastElement != null) {
-					lastElement.skipOver();
-					lastElement = null;
-				}
-			}
-
-			public void remove() {
-			}
-
-		};
+		analyses = new AnalysisIterator(corpus);
 	}
 
 	public String getId() {
@@ -111,9 +70,33 @@ public class Sentence implements Iterable<Analysis> {
 		return analyses();
 	}
 
-	void skipOver() {
+	public void skip() {
 		while(analyses.hasNext())
-			analyses.next().skipOver();
+			analyses.next().skip();
+	}
+
+	private static class AnalysisIterator extends BaseIterator<Analysis> {
+		private AnalysisIterator(ADCorpus corpus) {
+			super(corpus);
+		}
+
+		@Override
+		protected void tail() {
+			assert corpus.line.length() == 0 : corpus.line;
+			corpus.readNextLine();
+			assert "</s>".equals(corpus.line);
+			corpus.readNextLine();
+		}
+
+		@Override
+		protected boolean testForNext() {
+			return corpus.line.startsWith("A");
+		}
+
+		@Override
+		protected Analysis buildNext() {
+			return new Analysis(corpus);
+		}
 	}
 
 }

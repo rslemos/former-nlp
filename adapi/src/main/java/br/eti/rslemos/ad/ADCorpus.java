@@ -10,10 +10,13 @@ public class ADCorpus implements Iterable<Extract> {
 	private final BufferedReader input;
 	int lineNumber;
 	String line;
+	private Iterator<Extract> extracts;
 	
 	public ADCorpus(Reader input) {
 		this.input = new BufferedReader(input);
 		readNextLine();
+
+		extracts = new ExtractIterator(this);
 	}
 
 	void readNextLine() {
@@ -28,47 +31,35 @@ public class ADCorpus implements Iterable<Extract> {
 	}
 
 	public Iterator<Extract> extracts() {
-		return new Iterator<Extract>() {
-
-			private Extract lastElement;
-
-			public boolean hasNext() {
-				skipLastElement();
-				
-				if (line.startsWith("<ext")) {
-					return true;
-				} else {
-					try {
-						input.close();
-					} catch (IOException e) {
-					}
-					
-					return false;
-				}
-			}
-
-			public Extract next() {
-				skipLastElement();
-
-				lastElement = new Extract(ADCorpus.this);
-				return lastElement;
-			}
-
-			private void skipLastElement() {
-				if (lastElement != null) {
-					lastElement.skipOver();
-					lastElement = null;
-				}
-			}
-
-			public void remove() {
-			}
-			
-		};
+		return extracts;
 	}
 
 	public Iterator<Extract> iterator() {
 		return extracts();
+	}
+
+	private static class ExtractIterator extends BaseIterator<Extract> {
+		private ExtractIterator(ADCorpus corpus) {
+			super(corpus);
+		}
+		
+		@Override
+		protected void tail() {
+			try {
+				corpus.input.close();
+			} catch (IOException e) {
+			}
+		}
+
+		@Override
+		protected boolean testForNext() {
+			return corpus.line.startsWith("<ext");
+		}
+
+		@Override
+		protected Extract buildNext() {
+			return new Extract(corpus);
+		}
 	}
 
 }
