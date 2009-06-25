@@ -30,7 +30,11 @@ public class ADCorpus implements Iterable<Extract> {
 	public Iterator<Extract> extracts() {
 		return new Iterator<Extract>() {
 
+			private Extract lastElement;
+
 			public boolean hasNext() {
+				skipLastElement();
+				
 				if (line.startsWith("<ext")) {
 					return true;
 				} else {
@@ -44,7 +48,17 @@ public class ADCorpus implements Iterable<Extract> {
 			}
 
 			public Extract next() {
-				return new Extract(ADCorpus.this);
+				skipLastElement();
+
+				lastElement = new Extract(ADCorpus.this);
+				return lastElement;
+			}
+
+			private void skipLastElement() {
+				if (lastElement != null) {
+					lastElement.skipOver();
+					lastElement = null;
+				}
 			}
 
 			public void remove() {

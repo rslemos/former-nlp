@@ -9,12 +9,10 @@ public class Extract implements Iterable<Paragraph> {
 	private final String sec;
 	private final String sem;
 	
-	private transient ADCorpus corpus;
 	private final Title title;
+	private final Iterator<Paragraph> paragraphs;
 
-	Extract(ADCorpus corpus) {
-		this.corpus = corpus;
-		
+	Extract(final ADCorpus corpus) {
 		assert corpus.line.startsWith("<ext ");
 		
 		// <ext id=1000 cad="Esporte" sec="des" sem="94a">
@@ -54,34 +52,8 @@ public class Extract implements Iterable<Paragraph> {
 			title = new Title(corpus);
 		else
 			title = null;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getCad() {
-		return cad;
-	}
-
-	public String getSec() {
-		return sec;
-	}
-
-	public String getSem() {
-		return sem;
-	}
-
-	public Title title() {
-		return title;
-	}
-
-	public Iterator<Paragraph> paragraphs() {
-		// skip title
-		if (title != null)
-			title.skipOver();
 		
-		return new Iterator<Paragraph>() {
+		paragraphs = new Iterator<Paragraph>() {
 
 			private Paragraph lastElement;
 
@@ -109,10 +81,47 @@ public class Extract implements Iterable<Paragraph> {
 			}
 			
 		};
+
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getCad() {
+		return cad;
+	}
+
+	public String getSec() {
+		return sec;
+	}
+
+	public String getSem() {
+		return sem;
+	}
+
+	public Title title() {
+		return title;
+	}
+
+	public Iterator<Paragraph> paragraphs() {
+		// skip title
+		if (title != null)
+			title.skipOver();
+		
+		return paragraphs;
 	}
 
 	public Iterator<Paragraph> iterator() {
 		return paragraphs();
+	}
+
+	void skipOver() {
+		if (title != null)
+			title.skipOver();
+
+		while(paragraphs.hasNext())
+			paragraphs.next().skipOver();
 	}
 
 }

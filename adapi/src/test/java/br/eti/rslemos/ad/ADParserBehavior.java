@@ -181,6 +181,14 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldParseExt1003Paragraph2Sentence1AnalysisA1RootNodeChild3Child2Child7Child2Child3Child2Child2Child3Child3 () {
+		Iterator<Extract> extracts = getExtracts("ext_1001-1003.ad");
+		Analysis e_1003_p2_s17_A1 = getAnalysis(extracts, 2, 1, 0, 0);
+		TerminalNode e_1000_p2_s17_A1_root_c3_c2_c7_c2_c3_c2_c2_c3_c3_t = getTerminalChild(e_1003_p2_s17_A1, 2, 1, 6, 1, 2, 1, 1, 2, 2);
+		check_e_1003_p2_s17_A1_2_1_6_1_2_1_1_2_2(e_1000_p2_s17_A1_root_c3_c2_c7_c2_c3_c2_c2_c3_c3_t);
+	}
+
+	@Test
 	public void shouldPartiallyParseExt1000() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = checkExtract1000(extracts);
@@ -390,6 +398,11 @@ public class ADParserBehavior {
 	private void check_e_1000_p1_s2_A1_0_4_1_1_0(TerminalNode e_1000_p2_s4_A1_root_c1_c4_c2_c1_t) {
 		// ====DN:pron-indef("o" <artd> DET F P)	as
 		checkTerminalNode(e_1000_p2_s4_A1_root_c1_c4_c2_c1_t, 4, "DN", "pron-indef", "as", "\"o\"", "<artd>", "DET", "F", "P");
+	}
+
+	private void check_e_1003_p2_s17_A1_2_1_6_1_2_1_1_2_2(TerminalNode e_1000_p2_s17_A1_root_c3_c2_c7_c2_c3_c2_c2_c3_c3_t) {
+		// =========DN:adj("brasileiro" <nat> <np-close> M S)	brasileiro
+		checkTerminalNode(e_1000_p2_s17_A1_root_c3_c2_c7_c2_c3_c2_c2_c3_c3_t, 9, "DN", "adj", "brasileiro", "\"brasileiro\"", "<nat>", "<np-close>", "M", "S");
 	}
 
 	private Sentence checkExtract1000Paragraph1Sentence1(Iterator<Sentence> e_1000_p1_sentences) {
