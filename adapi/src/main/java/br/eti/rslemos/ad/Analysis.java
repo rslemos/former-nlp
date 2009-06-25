@@ -16,11 +16,13 @@ public class Analysis implements Iterable<Node> {
 
 		children = new Iterator<Node>() {
 			private ADCorpus corpus0 = corpus;
-			private Node lastNode;
+			private Node lastElement;
 
 			public boolean hasNext() {
 				if (corpus0 == null)
 					return false;
+				
+				skipLastElement();
 				
 				if (corpus0.line.length() > 0) {
 					return true;
@@ -32,12 +34,21 @@ public class Analysis implements Iterable<Node> {
 			}
 
 			public Node next() {
+				skipLastElement();
+				
 				if (corpus0.line.contains("\t") || !corpus0.line.contains(":"))
-					lastNode = new TerminalNode(corpus0);
+					lastElement = new TerminalNode(corpus0);
 				else
-					lastNode = new NonTerminalNode(corpus0);
+					lastElement = new NonTerminalNode(corpus0);
 
-				return lastNode;
+				return lastElement;
+			}
+
+			private void skipLastElement() {
+				if (lastElement != null) {
+					lastElement.skipOver();
+					lastElement = null;
+				}
 			}
 
 			public void remove() {

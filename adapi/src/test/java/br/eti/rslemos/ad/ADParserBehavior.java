@@ -165,6 +165,15 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldSkipRootNodes() {
+		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0, 0);
+		TerminalNode e_1000_p1_s2_A1_2ndroot_t = (TerminalNode) getRootNode(e_1000_p1_s2_A1, 1);
+		check_e_1000_p1_s2_A1_1(e_1000_p1_s2_A1_2ndroot_t);
+	}
+
+	
+	@Test
 	public void shouldSkipAnalyses() {
 		// actually we don't have more than 1 analysis per sentence
 		// but hasNext should know how to tell this
@@ -400,6 +409,11 @@ public class ADParserBehavior {
 	private void check_e_1000_p1_s2_A1_0_0_2_1_1(TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t) {
 		// ====,
 		checkTerminalNodeNoInfo(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t, 4, null, null, ",");
+	}
+
+	private void check_e_1000_p1_s2_A1_1(TerminalNode e_1000_p1_s2_A1_2ndroot_t) {
+		// .
+		checkTerminalNodeNoInfo(e_1000_p1_s2_A1_2ndroot_t, 0, null, null, ".");
 	}
 
 	private void check_e_1000_p1_s3_A1_0(TerminalNode e_1000_p1_s3_A1_root_c1_t) {
