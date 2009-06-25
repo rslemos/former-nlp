@@ -15,29 +15,29 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 		// <s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
 		String[] parts = corpus.line.split(" ", 4);
 
-		assert "<s".equals(parts[0]);
+		corpus.assertBoolean("<s".equals(parts[0]));
 		
-		assert parts[1].startsWith("id=\"");
-		assert parts[1].endsWith("\"");
+		corpus.assertBoolean(parts[1].startsWith("id=\""));
+		corpus.assertBoolean(parts[1].endsWith("\""));
 		id = parts[1].substring("id=\"".length(), parts[1].length() - "\"".length());
 		
-		assert parts[2].startsWith("ref=\"");
-		assert parts[2].endsWith("\"");
+		corpus.assertBoolean(parts[2].startsWith("ref=\""));
+		corpus.assertBoolean(parts[2].endsWith("\""));
 		ref = parts[2].substring("ref=\"".length(), parts[2].length() - "\"".length());
 		
-		assert parts[3].startsWith("source=\"");
-		assert parts[3].endsWith("\">");
+		corpus.assertBoolean(parts[3].startsWith("source=\""));
+		corpus.assertBoolean(parts[3].endsWith("\">"));
 		source = parts[3].substring("source=\"".length(), parts[3].length() - "\">".length());
 		
 		corpus.readNextLine();
 		
 		// SOURCE: ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
-		assert corpus.line.equals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"");
+		corpus.assertLineEquals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"");
 
 		corpus.readNextLine();
 		
 		// CF1000-1 Consolação
-		assert corpus.line.startsWith(ref + " ");
+		corpus.assertLineStartsWith(ref + " ");
 		
 		text = corpus.line.substring((ref + " ").length());
 		
@@ -82,9 +82,9 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 
 		@Override
 		protected void tail() {
-			assert corpus.line.length() == 0 : corpus.line;
+			corpus.assertLineEquals("");
 			corpus.readNextLine();
-			assert "</s>".equals(corpus.line);
+			corpus.assertLineEquals("</s>");
 			corpus.readNextLine();
 		}
 

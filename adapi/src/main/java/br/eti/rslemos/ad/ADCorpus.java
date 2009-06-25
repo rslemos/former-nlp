@@ -8,8 +8,9 @@ import java.util.Iterator;
 public class ADCorpus implements Iterable<Extract> {
 
 	private final BufferedReader input;
-	int lineNumber;
+	private int lineNumber;
 	String line;
+	
 	private Iterator<Extract> extracts;
 	
 	public ADCorpus(Reader input) {
@@ -28,6 +29,22 @@ public class ADCorpus implements Iterable<Extract> {
 		}
 		if (line == null)
 			line = "";
+	}
+	
+	void assertLineStartsWith(String expected) {
+		assert line.startsWith(expected) : "At line " + lineNumber + ": expected '" + expected + "...'; found '" + line + "'";
+	}
+
+	void assertLineEquals(String expected) {
+		assert line.equals(expected) : "At line " + lineNumber + ": expected '" + expected + "'; found '" + line + "'";
+	}
+	
+	void assertLineContains(String expected) {
+		assert line.contains(expected) : "At line " + lineNumber + ": expected '..." + expected + "...'; found '" + line + "'";
+	}
+
+	void assertBoolean(boolean b) {
+		assert b : "At line " + lineNumber;
 	}
 
 	public Iterator<Extract> extracts() {

@@ -9,7 +9,7 @@ public class TerminalNode extends Node {
 		
 		String line = corpus.line;
 		if (line.contains(":")) {
-			assert line.contains("\t");
+			corpus.assertLineContains("\t");
 			
 			text = line.substring(line.indexOf('\t') + 1);
 		} else {

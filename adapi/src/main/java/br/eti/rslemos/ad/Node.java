@@ -27,13 +27,13 @@ public abstract class Node implements Iterable<Node>, Skippable {
 			// X:n("consolação" <act> F S)	Consolação
 			parts = line.split(":");
 			
-			assert parts[0].length() > 0;
+			corpus.assertBoolean(parts[0].length() > 0);
 			function = parts[0];
 			
 			line = line.substring((function + ":").length());
 			parts = line.split("[(\t]");
 			
-			assert parts[0].length() > 0;
+			corpus.assertBoolean(parts[0].length() > 0);
 			form = parts[0];
 			
 			line = line.substring(form.length());

@@ -13,7 +13,7 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 	private final Iterator<Paragraph> paragraphs;
 
 	Extract(final ADCorpus corpus) {
-		assert corpus.line.startsWith("<ext ");
+		corpus.assertLineStartsWith("<ext ");
 		
 		// <ext id=1000 cad="Esporte" sec="des" sem="94a">
 		// <ext id=1003 cad="Caderno Especial" sec="nd" sem="94a">
@@ -21,29 +21,29 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 		String[] parts;
 		
 		parts = corpus.line.substring("<ext ".length()).split("=", 2);
-		assert parts[0].equals("id");
+		corpus.assertBoolean(parts[0].equals("id"));
 		parts = parts[1].split(" ", 2);
 		id = Integer.parseInt(parts[0]);
 		
 		parts = parts[1].split("=", 2);
-		assert parts[0].equals("cad");
+		corpus.assertBoolean(parts[0].equals("cad"));
 		parts = parts[1].split("\"", 3);
-		assert parts[0].length() == 0;
+		corpus.assertBoolean(parts[0].length() == 0);
 		cad = parts[1];
 		
 		parts = parts[2].trim().split("=", 2);
-		assert parts[0].equals("sec");
+		corpus.assertBoolean(parts[0].equals("sec"));
 		parts = parts[1].split("\"", 3);
-		assert parts[0].length() == 0;
+		corpus.assertBoolean(parts[0].length() == 0);
 		sec = parts[1];
 		
 		parts = parts[2].trim().split("=", 2);
-		assert parts[0].equals("sem");
+		corpus.assertBoolean(parts[0].equals("sem"));
 		parts = parts[1].split("\"", 4);
-		assert parts[0].length() == 0;
+		corpus.assertBoolean(parts[0].length() == 0);
 		sem = parts[1];
 		
-		assert parts[2].equals(">");
+		corpus.assertBoolean(parts[2].equals(">"));
 		
 		corpus.readNextLine();
 

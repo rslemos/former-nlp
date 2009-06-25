@@ -9,7 +9,7 @@ public class Analysis implements Iterable<Node>, Skippable {
 	private Iterator<Node> children;
 
 	Analysis(final ADCorpus corpus) {
-		assert corpus.line.startsWith("A");
+		corpus.assertLineStartsWith("A");
 		index = Integer.parseInt(corpus.line.substring("A".length()));
 		
 		corpus.readNextLine();
