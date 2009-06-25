@@ -83,12 +83,26 @@ public class Extract implements Iterable<Paragraph> {
 		
 		return new Iterator<Paragraph>() {
 
+			private Paragraph lastElement;
+
 			public boolean hasNext() {
+				skipLastElement();
+
 				return corpus.line.equals("<p>");
 			}
 
 			public Paragraph next() {
-				return new Paragraph(corpus);
+				skipLastElement();
+				
+				lastElement = new Paragraph(corpus);
+				return lastElement;
+			}
+
+			private void skipLastElement() {
+				if (lastElement != null) {
+					lastElement.skipOver();
+					lastElement = null;
+				}
 			}
 
 			public void remove() {
