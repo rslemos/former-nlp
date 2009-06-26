@@ -332,6 +332,12 @@ public class ADParserBehavior {
 		verify(ext_1000r_spy, times(1)).close();
 	}
 
+	@Test
+	public void shouldParseFlorestaVirgem() {
+		ADCorpus corpus = getCorpus("/pt_BR/FlorestaVirgem_CF.txt");
+		fullyParse(corpus);
+	}
+	
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
 			Title title = extract.title();
