@@ -739,8 +739,4 @@ public class ADParserBehavior {
 		
 		return analysis;
 	}
-
-	public static void main(String[] args) {
-		new ADParserBehavior().shouldPartiallyParseExt1000();
-	}
 }
