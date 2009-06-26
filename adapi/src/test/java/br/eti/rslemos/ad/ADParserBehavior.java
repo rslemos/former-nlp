@@ -6,6 +6,8 @@ import static org.testng.Assert.*;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
@@ -211,7 +213,14 @@ public class ADParserBehavior {
 
 	@Test
 	public void shouldPartiallyParseExt1000() {
-		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
+		ADCorpus corpus = getCorpus("ext_1000.ad");
+		
+		ReferenceQueue<ADCorpus> refQueue = new ReferenceQueue<ADCorpus>();
+		PhantomReference<ADCorpus> ref = new PhantomReference<ADCorpus>(corpus, refQueue);
+		
+		Iterator<Extract> extracts = corpus.extracts();
+		assertNotNull(extracts);
+		
 		Extract e_1000 = checkExtract1000(extracts);
 
 		Title e_1000_t = checkExtract1000Title(e_1000);
@@ -274,6 +283,23 @@ public class ADParserBehavior {
 		
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t = getNextChild(e_1000_p1_s2_A1_root_c1_c3_c2_children, TerminalNode.class);
 		check_e_1000_p1_s2_A1_0_0_2_1_1(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
+		
+		while(extracts.hasNext())
+			extracts.next();
+		
+		corpus = null;
+		extracts = null;
+		
+		System.gc();
+		System.gc();
+		System.gc();
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
+		
+		assertSame(refQueue.poll(), ref);
 	}
 
 	@Test
@@ -708,4 +734,7 @@ public class ADParserBehavior {
 		return analysis;
 	}
 
+	public static void main(String[] args) {
+		new ADParserBehavior().shouldPartiallyParseExt1000();
+	}
 }
