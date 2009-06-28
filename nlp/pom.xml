@@ -30,13 +30,6 @@
 		<module>../brilltrainer-tracer</module>
 	</modules>
 
-	<distributionManagement>
-		<site>
-			<id>whatever</id>
-			<url>file:///tmp/nlp-site/nlp</url>
-		</site>
-	</distributionManagement>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
