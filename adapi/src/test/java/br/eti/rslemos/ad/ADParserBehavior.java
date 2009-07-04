@@ -338,6 +338,12 @@ public class ADParserBehavior {
 		fullyParse(corpus);
 	}
 	
+	@Test
+	public void shouldParseAmazonia() {
+		ADCorpus corpus = getCorpus("/pt_BR/Amazonia_CF.txt");
+		fullyParse(corpus);
+	}
+	
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
 			Title title = extract.title();
@@ -520,10 +526,10 @@ public class ADParserBehavior {
 		
 		assertNotNull(e_1000);
 		
-		assertEquals(e_1000.getId(), 1000);
-		assertEquals(e_1000.getCad(), "Esporte");
-		assertEquals(e_1000.getSec(), "des");
-		assertEquals(e_1000.getSem(), "94a");
+		assertEquals(e_1000.getAttributes().get("id"), "1000");
+		assertEquals(e_1000.getAttributes().get("cad"), "Esporte");
+		assertEquals(e_1000.getAttributes().get("sec"), "des");
+		assertEquals(e_1000.getAttributes().get("sem"), "94a");
 
 		return e_1000;
 	}

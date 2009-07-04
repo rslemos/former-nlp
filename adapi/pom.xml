@@ -23,5 +23,12 @@
 			<version>3.0</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>br.eti.rslemos.nlp.corpora</groupId>
+			<artifactId>cetenfolha-amazonia</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

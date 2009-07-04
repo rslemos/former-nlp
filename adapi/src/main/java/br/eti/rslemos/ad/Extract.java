@@ -1,13 +1,12 @@
 package br.eti.rslemos.ad;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Extract implements Iterable<Paragraph>, Skippable {
 
-	private final int id;
-	private final String cad;
-	private final String sec;
-	private final String sem;
+	private final Map<String, String> attributes = new LinkedHashMap<String, String>();
 	
 	private final Title title;
 	private final Iterator<Paragraph> paragraphs;
@@ -17,33 +16,29 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 		
 		// <ext id=1000 cad="Esporte" sec="des" sem="94a">
 		// <ext id=1003 cad="Caderno Especial" sec="nd" sem="94a">
+		// <ext id="1001.porto-poesia=removeme=-2 a poesia toma porto-alegre=removeme=">
 		
-		String[] parts;
+		String line = corpus.line.substring("<ext ".length()).trim();
 		
-		parts = corpus.line.substring("<ext ".length()).split("=", 2);
-		corpus.assertBoolean(parts[0].equals("id"));
-		parts = parts[1].split(" ", 2);
-		id = Integer.parseInt(parts[0]);
-		
-		parts = parts[1].split("=", 2);
-		corpus.assertBoolean(parts[0].equals("cad"));
-		parts = parts[1].split("\"", 3);
-		corpus.assertBoolean(parts[0].length() == 0);
-		cad = parts[1];
-		
-		parts = parts[2].trim().split("=", 2);
-		corpus.assertBoolean(parts[0].equals("sec"));
-		parts = parts[1].split("\"", 3);
-		corpus.assertBoolean(parts[0].length() == 0);
-		sec = parts[1];
-		
-		parts = parts[2].trim().split("=", 2);
-		corpus.assertBoolean(parts[0].equals("sem"));
-		parts = parts[1].split("\"", 4);
-		corpus.assertBoolean(parts[0].length() == 0);
-		sem = parts[1];
-		
-		corpus.assertBoolean(parts[2].equals(">"));
+		while(!line.equals(">")) {
+			String[] parts;
+			
+			parts = line.split("=", 2);
+
+			String name = parts[0];
+			String value;
+			if (parts[1].startsWith("\"")) {
+				parts = parts[1].split("\"", 3);
+				value = parts[1];
+				line = parts[2].trim();
+			} else {
+				parts = parts[1].split(" ", 2);
+				value = parts[0];
+				line = parts[1].trim();
+			}
+			
+			attributes.put(name.intern(), value);
+		}
 		
 		corpus.readNextLine();
 
@@ -57,22 +52,10 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 
 	}
 
-	public int getId() {
-		return id;
+	public Map<String, String> getAttributes() {
+		return attributes;
 	}
-
-	public String getCad() {
-		return cad;
-	}
-
-	public String getSec() {
-		return sec;
-	}
-
-	public String getSem() {
-		return sem;
-	}
-
+	
 	public Title title() {
 		return title;
 	}
