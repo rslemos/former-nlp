@@ -34,7 +34,6 @@ public abstract class Node implements Iterable<Node>, Skippable {
 			line = line.substring((function + ":").length());
 			parts = line.split("[(\t]");
 			
-			corpus.assertBoolean(parts[0].length() > 0);
 			form = parts[0];
 			
 			line = line.substring(form.length());

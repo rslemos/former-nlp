@@ -251,6 +251,25 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldAllowEmptyForm() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence e_58_0_0 = getSentence(extracts, 58, 0, 0);
+		assertEquals(e_58_0_0.getRef(), "CF1059-1");
+		
+		Iterator<Analysis> e_58_0_0_analyses = getAnalyses(e_58_0_0);
+		Analysis e_58_0_0_A1 = getNext(e_58_0_0_analyses);
+		
+		NonTerminalNode e_58_0_0_A1_0_2_4_2 = getNonTerminalChild(e_58_0_0_A1, 2, 4, 2);
+		assertEquals(e_58_0_0_A1_0_2_4_2.getDepth(), 3);
+		assertEquals(e_58_0_0_A1_0_2_4_2.getFunction(), "Op");
+		assertEquals(e_58_0_0_A1_0_2_4_2.getForm(), "pp");
+		
+		NonTerminalNode e_58_0_0_A1_0_2_4_2_1 = getNonTerminalChild(e_58_0_0_A1_0_2_4_2, 1);
+		assertEquals(e_58_0_0_A1_0_2_4_2_1.getFunction(), "DP");
+		assertEquals(e_58_0_0_A1_0_2_4_2_1.getForm(), "");
+	}
+	
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
