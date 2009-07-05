@@ -209,7 +209,13 @@ public class ADParserBehavior {
 		assertEquals(e_1_0_4.getRef(), "1002.pesquisa da usp mapeia cultura livre em são paulo-5");
 	}
 	
-
+	@Test
+	public void shouldNotRelyOnEmptyLineAtEndOfAnalysis() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Sentence e_3_0_14 = getSentence(extracts, 3, 0, 14);
+		assertEquals(e_3_0_14.getRef(), "1004.heroi exilado e estrangeiro em-seu-proprio=removeme=-pais-15");
+	}
+	
 	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");

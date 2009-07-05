@@ -41,7 +41,7 @@ public class Analysis implements Iterable<Node>, Skippable {
 
 		@Override
 		protected boolean testForNext() {
-			return corpus.line.length() > 0;
+			return corpus.line.length() > 0 && !corpus.line.equals("</s>");
 		}
 
 		@Override
