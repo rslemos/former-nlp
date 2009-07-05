@@ -216,6 +216,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldIgnoreLiTags() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence sentence = getSentence(extracts, 85, 0, 0);
+		assertEquals(sentence.getRef(), "CF1086-1");
+	}
+	
+	@Test
 	public void shouldAllowColonNode() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
 		Analysis e_0_0_5_A1 = getAnalysis(extracts, 0, 0, 5, 0);

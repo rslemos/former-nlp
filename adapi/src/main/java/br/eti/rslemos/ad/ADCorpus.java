@@ -30,6 +30,7 @@ public class ADCorpus implements Iterable<Extract> {
 						|| line.startsWith("### ")
 						|| (line.startsWith("<lixo") && line.endsWith(">"))
 						|| line.equals("</situacao>")
+						|| (line.startsWith("<li>") && line.endsWith("</li>"))
 					));
 		} catch (IOException e) {
 			line = null;
