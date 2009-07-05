@@ -25,7 +25,10 @@ public class ADCorpus implements Iterable<Extract> {
 			do {
 				line = input.readLine();
 				lineNumber++;
-			} while (line != null && line.equals("<s frag>"));
+			} while (line != null && ( 
+						line.equals("<s frag>")
+						|| line.startsWith("### ")
+					));
 		} catch (IOException e) {
 			line = null;
 		}
