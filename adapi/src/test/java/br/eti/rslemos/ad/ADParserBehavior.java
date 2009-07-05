@@ -188,10 +188,17 @@ public class ADParserBehavior {
 	}
 	
 	@Test
-	public void shouldIgnoreSFrag() {
+	public void shouldIgnoreSFragTag() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
 		Sentence sentence = getSentence(extracts, 8, 1, 0);
 		assertEquals(sentence.getText(), "«Fatos e Relatos»");
+	}
+	
+	@Test
+	public void shouldIgnoreLixoTag() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Sentence sentence = getSentence(extracts, 13, 0, 13);
+		assertEquals(sentence.getRef(), "1012.morangos nervososfragmentos de caio f-no-secxxi=removeme=-14");
 	}
 	
 	@Test

@@ -28,6 +28,7 @@ public class ADCorpus implements Iterable<Extract> {
 			} while (line != null && ( 
 						line.equals("<s frag>")
 						|| line.startsWith("### ")
+						|| (line.startsWith("<lixo") && line.endsWith(">"))
 					));
 		} catch (IOException e) {
 			line = null;
