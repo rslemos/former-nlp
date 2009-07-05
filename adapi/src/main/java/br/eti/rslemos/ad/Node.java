@@ -16,7 +16,8 @@ public abstract class Node implements Iterable<Node>, Skippable {
 		String line = corpus.line;
 		
 		int i = 0;
-		while(line.charAt(i++) == '=');
+		while(i < line.length() && line.charAt(i++) == '=');
+		
 		depth = i-1;
 		
 		line = line.substring(depth);
@@ -97,7 +98,7 @@ public abstract class Node implements Iterable<Node>, Skippable {
 
 		@Override
 		protected boolean testForNext() {
-			return corpus.line.startsWith(buildDepthPrefix(node.depth + 1));
+			return corpus.line.startsWith(buildDepthPrefix(node.depth + 1)) && corpus.line.length() > (node.depth + 1);
 		}
 	}
 

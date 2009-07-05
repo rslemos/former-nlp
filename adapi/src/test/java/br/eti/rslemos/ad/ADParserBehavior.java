@@ -217,6 +217,19 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldAllowEqualsSignOnSentence() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Sentence e_10_0_75 = getSentence(extracts, 10, 0, 75);
+		assertEquals(e_10_0_75.getRef(), "1011.a nova decadência da cultura-pernambucana=removeme=-76");
+		
+		Iterator<Analysis> e_10_0_75_analyses = getAnalyses(e_10_0_75);
+		Analysis e_10_0_75_A1 = getNext(e_10_0_75_analyses);
+		
+		TerminalNode e_10_0_75_A1_c2 = (TerminalNode) getRootNode(e_10_0_75_A1, 1);
+		assertEquals(e_10_0_75_A1_c2.getText(), "=");
+	}
+	
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
