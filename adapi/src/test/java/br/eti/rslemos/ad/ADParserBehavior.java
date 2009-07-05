@@ -245,6 +245,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldNotRelyOnEndTagAtEndOfParagraph() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence e_110_4_0 = getSentence(extracts, 110, 4, 0);
+		assertEquals(e_110_4_0.getRef(), "CF1111-13");
+	}
+	
+	@Test
 	public void shouldAllowEqualsSignOnSentence() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
 		Sentence e_10_0_75 = getSentence(extracts, 10, 0, 75);

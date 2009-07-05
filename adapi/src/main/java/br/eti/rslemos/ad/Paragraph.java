@@ -13,8 +13,8 @@ public class Paragraph extends SentenceSet {
 
 	@Override
 	protected void sentencesTail(ADCorpus corpus) {
-		corpus.assertLineEquals("</p>");
-		corpus.readNextLine();
+		if (corpus.line.equals("</p>"))
+			corpus.readNextLine();
 	}
 
 }
