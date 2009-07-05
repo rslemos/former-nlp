@@ -405,19 +405,25 @@ public class ADParserBehavior {
 	@Test(enabled = false)
 	public void shouldParseFlorestaVirgem() {
 		ADCorpus corpus = getCorpus("/pt_BR/FlorestaVirgem_CF.txt");
-		fullyParse(corpus);
+		assertEquals(fullyParse(corpus), 12408);
 	}
 	
 	@Test(enabled = false)
 	public void shouldParseAmazonia() {
 		ADCorpus corpus = getCorpus("/pt_BR/Amazonia_CF.txt");
-		fullyParse(corpus);
+		assertEquals(fullyParse(corpus), 4838);
 	}
 	
-	private void fullyParse(ADCorpus corpus) {
+	private int fullyParse(ADCorpus corpus) {
+		int f_extracts = 0;
+		
 		for (Extract extract : corpus) {
+			f_extracts++;
+			
 			fullyParse(extract);
 		}
+		
+		return f_extracts;
 	}
 
 	private void fullyParse(Extract extract) {
