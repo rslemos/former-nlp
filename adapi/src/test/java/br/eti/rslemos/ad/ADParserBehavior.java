@@ -188,6 +188,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldIgnoreSFrag() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence sentence = getSentence(extracts, 8, 1, 0);
+		assertEquals(sentence.getText(), "«Fatos e Relatos»");
+	}
+
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
