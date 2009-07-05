@@ -1,7 +1,7 @@
 package br.eti.rslemos.ad;
 
 
-public class Paragraph extends SentencesContainer {
+public class Paragraph extends SentenceSet {
 
 	Paragraph(ADCorpus corpus) {
 		super(corpus);

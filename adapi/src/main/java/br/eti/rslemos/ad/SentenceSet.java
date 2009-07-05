@@ -2,11 +2,11 @@ package br.eti.rslemos.ad;
 
 import java.util.Iterator;
 
-public abstract class SentencesContainer implements Iterable<Sentence>, Skippable {
+public abstract class SentenceSet implements Iterable<Sentence>, Skippable {
 
 	private final Iterator<Sentence> sentences;
 
-	public SentencesContainer(final ADCorpus corpus) {
+	public SentenceSet(final ADCorpus corpus) {
 		sentences = new SentenceIterator(this, corpus);
 	}
 
@@ -26,16 +26,16 @@ public abstract class SentencesContainer implements Iterable<Sentence>, Skippabl
 	}
 
 	private static class SentenceIterator extends BaseIterator<Sentence> {
-		private final SentencesContainer container;
+		private final SentenceSet set;
 		
-		private SentenceIterator(SentencesContainer container, ADCorpus corpus) {
+		private SentenceIterator(SentenceSet set, ADCorpus corpus) {
 			super(corpus);
-			this.container = container;
+			this.set = set;
 		}
 
 		@Override
 		protected void tail() {
-			container.sentencesTail(corpus);
+			set.sentencesTail(corpus);
 		}
 
 		@Override

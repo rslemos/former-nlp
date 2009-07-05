@@ -57,7 +57,7 @@ public class ADParserBehavior {
 	public void shouldParseExt1000Paragraph1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = getNext(extracts);
-		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
+		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
 		checkExtract1000Paragraph1(e_1000_p);
 	}
 	
@@ -65,8 +65,8 @@ public class ADParserBehavior {
 	public void shouldParseExt1000Paragraph1Sentence1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = getNext(extracts);
-		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
-		Paragraph e_1000_p1 = getNext(e_1000_p);
+		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
+		SentenceSet e_1000_p1 = getNext(e_1000_p);
 		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);		
 		checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
 	}
@@ -167,6 +167,15 @@ public class ADParserBehavior {
 	}
 
 	@Test
+	public void shouldParseExt7Title1AfterParagraph1() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Title e_7_t1 = getSentenceSet(extracts, 6, 1, Title.class);
+		Iterator<Sentence> e_7_t1_sentences = getSentences(e_7_t1);
+		Sentence e_7_t1_s1 = getNext(e_7_t1_sentences);
+		assertEquals(e_7_t1_s1.getText(), "Mais frangos");
+	}
+	
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0, 0);
@@ -236,8 +245,8 @@ public class ADParserBehavior {
 		assertEquals(e_1000_t_s1_analyses.hasNext(), false);
 		assertEquals(e_1000_t_sentences.hasNext(), false);
 		
-		Iterator<Paragraph> e_1000_p = getParagraphs(e_1000);
-		Paragraph e_1000_p1 = checkExtract1000Paragraph1(e_1000_p);
+		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
+		SentenceSet e_1000_p1 = checkExtract1000Paragraph1(e_1000_p);
 		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);		
 		Sentence e_1000_p1_s2 = checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
 		Iterator<Analysis> e_1000_p1_s2_analyses = getAnalyses(e_1000_p1_s2);
@@ -346,7 +355,7 @@ public class ADParserBehavior {
 	
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
-			Title title = extract.title();
+			Title title = extract.getFirstParagraphIfTitle();
 			if (title != null)
 				fullyParse(title);
 			fullyParse(extract);
@@ -360,13 +369,13 @@ public class ADParserBehavior {
 	}
 
 	private void fullyParse(Extract extract) {
-		for (Paragraph paragraph : extract) {
-			fullyParse(paragraph);
+		for (SentenceSet sentenceSet : extract) {
+			fullyParse(sentenceSet);
 		}
 	}
 
-	private void fullyParse(Paragraph paragraph) {
-		for (Sentence sentence : paragraph) {
+	private void fullyParse(SentenceSet sentenceSet) {
+		for (Sentence sentence : sentenceSet) {
 			fullyParse(sentence);
 		}
 	}
@@ -485,8 +494,8 @@ public class ADParserBehavior {
 		return e_1000_p1_s2;
 	}
 
-	private Paragraph checkExtract1000Paragraph1(Iterator<Paragraph> e_1000_p) {
-		Paragraph e_1000_p1 = getNext(e_1000_p);
+	private SentenceSet checkExtract1000Paragraph1(Iterator<SentenceSet> e_1000_p) {
+		SentenceSet e_1000_p1 = getNext(e_1000_p);
 		assertNotNull(e_1000_p1);
 		
 		return e_1000_p1;
@@ -550,7 +559,7 @@ public class ADParserBehavior {
 	}
 
 	private Title getTitle(Extract extract) {
-		return extract.title();
+		return extract.getFirstParagraphIfTitle();
 	}
 
 	private Iterator<Sentence> getSentences(Title title) {
@@ -573,11 +582,11 @@ public class ADParserBehavior {
 		return children;
 	}
 
-	private Iterator<Paragraph> getParagraphs(Extract extract) {
-		Iterator<Paragraph> paragraphs = extract.paragraphs();
-		assertNotNull(paragraphs);
+	private Iterator<SentenceSet> getSentenceSets(Extract extract) {
+		Iterator<SentenceSet> sentenceSets = extract.sentenceSets();
+		assertNotNull(sentenceSets);
 		
-		return paragraphs;
+		return sentenceSets;
 	}
 
 	private <T> T getNext(Iterator<T> iterator) {
@@ -585,8 +594,8 @@ public class ADParserBehavior {
 		return iterator.next();	
 	}
 	
-	private Iterator<Sentence> getSentences(Paragraph paragraph) {
-		Iterator<Sentence> sentences = paragraph.sentences();
+	private Iterator<Sentence> getSentences(SentenceSet sentenceSet) {
+		Iterator<Sentence> sentences = sentenceSet.sentences();
 		assertNotNull(sentences);
 
 		return sentences;
@@ -708,22 +717,34 @@ public class ADParserBehavior {
 		return analysis;
 	}
 
-	private Sentence getSentence(Iterator<Extract> extracts, int n_extract, int n_paragraph, int n_sentence) {
-		for (int i = 0; i < n_extract; i++)
-			getNext(extracts);
-		Extract extract = getNext(extracts);
+	private Sentence getSentence(Iterator<Extract> extracts, int n_extract, int n_set, int n_sentence) {
+		SentenceSet sentenceSet = getSentenceSet(extracts, n_extract, n_set);
 
-		Iterator<Paragraph> paragraphs = getParagraphs(extract);
-		for (int i = 0; i < n_paragraph; i++)
-			getNext(paragraphs);
-		Paragraph paragraph = getNext(paragraphs);
-
-		Iterator<Sentence> sentences = getSentences(paragraph);
+		Iterator<Sentence> sentences = getSentences(sentenceSet);
 		for (int i = 0; i < n_sentence; i++)
 			getNext(sentences);
 		Sentence sentence = getNext(sentences);
 		
 		return sentence;
+	}
+
+	private SentenceSet getSentenceSet(Iterator<Extract> extracts, int n_extract, int n_set) {
+		for (int i = 0; i < n_extract; i++)
+			getNext(extracts);
+		Extract extract = getNext(extracts);
+
+		Iterator<SentenceSet> sentenceSets = getSentenceSets(extract);
+		for (int i = 0; i < n_set; i++)
+			getNext(sentenceSets);
+		SentenceSet sentenceSet = getNext(sentenceSets);
+		
+		return sentenceSet;
+	}
+
+	private <T extends SentenceSet> T getSentenceSet(Iterator<Extract> extracts, int n_extract, int n_set, Class<T> clazz) {
+		SentenceSet sentenceSet = getSentenceSet(extracts, n_extract, n_set);
+		
+		return cast(clazz, sentenceSet);
 	}
 
 	private Analysis getTitleAnalysis(Iterator<Extract> extracts,int n_extract, int n_sentence, int n_analysis) {
@@ -745,4 +766,10 @@ public class ADParserBehavior {
 		
 		return analysis;
 	}
+
+	private <T> T cast(Class<T> clazz, Object obj) {
+		assertTrue(clazz.isInstance(obj));
+		
+		return clazz.cast(obj);
+	}	
 }

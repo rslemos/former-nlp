@@ -1,7 +1,7 @@
 package br.eti.rslemos.ad;
 
 
-public class Title extends SentencesContainer {
+public class Title extends SentenceSet {
 
 	Title(ADCorpus corpus) {
 		super(corpus);

@@ -4,12 +4,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Extract implements Iterable<Paragraph>, Skippable {
+public class Extract implements Iterable<SentenceSet>, Skippable {
 
 	private final Map<String, String> attributes = new LinkedHashMap<String, String>();
 	
-	private final Title title;
-	private final Iterator<Paragraph> paragraphs;
+	private final SentenceSetIterator sentenceSets;
 
 	Extract(final ADCorpus corpus) {
 		corpus.assertLineStartsWith("<ext ");
@@ -41,14 +40,8 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 		}
 		
 		corpus.readNextLine();
-
 		
-		if (corpus.line.equals("<t>"))
-			title = new Title(corpus);
-		else
-			title = null;
-		
-		paragraphs = new ParagraphIterator(corpus);
+		sentenceSets = new SentenceSetIterator(corpus);
 
 	}
 
@@ -56,43 +49,80 @@ public class Extract implements Iterable<Paragraph>, Skippable {
 		return attributes;
 	}
 	
-	public Title title() {
+	private Title title;
+	private boolean gotTitle = false;
+	
+	public Title getFirstParagraphIfTitle() {
+		if (!gotTitle) {
+			gotTitle = true;
+			if (sentenceSets.hasNext()) {
+				SentenceSet next = sentenceSets.next();
+				if (next instanceof Title)
+					title = (Title)next;
+				else
+					sentenceSets.push(next);
+			}
+		}
+		
 		return title;
 	}
 
-	public Iterator<Paragraph> paragraphs() {
+	public Iterator<SentenceSet> sentenceSets() {
 		// skip title
-		if (title != null)
+		if (getFirstParagraphIfTitle() != null)
 			title.skip();
 		
-		return paragraphs;
+		return sentenceSets;
 	}
 
-	public Iterator<Paragraph> iterator() {
-		return paragraphs();
+	public Iterator<SentenceSet> iterator() {
+		return sentenceSets();
 	}
 
 	public void skip() {
-		if (title != null)
+		if (getFirstParagraphIfTitle() != null)
 			title.skip();
 
-		while(paragraphs.hasNext())
-			paragraphs.next().skip();
+		while(sentenceSets.hasNext())
+			sentenceSets.next().skip();
 	}
 
-	private static class ParagraphIterator extends BaseIterator<Paragraph> {
-		private ParagraphIterator(ADCorpus corpus) {
+	private static class SentenceSetIterator extends BaseIterator<SentenceSet> {
+		private SentenceSet next;
+
+		private SentenceSetIterator(ADCorpus corpus) {
 			super(corpus);
+		}
+
+		void push(SentenceSet next) {
+			this.next = next;
 		}
 
 		@Override
 		protected boolean testForNext() {
-			return corpus.line.equals("<p>");
+			if (next != null)
+				return true;
+			
+			return corpus.line.equals("<p>") || corpus.line.equals("<t>");
 		}
 
 		@Override
-		protected Paragraph buildNext() {
-			return new Paragraph(corpus);
+		protected SentenceSet buildNext() {
+			if (next != null) {
+				try {
+					return next;
+				} finally {
+					next = null;
+				}
+			}
+			
+			if (corpus.line.equals("<p>")) {
+				return new Paragraph(corpus);
+			} else if (corpus.line.equals("<t>")) {
+				return new Title(corpus);
+			}
+			
+			throw new IllegalStateException();
 		}
 	}
 }
