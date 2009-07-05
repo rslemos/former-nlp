@@ -29,6 +29,7 @@ public class ADCorpus implements Iterable<Extract> {
 						line.equals("<s frag>")
 						|| line.startsWith("### ")
 						|| (line.startsWith("<lixo") && line.endsWith(">"))
+						|| line.equals("</situacao>")
 					));
 		} catch (IOException e) {
 			line = null;

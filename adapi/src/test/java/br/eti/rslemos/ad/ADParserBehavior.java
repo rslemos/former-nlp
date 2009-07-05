@@ -202,6 +202,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldIgnoreSituacaoEndTag() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence sentence = getSentence(extracts, 11, 0, 0);
+		assertEquals(sentence.getRef(), "CF1012-1");
+	}
+	
+	@Test
 	public void shouldAllowColonNode() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
 		Analysis e_0_0_5_A1 = getAnalysis(extracts, 0, 0, 5, 0);
