@@ -47,16 +47,13 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 		corpus.readNextLine();
 		
 		// SOURCE: ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
-		if (corpus.line.equals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"")) {
-			corpus.readNextLine();
-			
-			// CF1000-1 Consolação
-			text = corpus.line.split(" ", 2)[1].trim();
-			
-			corpus.readNextLine();
-		} else {
-			text = null;
-		}
+		corpus.assertLineEquals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"");
+		corpus.readNextLine();
+		
+		// CF1000-1 Consolação
+		text = corpus.line.split(" ", 2)[1].trim();
+		
+		corpus.readNextLine();
 
 		analyses = new AnalysisIterator(corpus);
 	}
