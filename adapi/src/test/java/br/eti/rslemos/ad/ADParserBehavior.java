@@ -25,14 +25,14 @@ public class ADParserBehavior {
 	public void shouldParseExt1000Title() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Extract e_1000 = getNext(extracts);
-		checkExtract1000Title(e_1000);
+		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
+		checkExtract1000Title(e_1000_p);
 	}
 
 	@Test
 	public void shouldParseExt1000TitleSentence1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNext(extracts);
-		Title e_1000_t = getTitle(e_1000);
+		Title e_1000_t = getSentenceSet(extracts, 0, 0, Title.class);
 		Iterator<Sentence> e_1000_t_sentences = getSentences(e_1000_t);
 		checkExtract1000TitleSentence1(e_1000_t_sentences);
 	}
@@ -40,7 +40,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000TitleSentence1AnalysisA1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_t_s1_A1 = getTitleAnalysis(extracts, 0, 0, 0);
+		Analysis e_1000_t_s1_A1 = getAnalysis(extracts, 0, 0, 0, 0);
 		
 		checkAnalysis(e_1000_t_s1_A1, 1);
 	}
@@ -48,7 +48,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000TitleSentence1AnalysisA1RootNode() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_t_s1_A1 = getTitleAnalysis(extracts, 0, 0, 0);
+		Analysis e_1000_t_s1_A1 = getAnalysis(extracts, 0, 0, 0, 0);
 		TerminalNode e_1000_t_s1_A1_root_t = (TerminalNode) getRootNode(e_1000_t_s1_A1, 0);
 		check_e_1000_t_s1_A1_0(e_1000_t_s1_A1_root_t);
 	}
@@ -229,8 +229,9 @@ public class ADParserBehavior {
 		assertNotNull(extracts);
 		
 		Extract e_1000 = checkExtract1000(extracts);
+		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
 
-		Title e_1000_t = checkExtract1000Title(e_1000);
+		Title e_1000_t = checkExtract1000Title(e_1000_p);
 		Iterator<Sentence> e_1000_t_sentences = getSentences(e_1000_t);
 		Sentence e_1000_t_s1 = checkExtract1000TitleSentence1(e_1000_t_sentences);
 		Iterator<Analysis> e_1000_t_s1_analyses = getAnalyses(e_1000_t_s1);
@@ -243,7 +244,6 @@ public class ADParserBehavior {
 		assertEquals(e_1000_t_s1_analyses.hasNext(), false);
 		assertEquals(e_1000_t_sentences.hasNext(), false);
 		
-		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
 		SentenceSet e_1000_p1 = checkExtract1000Paragraph1(e_1000_p);
 		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);		
 		Sentence e_1000_p1_s2 = checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
@@ -354,12 +354,6 @@ public class ADParserBehavior {
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
 			fullyParse(extract);
-		}
-	}
-
-	private void fullyParse(Title title) {
-		for (Sentence sentence : title) {
-			fullyParse(sentence);
 		}
 	}
 
@@ -517,8 +511,8 @@ public class ADParserBehavior {
 		return e_1000_t_s1;
 	}
 
-	private Title checkExtract1000Title(Extract e_1000) {
-		Title e_1000_t = getTitle(e_1000);
+	private Title checkExtract1000Title(Iterator<SentenceSet> e_1000_p) {
+		Title e_1000_t = getNext(e_1000_p, Title.class);
 		assertNotNull(e_1000_t);
 		
 		return e_1000_t;
@@ -551,18 +545,6 @@ public class ADParserBehavior {
 		assertNotNull(extracts);
 		
 		return extracts;
-	}
-
-	private Title getTitle(Extract extract) {
-		Iterator<SentenceSet> sentenceSets = getSentenceSets(extract);
-		return getNext(sentenceSets, Title.class);
-	}
-
-	private Iterator<Sentence> getSentences(Title title) {
-		Iterator<Sentence> sentences = title.sentences();
-		assertNotNull(sentences);
-		
-		return sentences;
 	}
 
 	private Iterator<Analysis> getAnalyses(Sentence sentence) {
@@ -745,26 +727,6 @@ public class ADParserBehavior {
 		SentenceSet sentenceSet = getSentenceSet(extracts, n_extract, n_set);
 		
 		return cast(clazz, sentenceSet);
-	}
-
-	private Analysis getTitleAnalysis(Iterator<Extract> extracts,int n_extract, int n_sentence, int n_analysis) {
-		for (int i = 0; i < n_extract; i++)
-			getNext(extracts);
-		Extract extract = getNext(extracts);
-		
-		Title title = getTitle(extract);
-		
-		Iterator<Sentence> sentences = getSentences(title);
-		for (int i = 0; i < n_sentence; i++)
-			getNext(sentences);
-		Sentence sentence = getNext(sentences);
-		
-		Iterator<Analysis> analyses = getAnalyses(sentence);
-		for (int i = 0; i < n_analysis; i++)
-			getNext(analyses);
-		Analysis analysis = getNext(analyses);
-		
-		return analysis;
 	}
 
 	private <T> T cast(Class<T> clazz, Object obj) {
