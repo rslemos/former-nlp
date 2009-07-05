@@ -165,7 +165,7 @@ public class ADParserBehavior {
 	}
 
 	@Test
-	public void shouldParseExt7Title1AfterParagraph1() {
+	public void shouldParseTitleIntermingledInParagraphs() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
 		Title e_7_t1 = getSentenceSet(extracts, 6, 1, Title.class);
 		Iterator<Sentence> e_7_t1_sentences = getSentences(e_7_t1);
