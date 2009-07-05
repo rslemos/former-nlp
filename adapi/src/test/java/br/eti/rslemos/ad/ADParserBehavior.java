@@ -174,6 +174,20 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldParseAnonymousSentenceSet() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Sentence e_0_0_0 = getSentence(extracts, 0, 0, 0);
+		assertEquals(e_0_0_0.getText(), "depois se encontram com a dissidência do grupo, os Bacamarteiros de Pinga Fogo, e a festa continua por muito tempo...");
+	}
+	
+	@Test
+	public void shouldParseSentenceWithNonNumericRef() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Sentence e_0_0_0 = getSentence(extracts, 0, 0, 0);
+		assertEquals(e_0_0_0.getRef(), "1001.porto-poesia=removeme=-2 a poesia toma porto-alegre=removeme=-1");
+	}
+	
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
@@ -339,13 +353,13 @@ public class ADParserBehavior {
 		verify(ext_1000r_spy, times(1)).close();
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void shouldParseFlorestaVirgem() {
 		ADCorpus corpus = getCorpus("/pt_BR/FlorestaVirgem_CF.txt");
 		fullyParse(corpus);
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void shouldParseAmazonia() {
 		ADCorpus corpus = getCorpus("/pt_BR/Amazonia_CF.txt");
 		fullyParse(corpus);

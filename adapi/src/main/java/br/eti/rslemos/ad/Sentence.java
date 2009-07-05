@@ -12,36 +12,51 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 	private final  Iterator<Analysis> analyses;
 
 	Sentence(final ADCorpus corpus) {
-		// <s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
-		String[] parts = corpus.line.split(" ", 4);
+		corpus.assertLineStartsWith("<s ");
 
-		corpus.assertBoolean("<s".equals(parts[0]));
+		// <s id="1" ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a">
+		// <s id="63954" ref="1001.porto-poesia=removeme=-2 a poesia toma porto-alegre=removeme=-1" source="SELVA 1001.porto-poesia=removeme=-2 a poesia toma porto-alegre=removeme=">
 		
-		corpus.assertBoolean(parts[1].startsWith("id=\""));
-		corpus.assertBoolean(parts[1].endsWith("\""));
-		id = parts[1].substring("id=\"".length(), parts[1].length() - "\"".length());
+		String line = corpus.line.substring("<s ".length()).trim();
+
+		String[] parts;
 		
-		corpus.assertBoolean(parts[2].startsWith("ref=\""));
-		corpus.assertBoolean(parts[2].endsWith("\""));
-		ref = parts[2].substring("ref=\"".length(), parts[2].length() - "\"".length());
-		
-		corpus.assertBoolean(parts[3].startsWith("source=\""));
-		corpus.assertBoolean(parts[3].endsWith("\">"));
-		source = parts[3].substring("source=\"".length(), parts[3].length() - "\">".length());
+		parts = line.split("=", 2);
+		corpus.assertBoolean(parts[0].equals("id"));
+		corpus.assertBoolean(parts[1].startsWith("\""));
+		parts = parts[1].split("\"", 3);
+		id = parts[1];
+		line = parts[2].trim();
+
+		parts = line.split("=", 2);
+		corpus.assertBoolean(parts[0].equals("ref"));
+		corpus.assertBoolean(parts[1].startsWith("\""));
+		parts = parts[1].split("\"", 3);
+		ref = parts[1];
+		line = parts[2].trim();
+
+		parts = line.split("=", 2);
+		corpus.assertBoolean(parts[0].equals("source"));
+		corpus.assertBoolean(parts[1].startsWith("\""));
+		parts = parts[1].split("\"", 3);
+		source = parts[1];
+		line = parts[2].trim();
+
+		corpus.assertBoolean(line.equals(">"));
 		
 		corpus.readNextLine();
 		
 		// SOURCE: ref="CF1000-1" source="CETENFolha id=1000 cad=Esporte sec=des sem=94a"
-		corpus.assertLineEquals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"");
-
-		corpus.readNextLine();
-		
-		// CF1000-1 Consolação
-		corpus.assertLineStartsWith(ref + " ");
-		
-		text = corpus.line.substring((ref + " ").length());
-		
-		corpus.readNextLine();
+		if (corpus.line.equals("SOURCE: ref=\"" + ref + "\" source=\"" + source + "\"")) {
+			corpus.readNextLine();
+			
+			// CF1000-1 Consolação
+			text = corpus.line.split(" ", 2)[1].trim();
+			
+			corpus.readNextLine();
+		} else {
+			text = null;
+		}
 
 		analyses = new AnalysisIterator(corpus);
 	}
@@ -82,8 +97,9 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 
 		@Override
 		protected void tail() {
-			corpus.assertLineEquals("");
-			corpus.readNextLine();
+			if (corpus.line.equals(""))
+				corpus.readNextLine();
+			
 			corpus.assertLineEquals("</s>");
 			corpus.readNextLine();
 		}
