@@ -64,9 +64,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Extract e_1000 = getNext(extracts);
-		Iterator<SentenceSet> e_1000_p = getSentenceSets(e_1000);
-		SentenceSet e_1000_p1 = getNext(e_1000_p);
+		SentenceSet e_1000_p1 = getSentenceSet(extracts, 0, 1);
 		Iterator<Sentence> e_1000_p1_sentences = getSentences(e_1000_p1);		
 		checkExtract1000Paragraph1Sentence1(e_1000_p1_sentences);
 	}
@@ -81,7 +79,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNode() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		NonTerminalNode e_1000_p1_s2_A1_root_nt = (NonTerminalNode) getRootNode(e_1000_p1_s2_A1, 0);
 		check_e_1000_p1_s2_A1_0(e_1000_p1_s2_A1_root_nt);
 	}
@@ -89,7 +87,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_nt = getNonTerminalChild(e_1000_p1_s2_A1, 0);
 		check_e_1000_p1_s2_A1_0_0(e_1000_p1_s2_A1_root_c1_nt);
 	}
@@ -97,7 +95,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c1_t = getTerminalChild(e_1000_p1_s2_A1, 0, 0);
 		check_e_1000_p1_s2_A1_0_0_0(e_1000_p1_s2_A1_root_c1_c1_t);
 	}
@@ -105,7 +103,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child2() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c2_t = getTerminalChild(e_1000_p1_s2_A1, 0, 1);
 		check_e_1000_p1_s2_A1_0_0_1(e_1000_p1_s2_A1_root_c1_c2_t);
 	}
@@ -113,7 +111,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_nt = getNonTerminalChild(e_1000_p1_s2_A1, 0, 2);
 		check_e_1000_p1_s2_A1_0_0_2(e_1000_p1_s2_A1_root_c1_c3_nt);
 	}
@@ -121,7 +119,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c1_t = getTerminalChild(e_1000_p1_s2_A1, 0, 2, 0);
 		check_e_1000_p1_s2_A1_0_0_2_0(e_1000_p1_s2_A1_root_c1_c3_c1_t);
 	}
@@ -129,7 +127,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_nt = getNonTerminalChild(e_1000_p1_s2_A1, 0, 2, 1);
 		check_e_1000_p1_s2_A1_0_0_2_1(e_1000_p1_s2_A1_root_c1_c3_c2_nt);
 	}
@@ -137,7 +135,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		NonTerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt = getNonTerminalChild(e_1000_p1_s2_A1, 0, 2, 1, 0);
 		check_e_1000_p1_s2_A1_0_0_2_1_0(e_1000_p1_s2_A1_root_c1_c3_c2_c1_nt);
 	}
@@ -145,7 +143,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child1() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t = getTerminalChild(e_1000_p1_s2_A1, 0, 2, 1, 0, 0);
 		check_e_1000_p1_s2_A1_0_0_2_1_0_0(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c1_t);
 	}
@@ -153,7 +151,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child1Child2() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t = getTerminalChild(e_1000_p1_s2_A1, 0, 2, 1, 0, 1);
 		check_e_1000_p1_s2_A1_0_0_2_1_0_1(e_1000_p1_s2_A1_root_c1_c3_c2_c1_c2_t);
 	}
@@ -161,7 +159,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldParseExt1000Paragraph1Sentence1AnalysisA1RootNodeChild1Child3Child2Child2() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0,0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_root_c1_c3_c2_c2_t = getTerminalChild(e_1000_p1_s2_A1, 0, 2, 1, 1);
 		check_e_1000_p1_s2_A1_0_0_2_1_1(e_1000_p1_s2_A1_root_c1_c3_c2_c2_t);
 	}
@@ -178,7 +176,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 0, 0, 0);
+		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
 		TerminalNode e_1000_p1_s2_A1_2ndroot_t = (TerminalNode) getRootNode(e_1000_p1_s2_A1, 1);
 		check_e_1000_p1_s2_A1_1(e_1000_p1_s2_A1_2ndroot_t);
 	}
@@ -199,7 +197,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldSkipSentences() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p1_s3_A1 = getAnalysis(extracts, 0, 0, 1, 0);
+		Analysis e_1000_p1_s3_A1 = getAnalysis(extracts, 0, 1, 1, 0);
 		TerminalNode e_1000_p1_s3_A1_root_t = (TerminalNode) getRootNode(e_1000_p1_s3_A1, 0);
 		check_e_1000_p1_s3_A1_0(e_1000_p1_s3_A1_root_t);
 	}
@@ -207,7 +205,7 @@ public class ADParserBehavior {
 	@Test
 	public void shouldSkipParagraphs() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
-		Analysis e_1000_p2_s4_A1 = getAnalysis(extracts, 0, 1, 0, 0);
+		Analysis e_1000_p2_s4_A1 = getAnalysis(extracts, 0, 2, 0, 0);
 		TerminalNode e_1000_p2_s4_A1_root_c5_c2_c2_c1_t = getTerminalChild(e_1000_p2_s4_A1, 4, 1, 1, 0);
 		check_e_1000_p1_s2_A1_0_4_1_1_0(e_1000_p2_s4_A1_root_c5_c2_c2_c1_t);
 	}
@@ -355,9 +353,6 @@ public class ADParserBehavior {
 	
 	private void fullyParse(ADCorpus corpus) {
 		for (Extract extract : corpus) {
-			Title title = extract.getFirstParagraphIfTitle();
-			if (title != null)
-				fullyParse(title);
 			fullyParse(extract);
 		}
 	}
@@ -559,7 +554,8 @@ public class ADParserBehavior {
 	}
 
 	private Title getTitle(Extract extract) {
-		return extract.getFirstParagraphIfTitle();
+		Iterator<SentenceSet> sentenceSets = getSentenceSets(extract);
+		return getNext(sentenceSets, Title.class);
 	}
 
 	private Iterator<Sentence> getSentences(Title title) {
@@ -592,6 +588,10 @@ public class ADParserBehavior {
 	private <T> T getNext(Iterator<T> iterator) {
 		assertEquals(iterator.hasNext(), true);
 		return iterator.next();	
+	}
+	
+	private <T> T getNext(Iterator<? super T> iterator, Class<T> clazz) {
+		return cast(clazz, getNext(iterator));
 	}
 	
 	private Iterator<Sentence> getSentences(SentenceSet sentenceSet) {
