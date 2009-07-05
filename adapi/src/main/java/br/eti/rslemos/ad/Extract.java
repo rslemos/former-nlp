@@ -69,7 +69,7 @@ public class Extract implements Iterable<SentenceSet>, Skippable {
 
 		@Override
 		protected boolean testForNext() {
-			return corpus.line.equals("<p>") || corpus.line.equals("<t>") || corpus.line.startsWith("<s");
+			return corpus.line.equals("<p>") || corpus.line.equals("<t>") || corpus.line.startsWith("<s") || corpus.line.equals("<caixa>");
 		}
 
 		@Override
@@ -80,6 +80,8 @@ public class Extract implements Iterable<SentenceSet>, Skippable {
 				return new Title(corpus);
 			} else if (corpus.line.startsWith("<s")) {
 				return new AnonymousSet(corpus);
+			} else if (corpus.line.equals("<caixa>")) {
+				return new Box(corpus);
 			}
 			
 			throw new IllegalStateException();

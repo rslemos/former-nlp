@@ -181,6 +181,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldParseBoxSentenceSet() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence e_12_1_0 = getSentence(extracts, 12, 1, 0);
+		assertEquals(e_12_1_0.getRef(), "CF1013-2");
+	}
+	
+	@Test
 	public void shouldParseSentenceWithNonNumericRef() {
 		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
 		Sentence e_0_0_0 = getSentence(extracts, 0, 0, 0);
