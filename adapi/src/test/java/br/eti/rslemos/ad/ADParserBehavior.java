@@ -284,6 +284,13 @@ public class ADParserBehavior {
 	}
 	
 	@Test
+	public void shouldParseEmptySentence() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/FlorestaVirgem_CF.txt");
+		Sentence e_441_2_0 = getSentence(extracts, 441, 2, 0);
+		assertEquals(e_441_2_0.getRef(), "CF1443-7");
+	}
+
+	@Test
 	public void shouldSkipRootNodes() {
 		Iterator<Extract> extracts = getExtracts("ext_1000.ad");
 		Analysis e_1000_p1_s2_A1 = getAnalysis(extracts, 0, 1, 0, 0);
