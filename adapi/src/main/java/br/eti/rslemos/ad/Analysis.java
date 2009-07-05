@@ -46,7 +46,7 @@ public class Analysis implements Iterable<Node>, Skippable {
 
 		@Override
 		protected Node buildNext() {
-			if (corpus.line.contains("\t") || !corpus.line.contains(":"))
+			if (corpus.line.contains("\t") || !corpus.line.contains(":") || corpus.line.startsWith(":"))
 				return new TerminalNode(corpus);
 			else
 				return new NonTerminalNode(corpus);

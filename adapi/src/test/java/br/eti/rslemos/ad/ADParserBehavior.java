@@ -193,6 +193,14 @@ public class ADParserBehavior {
 		Sentence sentence = getSentence(extracts, 8, 1, 0);
 		assertEquals(sentence.getText(), "«Fatos e Relatos»");
 	}
+	
+	@Test
+	public void shouldAllowColonNode() {
+		Iterator<Extract> extracts = getExtracts("/pt_BR/Amazonia_CF.txt");
+		Analysis e_0_0_5_A1 = getAnalysis(extracts, 0, 0, 5, 0);
+		TerminalNode e_0_0_5_A1_c2 = (TerminalNode) getRootNode(e_0_0_5_A1, 2);
+		assertEquals(e_0_0_5_A1_c2.getText(), ":");
+	}	
 
 	@Test
 	public void shouldSkipRootNodes() {

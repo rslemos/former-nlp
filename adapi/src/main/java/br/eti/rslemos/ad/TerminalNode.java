@@ -8,7 +8,7 @@ public class TerminalNode extends Node {
 		super(corpus);
 		
 		String line = corpus.line;
-		if (line.contains(":")) {
+		if (line.contains(":") && !line.startsWith(":")) {
 			corpus.assertLineContains("\t");
 			
 			text = line.substring(line.indexOf('\t') + 1);

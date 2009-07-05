@@ -23,7 +23,7 @@ public abstract class Node implements Iterable<Node>, Skippable {
 		
 		String[] parts;
 
-		if (line.contains(":")) {
+		if (line.contains(":") && !line.startsWith(":")) {
 			// X:n("consolação" <act> F S)	Consolação
 			parts = line.split(":");
 			
