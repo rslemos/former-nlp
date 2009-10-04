@@ -15,15 +15,21 @@ public abstract class RuleBehaviorUtils {
 	
 	public static void createAndTestMatchability(RuleFactory factory) {
 		try {
-			createAndTestMatchability0(factory);
+			createAndTestMatchability0(buildContext(), factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
-		
 	}
 
-	private static void createAndTestMatchability0(RuleFactory factory) throws RuleCreationException {
-		Context context = buildContext();
+	public static void createAndTestUntaggedMatchability(RuleFactory factory) {
+		try {
+			createAndTestMatchability0(buildUntaggedContext(), factory);
+		} catch (RuleCreationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void createAndTestMatchability0(Context context, RuleFactory factory) throws RuleCreationException {
 		Rule rule = factory.create(context, context.getToken(0));
 		context.reset();
 	
@@ -104,14 +110,13 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestBasicDependency(RuleFactory factory) {
 		try {
-			createAndTestBasicDependency0(factory);
+			createAndTestBasicDependency0(buildContext(), factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static void createAndTestBasicDependency0(RuleFactory factory) throws RuleCreationException {
-		Context context = buildContext();
+	private static void createAndTestBasicDependency0(Context context, RuleFactory factory) throws RuleCreationException {
 		Rule rule = factory.create(context, context.getToken(0));
 	
 		assertTrue(rule.firingDependsOnTag(THIS_TAG));
@@ -124,14 +129,13 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestContextDependency(RuleFactory factory, boolean... dependencies) {
 		try {
-			createAndTestContextDependency0(factory, dependencies);
+			createAndTestContextDependency0(buildContext(), factory, dependencies);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static void createAndTestContextDependency0(RuleFactory factory, boolean... dependencies) throws RuleCreationException {
-		Context context = buildContext();
+	private static void createAndTestContextDependency0(Context context, RuleFactory factory, boolean... dependencies) throws RuleCreationException {
 		Rule rule = factory.create(context, context.getToken(0));
 	
 		assertEquals(rule.firingDependsOnTag(PREV4_TAG), dependencies[0]);

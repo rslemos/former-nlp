@@ -4,7 +4,7 @@ public class RuleCreationException extends Exception {
 
 	private static final long serialVersionUID = 1946172401139265592L;
 
-	protected RuleCreationException() {
+	public RuleCreationException() {
 		super();
 	}
 

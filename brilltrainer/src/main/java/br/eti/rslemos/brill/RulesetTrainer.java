@@ -141,17 +141,15 @@ public class RulesetTrainer {
 		}
 		
 		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
-			try {
-				Rule[] rules = new Rule[ruleFactories.size()];
+			Collection<Rule> rules = new LinkedHashSet<Rule>(ruleFactories.size());
 
-				int i = 0;
-				for (RuleFactory factory : ruleFactories)
-					rules[i++] = factory.create(context, target);
+			for (RuleFactory factory : ruleFactories)
+				try {
+					rules.add(factory.create(context, target));
+				} catch (RuleCreationException e) {
+				}
 
-				return new LinkedHashSet<Rule>(Arrays.asList(rules));
-			} catch (RuleCreationException e) {
-				throw new RuntimeException("Error creating rule", e);
-			}
+			return rules;
 		}
 
 		private Score selectBestRule(Queue<Score> possibleRules) {

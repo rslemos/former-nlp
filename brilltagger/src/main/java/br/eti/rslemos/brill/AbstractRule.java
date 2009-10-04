@@ -77,7 +77,7 @@ public abstract class AbstractRule implements Rule {
 		return from + " " + to + " " + getType();
 	}
 
-	private final String getType() {
+	protected final String getType() {
 		String simpleName = getClass().getSimpleName();
 		if (simpleName.endsWith("Rule"))
 			return simpleName.substring(0, simpleName.length() - 4);

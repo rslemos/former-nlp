@@ -55,7 +55,7 @@ public class RuleBasedTagger implements Tagger {
 		baseTagger.tagSentence(sentence);
 	}
 
-	private static final Tagger NULL_TAGGER = new NullBaseTagger();
+	public static final Tagger NULL_TAGGER = new NullBaseTagger();
 	private static final List<Rule> EMPTY_RULES = Collections.emptyList();
 
 	private static class NullBaseTagger implements Tagger {
