@@ -1,142 +1,11 @@
 package br.eti.rslemos.specialist.pt_BR;
 
-import br.eti.rslemos.brill.AbstractTokenTagger;
-import br.eti.rslemos.brill.Token;
+import br.eti.rslemos.brill.Tagger;
+import br.eti.rslemos.specialist.pt_BR.MatcherListTokenTagger.StringMatcher;
+import br.eti.rslemos.specialist.pt_BR.MatcherListTokenTagger.SuffixMatcher;
 
-public class VerbTaggerByInflection extends AbstractTokenTagger {
-
-	@Override
-	public void tag(Token token) {
-		String word = token.getWord().toLowerCase();
-
-		for (VerbMatcher matcher : matchers) {
-			if (matcher.matches(word)) {
-				token.setTag(matcher.getTag());
-				break;
-			}
-		}
-	}
-
-	private static interface VerbMatcher {
-		boolean matches(String word);
-		String getTag();
-	}
-	
-	private static class SuffixMatcher implements VerbMatcher {
-
-		private final String suffix;
-		private final String tag;
-
-		protected SuffixMatcher(String suffix, String tag) {
-			this.suffix = suffix;
-			this.tag = tag;
-		}
-
-		public boolean matches(String word) {
-			return word.endsWith(suffix) && !word.equals(suffix);
-		}
-		
-		public String getTag() {
-			return tag;
-		}
-	}
-
-	private static class StringMatcher implements VerbMatcher {
-
-		private final String word;
-		private final String tag;
-
-		protected StringMatcher(String word, String tag) {
-			this.word = word;
-			this.tag = tag;
-		}
-
-		public boolean matches(String word) {
-			return this.word.equals(word);
-		}
-		
-		public String getTag() {
-			return tag;
-		}
-	}
-
-	private static final VerbMatcher[] matchers = {
-		// verbo ser
-		new StringMatcher("sendo", "v-ger"),
-		new StringMatcher("sido", "v-pcp"),
-
-		new StringMatcher("sou", "v-fin"),
-		new StringMatcher("és", "v-fin"),
-		new StringMatcher("é", "v-fin"),
-		new StringMatcher("somos", "v-fin"),
-		new StringMatcher("sois", "v-fin"),
-		new StringMatcher("são", "v-fin"),
-		new StringMatcher("fui", "v-fin"),
-		new StringMatcher("foste", "v-fin"),
-		new StringMatcher("foi", "v-fin"),
-		new StringMatcher("fomos", "v-fin"),
-		new StringMatcher("fostes", "v-fin"),
-		new StringMatcher("foram", "v-fin"),
-		new StringMatcher("era", "v-fin"),
-		new StringMatcher("eras", "v-fin"),
-		new StringMatcher("era", "v-fin"),
-		new StringMatcher("éramos", "v-fin"),
-		new StringMatcher("éreis", "v-fin"),
-		new StringMatcher("eram", "v-fin"),
-		new StringMatcher("fora", "v-fin"),
-		new StringMatcher("foras", "v-fin"),
-		new StringMatcher("fora", "v-fin"),
-		new StringMatcher("fôramos", "v-fin"),
-		new StringMatcher("fôreis", "v-fin"),
-		new StringMatcher("foram", "v-fin"),
-		new StringMatcher("serei", "v-fin"),
-		new StringMatcher("sereis", "v-fin"),
-		new StringMatcher("será", "v-fin"),
-		new StringMatcher("seremos", "v-fin"),
-		new StringMatcher("sereis", "v-fin"),
-		new StringMatcher("serão", "v-fin"),
-		new StringMatcher("seria", "v-fin"),
-		new StringMatcher("serias", "v-fin"),
-		new StringMatcher("seria", "v-fin"),
-		new StringMatcher("seríamos", "v-fin"),
-		new StringMatcher("seríeis", "v-fin"),
-		new StringMatcher("seriam", "v-fin"),
-		new StringMatcher("seja", "v-fin"),
-		new StringMatcher("sejas", "v-fin"),
-		new StringMatcher("seja", "v-fin"),
-		new StringMatcher("sejamos", "v-fin"),
-		new StringMatcher("sejais", "v-fin"),
-		new StringMatcher("sejam", "v-fin"),
-		new StringMatcher("fosse", "v-fin"),
-		new StringMatcher("fosses", "v-fin"),
-		new StringMatcher("fosse", "v-fin"),
-		new StringMatcher("fôssemos", "v-fin"),
-		new StringMatcher("fôsseis", "v-fin"),
-		new StringMatcher("fossem", "v-fin"),
-		new StringMatcher("for", "v-fin"),
-		new StringMatcher("fores", "v-fin"),
-		new StringMatcher("for", "v-fin"),
-		new StringMatcher("formos", "v-fin"),
-		new StringMatcher("fordes", "v-fin"),
-		new StringMatcher("forem", "v-fin"),
-		new StringMatcher("sê", "v-fin"),
-		new StringMatcher("seja", "v-fin"),
-		new StringMatcher("sejamos", "v-fin"),
-		new StringMatcher("sede", "v-fin"),
-		new StringMatcher("sejam", "v-fin"),
-		new StringMatcher("sejas", "v-fin"),
-		new StringMatcher("seja", "v-fin"),
-		new StringMatcher("sejamos", "v-fin"),
-		new StringMatcher("sejais", "v-fin"),
-		new StringMatcher("sejam", "v-fin"),
-
-		new StringMatcher("ser", "v-inf"),
-		new StringMatcher("seres", "v-inf"),
-		new StringMatcher("ser", "v-inf"),
-		new StringMatcher("sermos", "v-inf"),
-		new StringMatcher("serdes", "v-inf"),
-		new StringMatcher("serem", "v-inf"),
-
+public class VerbTaggerByInflection {
+	public static final Tagger REGULAR_VERB = new MatcherListTokenTagger(
 		// verbos regulares
 		new SuffixMatcher("ando", "v-ger"),
 		new SuffixMatcher("endo", "v-ger"),
@@ -261,7 +130,94 @@ public class VerbTaggerByInflection extends AbstractTokenTagger {
 	
 		new SuffixMatcher("ar", "v-inf"),
 		new SuffixMatcher("er", "v-inf"),
-		new SuffixMatcher("ir", "v-inf"),
+		new SuffixMatcher("ir", "v-inf")
 	
-	};
+	);
+	
+	public static final Tagger VERB_SER = new MatcherListTokenTagger(
+			new StringMatcher("sendo", "v-ger"),
+			new StringMatcher("sido", "v-pcp"),
+
+			new StringMatcher("sou", "v-fin"),
+			new StringMatcher("és", "v-fin"),
+			new StringMatcher("é", "v-fin"),
+			new StringMatcher("somos", "v-fin"),
+			new StringMatcher("sois", "v-fin"),
+			new StringMatcher("são", "v-fin"),
+			new StringMatcher("fui", "v-fin"),
+			new StringMatcher("foste", "v-fin"),
+			new StringMatcher("foi", "v-fin"),
+			new StringMatcher("fomos", "v-fin"),
+			new StringMatcher("fostes", "v-fin"),
+			new StringMatcher("foram", "v-fin"),
+			new StringMatcher("era", "v-fin"),
+			new StringMatcher("eras", "v-fin"),
+			new StringMatcher("era", "v-fin"),
+			new StringMatcher("éramos", "v-fin"),
+			new StringMatcher("éreis", "v-fin"),
+			new StringMatcher("eram", "v-fin"),
+			new StringMatcher("fora", "v-fin"),
+			new StringMatcher("foras", "v-fin"),
+			new StringMatcher("fora", "v-fin"),
+			new StringMatcher("fôramos", "v-fin"),
+			new StringMatcher("fôreis", "v-fin"),
+			new StringMatcher("foram", "v-fin"),
+			new StringMatcher("serei", "v-fin"),
+			new StringMatcher("sereis", "v-fin"),
+			new StringMatcher("será", "v-fin"),
+			new StringMatcher("seremos", "v-fin"),
+			new StringMatcher("sereis", "v-fin"),
+			new StringMatcher("serão", "v-fin"),
+			new StringMatcher("seria", "v-fin"),
+			new StringMatcher("serias", "v-fin"),
+			new StringMatcher("seria", "v-fin"),
+			new StringMatcher("seríamos", "v-fin"),
+			new StringMatcher("seríeis", "v-fin"),
+			new StringMatcher("seriam", "v-fin"),
+			new StringMatcher("seja", "v-fin"),
+			new StringMatcher("sejas", "v-fin"),
+			new StringMatcher("seja", "v-fin"),
+			new StringMatcher("sejamos", "v-fin"),
+			new StringMatcher("sejais", "v-fin"),
+			new StringMatcher("sejam", "v-fin"),
+			new StringMatcher("fosse", "v-fin"),
+			new StringMatcher("fosses", "v-fin"),
+			new StringMatcher("fosse", "v-fin"),
+			new StringMatcher("fôssemos", "v-fin"),
+			new StringMatcher("fôsseis", "v-fin"),
+			new StringMatcher("fossem", "v-fin"),
+			new StringMatcher("for", "v-fin"),
+			new StringMatcher("fores", "v-fin"),
+			new StringMatcher("for", "v-fin"),
+			new StringMatcher("formos", "v-fin"),
+			new StringMatcher("fordes", "v-fin"),
+			new StringMatcher("forem", "v-fin"),
+			new StringMatcher("sê", "v-fin"),
+			new StringMatcher("seja", "v-fin"),
+			new StringMatcher("sejamos", "v-fin"),
+			new StringMatcher("sede", "v-fin"),
+			new StringMatcher("sejam", "v-fin"),
+			new StringMatcher("sejas", "v-fin"),
+			new StringMatcher("seja", "v-fin"),
+			new StringMatcher("sejamos", "v-fin"),
+			new StringMatcher("sejais", "v-fin"),
+			new StringMatcher("sejam", "v-fin"),
+
+			new StringMatcher("ser", "v-inf"),
+			new StringMatcher("seres", "v-inf"),
+			new StringMatcher("ser", "v-inf"),
+			new StringMatcher("sermos", "v-inf"),
+			new StringMatcher("serdes", "v-inf"),
+			new StringMatcher("serem", "v-inf")
+		);
+	public static final Tagger VERB_ESTAR = new MatcherListTokenTagger(
+			new StringMatcher("estando", "v-ger"),
+
+			new StringMatcher("estado", "v-pcp"),
+			new StringMatcher("estada", "v-pcp"),
+			new StringMatcher("estados", "v-pcp"),
+			new StringMatcher("estadas", "v-pcp")
+
+			
+		);
 }
