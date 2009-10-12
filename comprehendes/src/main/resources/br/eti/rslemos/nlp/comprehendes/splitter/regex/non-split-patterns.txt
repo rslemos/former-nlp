@@ -1,10 +1,5 @@
 //These are patterns for things that might look like sentence splits but they
 //should not be used as such.
-//
-// Valentin Tablan, 24 Aug 2007
-//
-//
-// Lines starting with // are comments; empty lines are ignored
 
 //The Java RegEx matching machine is eager to return the first match
 //because of this, the explicit abbreviations need to appear before the
@@ -92,6 +87,35 @@
 \byr\.
 \byrs\.
 
+// brazilian portuguese abbreviations
+\bav\.
+\bAv\.
+\bAV\.
+\ba\.
+\bn\.
+\bMe\.
+\bME\.
+\bart\.
+\bArt\.
+\binc\.
+\bsr\.
+\bSr\.
+\bsra\.
+\bSra\.
+\bltda\.
+\bLtda\.
+\bLTDA\.
+\bpág\.
+\bdec\.
+\bDec\.
+\bdir\.
+\bDir\.
+\bapto\.
+\bApto\.
+\bCia\.
+\bcia\.
+
+
 //four or more dots are ignored
 \.{4,}
 
@@ -99,7 +123,9 @@
 (?:!|\?){5,}
 
 //a sequence of single upper case letters followed by dot
+// D.O.U. (eg. for brazilian portuguese)
 \b(?:\p{javaUpperCase}\.)+
+
 
 //numbers with decimal part or IP addresses, or Internet addresses
 \p{Alnum}+(?:\.\p{Alnum}+)+
