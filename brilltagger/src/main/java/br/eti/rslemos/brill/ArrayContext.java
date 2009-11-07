@@ -24,6 +24,15 @@ public class ArrayContext implements Context {
 		}
 	}
 
+	@Override
+	public Context clone() {
+		try {
+			return (Context) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new Error("Object#clone() threw CloneNotSupportedException", e);
+		}
+	}
+
 	public void reset() {
 		pointer = -1;
 	}

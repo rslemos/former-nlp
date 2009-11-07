@@ -15,7 +15,7 @@ public abstract class RuleBehaviorUtils {
 	
 	public static void createAndTestMatchability(RuleFactory factory) {
 		try {
-			createAndTestMatchability0(buildContext(), factory);
+			createAndTestMatchability0(buildContext(getStandardTokens()), factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
@@ -23,16 +23,19 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestUntaggedMatchability(RuleFactory factory) {
 		try {
-			createAndTestMatchability0(buildUntaggedContext(), factory);
+			createAndTestMatchability0(buildContext(getUntaggedTokens()), factory);
 		} catch (RuleCreationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private static void createAndTestMatchability0(Context context, RuleFactory factory) throws RuleCreationException {
-		Rule rule = factory.create(context, context.getToken(0));
-		context.reset();
-	
+		Rule rule;
+		{
+			Context context0 = skip(context.clone(), 5);
+			rule = factory.create(context0, context0.getToken(0));
+		}
+		
 		for(int i = 0; i < 4; i++) {
 			context.next();
 			assertFalse(rule.matches(context));

@@ -111,10 +111,12 @@ public abstract class RuleContextMother {
 		return new ArrayContext(tokens);
 	}
 
-	public static Context buildContext(int moveTo, Token... tokens) {
-		Context context = buildContext(tokens);
-		
-		for(int i = 0; i < moveTo; i++)
+	public static Context buildContext(int skipTo, Token... tokens) {
+		return skip(buildContext(tokens), skipTo);
+	}
+
+	public static Context skip(Context context, int skipTo) {
+		for(int i = 0; i < skipTo; i++)
 			context.next();
 		
 		return context;
