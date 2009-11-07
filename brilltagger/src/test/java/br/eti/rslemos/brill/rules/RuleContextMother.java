@@ -40,119 +40,79 @@ public abstract class RuleContextMother {
 	public static final String NEXT4_TAG = "next4-tag4";
 
 	public static Context buildContext() {
-		Token prev4 = mock(Token.class);
-		when(prev4.getWord()).thenReturn(PREV4_WORD);
-		when(prev4.getTag() ).thenReturn(PREV4_TAG);
-	
-		Token prev3 = mock(Token.class);
-		when(prev3.getWord()).thenReturn(PREV3_WORD);
-		when(prev3.getTag() ).thenReturn(PREV3_TAG);
-	
-		Token prev2 = mock(Token.class);
-		when(prev2.getWord()).thenReturn(PREV2_WORD);
-		when(prev2.getTag() ).thenReturn(PREV2_TAG);
-		
-		Token prev1 = mock(Token.class);
-		when(prev1.getWord()).thenReturn(PREV1_WORD);
-		when(prev1.getTag() ).thenReturn(PREV1_TAG);
-	
-		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn(THIS_WORD);
-		when(token.getTag() ).thenReturn(THIS_TAG);
-	
-		Token next1 = mock(Token.class);
-		when(next1.getWord()).thenReturn(NEXT1_WORD);
-		when(next1.getTag() ).thenReturn(NEXT1_TAG);
-	
-		Token next2 = mock(Token.class);
-		when(next2.getWord()).thenReturn(NEXT2_WORD);
-		when(next2.getTag() ).thenReturn(NEXT2_TAG);
-		
-		Token next3 = mock(Token.class);
-		when(next3.getWord()).thenReturn(NEXT3_WORD);
-		when(next3.getTag() ).thenReturn(NEXT3_TAG);
-	
-		Token next4 = mock(Token.class);
-		when(next4.getWord()).thenReturn(NEXT4_WORD);
-		when(next4.getTag() ).thenReturn(NEXT4_TAG);
-	
-		return buildContext0(prev4, prev3, prev2, prev1, token, next1, next2, next3, next4);
+		return buildContextAndSetNextToken(5, getStandardTokens());
 	}
 
 	public static Context buildAltContext() {
-		Token prev4 = mock(Token.class);
-		when(prev4.getWord()).thenReturn(ALT + PREV4_WORD);
-		when(prev4.getTag() ).thenReturn(ALT + PREV4_TAG);
-	
-		Token prev3 = mock(Token.class);
-		when(prev3.getWord()).thenReturn(ALT + PREV3_WORD);
-		when(prev3.getTag() ).thenReturn(ALT + PREV3_TAG);
-	
-		Token prev2 = mock(Token.class);
-		when(prev2.getWord()).thenReturn(ALT + PREV2_WORD);
-		when(prev2.getTag() ).thenReturn(ALT + PREV2_TAG);
-		
-		Token prev1 = mock(Token.class);
-		when(prev1.getWord()).thenReturn(ALT + PREV1_WORD);
-		when(prev1.getTag() ).thenReturn(ALT + PREV1_TAG);
-	
-		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn(ALT + THIS_WORD);
-		when(token.getTag() ).thenReturn(THIS_TAG);
-	
-		Token next1 = mock(Token.class);
-		when(next1.getWord()).thenReturn(ALT + NEXT1_WORD);
-		when(next1.getTag() ).thenReturn(ALT + NEXT1_TAG);
-	
-		Token next2 = mock(Token.class);
-		when(next2.getWord()).thenReturn(ALT + NEXT2_WORD);
-		when(next2.getTag() ).thenReturn(ALT + NEXT2_TAG);
-		
-		Token next3 = mock(Token.class);
-		when(next3.getWord()).thenReturn(ALT + NEXT3_WORD);
-		when(next3.getTag() ).thenReturn(ALT + NEXT3_TAG);
-	
-		Token next4 = mock(Token.class);
-		when(next4.getWord()).thenReturn(ALT + NEXT4_WORD);
-		when(next4.getTag() ).thenReturn(ALT + NEXT4_TAG);
-	
-		return buildContext0(prev4, prev3, prev2, prev1, token, next1, next2, next3, next4);
+		return buildContextAndSetNextToken(5, getAltTokens());
 	}
 
 	public static Context buildUntaggedContext() {
-		Token prev4 = mock(Token.class);
-		when(prev4.getWord()).thenReturn(PREV4_WORD);
-	
-		Token prev3 = mock(Token.class);
-		when(prev3.getWord()).thenReturn(PREV3_WORD);
-	
-		Token prev2 = mock(Token.class);
-		when(prev2.getWord()).thenReturn(PREV2_WORD);
-		
-		Token prev1 = mock(Token.class);
-		when(prev1.getWord()).thenReturn(PREV1_WORD);
-	
-		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn(THIS_WORD);
-	
-		Token next1 = mock(Token.class);
-		when(next1.getWord()).thenReturn(NEXT1_WORD);
-	
-		Token next2 = mock(Token.class);
-		when(next2.getWord()).thenReturn(NEXT2_WORD);
-		
-		Token next3 = mock(Token.class);
-		when(next3.getWord()).thenReturn(NEXT3_WORD);
-	
-		Token next4 = mock(Token.class);
-		when(next4.getWord()).thenReturn(NEXT4_WORD);
-	
-		return buildContext0(prev4, prev3, prev2, prev1, token, next1, next2, next3, next4);
+		return buildContextAndSetNextToken(5, getUntaggedTokens());
 	}
 
-	private static Context buildContext0(Token prev4, Token prev3, Token prev2, Token prev1,
-			Token token, Token next1, Token next2, Token next3, Token next4) {
-		Context context = new ArrayContext(new Token[] { prev4, prev3, prev2, prev1, token, next1, next2, next3, next4 });
+	private static Token mockToken(String word, String tag) {
+		Token token = mock(Token.class);
+		when(token.getWord()).thenReturn(word);
+		when(token.getTag() ).thenReturn(tag);
+		
+		return token;
+	}
+
+	private static Token[] getStandardTokens() {
+		return new Token[] {
+				mockToken(PREV4_WORD, PREV4_TAG),
+				mockToken(PREV3_WORD, PREV3_TAG),
+				mockToken(PREV2_WORD, PREV2_TAG),
+				mockToken(PREV1_WORD, PREV1_TAG),
+			
+				mockToken(THIS_WORD, THIS_TAG),
+			
+				mockToken(NEXT1_WORD, NEXT1_TAG),
+				mockToken(NEXT2_WORD, NEXT2_TAG),
+				mockToken(NEXT3_WORD, NEXT3_TAG),
+				mockToken(NEXT4_WORD, NEXT4_TAG),
+			};
+	}
+
+	private static Token[] getAltTokens() {
+		return new Token[] {
+				mockToken(ALT + PREV4_WORD, ALT + PREV4_TAG),
+				mockToken(ALT + PREV3_WORD, ALT + PREV3_TAG),
+				mockToken(ALT + PREV2_WORD, ALT + PREV2_TAG),
+				mockToken(ALT + PREV1_WORD, ALT + PREV1_TAG),
+			
+				mockToken(ALT + THIS_WORD, THIS_TAG),
+			
+				mockToken(ALT + NEXT1_WORD, ALT + NEXT1_TAG),
+				mockToken(ALT + NEXT2_WORD, ALT + NEXT2_TAG),
+				mockToken(ALT + NEXT3_WORD, ALT + NEXT3_TAG),
+				mockToken(ALT + NEXT4_WORD, ALT + NEXT4_TAG),
+			};
+	}
+
+	private static Token[] getUntaggedTokens() {
+		return new Token[] {
+				mockToken(PREV4_WORD, null),
+				mockToken(PREV3_WORD, null),
+				mockToken(PREV2_WORD, null),
+				mockToken(PREV1_WORD, null),
+			
+				mockToken(THIS_WORD, null),
+			
+				mockToken(NEXT1_WORD, null),
+				mockToken(NEXT2_WORD, null),
+				mockToken(NEXT3_WORD, null),
+				mockToken(NEXT4_WORD, null),
+			};
+	}
+
+	private static Context buildPlainContext0(Token... tokens) {
+		return new ArrayContext(tokens);
+	}
+
+	private static Context buildContextAndSetNextToken(int moveTo, Token... tokens) {
+		Context context = buildPlainContext0(tokens);
 		
 		for(int i = 0; i < 5; i++)
 			context.next();
