@@ -33,7 +33,7 @@ public class ArrayContext implements Context {
 		}
 	}
 
-	public void reset() {
+	protected void reset() {
 		pointer = -1;
 	}
 
