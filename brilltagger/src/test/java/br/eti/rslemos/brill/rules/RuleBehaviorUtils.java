@@ -30,11 +30,8 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	private static void createAndTestMatchability0(Context context, RuleFactory factory) throws RuleCreationException {
-		Rule rule;
-		{
-			Context context0 = skip(context.clone(), 5);
-			rule = factory.create(context0, context0.getToken(0));
-		}
+		Context context0 = skip(context.clone(), 5);
+		Rule rule = factory.create(context0, context0.getToken(0));
 		
 		for(int i = 0; i < 4; i++) {
 			context.next();
