@@ -55,9 +55,9 @@ public class CompositeTaggerBehavior {
 		
 		InOrder inOrder = inOrder(subTagger1, subTagger2, subTagger3);
 		
-		inOrder.verify(subTagger1).tagSentence(anyTokenList());
-		inOrder.verify(subTagger2).tagSentence(anyTokenList());
-		inOrder.verify(subTagger3).tagSentence(anyTokenList());
+		inOrder.verify(subTagger1).tag(anySentence());
+		inOrder.verify(subTagger2).tag(anySentence());
+		inOrder.verify(subTagger3).tag(anySentence());
 		
 		verify(token, never()).setTag(anyString());
 	}
@@ -77,8 +77,8 @@ public class CompositeTaggerBehavior {
 		List<Tagger> taggers = Arrays.asList(subTagger1, subTagger2, subTagger3);
 		buildTaggerAndTagSentence(taggers, token);
 		
-		verify(subTagger1).tagSentence(anyTokenList());
-		verify(subTagger3).tagSentence(anyTokenList());
+		verify(subTagger1).tag(anySentence());
+		verify(subTagger3).tag(anySentence());
 		
 		verify(token).setTag("foobar");
 	}
@@ -107,17 +107,16 @@ public class CompositeTaggerBehavior {
 		
 		assertTrue(check[0]);
 		
-		verify(subTagger1).tagSentence(anyTokenList());
+		verify(subTagger1).tag(anySentence());
 		verify(token, times(1)).setTag("foobar");
 	}
 
 	private void buildTaggerAndTagSentence(List<Tagger> taggers, Token token) {
-		new CompositeTagger(taggers).tagSentence(Arrays.asList(token));
+		new CompositeTagger(taggers).tag(new DefaultSentence(token));
 	}
 
-	@SuppressWarnings("unchecked")
-	private List<Token> anyTokenList() {
-		return (List<Token>) anyObject();
+	private Sentence anySentence() {
+		return (Sentence) anyObject();
 	}
 
 }

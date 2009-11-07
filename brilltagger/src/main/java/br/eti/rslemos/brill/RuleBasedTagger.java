@@ -25,7 +25,7 @@ public class RuleBasedTagger implements Tagger {
 		return rules;
 	}
 
-	public void tagSentence(List<Token> sentence) {
+	public void tag(Sentence sentence) {
 		applyBaseTagger(sentence);
 
 		BufferingContext context = prepareContext(sentence);
@@ -34,13 +34,8 @@ public class RuleBasedTagger implements Tagger {
 			applyRule(context, rule);
 	}
 
-	static BufferingContext prepareContext(List<Token> sentence) {
-		Token[] tokens = sentence.toArray(new Token[sentence.size()]);
-		return prepareContext(tokens);
-	}
-
-	static BufferingContext prepareContext(Token[] tokens) {
-		return new BufferingContext(tokens);
+	static BufferingContext prepareContext(Sentence sentence) {
+		return new BufferingContext(sentence);
 	}
 	
 	static void applyRule(BufferingContext context, Rule rule) {
@@ -51,31 +46,31 @@ public class RuleBasedTagger implements Tagger {
 		context.reset();
 	}
 
-	private void applyBaseTagger(List<Token> sentence) {
-		baseTagger.tagSentence(sentence);
+	private void applyBaseTagger(Sentence sentence) {
+		baseTagger.tag(sentence);
 	}
 
 	public static final Tagger NULL_TAGGER = new NullBaseTagger();
 	private static final List<Rule> EMPTY_RULES = Collections.emptyList();
 
 	private static class NullBaseTagger implements Tagger {
-		public void tagSentence(List<Token> sentence) {
+		public void tag(Sentence sentence) {
 		}
 	}
 
 	public static class BufferingContext extends ArrayContext {
-		private final Token[] realContents;
+		private final Sentence realContents;
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;
 
-		private BufferingContext(Token[] contents) {
+		private BufferingContext(Sentence contents) {
 			super(null);
 			realContents = contents;
 			
-			tagBuffer = new String[contents.length];
-			taggedBuffer = new boolean[contents.length];
-			BufferingToken[] bufferingContents = new BufferingToken[contents.length];
-			for(int i = 0; i < contents.length; i++)
+			tagBuffer = new String[contents.size()];
+			taggedBuffer = new boolean[contents.size()];
+			BufferingToken[] bufferingContents = new BufferingToken[contents.size()];
+			for(int i = 0; i < contents.size(); i++)
 				bufferingContents[i] = new BufferingToken(i);
 			
 			super.setContents(bufferingContents);
@@ -86,7 +81,7 @@ public class RuleBasedTagger implements Tagger {
 			for (int i = 0; i < taggedBuffer.length; i++) {
 				if (taggedBuffer[i]) {
 					taggedBuffer[i] = false;
-					realContents[i].setTag(tagBuffer[i]);
+					realContents.get(i).setTag(tagBuffer[i]);
 				}
 			}
 			super.reset();
@@ -100,11 +95,11 @@ public class RuleBasedTagger implements Tagger {
 			}
 
 			public String getTag() {
-				return realContents[i].getTag();
+				return realContents.get(i).getTag();
 			}
 
 			public String getWord() {
-				return realContents[i].getWord();
+				return realContents.get(i).getWord();
 			}
 
 			public void setTag(String tag) {

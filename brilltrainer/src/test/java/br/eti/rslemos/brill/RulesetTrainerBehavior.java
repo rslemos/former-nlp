@@ -17,7 +17,7 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 public class RulesetTrainerBehavior {
 	@Test
 	public void shouldProduceNoRulesForPerfectBaseTagger() {
-		List<List<Token>> sentences = buildText_ToSignUp();
+		List<Sentence> sentences = buildText_ToSignUp();
 		
 		Map<String, String> lexicon = new HashMap<String, String>();
 		lexicon.put("to", "TO");
@@ -35,7 +35,7 @@ public class RulesetTrainerBehavior {
 	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
 		final String FROM_TAG = "TAG";
 		
-		List<List<Token>> sentences = buildText_ToSignUp();
+		List<Sentence> sentences = buildText_ToSignUp();
 		
 		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
@@ -54,7 +54,7 @@ public class RulesetTrainerBehavior {
 		final String WORD2 = "WORD2";
 		final String TAG = "TAG";
 		
-		List<List<Token>> sentences = buildText(
+		List<Sentence> sentences = buildText(
 				buildToken(WORD1, TAG), 
 				buildToken(WORD2, TAG)
 		);
@@ -138,7 +138,7 @@ public class RulesetTrainerBehavior {
 		assertEquals(firstRule, rule2);
 	}
 
-	public static List<List<Token>> buildText_ToSignUp() {
+	public static List<Sentence> buildText_ToSignUp() {
 		Token to = buildToken("to", "TO");
 		Token sign = buildToken("sign", "VB");
 		Token up = buildToken("up", "RP");
@@ -146,10 +146,8 @@ public class RulesetTrainerBehavior {
 		return buildText(to, sign, up);
 	}
 
-	private static List<List<Token>> buildText(Token... tokens) {
-		List<Token> sentence = Arrays.asList(tokens);
-		
-		return Collections.singletonList(sentence);
+	private static List<Sentence> buildText(Token... tokens) {
+		return Collections.singletonList((Sentence)new DefaultSentence(tokens));
 	}
 
 	private static Token buildToken(String word, String tag) {

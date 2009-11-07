@@ -1,6 +1,5 @@
 package br.eti.rslemos.brill;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CompositeTagger implements Tagger {
@@ -11,16 +10,18 @@ public class CompositeTagger implements Tagger {
 		this.taggers = taggers;
 	}
 
-	public void tagSentence(List<Token> sentence) {
-		List<Token> wrappedSentence = new ArrayList<Token>(sentence.size());
+	public void tag(Sentence sentence) {
+		Token[] wrappedSentence = new Token[sentence.size()];
 		
-		for (Token token : sentence)
-			wrappedSentence.add(new FilteringToken(token));
-		
-		for (Tagger tagger : taggers) {
-			tagger.tagSentence(wrappedSentence);
+		for (int i = 0; i < sentence.size(); i++) {
+			wrappedSentence[i] = new FilteringToken(sentence.get(i));
 		}
 		
+		DefaultSentence wrappedSentence0 = new DefaultSentence(wrappedSentence);
+
+		for (Tagger tagger : taggers) {
+			tagger.tag(wrappedSentence0);
+		}
 	}
 
 	private static final class FilteringToken implements Token {

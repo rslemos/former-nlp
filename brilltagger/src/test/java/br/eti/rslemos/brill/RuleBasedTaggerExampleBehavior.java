@@ -33,7 +33,7 @@ public class RuleBasedTaggerExampleBehavior {
 		
 		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
-		tagger.tagSentence(Arrays.asList(to, sign, up));
+		tagger.tag(new DefaultSentence(to, sign, up));
 		
 		assertEquals(to.getTag(), "TO");
 		assertEquals(sign.getTag(), "VB");
@@ -49,7 +49,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Token John = new DefaultToken("John");
 		Token Lennon = new DefaultToken("Lennon");
 		
-		tagger.tagSentence(Arrays.asList(Chapman, killed, John, Lennon));
+		tagger.tag(new DefaultSentence(Chapman, killed, John, Lennon));
 
 		assertEquals(Chapman.getTag(), "NP");
 		assertEquals(killed.getTag(), "VBD");
@@ -68,7 +68,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Token by = new DefaultToken("by");
 		Token Chapman = new DefaultToken("Chapman");
 		
-		tagger.tagSentence(Arrays.asList(John, Lennon, was, shot, by, Chapman));
+		tagger.tag(new DefaultSentence(John, Lennon, was, shot, by, Chapman));
 
 		assertEquals(John.getTag(), "NP");
 		assertEquals(Lennon.getTag(), "NP");
@@ -89,7 +89,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Token by = new DefaultToken("by");
 		Token Chapman = new DefaultToken("Chapman");
 		
-		tagger.tagSentence(Arrays.asList(He, witnessed, Lennon, killed, by, Chapman));
+		tagger.tag(new DefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 
 		assertEquals(He.getTag(), "PPS");
 		assertEquals(witnessed.getTag(), "VBD");

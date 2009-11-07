@@ -1,6 +1,5 @@
 package br.eti.rslemos.brill;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,11 +32,11 @@ public class RulesetTrainer {
 		this.threshold = threshold;
 	}
 
-	private TrainingContext createTrainingContext(List<List<Token>> proofCorpus) {
+	private TrainingContext createTrainingContext(List<Sentence> proofCorpus) {
 		return new TrainingContext(proofCorpus);
 	}
 
-	public synchronized RuleBasedTagger train(List<List<Token>> proofCorpus) {
+	public synchronized RuleBasedTagger train(List<Sentence> proofCorpus) {
 		TrainingContext trainingContext = createTrainingContext(proofCorpus);
 		
 		trainingContext.applyBaseTagger();
@@ -48,10 +47,10 @@ public class RulesetTrainer {
 
 	public class TrainingContext {
 
-		public final List<List<Token>> proofCorpus;
+		public final List<Sentence> proofCorpus;
 		public final BufferingContext[] trainingCorpus;
 		
-		public TrainingContext(List<List<Token>> proofCorpus) {
+		public TrainingContext(List<Sentence> proofCorpus) {
 			this.proofCorpus = proofCorpus;
 			this.trainingCorpus = new BufferingContext[proofCorpus.size()];
 		}
@@ -59,15 +58,16 @@ public class RulesetTrainer {
 		private void applyBaseTagger() {
 
 			for (int i = 0; i < trainingCorpus.length; i++) {
-				List<Token> proofSentence = proofCorpus.get(i);
+				Sentence proofSentence = proofCorpus.get(i);
 
 				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
 					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
 				}
 
-				baseTagger.tagSentence(Arrays.asList(baseTaggedSentence));
-				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence);
+				final DefaultSentence baseTaggedSentence0 = new DefaultSentence(baseTaggedSentence);
+				baseTagger.tag(baseTaggedSentence0);
+				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence0);
 			}
 		}
 
@@ -115,7 +115,7 @@ public class RulesetTrainer {
 
 		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
-			for (List<Token> proofSentence : proofCorpus) {
+			for (Sentence proofSentence : proofCorpus) {
 				BufferingContext trainingSentence = trainingCorpus[i++];
 
 				try {
@@ -177,14 +177,14 @@ public class RulesetTrainer {
 				entry.dec();
 				
 				int i = 0;
-				for (List<Token> proofSentence : proofCorpus) {
+				for (Sentence proofSentence : proofCorpus) {
 					BufferingContext trainingSentence = trainingCorpus[i++];
 					computeNegativeScore(entry, proofSentence, trainingSentence);
 				}
 			}
 		}
 
-		private void computeNegativeScore(Score score, List<Token> proofSentence, BufferingContext trainingSentence) {
+		private void computeNegativeScore(Score score, Sentence proofSentence, BufferingContext trainingSentence) {
 			try {
 				for (Token proofToken : proofSentence) {
 					trainingSentence.next();
