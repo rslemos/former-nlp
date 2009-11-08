@@ -46,18 +46,22 @@ public class RulesetTrainer {
 
 	public class TrainingContext {
 
-		public final List<Sentence> proofCorpus;
+		public final Sentence[] proofCorpus;
 		public final Sentence[] trainingCorpus;
 		
-		public TrainingContext(List<Sentence> proofCorpus) {
+		public TrainingContext(Sentence... proofCorpus) {
 			this.proofCorpus = proofCorpus;
-			this.trainingCorpus = new Sentence[proofCorpus.size()];
+			this.trainingCorpus = new Sentence[proofCorpus.length];
 		}
 
+		public TrainingContext(List<Sentence> proofCorpus) {
+			this(proofCorpus.toArray(new Sentence[proofCorpus.size()]));
+		}
+		
 		private void applyBaseTagger() {
 
 			for (int i = 0; i < trainingCorpus.length; i++) {
-				Sentence proofSentence = proofCorpus.get(i);
+				Sentence proofSentence = proofCorpus[i];
 
 				Token[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
 				for (int j = 0; j < baseTaggedSentence.length; j++) {
@@ -112,9 +116,8 @@ public class RulesetTrainer {
 		}
 
 		private void produceAllPossibleRules(ScoreBoard board) {
-			int i = 0;
-			for (Sentence proofSentence : proofCorpus) {
-				produceAllPossibleRules(board, proofSentence, trainingCorpus[i++]);
+			for (int i = 0; i < proofCorpus.length; i++) {
+				produceAllPossibleRules(board, proofCorpus[i], trainingCorpus[i++]);
 			}
 		}
 
