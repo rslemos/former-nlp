@@ -10,7 +10,7 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RulesetTrainer;
 import br.eti.rslemos.brill.Token;
-import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.RulesetTrainer.Score;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 
@@ -96,7 +96,7 @@ public abstract aspect BrillDebugger {
 		}
 	}
 
-	after(Score score, Token token, BufferingContext context, Object a, Object b) returning (boolean result):
+	after(Score score, Token token, DelayedContext context, Object a, Object b) returning (boolean result):
 		call(boolean ObjectUtils.equals(Object, Object)) && args(a, b) &&
 		cflow(execution(void BrillScoringStrategy.computeNegativeScore(Score, Token, BufferingContext)) && args(score, token, context)) {
 		
