@@ -2,24 +2,24 @@ package br.eti.rslemos.brill;
 
 import java.util.NoSuchElementException;
 
-public class ArrayContext implements Context {
-	private Token[] contents;
+public class SentenceContext implements Context {
+	private Sentence contents;
 	private int pointer;
 
-	public ArrayContext(Token[] contents) {
+	public SentenceContext(Sentence contents) {
 		this.contents = contents;
 		pointer = -1;
 	}
 
-	protected void setContents(Token[] contents) {
+	protected void setContents(Sentence contents) {
 		this.contents = contents;
 		pointer = -1;
 	}
 
 	public Token getToken(int offset) {
 		try {
-			return contents[pointer+offset];
-		} catch (ArrayIndexOutOfBoundsException e) {
+			return contents.get(pointer+offset);
+		} catch (SentenceIndexOutOfBoundsException e) {
 			return Token.NULL;
 		}
 	}
@@ -38,13 +38,13 @@ public class ArrayContext implements Context {
 	}
 
 	public boolean hasNext() {
-		return pointer < contents.length - 1;
+		return pointer < contents.size() - 1;
 	}
 
 	public Token next() {
 		try {
-			return contents[++pointer];
-		} catch (ArrayIndexOutOfBoundsException e) {
+			return contents.get(++pointer);
+		} catch (SentenceIndexOutOfBoundsException e) {
 			throw new NoSuchElementException();
 		}
 	}

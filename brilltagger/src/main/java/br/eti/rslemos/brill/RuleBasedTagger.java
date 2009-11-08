@@ -58,7 +58,7 @@ public class RuleBasedTagger implements Tagger {
 		}
 	}
 
-	public static class BufferingContext extends ArrayContext {
+	public static class BufferingContext extends SentenceContext {
 		private final Sentence realContents;
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;
@@ -73,7 +73,7 @@ public class RuleBasedTagger implements Tagger {
 			for(int i = 0; i < contents.size(); i++)
 				bufferingContents[i] = new BufferingToken(i);
 			
-			super.setContents(bufferingContents);
+			super.setContents(new DefaultSentence(bufferingContents));
 		}
 
 		@Override

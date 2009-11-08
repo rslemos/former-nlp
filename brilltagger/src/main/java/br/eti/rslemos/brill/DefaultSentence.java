@@ -10,11 +10,7 @@ public class DefaultSentence implements Sentence {
 	}
 
 	public Iterator<Token> iterator() {
-		return buildContext();
-	}
-
-	public Context buildContext() {
-		return new ArrayContext(sentence);
+		return new SentenceContext(this);
 	}
 
 	public int size() {
