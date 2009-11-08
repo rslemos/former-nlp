@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 public class SentenceContext implements Context {
 	private Sentence contents;
-	private int pointer;
+	protected int pointer;
 
 	public SentenceContext(Sentence contents) {
 		this.contents = contents;
@@ -31,10 +31,6 @@ public class SentenceContext implements Context {
 		} catch (CloneNotSupportedException e) {
 			throw new Error("Object#clone() threw CloneNotSupportedException", e);
 		}
-	}
-
-	protected void reset() {
-		pointer = -1;
 	}
 
 	public boolean hasNext() {

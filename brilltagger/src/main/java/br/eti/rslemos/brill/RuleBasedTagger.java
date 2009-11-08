@@ -28,22 +28,22 @@ public class RuleBasedTagger implements Tagger {
 	public void tag(Sentence sentence) {
 		applyBaseTagger(sentence);
 
-		BufferingContext context = prepareContext(sentence);
+		DelayedContext context = prepareContext(sentence);
 		
 		for (Rule rule : rules)
 			applyRule(context, rule);
 	}
 
-	static BufferingContext prepareContext(Sentence sentence) {
-		return new BufferingContext(sentence);
+	static DelayedContext prepareContext(Sentence sentence) {
+		return new DelayedContext(sentence);
 	}
 	
-	static void applyRule(BufferingContext context, Rule rule) {
+	static void applyRule(DelayedContext context, Rule rule) {
 		while(context.hasNext()) {
 			context.next();
 			rule.apply(context);
 		}
-		context.reset();
+		context.commit();
 	}
 
 	private void applyBaseTagger(Sentence sentence) {
@@ -58,12 +58,12 @@ public class RuleBasedTagger implements Tagger {
 		}
 	}
 
-	public static class BufferingContext extends SentenceContext {
+	public static class DelayedContext extends SentenceContext {
 		private final Sentence realContents;
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;
 
-		private BufferingContext(Sentence contents) {
+		private DelayedContext(Sentence contents) {
 			super(null);
 			realContents = contents;
 			
@@ -76,15 +76,15 @@ public class RuleBasedTagger implements Tagger {
 			super.setContents(new DefaultSentence(bufferingContents));
 		}
 
-		@Override
-		public void reset() {
+		public void commit() {
 			for (int i = 0; i < taggedBuffer.length; i++) {
 				if (taggedBuffer[i]) {
 					taggedBuffer[i] = false;
 					realContents.get(i).setTag(tagBuffer[i]);
 				}
 			}
-			super.reset();
+			
+			pointer = -1;
 		}
 
 		private class BufferingToken implements Token {

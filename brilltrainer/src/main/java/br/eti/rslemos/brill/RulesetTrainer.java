@@ -12,7 +12,7 @@ import java.util.Queue;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.RuleBasedTagger.BufferingContext;
+import br.eti.rslemos.brill.RuleBasedTagger.DelayedContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
@@ -48,11 +48,11 @@ public class RulesetTrainer {
 	public class TrainingContext {
 
 		public final List<Sentence> proofCorpus;
-		public final BufferingContext[] trainingCorpus;
+		public final DelayedContext[] trainingCorpus;
 		
 		public TrainingContext(List<Sentence> proofCorpus) {
 			this.proofCorpus = proofCorpus;
-			this.trainingCorpus = new BufferingContext[proofCorpus.size()];
+			this.trainingCorpus = new DelayedContext[proofCorpus.size()];
 		}
 
 		private void applyBaseTagger() {
@@ -109,26 +109,26 @@ public class RulesetTrainer {
 		}
 
 		private void applyRule(Rule bestRule) {
-			for (BufferingContext trainingSentence : trainingCorpus)
+			for (DelayedContext trainingSentence : trainingCorpus)
 				RuleBasedTagger.applyRule(trainingSentence, bestRule);
 		}
 
 		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
 			for (Sentence proofSentence : proofCorpus) {
-				BufferingContext trainingSentence = trainingCorpus[i++];
+				DelayedContext trainingSentence = trainingCorpus[i++];
 
 				try {
 					for (Token proofToken : proofSentence) {
 						produceAllPossibleRules(board, proofToken, trainingSentence);
 					}
 				} finally {
-					trainingSentence.reset();
+					trainingSentence.commit();
 				}
 			}
 		}
 
-		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, BufferingContext trainingSentence) {
+		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, DelayedContext trainingSentence) {
 			Token trainingToken = trainingSentence.next();
 
 			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
@@ -178,13 +178,13 @@ public class RulesetTrainer {
 				
 				int i = 0;
 				for (Sentence proofSentence : proofCorpus) {
-					BufferingContext trainingSentence = trainingCorpus[i++];
+					DelayedContext trainingSentence = trainingCorpus[i++];
 					computeNegativeScore(entry, proofSentence, trainingSentence);
 				}
 			}
 		}
 
-		private void computeNegativeScore(Score score, Sentence proofSentence, BufferingContext trainingSentence) {
+		private void computeNegativeScore(Score score, Sentence proofSentence, DelayedContext trainingSentence) {
 			try {
 				for (Token proofToken : proofSentence) {
 					trainingSentence.next();
@@ -192,11 +192,11 @@ public class RulesetTrainer {
 					computeNegativeScore(score, proofToken, trainingSentence);
 				}
 			} finally {
-				trainingSentence.reset();
+				trainingSentence.commit();
 			}
 		}
 
-		private void computeNegativeScore(Score score, Token proofToken, BufferingContext trainingSentence) {
+		private void computeNegativeScore(Score score, Token proofToken, DelayedContext trainingSentence) {
 			Rule rule = score.rule;
 
 			if (rule.matches(trainingSentence))
