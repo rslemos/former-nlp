@@ -58,55 +58,73 @@ public class RuleBasedTagger implements Tagger {
 		}
 	}
 
-	public static class DelayedContext extends SentenceContext {
-		private final Sentence realContents;
+	public static class DelayedContext implements Context {
+		private final Sentence contents;
+		private final SentenceContext context;
+
 		private final String[] tagBuffer;
 		private final boolean[] taggedBuffer;
 
 		private DelayedContext(Sentence contents) {
-			super(null);
-			realContents = contents;
+			this.contents = contents;
+			context = new SentenceContext(contents);
 			
 			tagBuffer = new String[contents.size()];
 			taggedBuffer = new boolean[contents.size()];
-			BufferingToken[] bufferingContents = new BufferingToken[contents.size()];
-			for(int i = 0; i < contents.size(); i++)
-				bufferingContents[i] = new BufferingToken(i);
-			
-			super.setContents(new DefaultSentence(bufferingContents));
 		}
 
 		public void commit() {
 			for (int i = 0; i < taggedBuffer.length; i++) {
 				if (taggedBuffer[i]) {
-					taggedBuffer[i] = false;
-					realContents.get(i).setTag(tagBuffer[i]);
+					contents.get(i).setTag(tagBuffer[i]);
 				}
 			}
 			
-			pointer = -1;
+			context.pointer = -1;
 		}
 
-		private class BufferingToken implements Token {
-			private final int i;
-			
-			protected BufferingToken(int i) {
-				this.i = i;
-			}
+		public Token getToken(int offset) {
+			return delayedToken(context.getToken(offset), offset);
+		}
 
-			public String getTag() {
-				return realContents.get(i).getTag();
-			}
+		public boolean hasNext() {
+			return context.hasNext();
+		}
 
-			public String getWord() {
-				return realContents.get(i).getWord();
-			}
+		public Token next() {
+			return delayedToken(context.next(), -1);
+		}
 
-			public void setTag(String tag) {
-				tagBuffer[i] = tag;
-				taggedBuffer[i] = true;
+		public void remove() {
+			context.remove();
+		}
+		
+		@Override
+		public DelayedContext clone() {
+			try {
+				return (DelayedContext) super.clone();
+			} catch (CloneNotSupportedException e) {
+				throw new Error("Object#clone() threw CloneNotSupportedException", e);
 			}
-			
+		}
+
+		private Token delayedToken(final Token token, final int offset) {
+			return new Token() {
+				private final int i = context.pointer + offset;
+				public String getTag() {
+					return token.getTag();
+				}
+
+				public String getWord() {
+					return token.getWord();
+				}
+
+				public void setTag(String tag) {
+					tagBuffer[i] = tag;
+					taggedBuffer[i] = true;
+				}
+				
+			};
 		}
 	}
 

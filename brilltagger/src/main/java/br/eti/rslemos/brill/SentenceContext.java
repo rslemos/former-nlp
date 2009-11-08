@@ -3,15 +3,10 @@ package br.eti.rslemos.brill;
 import java.util.NoSuchElementException;
 
 public class SentenceContext implements Context {
-	private Sentence contents;
-	protected int pointer;
+	private final Sentence contents;
+	int pointer;
 
 	public SentenceContext(Sentence contents) {
-		this.contents = contents;
-		pointer = -1;
-	}
-
-	protected void setContents(Sentence contents) {
 		this.contents = contents;
 		pointer = -1;
 	}
