@@ -12,7 +12,6 @@ import java.util.Queue;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.RuleBasedTagger.DelayedContext;
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 
