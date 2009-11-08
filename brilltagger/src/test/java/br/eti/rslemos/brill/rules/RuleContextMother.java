@@ -2,8 +2,8 @@ package br.eti.rslemos.brill.rules;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import br.eti.rslemos.brill.ArrayContext;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.brill.DefaultSentence;
 import br.eti.rslemos.brill.Token;
 
 public abstract class RuleContextMother {
@@ -108,7 +108,7 @@ public abstract class RuleContextMother {
 	}
 
 	public static Context buildContext(Token... tokens) {
-		return new ArrayContext(tokens);
+		return new DefaultSentence(tokens).buildContext();
 	}
 
 	public static Context buildContext(int skipTo, Token... tokens) {

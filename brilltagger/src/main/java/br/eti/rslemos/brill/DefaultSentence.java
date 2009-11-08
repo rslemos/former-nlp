@@ -1,6 +1,5 @@
 package br.eti.rslemos.brill;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class DefaultSentence implements Sentence {
@@ -11,7 +10,11 @@ public class DefaultSentence implements Sentence {
 	}
 
 	public Iterator<Token> iterator() {
-		return Arrays.asList(sentence).iterator();
+		return buildContext();
+	}
+
+	public Context buildContext() {
+		return new ArrayContext(sentence);
 	}
 
 	public int size() {
@@ -19,7 +22,11 @@ public class DefaultSentence implements Sentence {
 	}
 
 	public Token get(int i) {
-		return sentence[i];
+		try {
+			return sentence[i];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new SentenceIndexOutOfBounds(i);
+		}
 	}
 	
 	
