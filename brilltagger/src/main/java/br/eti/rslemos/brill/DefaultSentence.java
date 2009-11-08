@@ -25,7 +25,7 @@ public class DefaultSentence implements Sentence {
 		try {
 			return sentence[i];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new SentenceIndexOutOfBounds(i);
+			throw new SentenceIndexOutOfBoundsException(i);
 		}
 	}
 	

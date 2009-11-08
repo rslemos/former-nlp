@@ -5,6 +5,6 @@ public interface Sentence extends Iterable<Token> {
 
 	int size();
 
-	Token get(int i) throws SentenceIndexOutOfBounds;
+	Token get(int i) throws SentenceIndexOutOfBoundsException;
 
 }
