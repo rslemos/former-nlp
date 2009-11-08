@@ -47,12 +47,11 @@ public class RulesetTrainer {
 	public class TrainingContext {
 
 		public final List<Sentence> proofCorpus;
-		// TODO: transformar em Sentence[]
-		public final Context[] trainingCorpus;
+		public final Sentence[] trainingCorpus;
 		
 		public TrainingContext(List<Sentence> proofCorpus) {
 			this.proofCorpus = proofCorpus;
-			this.trainingCorpus = new Context[proofCorpus.size()];
+			this.trainingCorpus = new Sentence[proofCorpus.size()];
 		}
 
 		private void applyBaseTagger() {
@@ -65,9 +64,8 @@ public class RulesetTrainer {
 					baseTaggedSentence[j] = new DefaultToken(proofSentence.get(j).getWord());
 				}
 
-				final DefaultSentence baseTaggedSentence0 = new DefaultSentence(baseTaggedSentence);
-				baseTagger.tag(baseTaggedSentence0);
-				trainingCorpus[i] = new SentenceContext(baseTaggedSentence0);
+				trainingCorpus[i] = new DefaultSentence(baseTaggedSentence);
+				baseTagger.tag(trainingCorpus[i]);
 			}
 		}
 
@@ -109,17 +107,18 @@ public class RulesetTrainer {
 		}
 
 		private void applyRule(Rule bestRule) {
-			for (Context trainingSentence : trainingCorpus)
-				RuleBasedTagger.applyRule(new DelayedContext(trainingSentence.clone()), bestRule);
+			for (Sentence trainingSentence : trainingCorpus)
+				RuleBasedTagger.applyRule(new DelayedContext(new SentenceContext(trainingSentence)), bestRule);
 		}
 
 		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
 			for (Sentence proofSentence : proofCorpus) {
-				Context trainingSentence = trainingCorpus[i++].clone();
-
+				Sentence trainingSentence = trainingCorpus[i++];
+				Context trainingContext = new SentenceContext(trainingSentence);
+				
 				for (Token proofToken : proofSentence) {
-					produceAllPossibleRules(board, proofToken, trainingSentence);
+					produceAllPossibleRules(board, proofToken, trainingContext);
 				}
 			}
 		}
@@ -174,8 +173,8 @@ public class RulesetTrainer {
 				
 				int i = 0;
 				for (Sentence proofSentence : proofCorpus) {
-					Context trainingSentence = trainingCorpus[i++];
-					computeNegativeScore(entry, proofSentence, trainingSentence.clone());
+					Sentence trainingSentence = trainingCorpus[i++];
+					computeNegativeScore(entry, proofSentence, new SentenceContext(trainingSentence));
 				}
 			}
 		}
