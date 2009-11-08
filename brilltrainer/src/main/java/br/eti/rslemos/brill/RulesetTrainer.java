@@ -114,27 +114,26 @@ public class RulesetTrainer {
 		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
 			for (Sentence proofSentence : proofCorpus) {
-				Sentence trainingSentence = trainingCorpus[i++];
-				Context trainingContext = new SentenceContext(trainingSentence);
+				produceAllPossibleRules(board, proofSentence, trainingCorpus[i++]);
+			}
+		}
+
+		private void produceAllPossibleRules(ScoreBoard board, Sentence proofSentence, Sentence trainingSentence) {
+			Context trainingContext = new SentenceContext(trainingSentence);
+			
+			for (Token proofToken : proofSentence) {
+				Token trainingToken = trainingContext.next();
 				
-				for (Token proofToken : proofSentence) {
-					produceAllPossibleRules(board, proofToken, trainingContext);
+				if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
+					Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingContext, proofToken);
+					
+					for (Rule localPossibleRule : localPossibleRules) {
+						board.addTruePositive(localPossibleRule);
+					}
 				}
 			}
 		}
 
-		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, Context trainingSentence) {
-			Token trainingToken = trainingSentence.next();
-
-			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-				Collection<Rule> localPossibleRules = produceAllPossibleRules(trainingSentence, proofToken);
-				
-				for (Rule localPossibleRule : localPossibleRules) {
-					board.addTruePositive(localPossibleRule);
-				}
-			}
-		}
-		
 		private Collection<Rule> produceAllPossibleRules(Context context, Token target) {
 			Collection<Rule> rules = new LinkedHashSet<Rule>(ruleFactories.size());
 
@@ -173,17 +172,18 @@ public class RulesetTrainer {
 				
 				int i = 0;
 				for (Sentence proofSentence : proofCorpus) {
-					Sentence trainingSentence = trainingCorpus[i++];
-					computeNegativeScore(entry, proofSentence, new SentenceContext(trainingSentence));
+					computeNegativeScore(entry, proofSentence, trainingCorpus[i++]);
 				}
 			}
 		}
 
-		private void computeNegativeScore(Score score, Sentence proofSentence, Context trainingSentence) {
+		private void computeNegativeScore(Score entry, Sentence proofSentence, Sentence trainingSentence) {
+			Context trainingContext = new SentenceContext(trainingSentence);
+			
 			for (Token proofToken : proofSentence) {
-				trainingSentence.next();
-
-				computeNegativeScore(score, proofToken, trainingSentence);
+				trainingContext.next();
+			
+				computeNegativeScore(entry, proofToken, trainingContext);
 			}
 		}
 
