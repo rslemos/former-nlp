@@ -28,16 +28,12 @@ public class RuleBasedTagger implements Tagger {
 	public void tag(Sentence sentence) {
 		applyBaseTagger(sentence);
 
-		DelayedContext context = prepareContext(sentence);
+		SentenceContext context = new SentenceContext(sentence);
 		
 		for (Rule rule : rules)
-			applyRule(context, rule);
+			applyRule(new DelayedContext(context.clone()), rule);
 	}
 
-	static DelayedContext prepareContext(Sentence sentence) {
-		return new DelayedContext(new SentenceContext(sentence));
-	}
-	
 	static void applyRule(DelayedContext context, Rule rule) {
 		while(context.hasNext()) {
 			context.next();

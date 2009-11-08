@@ -47,11 +47,12 @@ public class RulesetTrainer {
 	public class TrainingContext {
 
 		public final List<Sentence> proofCorpus;
-		public final DelayedContext[] trainingCorpus;
+		// TODO: transformar em Sentence[]
+		public final Context[] trainingCorpus;
 		
 		public TrainingContext(List<Sentence> proofCorpus) {
 			this.proofCorpus = proofCorpus;
-			this.trainingCorpus = new DelayedContext[proofCorpus.size()];
+			this.trainingCorpus = new Context[proofCorpus.size()];
 		}
 
 		private void applyBaseTagger() {
@@ -66,7 +67,7 @@ public class RulesetTrainer {
 
 				final DefaultSentence baseTaggedSentence0 = new DefaultSentence(baseTaggedSentence);
 				baseTagger.tag(baseTaggedSentence0);
-				trainingCorpus[i] = RuleBasedTagger.prepareContext(baseTaggedSentence0);
+				trainingCorpus[i] = new SentenceContext(baseTaggedSentence0);
 			}
 		}
 
@@ -108,26 +109,22 @@ public class RulesetTrainer {
 		}
 
 		private void applyRule(Rule bestRule) {
-			for (DelayedContext trainingSentence : trainingCorpus)
-				RuleBasedTagger.applyRule(trainingSentence, bestRule);
+			for (Context trainingSentence : trainingCorpus)
+				RuleBasedTagger.applyRule(new DelayedContext(trainingSentence.clone()), bestRule);
 		}
 
 		private void produceAllPossibleRules(ScoreBoard board) {
 			int i = 0;
 			for (Sentence proofSentence : proofCorpus) {
-				DelayedContext trainingSentence = trainingCorpus[i++];
+				Context trainingSentence = trainingCorpus[i++].clone();
 
-				try {
-					for (Token proofToken : proofSentence) {
-						produceAllPossibleRules(board, proofToken, trainingSentence);
-					}
-				} finally {
-					trainingSentence.commit();
+				for (Token proofToken : proofSentence) {
+					produceAllPossibleRules(board, proofToken, trainingSentence);
 				}
 			}
 		}
 
-		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, DelayedContext trainingSentence) {
+		private void produceAllPossibleRules(ScoreBoard board, Token proofToken, Context trainingSentence) {
 			Token trainingToken = trainingSentence.next();
 
 			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
@@ -177,25 +174,21 @@ public class RulesetTrainer {
 				
 				int i = 0;
 				for (Sentence proofSentence : proofCorpus) {
-					DelayedContext trainingSentence = trainingCorpus[i++];
-					computeNegativeScore(entry, proofSentence, trainingSentence);
+					Context trainingSentence = trainingCorpus[i++];
+					computeNegativeScore(entry, proofSentence, trainingSentence.clone());
 				}
 			}
 		}
 
-		private void computeNegativeScore(Score score, Sentence proofSentence, DelayedContext trainingSentence) {
-			try {
-				for (Token proofToken : proofSentence) {
-					trainingSentence.next();
+		private void computeNegativeScore(Score score, Sentence proofSentence, Context trainingSentence) {
+			for (Token proofToken : proofSentence) {
+				trainingSentence.next();
 
-					computeNegativeScore(score, proofToken, trainingSentence);
-				}
-			} finally {
-				trainingSentence.commit();
+				computeNegativeScore(score, proofToken, trainingSentence);
 			}
 		}
 
-		private void computeNegativeScore(Score score, Token proofToken, DelayedContext trainingSentence) {
+		private void computeNegativeScore(Score score, Token proofToken, Context trainingSentence) {
 			Rule rule = score.rule;
 
 			if (rule.matches(trainingSentence))

@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class DelayedContext implements Context {
 	private static class SetTagCommand {
@@ -18,21 +17,19 @@ public class DelayedContext implements Context {
 		}
 	}
 	
-	private final SentenceContext context;
-	private final List<SetTagCommand> commands = new LinkedList<SetTagCommand>();
+	private Context context;
+	private LinkedList<SetTagCommand> commands = new LinkedList<SetTagCommand>();
 	
-	DelayedContext(SentenceContext context) {
+	public DelayedContext(Context context) {
 		this.context = context;
 	}
 
 	public void commit() {
-		for (DelayedContext.SetTagCommand command : commands) {
+		for (SetTagCommand command : commands) {
 			command.setTag();
 		}
 
 		commands.clear();
-		
-		context.pointer = -1;
 	}
 
 	public Token getToken(int offset) {
@@ -54,7 +51,11 @@ public class DelayedContext implements Context {
 	@Override
 	public DelayedContext clone() {
 		try {
-			return (DelayedContext) super.clone();
+			DelayedContext result = (DelayedContext) super.clone();
+			result.context = context.clone();
+			result.commands = new LinkedList<SetTagCommand>();
+			
+			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new Error("Object#clone() threw CloneNotSupportedException", e);
 		}
