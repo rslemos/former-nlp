@@ -25,9 +25,9 @@ public class SentenceContext implements Context {
 	}
 
 	@Override
-	public Context clone() {
+	public SentenceContext clone() {
 		try {
-			return (Context) super.clone();
+			return (SentenceContext) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new Error("Object#clone() threw CloneNotSupportedException", e);
 		}
