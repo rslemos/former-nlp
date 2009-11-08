@@ -4,16 +4,16 @@ import java.util.NoSuchElementException;
 
 public class SentenceContext implements Context {
 	private final Sentence contents;
-	int pointer;
+	private int current;
 
 	public SentenceContext(Sentence contents) {
 		this.contents = contents;
-		pointer = -1;
+		current = -1;
 	}
 
 	public Token getToken(int offset) {
 		try {
-			return contents.get(pointer+offset);
+			return contents.get(current+offset);
 		} catch (SentenceIndexOutOfBoundsException e) {
 			return Token.NULL;
 		}
@@ -29,12 +29,15 @@ public class SentenceContext implements Context {
 	}
 
 	public boolean hasNext() {
-		return pointer < contents.size() - 1;
+		return current + 1 < contents.size();
 	}
 
 	public Token next() {
+		// next() should advance BEFORE since we must
+		// retain state AFTER invocation
+		// (the just returned Token is the current one)
 		try {
-			return contents.get(++pointer);
+			return contents.get(++current);
 		} catch (SentenceIndexOutOfBoundsException e) {
 			throw new NoSuchElementException();
 		}
