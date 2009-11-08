@@ -13,6 +13,12 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.RuleFactory;
+import br.eti.rslemos.tagger.ConstantTokenTagger;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultToken;
+import br.eti.rslemos.tagger.LookupTokenTagger;
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Token;
 
 public class RulesetTrainerBehavior {
 	@Test

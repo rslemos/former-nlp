@@ -1,4 +1,4 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -11,6 +11,13 @@ import java.util.List;
 
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
+
+import br.eti.rslemos.tagger.AbstractTokenTagger;
+import br.eti.rslemos.tagger.CompositeTagger;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.Token;
 
 public class CompositeTaggerBehavior {
 	

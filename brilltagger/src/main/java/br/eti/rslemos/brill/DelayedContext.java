@@ -2,6 +2,8 @@ package br.eti.rslemos.brill;
 
 import java.util.LinkedList;
 
+import br.eti.rslemos.tagger.Token;
+
 public class DelayedContext implements Context {
 	private static class SetTagCommand {
 		private final Token token;

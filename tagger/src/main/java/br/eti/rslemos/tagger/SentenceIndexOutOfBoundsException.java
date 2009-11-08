@@ -1,4 +1,4 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
 public class SentenceIndexOutOfBoundsException extends IndexOutOfBoundsException {
     public SentenceIndexOutOfBoundsException() {

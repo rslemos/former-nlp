@@ -1,7 +1,10 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
 import static org.mockito.Mockito.*;
 import org.testng.annotations.Test;
+
+import br.eti.rslemos.tagger.ConstantTokenTagger;
+import br.eti.rslemos.tagger.Token;
 
 public class ConstantTokenTaggerBehavior {
 	@Test

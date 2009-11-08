@@ -1,4 +1,4 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import org.testng.annotations.Test;
+
+import br.eti.rslemos.tagger.LookupTokenTagger;
+import br.eti.rslemos.tagger.Token;
 
 public class LookupTokenTaggerBehavior {
 	@Test

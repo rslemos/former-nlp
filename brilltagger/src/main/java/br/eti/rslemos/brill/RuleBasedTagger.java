@@ -3,6 +3,9 @@ package br.eti.rslemos.brill;
 import java.util.Collections;
 import java.util.List;
 
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tagger;
+
 public class RuleBasedTagger implements Tagger {
 
 	private final Tagger baseTagger;

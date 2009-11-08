@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>brilltagger</artifactId>
+			<artifactId>tagger</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>

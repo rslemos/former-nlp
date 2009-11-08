@@ -2,6 +2,10 @@ package br.eti.rslemos.brill;
 
 import java.util.NoSuchElementException;
 
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
+import br.eti.rslemos.tagger.Token;
+
 public class SentenceContext implements Context {
 	private final Sentence contents;
 	private int current;

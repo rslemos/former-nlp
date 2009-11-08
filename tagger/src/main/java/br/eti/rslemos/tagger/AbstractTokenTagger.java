@@ -1,4 +1,4 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
 
 public abstract class AbstractTokenTagger implements Tagger {

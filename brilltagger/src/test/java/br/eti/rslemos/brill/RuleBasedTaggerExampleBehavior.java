@@ -12,6 +12,13 @@ import org.testng.annotations.Test;
 import br.eti.rslemos.brill.rules.NEXTTAGRule;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 import br.eti.rslemos.brill.rules.WDPREVTAGRule;
+import br.eti.rslemos.tagger.CompositeTagger;
+import br.eti.rslemos.tagger.ConstantTokenTagger;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultToken;
+import br.eti.rslemos.tagger.LookupTokenTagger;
+import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.Token;
 
 public class RuleBasedTaggerExampleBehavior {
 	

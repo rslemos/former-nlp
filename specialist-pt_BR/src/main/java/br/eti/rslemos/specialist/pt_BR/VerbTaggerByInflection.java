@@ -1,8 +1,9 @@
 package br.eti.rslemos.specialist.pt_BR;
 
-import br.eti.rslemos.brill.Tagger;
-import br.eti.rslemos.specialist.pt_BR.MatcherListTokenTagger.StringMatcher;
-import br.eti.rslemos.specialist.pt_BR.MatcherListTokenTagger.SuffixMatcher;
+import br.eti.rslemos.tagger.MatcherListTokenTagger;
+import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.MatcherListTokenTagger.StringMatcher;
+import br.eti.rslemos.tagger.MatcherListTokenTagger.SuffixMatcher;
 
 public class VerbTaggerByInflection {
 	public static final Tagger REGULAR_VERB = new MatcherListTokenTagger(

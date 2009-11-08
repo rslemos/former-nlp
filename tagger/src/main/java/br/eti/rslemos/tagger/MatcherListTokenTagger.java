@@ -1,7 +1,5 @@
-package br.eti.rslemos.specialist.pt_BR;
+package br.eti.rslemos.tagger;
 
-import br.eti.rslemos.brill.AbstractTokenTagger;
-import br.eti.rslemos.brill.Token;
 
 public class MatcherListTokenTagger extends AbstractTokenTagger {
 
@@ -35,7 +33,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger {
 		private final String suffix;
 		private final String tag;
 
-		protected SuffixMatcher(String suffix, String tag) {
+		public SuffixMatcher(String suffix, String tag) {
 			this.suffix = suffix;
 			this.tag = tag;
 		}
@@ -54,7 +52,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger {
 		private final String word;
 		private final String tag;
 
-		protected StringMatcher(String word, String tag) {
+		public StringMatcher(String word, String tag) {
 			this.word = word;
 			this.tag = tag;
 		}

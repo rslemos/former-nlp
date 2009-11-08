@@ -5,12 +5,13 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import br.eti.rslemos.tagger.Token;
+
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RulesetTrainer;
-import br.eti.rslemos.brill.Token;
-import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.RulesetTrainer.Score;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 

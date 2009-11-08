@@ -1,5 +1,6 @@
-package br.eti.rslemos.brill;
+package br.eti.rslemos.tagger;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class DefaultSentence implements Sentence {
@@ -10,7 +11,7 @@ public class DefaultSentence implements Sentence {
 	}
 
 	public Iterator<Token> iterator() {
-		return new SentenceContext(this);
+		return Arrays.asList(sentence).iterator();
 	}
 
 	public int size() {

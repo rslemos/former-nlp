@@ -11,6 +11,12 @@ import java.util.List;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
+import br.eti.rslemos.tagger.AbstractTokenTagger;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.Token;
+
 public class RuleBasedTaggerBehavior {
 
 	@Test

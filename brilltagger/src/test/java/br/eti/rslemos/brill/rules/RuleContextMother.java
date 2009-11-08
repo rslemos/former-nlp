@@ -3,9 +3,9 @@ package br.eti.rslemos.brill.rules;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.DefaultSentence;
 import br.eti.rslemos.brill.SentenceContext;
-import br.eti.rslemos.brill.Token;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.Token;
 
 public abstract class RuleContextMother {
 

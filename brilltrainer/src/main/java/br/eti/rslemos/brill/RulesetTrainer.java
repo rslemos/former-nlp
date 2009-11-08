@@ -14,6 +14,11 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultToken;
+import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.Token;
 
 public class RulesetTrainer {
 	private final Tagger baseTagger;
