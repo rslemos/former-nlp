@@ -20,4 +20,11 @@
 		<nature>org.maven.ide.eclipse.maven2Nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/resources/CONTRATO de Compra e Venda apoio de pé.doc</name>
+			<type>1</type>
+			<location>/home/rslemos/work/nlp/contratos/original/CONTRATO de Compra e Venda apoio de pé.doc</location>
+		</link>
+	</linkedResources>
 </projectDescription>
