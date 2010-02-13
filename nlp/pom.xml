@@ -46,9 +46,10 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
 	<repositories>
 		<repository>
-			<id>apache incubating</id>
+			<id>apache-incubating</id>
 			<url>http://people.apache.org/repo/m2-incubating-repository/</url>
 		</repository>
 	</repositories>
