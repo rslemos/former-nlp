@@ -1,23 +1,13 @@
 package br.eti.rslemos.tagger;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
-
-import br.eti.rslemos.tagger.AbstractTokenTagger;
-import br.eti.rslemos.tagger.CompositeTagger;
-import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
-import br.eti.rslemos.tagger.Token;
 
 public class CompositeTaggerBehavior {
 	
@@ -33,18 +23,17 @@ public class CompositeTaggerBehavior {
 				assertEquals(token.getTag(), "bar");
 			}
 		};
+		Tagger[] taggers = { subTagger };
 		
-		List<Tagger> taggers = Arrays.asList(subTagger);
-		buildTaggerAndTagSentence(taggers, token);
+		tagToken(buildTagger(taggers), token);
 	}
 
 	@Test
 	public void shouldNotTagToken() {
 		Token token = mock(Token.class);
+		Tagger[] taggers = {};
 		
-		List<Tagger> taggers = Collections.emptyList();
-		
-		buildTaggerAndTagSentence(taggers, token);
+		tagToken(buildTagger(taggers), token);
 		
 		verify(token, never()).setTag(anyString());
 	}
@@ -56,9 +45,9 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger1 = mock(Tagger.class);
 		Tagger subTagger2 = mock(Tagger.class);
 		Tagger subTagger3 = mock(Tagger.class);
+		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
 		
-		List<Tagger> taggers = Arrays.asList(subTagger1, subTagger2, subTagger3);
-		buildTaggerAndTagSentence(taggers, token);
+		tagToken(buildTagger(taggers), token);
 		
 		InOrder inOrder = inOrder(subTagger1, subTagger2, subTagger3);
 		
@@ -80,9 +69,9 @@ public class CompositeTaggerBehavior {
 			}
 		};
 		Tagger subTagger3 = mock(Tagger.class);
+		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
 		
-		List<Tagger> taggers = Arrays.asList(subTagger1, subTagger2, subTagger3);
-		buildTaggerAndTagSentence(taggers, token);
+		tagToken(buildTagger(taggers), token);
 		
 		verify(subTagger1).tag(anySentence());
 		verify(subTagger3).tag(anySentence());
@@ -108,9 +97,9 @@ public class CompositeTaggerBehavior {
 				token.setTag("foobar");
 			}
 		};
+		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
 		
-		List<Tagger> taggers = Arrays.asList(subTagger1, subTagger2, subTagger3);
-		buildTaggerAndTagSentence(taggers, token);
+		tagToken(buildTagger(taggers), token);
 		
 		assertTrue(check[0]);
 		
@@ -118,8 +107,12 @@ public class CompositeTaggerBehavior {
 		verify(token, times(1)).setTag("foobar");
 	}
 
-	private void buildTaggerAndTagSentence(List<Tagger> taggers, Token token) {
-		new CompositeTagger(taggers).tag(new DefaultSentence(token));
+	private void tagToken(CompositeTagger tagger, Token token) {
+		tagger.tag(new DefaultSentence(token));
+	}
+
+	private CompositeTagger buildTagger(Tagger... taggers) {
+		return new CompositeTagger(taggers);
 	}
 
 	private Sentence anySentence() {

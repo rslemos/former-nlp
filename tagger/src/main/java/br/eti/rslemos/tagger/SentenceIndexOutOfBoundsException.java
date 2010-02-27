@@ -1,7 +1,9 @@
 package br.eti.rslemos.tagger;
 
 public class SentenceIndexOutOfBoundsException extends IndexOutOfBoundsException {
-    public SentenceIndexOutOfBoundsException() {
+	private static final long serialVersionUID = 3103173677203301062L;
+
+	public SentenceIndexOutOfBoundsException() {
         super();
     }
 

@@ -1,31 +1,37 @@
 package br.eti.rslemos.brill;
 
-import java.util.Collections;
-import java.util.List;
-
+import br.eti.rslemos.tagger.NullTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 
 public class RuleBasedTagger implements Tagger {
 
-	private final Tagger baseTagger;
-	private final List<Rule> rules;
+	private Tagger baseTagger;
+	private Rule[] rules;
 
 	public RuleBasedTagger() {
-		this(NULL_TAGGER, EMPTY_RULES);
+		this(NullTagger.NULL_TAGGER);
 	}
 
-	public RuleBasedTagger(Tagger baseTagger) {
-		this(baseTagger, EMPTY_RULES);
-	}
-
-	public RuleBasedTagger(Tagger baseTagger, List<Rule> rules) {
+	public RuleBasedTagger(Tagger baseTagger, Rule... rules) {
 		this.baseTagger = baseTagger;
 		this.rules = rules;
 	}
 
-	public List<Rule> getRules() {
+	public Tagger getBaseTagger() {
+		return baseTagger;
+	}
+
+	public void setBaseTagger(Tagger baseTagger) {
+		this.baseTagger = baseTagger;
+	}
+
+	public Rule[] getRules() {
 		return rules;
+	}
+
+	public void setRules(Rule[] rules) {
+		this.rules = rules;
 	}
 
 	public void tag(Sentence sentence) {
@@ -37,6 +43,10 @@ public class RuleBasedTagger implements Tagger {
 			applyRule(new DelayedContext(context.clone()), rule);
 	}
 
+	private void applyBaseTagger(Sentence sentence) {
+		baseTagger.tag(sentence);
+	}
+
 	static void applyRule(DelayedContext context, Rule rule) {
 		while(context.hasNext()) {
 			context.next();
@@ -44,18 +54,5 @@ public class RuleBasedTagger implements Tagger {
 		}
 		context.commit();
 	}
-
-	private void applyBaseTagger(Sentence sentence) {
-		baseTagger.tag(sentence);
-	}
-
-	public static final Tagger NULL_TAGGER = new NullBaseTagger();
-	private static final List<Rule> EMPTY_RULES = Collections.emptyList();
-
-	private static class NullBaseTagger implements Tagger {
-		public void tag(Sentence sentence) {
-		}
-	}
-
 }
 

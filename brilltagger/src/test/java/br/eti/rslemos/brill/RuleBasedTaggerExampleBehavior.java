@@ -2,9 +2,7 @@ package br.eti.rslemos.brill;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -38,7 +36,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Rule rule1 = new PREVTAGRule("NN", "VB", "TO");
 		Rule rule2 = new WDPREVTAGRule("RB", "RP", "VB", "up");
 		
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, Arrays.asList(rule1, rule2));
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rule1, rule2);
 		
 		tagger.tag(new DefaultSentence(to, sign, up));
 		
@@ -117,14 +115,12 @@ public class RuleBasedTaggerExampleBehavior {
 		
 		Tagger tagger1 = new LookupTokenTagger(lexicon);
 		Tagger tagger2 = new ConstantTokenTagger("NP");
-		List<Tagger> taggers = Arrays.asList(tagger1, tagger2);
-		Tagger baseTagger = new CompositeTagger(taggers);
+		Tagger baseTagger = new CompositeTagger(tagger1, tagger2);
 		
 		Rule rule1 = new PREVTAGRule("VBN", "VBD", "NP");
 		Rule rule2 = new NEXTTAGRule("VBD", "VBN", "BY");
-		List<Rule> rules = Arrays.asList(rule1, rule2);
 		
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rules);
+		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rule1, rule2);
 		
 		return tagger;
 	}

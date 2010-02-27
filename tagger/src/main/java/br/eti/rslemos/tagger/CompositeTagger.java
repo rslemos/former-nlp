@@ -1,12 +1,19 @@
 package br.eti.rslemos.tagger;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class CompositeTagger implements Tagger {
 
-	private final List<Tagger> taggers;
+public class CompositeTagger implements Tagger, Serializable {
 
-	public CompositeTagger(List<Tagger> taggers) {
+	private static final long serialVersionUID = -8583142580025744638L;
+
+	private Tagger[] taggers;
+
+	public CompositeTagger() {
+		this(new Tagger[0]);
+	}
+
+	public CompositeTagger(Tagger... taggers) {
 		this.taggers = taggers;
 	}
 
@@ -22,6 +29,14 @@ public class CompositeTagger implements Tagger {
 		for (Tagger tagger : taggers) {
 			tagger.tag(wrappedSentence0);
 		}
+	}
+	
+	public Tagger[] getTaggers() {
+		return taggers;
+	}
+
+	public void setTaggers(Tagger[] taggers) {
+		this.taggers = taggers;
 	}
 
 	private static final class FilteringToken implements Token {

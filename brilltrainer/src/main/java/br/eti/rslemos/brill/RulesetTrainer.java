@@ -44,7 +44,7 @@ public class RulesetTrainer {
 		TrainingContext trainingContext = createTrainingContext(proofCorpus);
 		
 		trainingContext.applyBaseTagger();
-		List<Rule> rules = trainingContext.discoverRules();
+		Rule[] rules = trainingContext.discoverRules();
 
 		return new RuleBasedTagger(baseTagger, rules);
 	}
@@ -78,7 +78,7 @@ public class RulesetTrainer {
 			}
 		}
 
-		public List<Rule> discoverRules() {
+		public Rule[] discoverRules() {
 			LinkedList<Rule> rules = new LinkedList<Rule>();
 
 			ScoreBoard board = new ScoreBoard();
@@ -112,7 +112,7 @@ public class RulesetTrainer {
 				break;
 			} while (true);
 
-			return rules;
+			return rules.toArray(new Rule[rules.size()]);
 		}
 
 		private void applyRule(Rule bestRule) {

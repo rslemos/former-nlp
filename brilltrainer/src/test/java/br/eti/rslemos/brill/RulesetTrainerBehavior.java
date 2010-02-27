@@ -33,8 +33,8 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Collections.emptyList();
 		RulesetTrainer trainer = new RulesetTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
-		assertEquals(rules.size(), 0);
+		Rule[] rules = trainer.train(sentences).getRules();
+		assertEquals(rules.length, 0);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY);
 		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = Arrays.asList(trainer.train(sentences).getRules());
 		
 		assertEquals(rules.size(), 3);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TO", "to")));
@@ -137,11 +137,9 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
 		RulesetTrainer trainer = new RulesetTrainer(new ConstantTokenTagger(null), ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		Rule[] rules = trainer.train(sentences).getRules();
 		
-		Rule firstRule = rules.get(0);
-		
-		assertEquals(firstRule, rule2);
+		assertEquals(rules[0], rule2);
 	}
 
 	public static List<Sentence> buildText_ToSignUp() {
