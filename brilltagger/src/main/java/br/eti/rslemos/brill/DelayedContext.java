@@ -4,12 +4,12 @@ import java.util.LinkedList;
 
 import br.eti.rslemos.tagger.Token;
 
-public class DelayedContext implements Context {
-	private static class SetTagCommand {
-		private final Token token;
-		private final String tag;
+public class DelayedContext<T> implements Context<T> {
+	private static class SetTagCommand<T1> {
+		private final Token<T1> token;
+		private final T1 tag;
 
-		protected SetTagCommand(Token token, String tag) {
+		protected SetTagCommand(Token<T1> token, T1 tag) {
 			this.token = token;
 			this.tag = tag;
 		}
@@ -19,22 +19,22 @@ public class DelayedContext implements Context {
 		}
 	}
 	
-	private Context context;
-	private LinkedList<SetTagCommand> commands = new LinkedList<SetTagCommand>();
+	private Context<T> context;
+	private LinkedList<SetTagCommand<T>> commands = new LinkedList<SetTagCommand<T>>();
 	
-	public DelayedContext(Context context) {
+	public DelayedContext(Context<T> context) {
 		this.context = context;
 	}
 
 	public void commit() {
-		for (SetTagCommand command : commands) {
+		for (SetTagCommand<T> command : commands) {
 			command.setTag();
 		}
 
 		commands.clear();
 	}
 
-	public Token getToken(int offset) {
+	public Token<T> getToken(int offset) {
 		return delayedToken(context.getToken(offset));
 	}
 
@@ -42,7 +42,7 @@ public class DelayedContext implements Context {
 		return context.hasNext();
 	}
 
-	public Token next() {
+	public Token<T> next() {
 		return delayedToken(context.next());
 	}
 
@@ -50,12 +50,13 @@ public class DelayedContext implements Context {
 		context.remove();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public DelayedContext clone() {
+	public DelayedContext<T> clone() {
 		try {
-			DelayedContext result = (DelayedContext) super.clone();
+			DelayedContext<T> result = (DelayedContext<T>) super.clone();
 			result.context = context.clone();
-			result.commands = new LinkedList<SetTagCommand>();
+			result.commands = new LinkedList<SetTagCommand<T>>();
 			
 			return result;
 		} catch (CloneNotSupportedException e) {
@@ -63,9 +64,9 @@ public class DelayedContext implements Context {
 		}
 	}
 
-	private Token delayedToken(final Token token) {
-		return new Token() {
-			public String getTag() {
+	private Token<T> delayedToken(final Token<T> token) {
+		return new Token<T>() {
+			public T getTag() {
 				return token.getTag();
 			}
 
@@ -73,8 +74,8 @@ public class DelayedContext implements Context {
 				return token.getWord();
 			}
 
-			public void setTag(String tag) {
-				commands.add(new SetTagCommand(token, tag));
+			public void setTag(T tag) {
+				commands.add(new SetTagCommand<T>(token, tag));
 			}
 			
 		};

@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV2TAGRuleBehavior {
 	private boolean matches(String prev2Tag) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new PREV2TAGRule(THIS_TAG, TO_TAG, prev2Tag);
+		Rule<String> rule = new PREV2TAGRule<String>(THIS_TAG, TO_TAG, prev2Tag);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class PREV2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV2TAGRule.FACTORY);
+		createAndTestBasicDependency(PREV2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(PREV2TAGRule.FACTORY, F, F, T, F, F, F, F, F);
+		createAndTestContextDependency(PREV2TAGRule.<String>FACTORY(), F, F, T, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV2TAGRule.FACTORY);
+		createAndTestMatchability(PREV2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV2TAGRule.FACTORY);
+		createAndTestObjectSemantics(PREV2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV2TAGRule.FACTORY, 
+		createAndTestBrillText(PREV2TAGRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREV2TAG " + PREV2_TAG);
 	}
 }

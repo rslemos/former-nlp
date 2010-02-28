@@ -1,20 +1,20 @@
 package br.eti.rslemos.brill;
 
-public interface Rule {
+public interface Rule<T> {
 
-	String getFrom();
+	T getFrom();
 
-	String getTo();
+	T getTo();
 	
 	
-	boolean matches(Context context);
+	boolean matches(Context<T> context);
 	
-	boolean apply(Context context);
+	boolean apply(Context<T> context);
 
 	boolean equals(Object o);
 
 	int hashCode();
 
-	boolean firingDependsOnTag(String tag);
+	boolean firingDependsOnTag(T tag);
 
 }

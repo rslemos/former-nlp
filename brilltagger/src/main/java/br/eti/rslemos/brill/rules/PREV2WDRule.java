@@ -4,34 +4,37 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREV2WDRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_2 = context.getToken(-2).getWord();
+public class PREV2WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_2 = context.getToken(-2).getWord();
+				
+				return new PREV2WDRule<T1>(from, to, word_2);
+			}
 			
-			return new PREV2WDRule(from, to, word_2);
-		}
-		
-	};
-
+		};
+	}
+	
 	private final String prev2Word;
 
-	public PREV2WDRule(String from, String to, String prev2Word) {
+	public PREV2WDRule(T from, T to, String prev2Word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word_2 = context.getToken(-2).getWord();
 		
 		return prev2Word != null ? prev2Word.equals(word_2) : word_2 == null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

@@ -4,34 +4,37 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class CURWDRule extends AbstractRule implements SerializableAsBrillText {
-	public static final AbstractRuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word0 = context.getToken(0).getWord();
+public class CURWDRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word0 = context.getToken(0).getWord();
+				
+				return new CURWDRule<T1>(from, to, word0);
+			}
 			
-			return new CURWDRule(from, to, word0);
-		}
-		
-	};
+		};
+	}
 	
 	private final String word;
 
-	public CURWDRule(String from, String to, String word) {
+	public CURWDRule(T from, T to, String word) {
 		super(from, to);
 		this.word = word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word0 = context.getToken(0).getWord();
 		
 		return word != null ? word.equals(word0) : word0 == null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

@@ -1,7 +1,7 @@
 package br.eti.rslemos.tagger;
 
-public interface Tagger {
+public interface Tagger<T> {
 
-	void tag(Sentence sentence);
+	void tag(Sentence<T> sentence);
 
 }

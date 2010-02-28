@@ -4,8 +4,8 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
 
-public interface RuleFactory {
+public interface RuleFactory<T> {
 
-	Rule create(Context context, Token target) throws RuleCreationException;
+	Rule<T> create(Context<T> context, Token<T> target) throws RuleCreationException;
 
 }

@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class WDAND2BFRRuleBehavior {
 	private boolean matches(String prev2Word, String word) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new WDAND2BFRRule(THIS_TAG, TO_TAG, prev2Word, word);
+		Rule<String> rule = new WDAND2BFRRule<String>(THIS_TAG, TO_TAG, prev2Word, word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class WDAND2BFRRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(WDAND2BFRRule.FACTORY);
+		createAndTestBasicDependency(WDAND2BFRRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(WDAND2BFRRule.FACTORY);
+		createAndTestContextIndependency(WDAND2BFRRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2BFRRule.FACTORY);
+		createAndTestMatchability(WDAND2BFRRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2BFRRule.FACTORY);
+		createAndTestObjectSemantics(WDAND2BFRRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2BFRRule.FACTORY, 
+		createAndTestBrillText(WDAND2BFRRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " WDAND2BFR " + PREV2_WORD + " " + THIS_WORD);
 	}
 }

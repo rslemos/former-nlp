@@ -4,56 +4,64 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREV1OR2OR3OR4WDRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_1 = context.getToken(-1).getWord();
-			return new PREV1OR2OR3OR4WDRule(from, to, word_1);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY2 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_2 = context.getToken(-2).getWord();
-			return new PREV1OR2OR3OR4WDRule(from, to, word_2);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY3 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_3 = context.getToken(-3).getWord();
-			return new PREV1OR2OR3OR4WDRule(from, to, word_3);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY4 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_4 = context.getToken(-4).getWord();
-			return new PREV1OR2OR3OR4WDRule(from, to, word_4);
-		}
-		
-	};
-
+public class PREV1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY1() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_1 = context.getToken(-1).getWord();
+				return new PREV1OR2OR3OR4WDRule<T1>(from, to, word_1);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY2() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_2 = context.getToken(-2).getWord();
+				return new PREV1OR2OR3OR4WDRule<T1>(from, to, word_2);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY3() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_3 = context.getToken(-3).getWord();
+				return new PREV1OR2OR3OR4WDRule<T1>(from, to, word_3);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY4() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_4 = context.getToken(-4).getWord();
+				return new PREV1OR2OR3OR4WDRule<T1>(from, to, word_4);
+			}
+			
+		};
+	}
+	
 	private final String prev1or2or3or4Word;
 
-	public PREV1OR2OR3OR4WDRule(String from, String to, String prev1or2or3or4Word) {
+	public PREV1OR2OR3OR4WDRule(T from, T to, String prev1or2or3or4Word) {
 		super(from, to);
 		
 		this.prev1or2or3or4Word = prev1or2or3or4Word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word_1 = context.getToken(-1).getWord();
 		String word_2 = context.getToken(-2).getWord();
 		String word_3 = context.getToken(-3).getWord();
@@ -64,6 +72,7 @@ public class PREV1OR2OR3OR4WDRule extends AbstractRule implements SerializableAs
 		: (word_1 == null | word_2 == null | word_3 == null | word_4 == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

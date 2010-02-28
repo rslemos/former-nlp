@@ -14,44 +14,45 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
+@SuppressWarnings("unchecked")
 public class RuleBasedTaggerBehavior {
 
 	@Test
 	public void shouldWorkOnEmptyInput() {
-		RuleBasedTagger tagger = new RuleBasedTagger();
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>();
 		
-		tagger.tag(new DefaultSentence());
+		tagger.tag(new DefaultSentence<String>());
 	}
 	
 	@Test
 	public void shouldInvokeBaseTaggerAndTagToken() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 
-		Tagger baseTagger = new AbstractTokenTagger() {
-			public void tag(Token token) {
+		Tagger<String> baseTagger = new AbstractTokenTagger<String>() {
+			public void tag(Token<String> token) {
 				assertEquals(token.getWord(), "foo");
 				token.setTag("foobar");
 			}
 		};
 
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger);
 		
-		tagger.tag(new DefaultSentence(token));
+		tagger.tag(new DefaultSentence<String>(token));
 
 		verify(token, times(1)).setTag("foobar");
 	}
 
 	@Test
 	public void shouldInvokeBaseTaggerAndRuleAndTagToken() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		when(token.getTag()).thenReturn("bar");
 
-		Rule rule = new RuleAdapter() {
+		Rule<String> rule = new RuleAdapter<String>() {
 			@Override
-			public boolean apply(Context context) {
-				Token token = context.getToken(0);
+			public boolean apply(Context<String> context) {
+				Token<String> token = context.getToken(0);
 				assertEquals(token.getWord(), "foo");
 				assertEquals(token.getTag(), "bar");
 				token.setTag("foobar");
@@ -60,11 +61,11 @@ public class RuleBasedTaggerBehavior {
 			}
 		};
 		
-		Tagger baseTagger = mock(Tagger.class);
+		Tagger<String> baseTagger = mock(Tagger.class);
 		
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rule);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule);
 		
-		tagger.tag(new DefaultSentence(token));
+		tagger.tag(new DefaultSentence<String>(token));
 
 		InOrder inOrder = inOrder(baseTagger, token);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
@@ -73,74 +74,78 @@ public class RuleBasedTaggerBehavior {
 
 	@Test
 	public void shouldInvokeBaseTaggerAndRulesInOrder() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 
-		Tagger baseTagger = mock(Tagger.class);
+		Tagger<String> baseTagger = mock(Tagger.class);
 
-		Rule rule1 = mock(Rule.class);
-		Rule rule2 = mock(Rule.class);
+		Rule<String> rule1 = mock(Rule.class);
+		Rule<String> rule2 = mock(Rule.class);
 		
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rule1, rule2);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule1, rule2);
 		
-		tagger.tag(new DefaultSentence(token));
+		tagger.tag(new DefaultSentence<String>(token));
 
 		InOrder inOrder = inOrder(baseTagger, rule1, rule2);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
-		inOrder.verify(rule1, times(1)).apply((Context) anyObject());
-		inOrder.verify(rule2, times(1)).apply((Context) anyObject());
+		inOrder.verify(rule1, times(1)).apply(anyContext());
+		inOrder.verify(rule2, times(1)).apply(anyContext());
+	}
+
+	private Context<String> anyContext() {
+		return (Context<String>) anyObject();
 	}
 
 	@Test
 	public void shouldIsolateRuleEffects() {
-		final Token token1 = mock(Token.class);
-		final Token token2 = mock(Token.class);
+		final Token<String> token1 = mock(Token.class);
+		final Token<String> token2 = mock(Token.class);
 
-		Tagger baseTagger = mock(Tagger.class);
+		Tagger<String> baseTagger = mock(Tagger.class);
 
-		Rule rule = new RuleAdapter() {
+		Rule<String> rule = new RuleAdapter<String>() {
 			@Override
-			public boolean apply(Context context) {
+			public boolean apply(Context<String> context) {
 				verify(token2, never()).setTag(anyString());
 				verify(token1, never()).setTag(anyString());
 				
-				Token token = context.getToken(0);
+				Token<String> token = context.getToken(0);
 				token.setTag("foobar");
 				
 				return true;
 			}
 		};
 
-		RuleBasedTagger tagger = new RuleBasedTagger(baseTagger, rule);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule);
 		
-		tagger.tag(new DefaultSentence(token1, token2));
+		tagger.tag(new DefaultSentence<String>(token1, token2));
 
 		verify(token1, times(1)).setTag("foobar");
 		verify(token2, times(1)).setTag("foobar");
 	}
 
-	private static class RuleAdapter implements Rule {
-		public String getFrom() {
+	private static class RuleAdapter<T1> implements Rule<T1> {
+		public T1 getFrom() {
 			return null;
 		}
 
-		public String getTo() {
+		public T1 getTo() {
 			return null;
 		}
 
-		public boolean matches(Context context) {
+		public boolean matches(Context<T1> context) {
 			return false;
 		}
 
-		public boolean apply(Context context) {
+		public boolean apply(Context<T1> context) {
 			return false;
 		}
 
-		public boolean firingDependsOnTag(String tag) {
+		public boolean firingDependsOnTag(T1 tag) {
 			return false;
 		}
 	}
 
-	private static Sentence anySentence() {
-		return (Sentence) anyObject();
+	private static Sentence<String> anySentence() {
+		return (Sentence<String>) anyObject();
 	}
 }

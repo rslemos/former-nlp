@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXT1OR2WDRuleBehavior {
 	private boolean matches(String next1or2Word) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new NEXT1OR2WDRule(THIS_TAG, TO_TAG, next1or2Word);
+		Rule<String> rule = new NEXT1OR2WDRule<String>(THIS_TAG, TO_TAG, next1or2Word);
 		return rule.matches(context);
 	}
 	
@@ -37,33 +37,33 @@ public class NEXT1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXT1OR2WDRule.FACTORY1);
-		createAndTestBasicDependency(NEXT1OR2WDRule.FACTORY2);
+		createAndTestBasicDependency(NEXT1OR2WDRule.<String>FACTORY1());
+		createAndTestBasicDependency(NEXT1OR2WDRule.<String>FACTORY2());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(NEXT1OR2WDRule.FACTORY1);
-		createAndTestContextIndependency(NEXT1OR2WDRule.FACTORY2);
+		createAndTestContextIndependency(NEXT1OR2WDRule.<String>FACTORY1());
+		createAndTestContextIndependency(NEXT1OR2WDRule.<String>FACTORY2());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT1OR2WDRule.FACTORY1);
-		createAndTestMatchability(NEXT1OR2WDRule.FACTORY2);
+		createAndTestMatchability(NEXT1OR2WDRule.<String>FACTORY1());
+		createAndTestMatchability(NEXT1OR2WDRule.<String>FACTORY2());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT1OR2WDRule.FACTORY1);
-		createAndTestObjectSemantics(NEXT1OR2WDRule.FACTORY2);
+		createAndTestObjectSemantics(NEXT1OR2WDRule.<String>FACTORY1());
+		createAndTestObjectSemantics(NEXT1OR2WDRule.<String>FACTORY2());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT1OR2WDRule.FACTORY1, 
+		createAndTestBrillText(NEXT1OR2WDRule.<String>FACTORY1(), 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2WD " + NEXT1_WORD);
-		createAndTestBrillText(NEXT1OR2WDRule.FACTORY2, 
+		createAndTestBrillText(NEXT1OR2WDRule.<String>FACTORY2(), 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2WD " + NEXT2_WORD);
 	}
 }

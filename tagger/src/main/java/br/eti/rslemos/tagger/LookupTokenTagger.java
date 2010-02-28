@@ -4,31 +4,31 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LookupTokenTagger extends AbstractTokenTagger implements Serializable {
+public class LookupTokenTagger<T> extends AbstractTokenTagger<T> implements Serializable {
 
 	private static final long serialVersionUID = 6023313611881081572L;
 
-	private Map<String, String> lexicon;
+	private Map<String, T> lexicon;
 
 	public LookupTokenTagger() {
-		this(new HashMap<String, String>());
+		this(new HashMap<String, T>());
 	}
 
-	public LookupTokenTagger(Map<String, String> lexicon) {
+	public LookupTokenTagger(Map<String, T> lexicon) {
 		this.lexicon = lexicon;
 	}
 
-	public void tag(Token token) {
+	public void tag(Token<T> token) {
 		String word = token.getWord();
 		if (lexicon.containsKey(word))
 			token.setTag(lexicon.get(word));
 	}
 
-	public Map<String, String> getLexicon() {
+	public Map<String, T> getLexicon() {
 		return lexicon;
 	}
 
-	public void setLexicon(Map<String, String> lexicon) {
+	public void setLexicon(Map<String, T> lexicon) {
 		this.lexicon = lexicon;
 	}
 }

@@ -4,32 +4,34 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXTBIGRAMRule extends AbstractRule implements SerializableAsBrillText {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word1 = context.getToken(1).getWord();
-			String word2 = context.getToken(2).getWord();
-
-			return new NEXTBIGRAMRule(from, to, word1, word2);
-		}
-		
-	};
-
+public class NEXTBIGRAMRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word1 = context.getToken(1).getWord();
+				String word2 = context.getToken(2).getWord();
+	
+				return new NEXTBIGRAMRule<T1>(from, to, word1, word2);
+			}
+			
+		};
+	}
+	
 	private final String next1Word;
 	private final String next2Word;
 
-	public NEXTBIGRAMRule(String from, String to, String next1Word, String next2Word) {
+	public NEXTBIGRAMRule(T from, T to, String next1Word, String next2Word) {
 		super(from, to);
 		this.next1Word = next1Word;
 		this.next2Word = next2Word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word1 = context.getToken(1).getWord();
 		String word2 = context.getToken(2).getWord();
 		
@@ -37,6 +39,7 @@ public class NEXTBIGRAMRule extends AbstractRule implements SerializableAsBrillT
 			(next2Word != null ? next2Word.equals(word2) : word2 == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

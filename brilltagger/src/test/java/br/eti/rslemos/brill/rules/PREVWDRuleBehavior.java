@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREVWDRuleBehavior {
 	private boolean matches(String prevWord) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new PREVWDRule(THIS_TAG, TO_TAG, prevWord);
+		Rule<String> rule = new PREVWDRule<String>(THIS_TAG, TO_TAG, prevWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class PREVWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREVWDRule.FACTORY);
+		createAndTestBasicDependency(PREVWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREVWDRule.FACTORY);
+		createAndTestContextIndependency(PREVWDRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVWDRule.FACTORY);
+		createAndTestMatchability(PREVWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVWDRule.FACTORY);
+		createAndTestObjectSemantics(PREVWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVWDRule.FACTORY, 
+		createAndTestBrillText(PREVWDRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREVWD " + PREV1_WORD);
 	}
 }

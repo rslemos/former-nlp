@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2OR3WDRuleBehavior {
 	private boolean matches(String prev1or2or3Word) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new PREV1OR2OR3WDRule(THIS_TAG, TO_TAG, prev1or2or3Word);
+		Rule<String> rule = new PREV1OR2OR3WDRule<String>(THIS_TAG, TO_TAG, prev1or2or3Word);
 		return rule.matches(context);
 	}
 	
@@ -37,39 +37,39 @@ public class PREV1OR2OR3WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2OR3WDRule.FACTORY1);
-		createAndTestBasicDependency(PREV1OR2OR3WDRule.FACTORY2);
-		createAndTestBasicDependency(PREV1OR2OR3WDRule.FACTORY3);
+		createAndTestBasicDependency(PREV1OR2OR3WDRule.<String>FACTORY1());
+		createAndTestBasicDependency(PREV1OR2OR3WDRule.<String>FACTORY2());
+		createAndTestBasicDependency(PREV1OR2OR3WDRule.<String>FACTORY3());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.FACTORY1);
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.FACTORY2);
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.FACTORY3);
+		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY1());
+		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY2());
+		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY3());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3WDRule.FACTORY1);
-		createAndTestMatchability(PREV1OR2OR3WDRule.FACTORY2);
-		createAndTestMatchability(PREV1OR2OR3WDRule.FACTORY3);
+		createAndTestMatchability(PREV1OR2OR3WDRule.<String>FACTORY1());
+		createAndTestMatchability(PREV1OR2OR3WDRule.<String>FACTORY2());
+		createAndTestMatchability(PREV1OR2OR3WDRule.<String>FACTORY3());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3WDRule.FACTORY1);
-		createAndTestObjectSemantics(PREV1OR2OR3WDRule.FACTORY2);
-		createAndTestObjectSemantics(PREV1OR2OR3WDRule.FACTORY3);
+		createAndTestObjectSemantics(PREV1OR2OR3WDRule.<String>FACTORY1());
+		createAndTestObjectSemantics(PREV1OR2OR3WDRule.<String>FACTORY2());
+		createAndTestObjectSemantics(PREV1OR2OR3WDRule.<String>FACTORY3());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2OR3WDRule.FACTORY1, 
+		createAndTestBrillText(PREV1OR2OR3WDRule.<String>FACTORY1(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3WD " + PREV1_WORD);
-		createAndTestBrillText(PREV1OR2OR3WDRule.FACTORY2, 
+		createAndTestBrillText(PREV1OR2OR3WDRule.<String>FACTORY2(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3WD " + PREV2_WORD);
-		createAndTestBrillText(PREV1OR2OR3WDRule.FACTORY3, 
+		createAndTestBrillText(PREV1OR2OR3WDRule.<String>FACTORY3(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3WD " + PREV3_WORD);
 	}
 }

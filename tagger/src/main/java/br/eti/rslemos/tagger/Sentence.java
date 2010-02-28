@@ -1,10 +1,10 @@
 package br.eti.rslemos.tagger;
 
 
-public interface Sentence extends Iterable<Token> {
+public interface Sentence<T> extends Iterable<Token<T>> {
 
 	int size();
 
-	Token get(int i) throws SentenceIndexOutOfBoundsException;
+	Token<T> get(int i) throws SentenceIndexOutOfBoundsException;
 
 }

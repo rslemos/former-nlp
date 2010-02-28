@@ -13,9 +13,9 @@ import br.eti.rslemos.brill.rules.lexical.SUFFIXRule;
 
 public class SUFFIXRuleBehavior {
 	private boolean matches(String suffix) {
-		Context context = buildUntaggedContext();
+		Context<String> context = buildUntaggedContext();
 		
-		Rule rule = new SUFFIXRule(null, TO_TAG, suffix);
+		Rule<String> rule = new SUFFIXRule<String>(null, TO_TAG, suffix);
 		return rule.matches(context);
 	}
 

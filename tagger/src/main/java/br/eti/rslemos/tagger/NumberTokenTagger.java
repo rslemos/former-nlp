@@ -1,6 +1,6 @@
 package br.eti.rslemos.tagger;
 
-public class NumberTokenTagger extends ConstantTokenTagger {
+public class NumberTokenTagger<T> extends ConstantTokenTagger<T> {
 	
 	private static final long serialVersionUID = -3751732697281158495L;
 
@@ -8,12 +8,12 @@ public class NumberTokenTagger extends ConstantTokenTagger {
 		this(null);
 	}
 
-	public NumberTokenTagger(String tag) {
+	public NumberTokenTagger(T tag) {
 		super(tag);
 	}
 
 	@Override
-	public void tag(Token token) {
+	public void tag(Token<T> token) {
 		char[] chars = token.getWord().toCharArray();
 		
 		for (char ch : chars) {

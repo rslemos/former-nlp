@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class WDNEXTTAGRuleBehavior {
 	private boolean matches(String word, String next1Tag) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new WDNEXTTAGRule(THIS_TAG, TO_TAG, word, next1Tag);
+		Rule<String> rule = new WDNEXTTAGRule<String>(THIS_TAG, TO_TAG, word, next1Tag);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class WDNEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY);
+		createAndTestBasicDependency(WDNEXTTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(WDNEXTTAGRule.FACTORY, F, F, F, F, T, F, F, F);
+		createAndTestContextDependency(WDNEXTTAGRule.<String>FACTORY(), F, F, F, F, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDNEXTTAGRule.FACTORY);
+		createAndTestMatchability(WDNEXTTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY);
+		createAndTestObjectSemantics(WDNEXTTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDNEXTTAGRule.FACTORY, 
+		createAndTestBrillText(WDNEXTTAGRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " WDNEXTTAG " + THIS_WORD + " " + NEXT1_TAG);
 	}
 }

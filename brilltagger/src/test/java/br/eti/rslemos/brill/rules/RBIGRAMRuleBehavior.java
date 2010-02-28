@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class RBIGRAMRuleBehavior {
 	private boolean matches(String word, String nextWord) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new RBIGRAMRule(THIS_TAG, TO_TAG, word, nextWord);
+		Rule<String> rule = new RBIGRAMRule<String>(THIS_TAG, TO_TAG, word, nextWord);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class RBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(RBIGRAMRule.FACTORY);
+		createAndTestBasicDependency(RBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(RBIGRAMRule.FACTORY);
+		createAndTestContextIndependency(RBIGRAMRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(RBIGRAMRule.FACTORY);
+		createAndTestMatchability(RBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(RBIGRAMRule.FACTORY);
+		createAndTestObjectSemantics(RBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(RBIGRAMRule.FACTORY, 
+		createAndTestBrillText(RBIGRAMRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " RBIGRAM " + THIS_WORD + " " + NEXT1_WORD);
 	}
 }

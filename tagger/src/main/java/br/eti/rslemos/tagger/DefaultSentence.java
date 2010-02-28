@@ -3,14 +3,14 @@ package br.eti.rslemos.tagger;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class DefaultSentence implements Sentence {
-	private final Token[] sentence;
+public class DefaultSentence<T> implements Sentence<T> {
+	private final Token<T>[] sentence;
 
-	public DefaultSentence(Token... sentence) {
+	public DefaultSentence(Token<T>... sentence) {
 		this.sentence = sentence;
 	}
 
-	public Iterator<Token> iterator() {
+	public Iterator<Token<T>> iterator() {
 		return Arrays.asList(sentence).iterator();
 	}
 
@@ -18,7 +18,7 @@ public class DefaultSentence implements Sentence {
 		return sentence.length;
 	}
 
-	public Token get(int i) {
+	public Token<T> get(int i) {
 		try {
 			return sentence[i];
 		} catch (ArrayIndexOutOfBoundsException e) {

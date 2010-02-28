@@ -4,50 +4,56 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
+public class NEXT1OR2OR3TAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY1() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				T1 tag1 = context.getToken(1).getTag();
+				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag1);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY2() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				T1 tag2 = context.getToken(2).getTag();
+				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag2);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY3() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				T1 tag3 = context.getToken(3).getTag();
+				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag3);
+			}
+			
+		};
+	}
+	
+	private final T next1or2or3Tag;
 
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String tag1 = context.getToken(1).getTag();
-			return new NEXT1OR2OR3TAGRule(from, to, tag1);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY2 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String tag2 = context.getToken(2).getTag();
-			return new NEXT1OR2OR3TAGRule(from, to, tag2);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY3 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String tag3 = context.getToken(3).getTag();
-			return new NEXT1OR2OR3TAGRule(from, to, tag3);
-		}
-		
-	};
-
-	private final String next1or2or3Tag;
-
-	public NEXT1OR2OR3TAGRule(String from, String to, String next1or2or3Tag) {
+	public NEXT1OR2OR3TAGRule(T from, T to, T next1or2or3Tag) {
 		super(from, to);
 		
 		this.next1or2or3Tag = next1or2or3Tag;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
-		String tag1 = context.getToken(1).getTag();
-		String tag2 = context.getToken(2).getTag();
-		String tag3 = context.getToken(3).getTag();
+	private boolean thisMatches(Context<T> context) {
+		T tag1 = context.getToken(1).getTag();
+		T tag2 = context.getToken(2).getTag();
+		T tag3 = context.getToken(3).getTag();
 		
 		return next1or2or3Tag != null 
 		? (next1or2or3Tag.equals(tag1) | next1or2or3Tag.equals(tag2) | next1or2or3Tag.equals(tag3)) 
@@ -55,11 +61,12 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(String tag) {
+	public boolean firingDependsOnTag(T tag) {
 		return super.firingDependsOnTag(tag) || 
 			(next1or2or3Tag != null ? next1or2or3Tag.equals(tag) : tag == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

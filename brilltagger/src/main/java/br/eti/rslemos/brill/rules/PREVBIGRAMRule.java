@@ -4,32 +4,34 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_2 = context.getToken(-2).getWord();
-			String word_1 = context.getToken(-1).getWord();
+public class PREVBIGRAMRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_2 = context.getToken(-2).getWord();
+				String word_1 = context.getToken(-1).getWord();
+				
+				return new PREVBIGRAMRule<T1>(from, to, word_2, word_1);
+			}
 			
-			return new PREVBIGRAMRule(from, to, word_2, word_1);
-		}
-		
-	};
-
+		};
+	}
+	
 	private final String prev2Word;
 	private final String prev1Word;
 
-	public PREVBIGRAMRule(String from, String to, String prev2Word, String prev1Word) {
+	public PREVBIGRAMRule(T from, T to, String prev2Word, String prev1Word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 		this.prev1Word = prev1Word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word_2 = context.getToken(-2).getWord();
 		String word_1 = context.getToken(-1).getWord();
 		
@@ -37,6 +39,7 @@ public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillT
 			(prev1Word != null ? prev1Word.equals(word_1) : word_1 == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

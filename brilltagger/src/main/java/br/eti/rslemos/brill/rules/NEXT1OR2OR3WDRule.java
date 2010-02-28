@@ -4,47 +4,53 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXT1OR2OR3WDRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY1 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word1 = context.getToken(1).getWord();
-			return new NEXT1OR2OR3WDRule(from, to, word1);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY2 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word2 = context.getToken(2).getWord();
-			return new NEXT1OR2OR3WDRule(from, to, word2);
-		}
-		
-	};
-
-	public static final RuleFactory FACTORY3 = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word3 = context.getToken(3).getWord();
-			return new NEXT1OR2OR3WDRule(from, to, word3);
-		}
-		
-	};
-
+public class NEXT1OR2OR3WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY1() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word1 = context.getToken(1).getWord();
+				return new NEXT1OR2OR3WDRule<T1>(from, to, word1);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY2() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word2 = context.getToken(2).getWord();
+				return new NEXT1OR2OR3WDRule<T1>(from, to, word2);
+			}
+			
+		};
+	}
+	
+	public static final <T1> RuleFactory<T1> FACTORY3() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word3 = context.getToken(3).getWord();
+				return new NEXT1OR2OR3WDRule<T1>(from, to, word3);
+			}
+			
+		};
+	}
+	
 	private final String next1or2or3Word;
 
-	public NEXT1OR2OR3WDRule(String from, String to, String next1or2or3Word) {
+	public NEXT1OR2OR3WDRule(T from, T to, String next1or2or3Word) {
 		super(from, to);
 		
 		this.next1or2or3Word = next1or2or3Word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word1 = context.getToken(1).getWord();
 		String word2 = context.getToken(2).getWord();
 		String word3 = context.getToken(3).getWord();
@@ -54,6 +60,7 @@ public class NEXT1OR2OR3WDRule extends AbstractRule implements SerializableAsBri
 		: (word1 == null | word2 == null | word3 == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

@@ -1,6 +1,6 @@
 package br.eti.rslemos.tagger;
 
-public class PrefixTagger extends ConstantTokenTagger {
+public class PrefixTagger<T> extends ConstantTokenTagger<T> {
 
 	private static final long serialVersionUID = 3824061986799338079L;
 
@@ -10,13 +10,13 @@ public class PrefixTagger extends ConstantTokenTagger {
 		this(null, null);
 	}
 
-	public PrefixTagger(String prefix, String tag) {
+	public PrefixTagger(String prefix, T tag) {
 		super(tag);
 		this.prefix = prefix;
 	}
 
 	@Override
-	public void tag(Token token) {
+	public void tag(Token<T> token) {
 		if (token.getWord().startsWith(prefix))
 			super.tag(token);
 	}

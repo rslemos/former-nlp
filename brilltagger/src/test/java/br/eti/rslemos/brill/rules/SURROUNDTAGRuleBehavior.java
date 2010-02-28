@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class SURROUNDTAGRuleBehavior {
 	private boolean matches(String prev1Tag, String next1Tag) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
+		Rule<String> rule = new SURROUNDTAGRule<String>(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class SURROUNDTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY);
+		createAndTestBasicDependency(SURROUNDTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(SURROUNDTAGRule.FACTORY, F, F, F, T, T, F, F, F);
+		createAndTestContextDependency(SURROUNDTAGRule.<String>FACTORY(), F, F, F, T, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(SURROUNDTAGRule.FACTORY);
+		createAndTestMatchability(SURROUNDTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY);
+		createAndTestObjectSemantics(SURROUNDTAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SURROUNDTAGRule.FACTORY, 
+		createAndTestBrillText(SURROUNDTAGRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

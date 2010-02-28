@@ -1,32 +1,32 @@
 package br.eti.rslemos.brill;
 
-public abstract class AbstractRule implements Rule {
-	private String from;
-	private String to;
+public abstract class AbstractRule<T> implements Rule<T> {
+	private T from;
+	private T to;
 
 	public AbstractRule () {
 	}
 
-	public AbstractRule (String from, String to) {
+	public AbstractRule (T from, T to) {
 		this.from = from;
 		this.to = to;
 	}
 	
-	public final String getFrom() {
+	public final T getFrom() {
 		return from;
 	}
 
-	public final String getTo() {
+	public final T getTo() {
 		return to;
 	}
 
-	public boolean matches(Context context) {
-		String tag0 = context.getToken(0).getTag();
+	public boolean matches(Context<T> context) {
+		T tag0 = context.getToken(0).getTag();
 		
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}
 
-	public final boolean apply(Context context) {
+	public final boolean apply(Context<T> context) {
 		if (matches(context)) {
 			context.getToken(0).setTag(to);
 			return true;
@@ -34,10 +34,11 @@ public abstract class AbstractRule implements Rule {
 			return false;
 	}
 
-	public boolean firingDependsOnTag(String tag) {
+	public boolean firingDependsOnTag(T tag) {
 		return from != null ? from.equals(tag) : tag == null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

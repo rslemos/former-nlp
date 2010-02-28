@@ -1,22 +1,8 @@
 package br.eti.rslemos.tagger;
 
-public interface Token {
-	Token NULL = new Token() {
-
-		public String getTag() {
-			return null;
-		}
-
-		public String getWord() {
-			return null;
-		}
-
-		public void setTag(String tag) {
-			throw new IllegalStateException("Can't set NULL token tag to '" + tag + "'");
-		}
-	};
-	
+public interface Token<T> {
 	String getWord();
-	String getTag();
-	void setTag(String tag);
+	
+	T getTag();
+	void setTag(T tag);
 }

@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREVBIGRAMRuleBehavior {
 	private boolean matches(String prev2Word, String prev1Word) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new PREVBIGRAMRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
+		Rule<String> rule = new PREVBIGRAMRule<String>(THIS_TAG, TO_TAG, prev2Word, prev1Word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class PREVBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREVBIGRAMRule.FACTORY);
+		createAndTestBasicDependency(PREVBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREVBIGRAMRule.FACTORY);
+		createAndTestContextIndependency(PREVBIGRAMRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVBIGRAMRule.FACTORY);
+		createAndTestMatchability(PREVBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY);
+		createAndTestObjectSemantics(PREVBIGRAMRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVBIGRAMRule.FACTORY, 
+		createAndTestBrillText(PREVBIGRAMRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

@@ -9,45 +9,43 @@ import static org.testng.Assert.assertTrue;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("unchecked")
 public class CompositeTaggerBehavior {
 	
 	@Test
 	public void shouldTransferTokenProperties() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		when(token.getTag()).thenReturn("bar");
 		
-		Tagger subTagger = new AbstractTokenTagger() {
-			public void tag(Token token) {
+		Tagger<String> subTagger = new AbstractTokenTagger<String>() {
+			public void tag(Token<String> token) {
 				assertEquals(token.getWord(), "foo");
 				assertEquals(token.getTag(), "bar");
 			}
 		};
-		Tagger[] taggers = { subTagger };
 		
-		tagToken(buildTagger(taggers), token);
+		tagToken(buildTagger(subTagger), token);
 	}
 
 	@Test
 	public void shouldNotTagToken() {
-		Token token = mock(Token.class);
-		Tagger[] taggers = {};
+		Token<String> token = mock(Token.class);
 		
-		tagToken(buildTagger(taggers), token);
+		tagToken(this.<String>buildTagger(), token);
 		
 		verify(token, never()).setTag(anyString());
 	}
 
 	@Test
 	public void shouldInvokeAllSubTaggersInOrderAndStillNotTagToken() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		
-		Tagger subTagger1 = mock(Tagger.class);
-		Tagger subTagger2 = mock(Tagger.class);
-		Tagger subTagger3 = mock(Tagger.class);
-		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
+		Tagger<String> subTagger1 = mock(Tagger.class);
+		Tagger<String> subTagger2 = mock(Tagger.class);
+		Tagger<String> subTagger3 = mock(Tagger.class);
 		
-		tagToken(buildTagger(taggers), token);
+		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
 		
 		InOrder inOrder = inOrder(subTagger1, subTagger2, subTagger3);
 		
@@ -60,18 +58,17 @@ public class CompositeTaggerBehavior {
 
 	@Test
 	public void shouldInvokeAllSubTaggersInOrderAndTagToken() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		
-		Tagger subTagger1 = mock(Tagger.class);
-		Tagger subTagger2 = new AbstractTokenTagger() {
-			public void tag(Token token) {
+		Tagger<String> subTagger1 = mock(Tagger.class);
+		Tagger<String> subTagger2 = new AbstractTokenTagger<String>() {
+			public void tag(Token<String> token) {
 				token.setTag("foobar");
 			}
 		};
-		Tagger subTagger3 = mock(Tagger.class);
-		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
+		Tagger<String> subTagger3 = mock(Tagger.class);
 		
-		tagToken(buildTagger(taggers), token);
+		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
 		
 		verify(subTagger1).tag(anySentence());
 		verify(subTagger3).tag(anySentence());
@@ -81,25 +78,23 @@ public class CompositeTaggerBehavior {
 
 	@Test
 	public void shouldInvokeAllSubTaggersAndIgnoreTagOnJustTaggedToken() {
-		Token token = mock(Token.class);
+		Token<String> token = mock(Token.class);
 		
-		Tagger subTagger1 = mock(Tagger.class);
-		Tagger subTagger2 = new AbstractTokenTagger() {
-			public void tag(Token token) {
+		Tagger<String> subTagger1 = mock(Tagger.class);
+		Tagger<String> subTagger2 = new AbstractTokenTagger<String>() {
+			public void tag(Token<String> token) {
 				token.setTag("foobar");
 			}
 		};
 
 		final boolean[] check = { false };
-		Tagger subTagger3 = new AbstractTokenTagger() {
-			public void tag(Token token) {
+		Tagger<String> subTagger3 = new AbstractTokenTagger<String>() {
+			public void tag(Token<String> token) {
 				check[0] = true;
 				token.setTag("foobar");
 			}
 		};
-		Tagger[] taggers = { subTagger1, subTagger2, subTagger3 };
-		
-		tagToken(buildTagger(taggers), token);
+		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
 		
 		assertTrue(check[0]);
 		
@@ -107,16 +102,16 @@ public class CompositeTaggerBehavior {
 		verify(token, times(1)).setTag("foobar");
 	}
 
-	private void tagToken(CompositeTagger tagger, Token token) {
-		tagger.tag(new DefaultSentence(token));
+	private <T> void tagToken(CompositeTagger<T> tagger, Token<T> token) {
+		tagger.tag(new DefaultSentence<T>(token));
 	}
 
-	private CompositeTagger buildTagger(Tagger... taggers) {
-		return new CompositeTagger(taggers);
+	private <T> CompositeTagger<T> buildTagger(Tagger<T>... taggers) {
+		return new CompositeTagger<T>(taggers);
 	}
 
-	private Sentence anySentence() {
-		return (Sentence) anyObject();
+	private Sentence<String> anySentence() {
+		return (Sentence<String>) anyObject();
 	}
 
 }

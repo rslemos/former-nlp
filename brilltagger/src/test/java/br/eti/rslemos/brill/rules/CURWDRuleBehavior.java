@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class CURWDRuleBehavior {
 	private boolean matches(String word) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new CURWDRule(THIS_TAG, TO_TAG, word);
+		Rule<String> rule = new CURWDRule<String>(THIS_TAG, TO_TAG, word);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(CURWDRule.FACTORY);
+		createAndTestBasicDependency(CURWDRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(CURWDRule.FACTORY);
+		createAndTestContextIndependency(CURWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(CURWDRule.FACTORY);
+		createAndTestMatchability(CURWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(CURWDRule.FACTORY);
+		createAndTestObjectSemantics(CURWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(CURWDRule.FACTORY, 
+		createAndTestBrillText(CURWDRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

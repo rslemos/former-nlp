@@ -2,29 +2,29 @@ package br.eti.rslemos.tagger;
 
 import java.io.Serializable;
 
-public class ConstantTokenTagger extends AbstractTokenTagger implements Serializable {
+public class ConstantTokenTagger<T> extends AbstractTokenTagger<T> implements Serializable {
 
 	private static final long serialVersionUID = 1432743370347430019L;
 	
-	private String tag;
+	private T tag;
 
 	public ConstantTokenTagger() {
 		this(null);
 	}
 	
-	public ConstantTokenTagger(String tag) {
+	public ConstantTokenTagger(T tag) {
 		this.tag = tag;
 	}
 
-	public void tag(Token token) {
+	public void tag(Token<T> token) {
 		token.setTag(tag);
 	}
 
-	public String getTag() {
+	public T getTag() {
 		return tag;
 	}
 
-	public void setTag(String tag) {
+	public void setTag(T tag) {
 		this.tag = tag;
 	}
 }

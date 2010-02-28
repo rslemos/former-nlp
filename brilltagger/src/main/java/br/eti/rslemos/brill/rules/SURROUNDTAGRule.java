@@ -4,46 +4,49 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String tag_1 = context.getToken(-1).getTag();
-			String tag1 = context.getToken(1).getTag();
+public class SURROUNDTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				T1 tag_1 = context.getToken(-1).getTag();
+				T1 tag1 = context.getToken(1).getTag();
+				
+				return new SURROUNDTAGRule<T1>(from, to, tag_1, tag1);
+			}
 			
-			return new SURROUNDTAGRule(from, to, tag_1, tag1);
-		}
-		
-	};
+		};
+	}
+	
+	private final T prev1Tag;
+	private final T next1Tag;
 
-	private final String prev1Tag;
-	private final String next1Tag;
-
-	public SURROUNDTAGRule(String from, String to, String prev1Tag, String next1Tag) {
+	public SURROUNDTAGRule(T from, T to, T prev1Tag, T next1Tag) {
 		super(from, to);
 		this.prev1Tag = prev1Tag;
 		this.next1Tag = next1Tag;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
-		String tag_1 = context.getToken(-1).getTag();
-		String tag1 = context.getToken(1).getTag();
+	private boolean thisMatches(Context<T> context) {
+		T tag_1 = context.getToken(-1).getTag();
+		T tag1 = context.getToken(1).getTag();
 		
 		return (prev1Tag != null ? prev1Tag.equals(tag_1) : tag_1 == null) &&
 			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(String tag) {
+	public boolean firingDependsOnTag(T tag) {
 		return super.firingDependsOnTag(tag) || 
 			(prev1Tag != null ? prev1Tag.equals(tag) : tag == null) ||
 			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

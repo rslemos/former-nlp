@@ -13,9 +13,9 @@ import br.eti.rslemos.brill.rules.lexical.PREFIXRule;
 
 public class PREFIXRuleBehavior {
 	private boolean matches(String prefix) {
-		Context context = buildUntaggedContext();
+		Context<String> context = buildUntaggedContext();
 		
-		Rule rule = new PREFIXRule(null, TO_TAG, prefix);
+		Rule<String> rule = new PREFIXRule<String>(null, TO_TAG, prefix);
 		return rule.matches(context);
 	}
 

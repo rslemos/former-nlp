@@ -4,40 +4,43 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class PREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final AbstractRuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String tag_1 = context.getToken(-1).getTag();
-			
-			return new PREVTAGRule(from, to, tag_1);
-		}
-		
-	};
+public class PREVTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
 	
-	private final String prevTag;
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				T1 tag_1 = context.getToken(-1).getTag();
+				
+				return new PREVTAGRule<T1>(from, to, tag_1);
+			}
+			
+		};
+	}
+	
+	private final T prevTag;
 
-	public PREVTAGRule(String from, String to, String prevTag) {
+	public PREVTAGRule(T from, T to, T prevTag) {
 		super(from, to);
 		this.prevTag = prevTag;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
-		String tag_1 = context.getToken(-1).getTag();
+	private boolean thisMatches(Context<T> context) {
+		T tag_1 = context.getToken(-1).getTag();
 		
 		return prevTag != null ? prevTag.equals(tag_1) : tag_1 == null;
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(String tag) {
+	public boolean firingDependsOnTag(T tag) {
 		return super.firingDependsOnTag(tag) || 
 			(prevTag != null ? prevTag.equals(tag) : tag == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

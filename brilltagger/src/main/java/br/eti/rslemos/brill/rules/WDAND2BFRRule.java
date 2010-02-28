@@ -4,32 +4,34 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class WDAND2BFRRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word_2 = context.getToken(-2).getWord();
-			String word0 = context.getToken(0).getWord();
+public class WDAND2BFRRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word_2 = context.getToken(-2).getWord();
+				String word0 = context.getToken(0).getWord();
+				
+				return new WDAND2BFRRule<T1>(from, to, word_2, word0);
+			}
 			
-			return new WDAND2BFRRule(from, to, word_2, word0);
-		}
-		
-	};
-
+		};
+	}
+	
 	private final String prev2Word;
 	private final String word;
 
-	public WDAND2BFRRule(String from, String to, String prev2Word, String word) {
+	public WDAND2BFRRule(T from, T to, String prev2Word, String word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 		this.word = word;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word_2 = context.getToken(-2).getWord();
 		String word0 = context.getToken(0).getWord();
 		
@@ -37,6 +39,7 @@ public class WDAND2BFRRule extends AbstractRule implements SerializableAsBrillTe
 			(prev2Word != null ? prev2Word.equals(word_2) : word_2 == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

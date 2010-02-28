@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXTWDRuleBehavior {
 	private boolean matches(String nextWord) {
-		Context context = buildContext();
+		Context<String> context = buildContext();
 		
-		Rule rule = new NEXTWDRule(THIS_TAG, TO_TAG, nextWord);
+		Rule<String> rule = new NEXTWDRule<String>(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class NEXTWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXTWDRule.FACTORY);
+		createAndTestBasicDependency(NEXTWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(NEXTWDRule.FACTORY);
+		createAndTestContextIndependency(NEXTWDRule.<String>FACTORY());
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTWDRule.FACTORY);
+		createAndTestMatchability(NEXTWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTWDRule.FACTORY);
+		createAndTestObjectSemantics(NEXTWDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXTWDRule.FACTORY, 
+		createAndTestBrillText(NEXTWDRule.<String>FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " NEXTWD " + NEXT1_WORD);
 	}
 }

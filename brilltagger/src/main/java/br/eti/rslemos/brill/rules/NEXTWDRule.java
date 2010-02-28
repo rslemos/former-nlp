@@ -4,35 +4,38 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public class NEXTWDRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final RuleFactory FACTORY = new AbstractRuleFactory() {
-
-		public Rule create(String from, String to, Context context) throws RuleCreationException {
-			String word1 = context.getToken(1).getWord();
+public class NEXTWDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+	
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+				String word1 = context.getToken(1).getWord();
+				
+				return new NEXTWDRule<T1>(from, to, word1);
+			}
 			
-			return new NEXTWDRule(from, to, word1);
-		}
-		
-	};
-
+		};
+	}
+	
 	private final String nextWord;
 
-	public NEXTWDRule(String from, String to, String nextWord) {
+	public NEXTWDRule(T from, T to, String nextWord) {
 		super(from, to);
 		
 		this.nextWord = nextWord;
 	}
 
-	public boolean matches(Context context) {
+	public boolean matches(Context<T> context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context context) {
+	private boolean thisMatches(Context<T> context) {
 		String word1 = context.getToken(1).getWord();
 		
 		return nextWord != null ? nextWord.equals(word1) : word1 == null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

@@ -7,6 +7,7 @@ import br.eti.rslemos.brill.SentenceContext;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Token;
 
+@SuppressWarnings("unchecked")
 public abstract class RuleContextMother {
 
 	public static final String ALT = "alt-";
@@ -40,27 +41,27 @@ public abstract class RuleContextMother {
 	public static final String NEXT4_WORD = "next4-word4";
 	public static final String NEXT4_TAG = "next4-tag4";
 
-	public static Context buildContext() {
+	public static Context<String> buildContext() {
 		return buildContext(5, RuleContextMother.getStandardTokens());
 	}
 
-	public static Context buildAltContext() {
+	public static Context<String> buildAltContext() {
 		return buildContext(5, getAltTokens());
 	}
 
-	public static Context buildUntaggedContext() {
+	public static Context<String> buildUntaggedContext() {
 		return buildContext(5, RuleContextMother.getUntaggedTokens());
 	}
 
-	private static Token mockToken(String word, String tag) {
-		Token token = mock(Token.class);
+	private static Token<String> mockToken(String word, String tag) {
+		Token<String> token = mock(Token.class);
 		when(token.getWord()).thenReturn(word);
 		when(token.getTag() ).thenReturn(tag);
 		
 		return token;
 	}
 
-	public static Token[] getStandardTokens() {
+	public static Token<String>[] getStandardTokens() {
 		return new Token[] {
 				mockToken(PREV4_WORD, PREV4_TAG),
 				mockToken(PREV3_WORD, PREV3_TAG),
@@ -76,7 +77,7 @@ public abstract class RuleContextMother {
 			};
 	}
 
-	public static Token[] getAltTokens() {
+	public static Token<String>[] getAltTokens() {
 		return new Token[] {
 				mockToken(ALT + PREV4_WORD, ALT + PREV4_TAG),
 				mockToken(ALT + PREV3_WORD, ALT + PREV3_TAG),
@@ -92,7 +93,7 @@ public abstract class RuleContextMother {
 			};
 	}
 
-	public static Token[] getUntaggedTokens() {
+	public static Token<String>[] getUntaggedTokens() {
 		return new Token[] {
 				mockToken(PREV4_WORD, null),
 				mockToken(PREV3_WORD, null),
@@ -108,15 +109,15 @@ public abstract class RuleContextMother {
 			};
 	}
 
-	public static Context buildContext(Token... tokens) {
-		return new SentenceContext(new DefaultSentence(tokens));
+	public static Context<String> buildContext(Token<String>... tokens) {
+		return new SentenceContext<String>(new DefaultSentence<String>(tokens));
 	}
 
-	public static Context buildContext(int skipTo, Token... tokens) {
+	public static Context<String> buildContext(int skipTo, Token<String>... tokens) {
 		return skip(buildContext(tokens), skipTo);
 	}
 
-	public static Context skip(Context context, int skipTo) {
+	public static Context<String> skip(Context<String> context, int skipTo) {
 		for(int i = 0; i < skipTo; i++)
 			context.next();
 		
