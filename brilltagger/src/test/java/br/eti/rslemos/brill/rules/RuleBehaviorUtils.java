@@ -67,7 +67,7 @@ public abstract class RuleBehaviorUtils {
 	
 		for (RuleFactory<String> factory : RuleSets.BRILL) {
 			Rule<String> rule = factory.create(context, context.getToken(0));
-			if (modelFactory == factory) {
+			if (modelFactory.getClass().equals(factory.getClass())) {
 				assertTrue(model.equals(rule));
 				assertEquals(rule.hashCode(), model.hashCode());
 			} else {
