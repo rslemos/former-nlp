@@ -37,10 +37,7 @@ public class PREV1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY1());
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY2());
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY3());
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY4());
+		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY());
 	}
 	
 	@Test
@@ -53,29 +50,20 @@ public class PREV1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY1());
-		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY2());
-		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY3());
-		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY4());
+		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY1());
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY2());
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY3());
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY4());
+		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY1(), 
-				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV1_WORD);
-		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY2(), 
-				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV2_WORD);
-		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY3(), 
-				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV3_WORD);
-		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY4(), 
+		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY(), 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV1_WORD,
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV2_WORD,
+				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV3_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV4_WORD);
 	}
 }

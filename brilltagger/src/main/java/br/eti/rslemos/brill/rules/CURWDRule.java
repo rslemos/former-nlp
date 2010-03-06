@@ -6,9 +6,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class CURWDRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractRuleFactory<T1>() {
+		return new AbstractSingleRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
+			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
 				String word0 = context.getToken(0).getWord();
 				
 				return new CURWDRule<T1>(from, to, word0);

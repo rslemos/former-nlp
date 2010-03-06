@@ -37,8 +37,7 @@ public class PREV1OR2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2TAGRule.<String>FACTORY1());
-		createAndTestBasicDependency(PREV1OR2TAGRule.<String>FACTORY2());
+		createAndTestBasicDependency(PREV1OR2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
@@ -49,21 +48,18 @@ public class PREV1OR2TAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2TAGRule.<String>FACTORY1());
-		createAndTestMatchability(PREV1OR2TAGRule.<String>FACTORY2());
+		createAndTestMatchability(PREV1OR2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2TAGRule.<String>FACTORY1());
-		createAndTestObjectSemantics(PREV1OR2TAGRule.<String>FACTORY2());
+		createAndTestObjectSemantics(PREV1OR2TAGRule.<String>FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2TAGRule.<String>FACTORY1(), 
-				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV1_TAG);
-		createAndTestBrillText(PREV1OR2TAGRule.<String>FACTORY2(), 
+		createAndTestBrillText(PREV1OR2TAGRule.<String>FACTORY(), 
+				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV1_TAG,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2TAG " + PREV2_TAG);
 	}
 }

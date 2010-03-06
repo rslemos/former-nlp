@@ -1,5 +1,8 @@
 package br.eti.rslemos.brill.rules.lexical;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.rules.AbstractRuleFactory;
@@ -7,37 +10,25 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
 
 public class PREFIXRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
+	public static final <T1> RuleFactory<T1> FACTORY() {
+		return new AbstractRuleFactory<T1>() {
+			@Override
+			public Collection<Rule<T1>> create(T1 from, T1 to, Context<T1> context) {
+				return create(from, to, context.getToken(0).getWord());
+			}
 
-	private static final class PREFIXRuleFactory<T1> extends AbstractRuleFactory<T1> {
-		private final int length;
+			public Collection<Rule<T1>> create(T1 from, T1 to, String word0) {
+				Collection<Rule<T1>> result = new ArrayList<Rule<T1>>(word0.length() - 1);
 
-		private PREFIXRuleFactory(int length) {
-			this.length = length;
-		}
-
-		@Override
-		public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
-			return create(from, to, context.getToken(0).getWord());
-		}
-
-		public Rule<T1> create(T1 from, T1 to, String word0) {
-			if (word0.length() > length)
-				return new PREFIXRule<T1>(from, to, word0.substring(0, length));
-			else
-				throw new RuntimeException();
-		}
+				for(int i = 1; i < word0.length(); i++) {
+					result.add(new PREFIXRule<T1>(from, to, word0.substring(0, i)));
+				}
+				
+				return result;
+			}
+		};
 	}
 
-	public static final RuleFactory<String> FACTORY1 = new PREFIXRuleFactory<String>(1);
-	public static final RuleFactory<String> FACTORY2 = new PREFIXRuleFactory<String>(2);
-	public static final RuleFactory<String> FACTORY3 = new PREFIXRuleFactory<String>(3);
-	public static final RuleFactory<String> FACTORY4 = new PREFIXRuleFactory<String>(4);
-	public static final RuleFactory<String> FACTORY5 = new PREFIXRuleFactory<String>(5);
-	public static final RuleFactory<String> FACTORY6 = new PREFIXRuleFactory<String>(6);
-	public static final RuleFactory<String> FACTORY7 = new PREFIXRuleFactory<String>(7);
-	public static final RuleFactory<String> FACTORY8 = new PREFIXRuleFactory<String>(8);
-	public static final RuleFactory<String> FACTORY9 = new PREFIXRuleFactory<String>(9);
-	
 	private final String prefix;
 
 	public PREFIXRule(T fromTag, T toTag, String prefix) {

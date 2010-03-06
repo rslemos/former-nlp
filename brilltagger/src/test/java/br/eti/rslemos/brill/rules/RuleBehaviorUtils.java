@@ -5,7 +5,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
@@ -106,16 +109,19 @@ public abstract class RuleBehaviorUtils {
 		assertEquals(rule.hashCode(), model.hashCode());
 	}
 
-	public static void createAndTestBrillText(RuleFactory<String> factory, String expected) {
+	public static void createAndTestBrillText(RuleFactory<String> factory, String... expected) {
 		Token<String> token = mock(Token.class);
 		when(token.getTag()).thenReturn(TO_TAG);
 		
 		Context<String> context = buildContext();
 		
 		Collection<Rule<String>> rules = factory.create(context, token);
+		Set<String> actual = new TreeSet<String>();
 		for (Rule<String> rule : rules) {
-			assertEquals(((SerializableAsBrillText)rule).toBrillText(), expected);	
+			actual.add(((SerializableAsBrillText)rule).toBrillText());
 		}
+		
+		assertEquals(actual, new TreeSet<String>(Arrays.asList(expected)));
 	}
 
 	public static void createAndTestBasicDependency(RuleFactory<String> factory) {

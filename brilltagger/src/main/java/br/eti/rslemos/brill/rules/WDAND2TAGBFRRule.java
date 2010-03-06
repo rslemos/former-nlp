@@ -6,9 +6,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class WDAND2TAGBFRRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractRuleFactory<T1>() {
+		return new AbstractSingleRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
+			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
 				T1 tag_2 = context.getToken(-2).getTag();
 				String word0 = context.getToken(0).getWord();
 				

@@ -1,38 +1,26 @@
 package br.eti.rslemos.brill.rules;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class NEXT1OR2OR3WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY1() {
+	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
+			public Collection<Rule<T1>> create(T1 from, T1 to, Context<T1> context) {
 				String word1 = context.getToken(1).getWord();
-				return new NEXT1OR2OR3WDRule<T1>(from, to, word1);
-			}
-			
-		};
-	}
-	
-	public static final <T1> RuleFactory<T1> FACTORY2() {
-		return new AbstractRuleFactory<T1>() {
-	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word2 = context.getToken(2).getWord();
-				return new NEXT1OR2OR3WDRule<T1>(from, to, word2);
-			}
-			
-		};
-	}
-	
-	public static final <T1> RuleFactory<T1> FACTORY3() {
-		return new AbstractRuleFactory<T1>() {
-	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word3 = context.getToken(3).getWord();
-				return new NEXT1OR2OR3WDRule<T1>(from, to, word3);
+				
+				return Arrays.<Rule<T1>>asList(
+						new NEXT1OR2OR3WDRule<T1>(from, to, word1),
+						new NEXT1OR2OR3WDRule<T1>(from, to, word2),
+						new NEXT1OR2OR3WDRule<T1>(from, to, word3)
+				);
 			}
 			
 		};

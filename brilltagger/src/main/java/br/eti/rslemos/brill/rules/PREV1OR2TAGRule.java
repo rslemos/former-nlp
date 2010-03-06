@@ -1,27 +1,24 @@
 package br.eti.rslemos.brill.rules;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2TAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY1() {
+	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
+			public Collection<Rule<T1>> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag_1 = context.getToken(-1).getTag();
-				return new PREV1OR2TAGRule<T1>(from, to, tag_1);
-			}
-			
-		};
-	}
-	
-	public static final <T1> RuleFactory<T1> FACTORY2() {
-		return new AbstractRuleFactory<T1>() {
-	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag_2 = context.getToken(-2).getTag();
-				return new PREV1OR2TAGRule<T1>(from, to, tag_2);
+				
+				return Arrays.<Rule<T1>>asList(
+						new PREV1OR2TAGRule<T1>(from, to, tag_1),
+						new PREV1OR2TAGRule<T1>(from, to, tag_2)
+				);
 			}
 			
 		};
