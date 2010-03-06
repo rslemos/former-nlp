@@ -43,8 +43,8 @@ public class PREV1OR2TAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(PREV1OR2TAGRule.<String>FACTORY1(), F, F, F, T, F, F, F, F);
-		createAndTestContextDependency(PREV1OR2TAGRule.<String>FACTORY2(), F, F, T, F, F, F, F, F);
+		testDependency(new PREV1OR2TAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
+		testDependency(new PREV1OR2TAGRule<String>(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
 	}
 	
 	@Test

@@ -51,7 +51,7 @@ public class WDAND2AFTRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(WDAND2AFTRule.<String>FACTORY());
+		testDependency(new WDAND2AFTRule<String>(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

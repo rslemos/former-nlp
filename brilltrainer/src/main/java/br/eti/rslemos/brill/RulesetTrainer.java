@@ -151,7 +151,7 @@ public class RulesetTrainer<T> {
 
 			for (RuleFactory<T> factory : ruleFactories)
 				try {
-					rules.add(factory.create(context, target));
+					rules.addAll(factory.create(context, target));
 				} catch (RuleCreationException e) {
 				}
 

@@ -44,9 +44,9 @@ public class PREV1OR2OR3WDRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY1());
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY2());
-		createAndTestContextIndependency(PREV1OR2OR3WDRule.<String>FACTORY3());
+		testDependency(new PREV1OR2OR3WDRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3WDRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3WDRule<String>(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

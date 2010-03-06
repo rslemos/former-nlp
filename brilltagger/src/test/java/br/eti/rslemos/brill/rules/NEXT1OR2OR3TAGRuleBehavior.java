@@ -44,9 +44,9 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(NEXT1OR2OR3TAGRule.<String>FACTORY1(), F, F, F, F, T, F, F, F);
-		createAndTestContextDependency(NEXT1OR2OR3TAGRule.<String>FACTORY2(), F, F, F, F, F, T, F, F);
-		createAndTestContextDependency(NEXT1OR2OR3TAGRule.<String>FACTORY3(), F, F, F, F, F, F, T, F);
+		testDependency(new NEXT1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(new NEXT1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(new NEXT1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, NEXT3_TAG), F, F, F, F, F, F, T, F);
 	}
 	
 	@Test

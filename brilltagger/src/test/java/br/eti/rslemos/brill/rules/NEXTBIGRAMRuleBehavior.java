@@ -51,7 +51,7 @@ public class NEXTBIGRAMRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(NEXTBIGRAMRule.<String>FACTORY());
+		testDependency(new NEXTBIGRAMRule<String>(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

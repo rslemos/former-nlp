@@ -51,7 +51,7 @@ public class PREVBIGRAMRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREVBIGRAMRule.<String>FACTORY());
+		testDependency(new PREVBIGRAMRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

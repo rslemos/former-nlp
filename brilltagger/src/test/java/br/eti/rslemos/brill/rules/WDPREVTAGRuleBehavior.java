@@ -51,7 +51,7 @@ public class WDPREVTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(WDPREVTAGRule.<String>FACTORY(), F, F, F, T, F, F, F, F);
+		testDependency(new WDPREVTAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test

@@ -51,7 +51,7 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(LBIGRAMRule.<String>FACTORY());
+		testDependency(new LBIGRAMRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

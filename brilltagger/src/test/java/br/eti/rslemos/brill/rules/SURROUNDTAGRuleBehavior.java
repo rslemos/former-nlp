@@ -51,7 +51,7 @@ public class SURROUNDTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(SURROUNDTAGRule.<String>FACTORY(), F, F, F, T, T, F, F, F);
+		testDependency(new SURROUNDTAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
 	}
 	
 	@Test

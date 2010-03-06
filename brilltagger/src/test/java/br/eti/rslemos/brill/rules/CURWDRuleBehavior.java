@@ -42,7 +42,7 @@ public class CURWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(CURWDRule.<String>FACTORY());
+		testDependency(new CURWDRule<String>(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 	
 	@Test

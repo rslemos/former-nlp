@@ -42,7 +42,7 @@ public class PREVWDRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(PREVWDRule.<String>FACTORY());
+		testDependency(new PREVWDRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

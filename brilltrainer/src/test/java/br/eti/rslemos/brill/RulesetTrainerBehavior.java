@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -108,14 +109,14 @@ public class RulesetTrainerBehavior {
 				this.rule2 = rule2;
 			}
 
-			public Rule<String> create(Context<String> context, Token<String> target) {
+			public Collection<Rule<String>> create(Context<String> context, Token<String> target) {
 				String word = target.getWord();
 				
 				if (word == WORD1)
-					return rule1;
+					return Collections.singleton(rule1);
 				
 				if (word == WORD2)
-					return rule2;
+					return Collections.singleton(rule2);
 				
 				throw new RuntimeException();
 			}

@@ -42,7 +42,7 @@ public class NEXTTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(NEXTTAGRule.<String>FACTORY(), F, F, F, F, T, F, F, F);
+		testDependency(new NEXTTAGRule<String>(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
 	}
 	
 	@Test

@@ -42,7 +42,7 @@ public class PREV2TAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(PREV2TAGRule.<String>FACTORY(), F, F, T, F, F, F, F, F);
+		testDependency(new PREV2TAGRule<String>(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
 	}
 	
 	@Test

@@ -51,7 +51,7 @@ public class WDAND2BFRRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		createAndTestContextIndependency(WDAND2BFRRule.<String>FACTORY());
+		testDependency(new WDAND2BFRRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

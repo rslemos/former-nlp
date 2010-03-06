@@ -51,7 +51,7 @@ public class WDNEXTTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextDependency(WDNEXTTAGRule.<String>FACTORY(), F, F, F, F, T, F, F, F);
+		testDependency(new WDNEXTTAGRule<String>(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
 	}
 	
 	@Test

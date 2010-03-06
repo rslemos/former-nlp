@@ -42,7 +42,7 @@ public class NEXTWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		createAndTestContextIndependency(NEXTWDRule.<String>FACTORY());
+		testDependency(new NEXTWDRule<String>(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

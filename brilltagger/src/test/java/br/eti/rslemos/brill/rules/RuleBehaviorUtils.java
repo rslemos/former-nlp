@@ -4,6 +4,9 @@ import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
+
+import java.util.Collection;
+
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
@@ -32,8 +35,15 @@ public abstract class RuleBehaviorUtils {
 
 	private static void createAndTestMatchability0(Context<String> context, RuleFactory<String> factory) throws RuleCreationException {
 		Context<String> context0 = skip(context.clone(), 5);
-		Rule<String> rule = factory.create(context0, context0.getToken(0));
 		
+		Collection<Rule<String>> rules = factory.create(context0, context0.getToken(0));
+		
+		for (Rule<String> rule : rules) {
+			testMatchability(context.clone(), rule);
+		}
+	}
+
+	private static void testMatchability(Context<String> context, Rule<String> rule) {
 		for(int i = 0; i < 4; i++) {
 			context.next();
 			assertFalse(rule.matches(context));
@@ -41,7 +51,7 @@ public abstract class RuleBehaviorUtils {
 		
 		context.next();
 		assertTrue(rule.matches(context));
-	
+
 		for(int i = 0; i < 4; i++) {
 			context.next();
 			assertFalse(rule.matches(context));
@@ -60,35 +70,60 @@ public abstract class RuleBehaviorUtils {
 		// great care was exercised to avoid hash colision in cases where rules were different;
 		// hashCode may eventually fail depending on hash of individual strings used;
 		// once the string-set is settled, the test will work, since String.hashCode() is not random.
-		
+
 		Context<String> context = buildContext();
 
-		Rule<String> model = modelFactory.create(context, context.getToken(0));
+		Collection<Rule<String>> modelRules = modelFactory.create(context, context.getToken(0));
 	
 		for (RuleFactory<String> factory : RuleSets.BRILL) {
-			Rule<String> rule = factory.create(context, context.getToken(0));
+			Collection<Rule<String>> rules = factory.create(context, context.getToken(0));
+
+			String message = factory.getClass().getName();
+
 			if (modelFactory.getClass().equals(factory.getClass())) {
-				assertTrue(model.equals(rule));
-				assertEquals(rule.hashCode(), model.hashCode());
+				assertTrue(modelRules.containsAll(rules));
+				assertTrue(rules.containsAll(modelRules));
+
+				for (Rule<String> model : modelRules) {
+					for (Rule<String> rule : rules) {
+						if (model.equals(rule))
+							assertEqualsRules(rule, model);
+						else
+							assertNotEqualsRules(rule, model, message);
+					}
+				}
 			} else {
-				String message = factory.getClass().getName();
-				
-				assertFalse(model.equals(rule), message);
-				assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
+				for (Rule<String> model : modelRules) {
+					for (Rule<String> rule : rules) {
+						assertNotEqualsRules(rule, model, message);
+					}
+				}
 			}
 		}
 
 		// explicitly test the surrounding context (and 0-word)
 		Context<String> altContext = buildAltContext();
 		for (RuleFactory<String> factory : RuleSets.BRILL) {
-			Rule<String> rule = factory.create(altContext, altContext.getToken(0));
-
-			String message = factory.getClass().getName();
+			Collection<Rule<String>> rules = factory.create(altContext, altContext.getToken(0));
 			
-			assertFalse(model.equals(rule), message);
-			assertFalse(rule.hashCode() == model.hashCode(), factory.getClass().getName());
+			String message = factory.getClass().getName();
+		
+			for (Rule<String> model : modelRules) {
+				for (Rule<String> rule : rules) {
+					assertNotEqualsRules(rule, model, message);
+				}
+			}
 		}
+	}
 
+	private static void assertNotEqualsRules(Rule<?> rule, Rule<?> model, String message) {
+		assertFalse(model.equals(rule), message);
+		assertFalse(rule.hashCode() == model.hashCode(), message);
+	}
+
+	private static void assertEqualsRules(Rule<?> rule, Rule<?> model) {
+		assertTrue(model.equals(rule));
+		assertEquals(rule.hashCode(), model.hashCode());
 	}
 
 	public static void createAndTestBrillText(RuleFactory<String> factory, String expected) {
@@ -105,8 +140,10 @@ public abstract class RuleBehaviorUtils {
 		
 		Context<String> context = buildContext();
 		
-		SerializableAsBrillText rule = (SerializableAsBrillText) factory.create(context, token);
-		assertEquals(rule.toBrillText(), expected);
+		Collection<Rule<String>> rules = factory.create(context, token);
+		for (Rule<String> rule : rules) {
+			assertEquals(((SerializableAsBrillText)rule).toBrillText(), expected);	
+		}
 	}
 
 	public static void createAndTestBasicDependency(RuleFactory<String> factory) {
@@ -118,27 +155,15 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	private static void createAndTestBasicDependency0(Context<String> context, RuleFactory<String> factory) throws RuleCreationException {
-		Rule<String> rule = factory.create(context, context.getToken(0));
+		Collection<Rule<String>> rules = factory.create(context, context.getToken(0));
 	
-		assertTrue(rule.firingDependsOnTag(THIS_TAG));
-		assertFalse(rule.firingDependsOnTag(TO_TAG));
-	}
-
-	public static void createAndTestContextIndependency(RuleFactory<String> factory) {
-		createAndTestContextDependency(factory, F, F, F, F, F, F, F, F);
-	}
-
-	public static void createAndTestContextDependency(RuleFactory<String> factory, boolean... dependencies) {
-		try {
-			createAndTestContextDependency0(buildContext(), factory, dependencies);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
+		for (Rule<String> rule : rules) {
+			assertTrue(rule.firingDependsOnTag(THIS_TAG));
+			assertFalse(rule.firingDependsOnTag(TO_TAG));
 		}
 	}
 
-	private static void createAndTestContextDependency0(Context<String> context, RuleFactory<String> factory, boolean... dependencies) throws RuleCreationException {
-		Rule<String> rule = factory.create(context, context.getToken(0));
-	
+	public static void testDependency(Rule<String> rule, boolean... dependencies) {
 		assertEquals(rule.firingDependsOnTag(PREV4_TAG), dependencies[0]);
 		assertEquals(rule.firingDependsOnTag(PREV3_TAG), dependencies[1]);
 		assertEquals(rule.firingDependsOnTag(PREV2_TAG), dependencies[2]);
