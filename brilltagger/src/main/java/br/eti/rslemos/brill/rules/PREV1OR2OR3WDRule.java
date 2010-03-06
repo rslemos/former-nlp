@@ -8,7 +8,7 @@ public class PREV1OR2OR3WDRule<T> extends AbstractRule<T> implements Serializabl
 	public static final <T1> RuleFactory<T1> FACTORY1() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word_1 = context.getToken(-1).getWord();
 				return new PREV1OR2OR3WDRule<T1>(from, to, word_1);
 			}
@@ -19,7 +19,7 @@ public class PREV1OR2OR3WDRule<T> extends AbstractRule<T> implements Serializabl
 	public static final <T1> RuleFactory<T1> FACTORY2() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word_2 = context.getToken(-2).getWord();
 				return new PREV1OR2OR3WDRule<T1>(from, to, word_2);
 			}
@@ -30,7 +30,7 @@ public class PREV1OR2OR3WDRule<T> extends AbstractRule<T> implements Serializabl
 	public static final <T1> RuleFactory<T1> FACTORY3() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word_3 = context.getToken(-3).getWord();
 				return new PREV1OR2OR3WDRule<T1>(from, to, word_3);
 			}

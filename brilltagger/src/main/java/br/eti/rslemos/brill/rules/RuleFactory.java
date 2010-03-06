@@ -8,6 +8,6 @@ import br.eti.rslemos.tagger.Token;
 
 public interface RuleFactory<T> {
 
-	Collection<Rule<T>> create(Context<T> context, Token<T> target) throws RuleCreationException;
+	Collection<Rule<T>> create(Context<T> context, Token<T> target);
 
 }

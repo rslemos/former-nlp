@@ -8,7 +8,7 @@ public class PREV2TAGRule<T> extends AbstractRule<T> implements SerializableAsBr
 	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag_2 = context.getToken(-2).getTag();
 				
 				return new PREV2TAGRule<T1>(from, to, tag_2);

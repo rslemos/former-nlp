@@ -8,7 +8,7 @@ public class WDAND2TAGAFTRule<T> extends AbstractRule<T> implements Serializable
 	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word0 = context.getToken(0).getWord();
 				T1 tag2 = context.getToken(2).getTag();
 				

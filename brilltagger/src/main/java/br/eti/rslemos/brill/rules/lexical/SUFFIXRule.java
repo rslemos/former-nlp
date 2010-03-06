@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.rules.lexical;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.rules.AbstractRuleFactory;
-import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
 
@@ -17,15 +16,15 @@ public class SUFFIXRule<T> extends AbstractRule<T> implements SerializableAsBril
 		}
 
 		@Override
-		public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+		public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 			return create(from, to, context.getToken(0).getWord());
 		}
 
-		public Rule<T1> create(T1 from, T1 to, String word0) throws RuleCreationException {
+		public Rule<T1> create(T1 from, T1 to, String word0) {
 			if (word0.length() > length)
 				return new SUFFIXRule<T1>(from, to, word0.substring(word0.length() - length, word0.length()));
 			else
-				throw new RuleCreationException();
+				throw new RuntimeException();
 		}
 	}
 

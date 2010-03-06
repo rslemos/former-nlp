@@ -8,7 +8,7 @@ public class NEXT1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements Serializ
 	public static final <T1> RuleFactory<T1> FACTORY1() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word1 = context.getToken(1).getWord();
 				return new NEXT1OR2OR3OR4WDRule<T1>(from, to, word1);
 			}
@@ -19,7 +19,7 @@ public class NEXT1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements Serializ
 	public static final <T1> RuleFactory<T1> FACTORY2() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word2 = context.getToken(2).getWord();
 				return new NEXT1OR2OR3OR4WDRule<T1>(from, to, word2);
 			}
@@ -30,7 +30,7 @@ public class NEXT1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements Serializ
 	public static final <T1> RuleFactory<T1> FACTORY3() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word3 = context.getToken(3).getWord();
 				return new NEXT1OR2OR3OR4WDRule<T1>(from, to, word3);
 			}
@@ -41,7 +41,7 @@ public class NEXT1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements Serializ
 	public static final <T1> RuleFactory<T1> FACTORY4() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word4 = context.getToken(4).getWord();
 				return new NEXT1OR2OR3OR4WDRule<T1>(from, to, word4);
 			}

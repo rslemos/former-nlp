@@ -8,7 +8,7 @@ public class PREVTAGRule<T> extends AbstractRule<T> implements SerializableAsBri
 	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag_1 = context.getToken(-1).getTag();
 				
 				return new PREVTAGRule<T1>(from, to, tag_1);

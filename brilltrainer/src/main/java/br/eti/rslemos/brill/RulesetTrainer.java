@@ -12,7 +12,6 @@ import java.util.Queue;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.brill.rules.RuleCreationException;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
@@ -150,10 +149,7 @@ public class RulesetTrainer<T> {
 			Collection<Rule<T>> rules = new LinkedHashSet<Rule<T>>(ruleFactories.size());
 
 			for (RuleFactory<T> factory : ruleFactories)
-				try {
-					rules.addAll(factory.create(context, target));
-				} catch (RuleCreationException e) {
-				}
+				rules.addAll(factory.create(context, target));
 
 			return rules;
 		}

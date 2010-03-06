@@ -8,7 +8,7 @@ public class NEXT1OR2OR3TAGRule<T> extends AbstractRule<T> implements Serializab
 	public static final <T1> RuleFactory<T1> FACTORY1() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag1 = context.getToken(1).getTag();
 				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag1);
 			}
@@ -19,7 +19,7 @@ public class NEXT1OR2OR3TAGRule<T> extends AbstractRule<T> implements Serializab
 	public static final <T1> RuleFactory<T1> FACTORY2() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag2 = context.getToken(2).getTag();
 				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag2);
 			}
@@ -30,7 +30,7 @@ public class NEXT1OR2OR3TAGRule<T> extends AbstractRule<T> implements Serializab
 	public static final <T1> RuleFactory<T1> FACTORY3() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				T1 tag3 = context.getToken(3).getTag();
 				return new NEXT1OR2OR3TAGRule<T1>(from, to, tag3);
 			}

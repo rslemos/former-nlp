@@ -8,7 +8,7 @@ public class NEXT2WDRule<T> extends AbstractRule<T> implements SerializableAsBri
 	public static final <T1> RuleFactory<T1> FACTORY() {
 		return new AbstractRuleFactory<T1>() {
 	
-			public Rule<T1> create(T1 from, T1 to, Context<T1> context) throws RuleCreationException {
+			public Rule<T1> create(T1 from, T1 to, Context<T1> context) {
 				String word2 = context.getToken(2).getWord();
 				
 				return new NEXT2WDRule<T1>(from, to, word2);

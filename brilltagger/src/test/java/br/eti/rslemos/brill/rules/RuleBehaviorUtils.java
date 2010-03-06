@@ -18,22 +18,14 @@ public abstract class RuleBehaviorUtils {
 	public static final boolean F = false;
 	
 	public static void createAndTestMatchability(RuleFactory<String> factory) {
-		try {
-			createAndTestMatchability0(buildContext(getStandardTokens()), factory);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
-		}
+		createAndTestMatchability0(buildContext(getStandardTokens()), factory);
 	}
 
 	public static void createAndTestUntaggedMatchability(RuleFactory<String> factory) {
-		try {
-			createAndTestMatchability0(buildContext(getUntaggedTokens()), factory);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
-		}
+		createAndTestMatchability0(buildContext(getUntaggedTokens()), factory);
 	}
 
-	private static void createAndTestMatchability0(Context<String> context, RuleFactory<String> factory) throws RuleCreationException {
+	private static void createAndTestMatchability0(Context<String> context, RuleFactory<String> factory) {
 		Context<String> context0 = skip(context.clone(), 5);
 		
 		Collection<Rule<String>> rules = factory.create(context0, context0.getToken(0));
@@ -59,31 +51,19 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	public static void createAndTestObjectSemantics(RuleFactory<String> modelFactory) {
-		try {
-			createAndTestObjectSemantics0(modelFactory);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static void createAndTestObjectSemantics0(RuleFactory<String> modelFactory) throws RuleCreationException {
-		// great care was exercised to avoid hash colision in cases where rules were different;
-		// hashCode may eventually fail depending on hash of individual strings used;
-		// once the string-set is settled, the test will work, since String.hashCode() is not random.
-
 		Context<String> context = buildContext();
-
+		
 		Collection<Rule<String>> modelRules = modelFactory.create(context, context.getToken(0));
-	
+		
 		for (RuleFactory<String> factory : RuleSets.BRILL) {
 			Collection<Rule<String>> rules = factory.create(context, context.getToken(0));
-
+		
 			String message = factory.getClass().getName();
-
+		
 			if (modelFactory.getClass().equals(factory.getClass())) {
 				assertTrue(modelRules.containsAll(rules));
 				assertTrue(rules.containsAll(modelRules));
-
+		
 				for (Rule<String> model : modelRules) {
 					for (Rule<String> rule : rules) {
 						if (model.equals(rule))
@@ -100,7 +80,7 @@ public abstract class RuleBehaviorUtils {
 				}
 			}
 		}
-
+		
 		// explicitly test the surrounding context (and 0-word)
 		Context<String> altContext = buildAltContext();
 		for (RuleFactory<String> factory : RuleSets.BRILL) {
@@ -127,14 +107,6 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	public static void createAndTestBrillText(RuleFactory<String> factory, String expected) {
-		try {
-			createAndTestBrillText0(factory, expected);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static void createAndTestBrillText0(RuleFactory<String> factory, String expected) throws RuleCreationException {
 		Token<String> token = mock(Token.class);
 		when(token.getTag()).thenReturn(TO_TAG);
 		
@@ -147,16 +119,9 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	public static void createAndTestBasicDependency(RuleFactory<String> factory) {
-		try {
-			createAndTestBasicDependency0(buildContext(), factory);
-		} catch (RuleCreationException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static void createAndTestBasicDependency0(Context<String> context, RuleFactory<String> factory) throws RuleCreationException {
+		Context<String> context = buildContext();
 		Collection<Rule<String>> rules = factory.create(context, context.getToken(0));
-	
+		
 		for (Rule<String> rule : rules) {
 			assertTrue(rule.firingDependsOnTag(THIS_TAG));
 			assertFalse(rule.firingDependsOnTag(TO_TAG));
