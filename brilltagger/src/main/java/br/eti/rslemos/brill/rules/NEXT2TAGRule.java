@@ -2,19 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class NEXT2TAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				T1 tag2 = context.getToken(2).getTag();
-				
-				return new NEXT2TAGRule<T1>(from, to, tag2);
-			}
-			
-		};
+		return new NEXT2TAGRuleFactory<T1>();
 	}
 	
 	private final T next2Tag;

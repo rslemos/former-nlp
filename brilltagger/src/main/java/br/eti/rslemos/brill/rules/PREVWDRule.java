@@ -2,19 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class PREVWDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				String word_1 = context.getToken(-1).getWord();
-				
-				return new PREVWDRule<T1>(from, to, word_1);
-			}
-			
-		};
+		return new PREVWDRuleFactory<T1>();
 	}
 	
 	private final String prevWord;

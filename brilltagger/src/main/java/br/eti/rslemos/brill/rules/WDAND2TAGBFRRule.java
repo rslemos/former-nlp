@@ -2,20 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class WDAND2TAGBFRRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				T1 tag_2 = context.getToken(-2).getTag();
-				String word0 = context.getToken(0).getWord();
-				
-				return new WDAND2TAGBFRRule<T1>(from, to, tag_2, word0);
-			}
-			
-		};
+		return new WDAND2TAGBFRRuleFactory<T1>();
 	}
 	
 	private final String word;

@@ -2,19 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class NEXT2WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				String word2 = context.getToken(2).getWord();
-				
-				return new NEXT2WDRule<T1>(from, to, word2);
-			}
-			
-		};
+		return new NEXT2WDRuleFactory<T1>();
 	}
 	
 	private final String next2Word;

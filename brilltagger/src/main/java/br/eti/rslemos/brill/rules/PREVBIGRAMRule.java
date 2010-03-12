@@ -2,20 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class PREVBIGRAMRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				String word_2 = context.getToken(-2).getWord();
-				String word_1 = context.getToken(-1).getWord();
-				
-				return new PREVBIGRAMRule<T1>(from, to, word_2, word_1);
-			}
-			
-		};
+		return new PREVBIGRAMRuleFactory<T1>();
 	}
 	
 	private final String prev2Word;

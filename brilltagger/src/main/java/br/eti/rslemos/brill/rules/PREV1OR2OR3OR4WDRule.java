@@ -1,31 +1,12 @@
 package br.eti.rslemos.brill.rules;
 
-import java.util.Arrays;
-import java.util.Collection;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractRuleFactory<T1>() {
-	
-			public Collection<Rule<T1>> create(T1 from, T1 to, Context<T1> context) {
-				String word_1 = context.getToken(-1).getWord();
-				String word_2 = context.getToken(-2).getWord();
-				String word_3 = context.getToken(-3).getWord();
-				String word_4 = context.getToken(-4).getWord();
-				
-				return Arrays.<Rule<T1>>asList(
-						new PREV1OR2OR3OR4WDRule<T1>(from, to, word_1),
-						new PREV1OR2OR3OR4WDRule<T1>(from, to, word_2),
-						new PREV1OR2OR3OR4WDRule<T1>(from, to, word_3),
-						new PREV1OR2OR3OR4WDRule<T1>(from, to, word_4)
-				);
-			}
-			
-		};
+		return new PREV1OR2OR3OR4WDRuleFactory<T1>();
 	}
 	
 	private final String prev1or2or3or4Word;

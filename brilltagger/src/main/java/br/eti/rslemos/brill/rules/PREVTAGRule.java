@@ -2,19 +2,10 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 
 public class PREVTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
 	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new AbstractSingleRuleFactory<T1>() {
-	
-			public Rule<T1> createRule(T1 from, T1 to, Context<T1> context) {
-				T1 tag_1 = context.getToken(-1).getTag();
-				
-				return new PREVTAGRule<T1>(from, to, tag_1);
-			}
-			
-		};
+		return new PREVTAGRuleFactory<T1>();
 	}
 	
 	private final T prevTag;
