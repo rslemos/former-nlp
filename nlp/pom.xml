@@ -7,6 +7,8 @@
 	<name>NLP</name>
 	<version>1.0.0-SNAPSHOT</version>
 
+	<url>http://localhost</url>
+
 	<developers>
 		<developer>
 			<id>rslemos</id>
@@ -17,6 +19,10 @@
 			</roles>
 		</developer>
 	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<modules>
 		<module>../tigerapi</module>
