@@ -9,6 +9,11 @@ public final class DefaultToken<T> implements Token<T> {
 		this.word = word;
 	}
 
+	public DefaultToken(Token<T> token) {
+		this.word = token.getWord();
+		this.tag = token.getTag();
+	}
+
 	public String getWord() {
 		return word;
 	}

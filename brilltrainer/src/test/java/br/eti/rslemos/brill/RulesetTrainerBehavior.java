@@ -35,8 +35,8 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory<String>> ruleFactories = Collections.emptyList();
 		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new LookupTokenTagger<String>(lexicon), ruleFactories);
 		
-		Rule<String>[] rules = trainer.train(sentences).getRules();
-		assertEquals(rules.length, 0);
+		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		assertEquals(rules.size(), 0);
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
 		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = Arrays.asList(trainer.train(sentences).getRules());
+		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 3);
 		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TO", "to")));
@@ -141,9 +141,9 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory<String>> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
 		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(null), ruleFactories);
 		
-		Rule<String>[] rules = trainer.train(sentences).getRules();
+		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
-		assertEquals(rules[0], rule2);
+		assertEquals(rules.get(0), rule2);
 	}
 
 	@Test
@@ -164,7 +164,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
 		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = Arrays.asList(trainer.train(sentences).getRules());
+		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 4);
 		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));
@@ -191,7 +191,7 @@ public class RulesetTrainerBehavior {
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
 		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = Arrays.asList(trainer.train(sentences).getRules());
+		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 1);
 		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));

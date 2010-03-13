@@ -1,5 +1,8 @@
 package br.eti.rslemos.brill;
 
+import java.util.Collections;
+import java.util.List;
+
 import br.eti.rslemos.tagger.NullTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
@@ -7,13 +10,17 @@ import br.eti.rslemos.tagger.Tagger;
 public class RuleBasedTagger<T> implements Tagger<T> {
 
 	private Tagger<T> baseTagger;
-	private Rule<T>[] rules;
+	private List<Rule<T>> rules;
 
 	public RuleBasedTagger() {
 		this(new NullTagger<T>());
 	}
 
-	public RuleBasedTagger(Tagger<T> baseTagger, Rule<T>... rules) {
+	public RuleBasedTagger(Tagger<T> baseTagger) {
+		this(baseTagger, Collections.<Rule<T>>emptyList());
+	}
+
+	public RuleBasedTagger(Tagger<T> baseTagger, List<Rule<T>> rules) {
 		this.baseTagger = baseTagger;
 		this.rules = rules;
 	}
@@ -26,11 +33,11 @@ public class RuleBasedTagger<T> implements Tagger<T> {
 		this.baseTagger = baseTagger;
 	}
 
-	public Rule<T>[] getRules() {
+	public List<Rule<T>> getRules() {
 		return rules;
 	}
 
-	public void setRules(Rule<T>[] rules) {
+	public void setRules(List<Rule<T>> rules) {
 		this.rules = rules;
 	}
 

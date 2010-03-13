@@ -1,10 +1,11 @@
 package br.eti.rslemos.brill;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -14,7 +15,6 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
@@ -43,46 +43,34 @@ public class RulesetTrainer<T> {
 		TrainingContext trainingContext = createTrainingContext(proofCorpus);
 		
 		trainingContext.applyBaseTagger();
-		Rule<T>[] rules = trainingContext.discoverRules();
+		List<Rule<T>> rules = trainingContext.discoverRules();
 
 		return new RuleBasedTagger<T>(baseTagger, rules);
 	}
 
 	public class TrainingContext {
 
-		public final Sentence<T>[] proofCorpus;
-		public final Sentence<T>[] trainingCorpus;
+		public final List<Sentence<T>> proofCorpus;
+		public final List<Sentence<T>> trainingCorpus;
 		
-		@SuppressWarnings("unchecked")
-		public TrainingContext(Sentence<T>... proofCorpus) {
-			this.proofCorpus = proofCorpus;
-			this.trainingCorpus = new Sentence[proofCorpus.length];
-		}
-
-		@SuppressWarnings("unchecked")
 		public TrainingContext(List<Sentence<T>> proofCorpus) {
-			this(proofCorpus.toArray(new Sentence[proofCorpus.size()]));
+			ArrayList<Sentence<T>> proofCorpus0 = new ArrayList<Sentence<T>>(proofCorpus);
+			proofCorpus0.trimToSize();
+			
+			this.proofCorpus = Collections.unmodifiableList(proofCorpus0);
+			this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
 		}
-		
-		@SuppressWarnings("unchecked")
+
 		private void applyBaseTagger() {
-
-			for (int i = 0; i < trainingCorpus.length; i++) {
-				Sentence<T> proofSentence = proofCorpus[i];
-
-				Token<T>[] baseTaggedSentence = new DefaultToken[proofSentence.size()];
-				for (int j = 0; j < baseTaggedSentence.length; j++) {
-					baseTaggedSentence[j] = new DefaultToken<T>(proofSentence.get(j).getWord());
-				}
-
-				trainingCorpus[i] = new DefaultSentence<T>(baseTaggedSentence);
-				baseTagger.tag(trainingCorpus[i]);
+			for (Sentence<T> proofSentence : proofCorpus) {
+				Sentence<T> trainingSentence = new DefaultSentence<T>(proofSentence);
+				baseTagger.tag(trainingSentence);
+				trainingCorpus.add(trainingSentence);
 			}
 		}
 
-		@SuppressWarnings("unchecked")
-		public Rule<T>[] discoverRules() {
-			LinkedList<Rule<T>> rules = new LinkedList<Rule<T>>();
+		public List<Rule<T>> discoverRules() {
+			ArrayList<Rule<T>> rules = new ArrayList<Rule<T>>();
 
 			ScoreBoard<T> board = new ScoreBoard<T>();
 			do {
@@ -115,7 +103,9 @@ public class RulesetTrainer<T> {
 				break;
 			} while (true);
 
-			return rules.toArray(new Rule[rules.size()]);
+			rules.trimToSize();
+			
+			return rules;
 		}
 
 		private void applyRule(Rule<T> bestRule) {
@@ -124,8 +114,8 @@ public class RulesetTrainer<T> {
 		}
 
 		private void produceAllPossibleRules(ScoreBoard<T> board) {
-			for (int i = 0; i < proofCorpus.length; i++) {
-				produceAllPossibleRules(board, proofCorpus[i], trainingCorpus[i]);
+			for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
+				produceAllPossibleRules(board, pair.x, pair.y);
 			}
 		}
 
@@ -178,9 +168,8 @@ public class RulesetTrainer<T> {
 			if (!entry.negativeMatchesComputed()) {
 				entry.dec();
 				
-				int i = 0;
-				for (Sentence<T> proofSentence : proofCorpus) {
-					computeNegativeScore(entry, proofSentence, trainingCorpus[i++]);
+				for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
+					computeNegativeScore(entry, pair.x, pair.y);
 				}
 			}
 		}
@@ -269,4 +258,48 @@ public class RulesetTrainer<T> {
 			return new PriorityQueue<Score<T1>>(rules.values());
 		}		
 	}
+	
+	private static class Pair<X, Y> {
+		public final X x;
+		public final Y y;
+
+		public Pair(X x, Y y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+
+	private static <X, Y> Iterable<Pair<X, Y>> pairOf(final Iterable<X> x, final Iterable<Y> y) {
+		return new Iterable<Pair<X, Y>>() {
+
+			@Override
+			public Iterator<Pair<X, Y>> iterator() {
+				return pairOf(x.iterator(), y.iterator());
+			}
+			
+		};
+	}
+	
+	private static <X, Y> Iterator<Pair<X, Y>> pairOf(final Iterator<X> x, final Iterator<Y> y) {
+		return new Iterator<Pair<X, Y>>() {
+
+			@Override
+			public boolean hasNext() {
+				return x.hasNext() && y.hasNext();
+			}
+
+			@Override
+			public Pair<X, Y> next() {
+				return new Pair<X, Y>(x.next(), y.next());
+			}
+
+			@Override
+			public void remove() {
+				x.remove();
+				y.remove();
+			}
+			
+		};
+	}
+	
 }

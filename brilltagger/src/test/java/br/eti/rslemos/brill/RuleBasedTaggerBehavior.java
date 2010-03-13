@@ -5,6 +5,8 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
+import java.util.Arrays;
+
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
@@ -63,7 +65,7 @@ public class RuleBasedTaggerBehavior {
 		
 		Tagger<String> baseTagger = mock(Tagger.class);
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(new DefaultSentence<String>(token));
 
@@ -81,7 +83,7 @@ public class RuleBasedTaggerBehavior {
 		Rule<String> rule1 = mock(Rule.class);
 		Rule<String> rule2 = mock(Rule.class);
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule1, rule2);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(new DefaultSentence<String>(token));
 
@@ -115,7 +117,7 @@ public class RuleBasedTaggerBehavior {
 			}
 		};
 
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, rule);
+		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(new DefaultSentence<String>(token1, token2));
 

@@ -10,6 +10,14 @@ public class DefaultSentence<T> implements Sentence<T> {
 		this.sentence = sentence;
 	}
 
+	@SuppressWarnings("unchecked")
+	public DefaultSentence(Sentence<T> sentence) {
+		this.sentence = new DefaultToken[sentence.size()];
+		for(int i=0; i<sentence.size(); i++) {
+			this.sentence[i] = new DefaultToken<T>(sentence.get(i));
+		}
+	}
+
 	public Iterator<Token<T>> iterator() {
 		return Arrays.asList(sentence).iterator();
 	}
