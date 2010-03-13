@@ -125,7 +125,7 @@ public class RulesetTrainer<T> {
 
 		private void produceAllPossibleRules(ScoreBoard<T> board) {
 			for (int i = 0; i < proofCorpus.length; i++) {
-				produceAllPossibleRules(board, proofCorpus[i], trainingCorpus[i++]);
+				produceAllPossibleRules(board, proofCorpus[i], trainingCorpus[i]);
 			}
 		}
 

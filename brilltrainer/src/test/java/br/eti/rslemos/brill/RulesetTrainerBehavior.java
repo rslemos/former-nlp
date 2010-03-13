@@ -63,8 +63,10 @@ public class RulesetTrainerBehavior {
 		final String TAG = "TAG";
 		
 		List<Sentence<String>> sentences = buildText(
-				buildToken(WORD1, TAG), 
-				buildToken(WORD2, TAG)
+				buildSentence(
+						buildToken(WORD1, TAG), 
+						buildToken(WORD2, TAG)
+				)
 		);
 
 		class IdentityRule extends AbstractRule<String> {
@@ -144,20 +146,77 @@ public class RulesetTrainerBehavior {
 		assertEquals(rules[0], rule2);
 	}
 
+	@Test
+	public void shouldConsiderEachAndEverySentenceInCorpus() throws Throwable {
+		List<Sentence<String>> sentences = buildText(
+				buildSentence(
+						buildToken("WORD1", "TAG1"), 
+						buildToken("WORD2", "TAG2") 
+				),
+				buildSentence(
+						buildToken("WORD3", "TAG3"), 
+						buildToken("WORD4", "TAG4") 
+				)
+		);
+		
+		final String FROM_TAG = "TAG";
+		
+		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
+		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		
+		List<Rule<String>> rules = Arrays.asList(trainer.train(sentences).getRules());
+		
+		assertEquals(rules.size(), 4);
+		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));
+		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG2", "WORD2")));
+		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG3", "WORD3")));
+		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG4", "WORD4")));
+	}
+	
+	@Test
+	public void shouldConsiderForNegativeScoreEachAndEverySentenceInCorpus() throws Throwable {
+		List<Sentence<String>> sentences = buildText(
+				buildSentence(
+						buildToken("WORD1", "TAG1"), 
+						buildToken("WORD2", "TAG2") 
+				),
+				buildSentence(
+						buildToken("WORD2", "TAG"), 
+						buildToken("WORD2", "TAG") 
+				)
+		);
+		
+		final String FROM_TAG = "TAG";
+		
+		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
+		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		
+		List<Rule<String>> rules = Arrays.asList(trainer.train(sentences).getRules());
+		
+		assertEquals(rules.size(), 1);
+		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));
+	}
+	
 	public static List<Sentence<String>> buildText_ToSignUp() {
-		Token<String> to = buildToken("to", "TO");
-		Token<String> sign = buildToken("sign", "VB");
-		Token<String> up = buildToken("up", "RP");
-
-		return buildText(to, sign, up);
+		return buildText(
+				buildSentence(
+						buildToken("to", "TO"), 
+						buildToken("sign", "VB"), 
+						buildToken("up", "RP")
+				)
+		);
 	}
 
-	private static List<Sentence<String>> buildText(Token<String>... tokens) {
-		return Collections.singletonList((Sentence<String>)new DefaultSentence<String>(tokens));
+	private static <T> List<Sentence<T>> buildText(Sentence<T>... sentence) {
+		return Arrays.asList(sentence);
 	}
 
-	private static Token<String> buildToken(String word, String tag) {
-		Token<String> token = new DefaultToken<String>(word);
+	private static <T> Sentence<T> buildSentence(Token<T>... tokens) {
+		return new DefaultSentence<T>(tokens);
+	}
+
+	private static <T> Token<T> buildToken(String word, T tag) {
+		Token<T> token = new DefaultToken<T>(word);
 		token.setTag(tag);
 		return token;
 	}
