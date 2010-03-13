@@ -78,26 +78,12 @@ public class RulesetTrainer<T> {
 				Score<T> bestScore = selectBestRule(board.getRulesByPriority());
 				Rule<T> bestRule = bestScore.rule;
 				
-				if (bestRule != null) {
+				if (bestRule != null && bestScore.getScore() >= threshold) {
+					rules.add(bestRule);
+					board.discardDependentsOn(bestRule);
 					applyRule(bestRule);
-
-					if (bestScore.getScore() >= threshold) {
-						rules.add(bestRule);
-						for (Iterator<Rule<T>> iterator = board.iterator(); iterator.hasNext();) {
-							Rule<T> rule = iterator.next();
-							if (rule == bestRule)
-								iterator.remove();
-							else {
-								if (rule.firingDependsOnTag(bestRule.getFrom()) || rule.firingDependsOnTag(bestRule.getTo()))
-									iterator.remove();
-							}
-						}
-						
-						continue;
-					} 
-				} 
-				
-				break;
+				} else
+					break;
 			} while (true);
 
 			rules.trimToSize();
@@ -125,9 +111,7 @@ public class RulesetTrainer<T> {
 				if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
 					Collection<Rule<T>> localPossibleRules = produceAllPossibleRules(trainingContext, proofToken);
 					
-					for (Rule<T> localPossibleRule : localPossibleRules) {
-						board.addTruePositive(localPossibleRule);
-					}
+					board.addTruePositives(localPossibleRules);
 				}
 			}
 		}
@@ -243,8 +227,10 @@ public class RulesetTrainer<T> {
 				score.inc();
 		}
 
-		public Iterator<Rule<T1>> iterator() {
-			return rules.keySet().iterator();
+		public void addTruePositives(Collection<Rule<T1>> rules) {
+			for (Rule<T1> rule : rules) {
+				addTruePositive(rule);
+			}
 		}
 		
 		public Object newRound() {
@@ -253,7 +239,17 @@ public class RulesetTrainer<T> {
 
 		public Queue<Score<T1>> getRulesByPriority() {
 			return new PriorityQueue<Score<T1>>(rules.values());
-		}		
+		}
+		
+		public void discardDependentsOn(Rule<T1> rule) {
+			for (Iterator<Rule<T1>> it = rules.keySet().iterator(); it.hasNext();) {
+				Rule<T1> r = it.next();
+				
+				// already covers the case where rule == bestRule, since a rule firing depends on its tags anyway
+				if (r.firingDependsOnTag(rule.getFrom()) || r.firingDependsOnTag(rule.getTo()))
+					it.remove();
+			}
+		}
 	}
 	
 	private static class Pair<X, Y> {
