@@ -35,7 +35,7 @@ public class DelayedContext<T> implements Context<T> {
 	}
 
 	public Token<T> getToken(int offset) {
-		return delayedToken(context.getToken(offset));
+		return new DelayedToken(context.getToken(offset));
 	}
 
 	public boolean hasNext() {
@@ -43,7 +43,7 @@ public class DelayedContext<T> implements Context<T> {
 	}
 
 	public Token<T> next() {
-		return delayedToken(context.next());
+		return new DelayedToken(context.next());
 	}
 
 	public void remove() {
@@ -64,20 +64,24 @@ public class DelayedContext<T> implements Context<T> {
 		}
 	}
 
-	private Token<T> delayedToken(final Token<T> token) {
-		return new Token<T>() {
-			public T getTag() {
-				return token.getTag();
-			}
+	private class DelayedToken implements Token<T> {
+		private final Token<T> token;
 
-			public String getWord() {
-				return token.getWord();
-			}
+		private DelayedToken(Token<T> token) {
+			this.token = token;
+		}
 
-			public void setTag(T tag) {
-				commands.add(new SetTagCommand<T>(token, tag));
-			}
-			
-		};
+		public T getTag() {
+			return token.getTag();
+		}
+
+		public String getWord() {
+			return token.getWord();
+		}
+
+		public void setTag(T tag) {
+			commands.add(new SetTagCommand<T>(token, tag));
+		}
 	}
+
 }
