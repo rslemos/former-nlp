@@ -25,6 +25,22 @@ public class DefaultSentence<T> implements Sentence<T> {
 			throw new SentenceIndexOutOfBoundsException(i);
 		}
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append("\"");
+		
+		for (Token<T> token : sentence) {
+			result.append(token.toString()).append(" ");
+		}
+		
+		result.setLength(result.length() - 1);
+		
+		result.append("\"");
+		
+		return result.toString();
+	}
 	
 	
 }
