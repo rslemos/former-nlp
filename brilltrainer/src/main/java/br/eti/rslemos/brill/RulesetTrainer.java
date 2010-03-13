@@ -54,10 +54,7 @@ public class RulesetTrainer<T> {
 		public final List<Sentence<T>> trainingCorpus;
 		
 		public TrainingContext(List<Sentence<T>> proofCorpus) {
-			ArrayList<Sentence<T>> proofCorpus0 = new ArrayList<Sentence<T>>(proofCorpus);
-			proofCorpus0.trimToSize();
-			
-			this.proofCorpus = Collections.unmodifiableList(proofCorpus0);
+			this.proofCorpus = Collections.unmodifiableList(proofCorpus);
 			this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
 		}
 

@@ -212,7 +212,7 @@ public class RulesetTrainerBehavior {
 	}
 
 	private static <T> Sentence<T> buildSentence(Token<T>... tokens) {
-		return new DefaultSentence<T>(tokens);
+		return new DefaultSentence<T>(Arrays.asList(tokens));
 	}
 
 	private static <T> Token<T> buildToken(String word, T tag) {

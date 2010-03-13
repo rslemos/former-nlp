@@ -1,7 +1,7 @@
 package br.eti.rslemos.tagger;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
 
 public class CompositeTagger<T> implements Tagger<T>, Serializable {
 
@@ -18,19 +18,22 @@ public class CompositeTagger<T> implements Tagger<T>, Serializable {
 		this.taggers = taggers;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void tag(Sentence<T> sentence) {
-		Token<T>[] wrappedSentence = new Token[sentence.size()];
-		
-		for (int i = 0; i < sentence.size(); i++) {
-			wrappedSentence[i] = new FilteringToken<T>(sentence.get(i));
-		}
-		
-		DefaultSentence<T> wrappedSentence0 = new DefaultSentence<T>(wrappedSentence);
+		sentence = wrapSentence(sentence);
 
 		for (Tagger<T> tagger : taggers) {
-			tagger.tag(wrappedSentence0);
+			tagger.tag(sentence);
 		}
+	}
+
+	private Sentence<T> wrapSentence(Sentence<T> sentence) {
+		ArrayList<Token<T>> wrappedSentence = new ArrayList<Token<T>>(sentence.size());
+		
+		for (Token<T> token : sentence) {
+			wrappedSentence.add(new FilteringToken<T>(token));
+		}
+		
+		return new DefaultSentence<T>(wrappedSentence);
 	}
 	
 	public Tagger<T>[] getTaggers() {

@@ -1,34 +1,36 @@
 package br.eti.rslemos.tagger;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class DefaultSentence<T> implements Sentence<T> {
-	private final Token<T>[] sentence;
+	private final List<Token<T>> sentence;
 
-	public DefaultSentence(Token<T>... sentence) {
+	public DefaultSentence(List<Token<T>> sentence) {
 		this.sentence = sentence;
 	}
 
-	@SuppressWarnings("unchecked")
 	public DefaultSentence(Sentence<T> sentence) {
-		this.sentence = new DefaultToken[sentence.size()];
-		for(int i=0; i<sentence.size(); i++) {
-			this.sentence[i] = new DefaultToken<T>(sentence.get(i));
+		this.sentence = new ArrayList<Token<T>>(sentence.size());
+		for (Token<T> token : sentence) {
+			this.sentence.add(new DefaultToken<T>(token));
 		}
+		
+		((ArrayList<Token<T>>)this.sentence).trimToSize();
 	}
 
 	public Iterator<Token<T>> iterator() {
-		return Arrays.asList(sentence).iterator();
+		return sentence.iterator();
 	}
 
 	public int size() {
-		return sentence.length;
+		return sentence.size();
 	}
 
 	public Token<T> get(int i) {
 		try {
-			return sentence[i];
+			return sentence.get(i);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new SentenceIndexOutOfBoundsException(i);
 		}

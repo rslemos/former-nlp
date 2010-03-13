@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.Collections;
+
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
@@ -103,7 +105,7 @@ public class CompositeTaggerBehavior {
 	}
 
 	private <T> void tagToken(CompositeTagger<T> tagger, Token<T> token) {
-		tagger.tag(new DefaultSentence<T>(token));
+		tagger.tag(new DefaultSentence<T>(Collections.singletonList(token)));
 	}
 
 	private <T> CompositeTagger<T> buildTagger(Tagger<T>... taggers) {

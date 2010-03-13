@@ -2,6 +2,9 @@ package br.eti.rslemos.brill.rules;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.SentenceContext;
 import br.eti.rslemos.tagger.DefaultSentence;
@@ -110,7 +113,7 @@ public abstract class RuleContextMother {
 	}
 
 	public static Context<String> buildContext(Token<String>... tokens) {
-		return new SentenceContext<String>(new DefaultSentence<String>(tokens));
+		return new SentenceContext<String>(new DefaultSentence<String>(Arrays.asList(tokens)));
 	}
 
 	public static Context<String> buildContext(int skipTo, Token<String>... tokens) {

@@ -23,9 +23,9 @@ public class RuleBasedTaggerBehavior {
 	public void shouldWorkOnEmptyInput() {
 		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>();
 		
-		tagger.tag(new DefaultSentence<String>());
+		tagger.tag(newDefaultSentence());
 	}
-	
+
 	@Test
 	public void shouldInvokeBaseTaggerAndTagToken() {
 		Token<String> token = mock(Token.class);
@@ -40,7 +40,7 @@ public class RuleBasedTaggerBehavior {
 
 		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger);
 		
-		tagger.tag(new DefaultSentence<String>(token));
+		tagger.tag(newDefaultSentence(token));
 
 		verify(token, times(1)).setTag("foobar");
 	}
@@ -67,7 +67,7 @@ public class RuleBasedTaggerBehavior {
 		
 		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
 		
-		tagger.tag(new DefaultSentence<String>(token));
+		tagger.tag(newDefaultSentence(token));
 
 		InOrder inOrder = inOrder(baseTagger, token);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
@@ -85,7 +85,7 @@ public class RuleBasedTaggerBehavior {
 		
 		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
 		
-		tagger.tag(new DefaultSentence<String>(token));
+		tagger.tag(newDefaultSentence(token));
 
 		InOrder inOrder = inOrder(baseTagger, rule1, rule2);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
@@ -119,7 +119,7 @@ public class RuleBasedTaggerBehavior {
 
 		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
 		
-		tagger.tag(new DefaultSentence<String>(token1, token2));
+		tagger.tag(newDefaultSentence(token1, token2));
 
 		verify(token1, times(1)).setTag("foobar");
 		verify(token2, times(1)).setTag("foobar");
@@ -150,4 +150,9 @@ public class RuleBasedTaggerBehavior {
 	private static Sentence<String> anySentence() {
 		return (Sentence<String>) anyObject();
 	}
+
+	private DefaultSentence<String> newDefaultSentence(Token<String>... tokens) {
+		return new DefaultSentence<String>(Arrays.asList(tokens));
+	}
+	
 }
