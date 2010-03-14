@@ -53,6 +53,7 @@ public class RulesetTrainer<T> {
 		try {
 			prepareTrainingCorpus();
 			discoverRules();
+			
 			rules.trimToSize();
 
 			return new RuleBasedTagger<T>(baseTagger, rules);
@@ -115,14 +116,14 @@ public class RulesetTrainer<T> {
 			Token<T> trainingToken = trainingContext.next();
 			
 			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-				Collection<Rule<T>> localPossibleRules = produceAllPossibleRules(trainingContext, proofToken);
+				Collection<Rule<T>> rules = invokeRuleFactories(trainingContext, proofToken);
 				
-				board.addTruePositives(localPossibleRules);
+				board.addTruePositives(rules);
 			}
 		}
 	}
 
-	private Collection<Rule<T>> produceAllPossibleRules(Context<T> context, Token<T> target) {
+	private Collection<Rule<T>> invokeRuleFactories(Context<T> context, Token<T> target) {
 		Collection<Rule<T>> rules = new LinkedHashSet<Rule<T>>(ruleFactories.size());
 
 		for (RuleFactory<T> factory : ruleFactories)
@@ -132,13 +133,13 @@ public class RulesetTrainer<T> {
 	}
 
 	private Score<T> selectBestRule() {
-		Queue<Score<T>> possibleRules = board.getRulesByPriority();
+		Queue<Score<T>> rules = board.getRulesByPriority();
 		
 		Score<T> bestScore = new Score<T>(null, null);
 		bestScore.dec();
 		
-		while(!possibleRules.isEmpty()) {
-			Score<T> entry = possibleRules.poll();
+		while(!rules.isEmpty()) {
+			Score<T> entry = rules.poll();
 			
 			if (entry.getScore() > bestScore.getScore()) {
 				computeNegativeScore(entry);
