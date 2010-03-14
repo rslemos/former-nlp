@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -35,24 +34,35 @@ public class RulesetTrainer<T> {
 		this.threshold = threshold;
 	}
 
-	public synchronized RuleBasedTagger<T> train(List<Sentence<T>> proofCorpus) {
-		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
-		this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
-		
-		applyBaseTagger();
-		List<Rule<T>> rules = discoverRules();
-
-		// dispose
-		this.proofCorpus = null;
-		this.trainingCorpus = null;
-
-		return new RuleBasedTagger<T>(baseTagger, rules);
-	}
-
 	private transient List<Sentence<T>> proofCorpus;
 	private transient List<Sentence<T>> trainingCorpus;
 
-	private void applyBaseTagger() {
+	private transient ScoreBoard<T> board;
+	private transient ArrayList<Rule<T>> rules;
+
+	public synchronized RuleBasedTagger<T> train(List<Sentence<T>> proofCorpus) {
+		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
+		this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
+
+		this.board = new ScoreBoard<T>();
+		this.rules = new ArrayList<Rule<T>>();
+
+		try {
+			prepareTrainingCorpus();
+			discoverRules();
+			rules.trimToSize();
+
+			return new RuleBasedTagger<T>(baseTagger, rules);
+		} finally {
+			// dispose
+			this.proofCorpus = null;
+			this.trainingCorpus = null;
+			this.board = null;
+			this.rules = null;
+		}
+	}
+
+	private void prepareTrainingCorpus() {
 		for (Sentence<T> proofSentence : proofCorpus) {
 			Sentence<T> trainingSentence = new DefaultSentence<T>(proofSentence);
 			baseTagger.tag(trainingSentence);
@@ -60,29 +70,29 @@ public class RulesetTrainer<T> {
 		}
 	}
 
-	public List<Rule<T>> discoverRules() {
-		ArrayList<Rule<T>> rules = new ArrayList<Rule<T>>();
-
-		ScoreBoard<T> board = new ScoreBoard<T>();
-		do {
-			board.newRound();
-			
-			produceAllPossibleRules(board);
-			
-			Score<T> bestScore = selectBestRule(board.getRulesByPriority());
-			Rule<T> bestRule = bestScore.rule;
-			
-			if (bestRule != null && bestScore.getScore() >= threshold) {
-				rules.add(bestRule);
-				board.discardDependentsOn(bestRule);
-				applyRule(bestRule);
-			} else
-				break;
-		} while (true);
-
-		rules.trimToSize();
+	private void discoverRules() {
+		Rule<T> bestRule;
 		
-		return rules;
+		while ((bestRule = discoverNextRule()) != null) {
+			rules.add(bestRule);
+		}
+	}
+
+	private Rule<T> discoverNextRule() {
+		board.newRound();
+		
+		produceAllPossibleRules();
+		
+		Score<T> bestScore = selectBestRule();
+		Rule<T> bestRule = bestScore.rule;
+		
+		if (bestRule != null && bestScore.getScore() >= threshold) {
+			board.discardDependentsOn(bestRule);
+			applyRule(bestRule);
+		} else
+			bestRule = null;
+		
+		return bestRule;
 	}
 
 	private void applyRule(Rule<T> bestRule) {
@@ -90,13 +100,13 @@ public class RulesetTrainer<T> {
 			RuleBasedTagger.applyRule(new DelayedContext<T>(new SentenceContext<T>(trainingSentence)), bestRule);
 	}
 
-	private void produceAllPossibleRules(ScoreBoard<T> board) {
+	private void produceAllPossibleRules() {
 		for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
-			produceAllPossibleRules(board, pair.x, pair.y);
+			produceAllPossibleRules(pair.x, pair.y);
 		}
 	}
 
-	private void produceAllPossibleRules(ScoreBoard<T> board, Sentence<T> proofSentence, Sentence<T> trainingSentence) {
+	private void produceAllPossibleRules(Sentence<T> proofSentence, Sentence<T> trainingSentence) {
 		Context<T> trainingContext = new SentenceContext<T>(trainingSentence);
 		
 		for (Token<T> proofToken : proofSentence) {
@@ -119,23 +129,25 @@ public class RulesetTrainer<T> {
 		return rules;
 	}
 
-	private Score<T> selectBestRule(Queue<Score<T>> possibleRules) {
+	private Score<T> selectBestRule() {
+		Queue<Score<T>> possibleRules = board.getRulesByPriority();
+		
 		Score<T> bestScore = new Score<T>(null, null);
 		bestScore.dec();
-
+		
 		while(!possibleRules.isEmpty()) {
 			Score<T> entry = possibleRules.poll();
 			
 			if (entry.getScore() > bestScore.getScore()) {
 				computeNegativeScore(entry);
-	
+		
 				if (entry.getScore() > bestScore.getScore()) {
 					bestScore = entry;
 				}
 			} else
 				break; // cut
 		}
-
+		
 		return bestScore;
 	}
 
@@ -167,9 +179,8 @@ public class RulesetTrainer<T> {
 				score.dec();
 	}
 	
-	public static class Score<T1> implements Comparable<Score<T1>> {
+	private static class Score<T1> implements Comparable<Score<T1>> {
 		public final Object roundCreated;
-		public Object roundComputed;
 		
 		public final Rule<T1> rule;
 
@@ -202,8 +213,8 @@ public class RulesetTrainer<T> {
 		}
 	}
 
-	public static class ScoreBoard<T1> {
-		private final Map<Rule<T1>, Score<T1>> rules = new HashMap<Rule<T1>, Score<T1>>();
+	private static class ScoreBoard<T1> {
+		private final HashMap<Rule<T1>, Score<T1>> rules = new HashMap<Rule<T1>, Score<T1>>();
 		private Object round;
 		
 		public void addTruePositive(Rule<T1> rule) {
