@@ -35,12 +35,8 @@ public class RulesetTrainer<T> {
 		this.threshold = threshold;
 	}
 
-	private TrainingContext createTrainingContext(List<Sentence<T>> proofCorpus) {
-		return new TrainingContext(proofCorpus);
-	}
-
 	public synchronized RuleBasedTagger<T> train(List<Sentence<T>> proofCorpus) {
-		TrainingContext trainingContext = createTrainingContext(proofCorpus);
+		TrainingContext trainingContext = new TrainingContext(proofCorpus);
 		
 		trainingContext.applyBaseTagger();
 		List<Rule<T>> rules = trainingContext.discoverRules();
