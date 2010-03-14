@@ -67,4 +67,31 @@ public class SentenceContext<T> implements Context<T> {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		
+		Token<T> current = getToken(0);
+		
+		if (current == NULL_TOKEN)
+			result.append("><");
+		
+		for (Token<T> token : contents) {
+			if (token == current)
+				result.append(">");
+			
+			result.append(token.toString());
+			
+			if (token == current)
+				result.append("<");
+			
+			result.append(" ");
+		}
+		
+		result.setLength(result.length() - 1);
+		
+		return result.toString();
+	}
+
+	
 }

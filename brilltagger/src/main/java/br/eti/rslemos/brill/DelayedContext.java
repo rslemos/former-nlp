@@ -64,6 +64,13 @@ public class DelayedContext<T> implements Context<T> {
 		}
 	}
 
+	
+	@Override
+	public String toString() {
+		return "DelayedContext [context=" + context	+ " {+ " + commands.size() + " command(s)}]";
+	}
+
+
 	private class DelayedToken implements Token<T> {
 		private final Token<T> token;
 
