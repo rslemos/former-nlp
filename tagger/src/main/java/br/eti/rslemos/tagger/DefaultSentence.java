@@ -31,7 +31,7 @@ public class DefaultSentence<T> implements Sentence<T> {
 	public Token<T> get(int i) {
 		try {
 			return sentence.get(i);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			throw new SentenceIndexOutOfBoundsException(i);
 		}
 	}
