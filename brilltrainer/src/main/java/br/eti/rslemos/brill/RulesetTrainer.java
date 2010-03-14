@@ -36,23 +36,21 @@ public class RulesetTrainer<T> {
 	}
 
 	public synchronized RuleBasedTagger<T> train(List<Sentence<T>> proofCorpus) {
-		TrainingContext trainingContext = new TrainingContext(proofCorpus);
+		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
+		this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
 		
-		trainingContext.applyBaseTagger();
-		List<Rule<T>> rules = trainingContext.discoverRules();
+		applyBaseTagger();
+		List<Rule<T>> rules = discoverRules();
+
+		// dispose
+		this.proofCorpus = null;
+		this.trainingCorpus = null;
 
 		return new RuleBasedTagger<T>(baseTagger, rules);
 	}
 
-	public class TrainingContext {
-
-		public final List<Sentence<T>> proofCorpus;
-		public final List<Sentence<T>> trainingCorpus;
-		
-		public TrainingContext(List<Sentence<T>> proofCorpus) {
-			this.proofCorpus = Collections.unmodifiableList(proofCorpus);
-			this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
-		}
+		private transient List<Sentence<T>> proofCorpus;
+		private transient List<Sentence<T>> trainingCorpus;
 
 		private void applyBaseTagger() {
 			for (Sentence<T> proofSentence : proofCorpus) {
@@ -168,9 +166,6 @@ public class RulesetTrainer<T> {
 				if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
 					score.dec();
 		}
-
-
-	}
 	
 	public static class Score<T1> implements Comparable<Score<T1>> {
 		public final Object roundCreated;
