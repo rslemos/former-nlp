@@ -29,6 +29,9 @@ public class RulesetTrainer<T> {
 	}
 
 	public RulesetTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories, int threshold) {
+		if (threshold < 0)
+			throw new IllegalArgumentException("Threshold must be non-negative");
+		
 		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
 		this.threshold = threshold;
@@ -84,15 +87,14 @@ public class RulesetTrainer<T> {
 		produceAllPossibleRules();
 		
 		Score<T> bestScore = selectBestRule();
-		Rule<T> bestRule = bestScore.rule;
 		
-		if (bestRule != null && bestScore.getScore() >= threshold) {
-			board.discardDependentsOn(bestRule);
-			applyRule(bestRule);
+		if (bestScore.getScore() >= threshold) {
+			board.discardDependentsOn(bestScore.rule);
+			applyRule(bestScore.rule);
+
+			return bestScore.rule;
 		} else
-			bestRule = null;
-		
-		return bestRule;
+			return null;
 	}
 
 	private void applyRule(Rule<T> bestRule) {
@@ -152,9 +154,7 @@ public class RulesetTrainer<T> {
 	}
 
 	private void computeNegativeScore(Score<T> entry) {
-		if (!entry.negativeMatchesComputed()) {
-			entry.dec();
-			
+		if (entry.initNegativeMatches()) {
 			for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
 				computeNegativeScore(entry, pair.x, pair.y);
 			}
@@ -185,7 +185,9 @@ public class RulesetTrainer<T> {
 		public final Rule<T1> rule;
 
 		private int positiveMatches = 0;
-		private int negativeMatches = -1;
+		private int negativeMatches = 0;
+
+		private boolean init = false;
 		
 		protected Score(Object roundCreated, Rule<T1> rule) {
 			this.roundCreated = roundCreated;
@@ -200,8 +202,12 @@ public class RulesetTrainer<T> {
 			negativeMatches++;
 		}
 		
-		public boolean negativeMatchesComputed() {
-			return negativeMatches != -1;
+		public boolean initNegativeMatches() {
+			boolean oldInit = init;
+			
+			init = true;
+			
+			return !oldInit;
 		}
 		
 		public int getScore() {
