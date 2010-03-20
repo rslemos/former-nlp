@@ -249,8 +249,8 @@ public class RulesetTrainer<T> {
 			}
 		}
 		
-		public Object newRound() {
-			return round = new Object();
+		public void newRound() {
+			round = new Object();
 		}
 
 		public Queue<Score<T1>> getRulesByPriority() {
