@@ -135,7 +135,7 @@ public class RulesetTrainer<T> {
 	private Score<T> selectBestRule() {
 		Queue<Score<T>> rules = board.getRulesByPriority();
 		
-		Score<T> bestScore = new Score<T>(null, null);
+		Score<T> bestScore = new Score<T>(null, null, Integer.MAX_VALUE);
 		bestScore.dec();
 		
 		while(!rules.isEmpty()) {
@@ -185,14 +185,17 @@ public class RulesetTrainer<T> {
 		
 		public final Rule<T1> rule;
 
+		private final int counter;
+		
 		private int positiveMatches = 0;
 		private int negativeMatches = 0;
 
 		private boolean init = false;
-		
-		protected Score(Object roundCreated, Rule<T1> rule) {
+
+		protected Score(Object roundCreated, Rule<T1> rule, int counter) {
 			this.roundCreated = roundCreated;
 			this.rule = rule;
+			this.counter = counter;
 		}
 		
 		public void inc() {
@@ -216,7 +219,9 @@ public class RulesetTrainer<T> {
 		}
 
 		public int compareTo(Score<T1> o) {
-			return o.getScore() - getScore();
+			int primaryCriteria = o.getScore() - getScore();
+			
+			return primaryCriteria != 0 ? primaryCriteria : o.counter - counter;
 		}
 	}
 
@@ -224,11 +229,13 @@ public class RulesetTrainer<T> {
 		private final HashMap<Rule<T1>, Score<T1>> rules = new HashMap<Rule<T1>, Score<T1>>();
 		private Object round;
 		
+		private int counter;
+		
 		public void addTruePositive(Rule<T1> rule) {
 			Score<T1> score = rules.get(rule);
 			
 			if (score == null) {
-				score = new Score<T1>(round, rule);
+				score = new Score<T1>(round, rule, counter);
 				rules.put(rule, score);
 			}
 			
