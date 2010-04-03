@@ -6,7 +6,7 @@ public interface BrillTaggerListener extends EventListener {
 
 	void taggingSentence(BrillTaggerEvent event);
 
-	void sentenceObjectged(BrillTaggerEvent event);
+	void sentenceTagged(BrillTaggerEvent event);
 
 	void beforeBaseTagger(BrillTaggerEvent event);
 

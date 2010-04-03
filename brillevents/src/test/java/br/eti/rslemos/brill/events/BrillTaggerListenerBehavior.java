@@ -64,7 +64,7 @@ public class BrillTaggerListenerBehavior {
 		
 		order.verify(listener).taggingSentence(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).sentenceObjectged(eventWithSentence());
+		order.verify(listener).sentenceTagged(eventWithSentence());
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class BrillTaggerListenerBehavior {
 		order.verify(baseTagger).tag(anySentence());
 		order.verify(listener).afterBaseTagger(eventWithSentence());
 		
-		order.verify(listener).sentenceObjectged(anyEvent());
+		order.verify(listener).sentenceTagged(anyEvent());
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class BrillTaggerListenerBehavior {
 		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule2));
 		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule2));
 		
-		order.verify(listener).sentenceObjectged(anyEvent());
+		order.verify(listener).sentenceTagged(anyEvent());
 	}
 
 	@Test
