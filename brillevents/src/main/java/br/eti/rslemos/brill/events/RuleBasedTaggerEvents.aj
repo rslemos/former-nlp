@@ -6,6 +6,7 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.tagger.Token;
+import br.eti.rslemos.brill.Context;
 
 @SuppressWarnings("unchecked")
 public abstract privileged aspect RuleBasedTaggerEvents {
@@ -32,13 +33,17 @@ public abstract privileged aspect RuleBasedTaggerEvents {
 	
 	@SuppressWarnings("unchecked")
 	public pointcut onContextAdvance(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context):
-		call(Token+ DelayedContext+.next()) &&
-		cflow(_onRuleApplication(tagger, rule, sentence, context)) && within(RuleBasedTagger+);
+		call(Token+ DelayedContext+.next()) && target(context) &&
+		cflow(_onRuleApplication(tagger, rule, sentence, *)) && within(RuleBasedTagger+);
 	
 	@SuppressWarnings("unchecked")
 	public pointcut onContextCommit(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context):
-		call(void DelayedContext+.commit()) &&
-		cflow(_onRuleApplication(tagger, rule, sentence, context)) && within(RuleBasedTagger+);
+		call(void DelayedContext+.commit()) && target(context) &&
+		cflow(_onRuleApplication(tagger, rule, sentence, *)) && within(RuleBasedTagger+);
 
+	@SuppressWarnings("unchecked")
+	public pointcut onContextualRuleApplication(RuleBasedTagger tagger, Rule rule, Sentence sentence, Context context):
+		call(boolean Rule+.apply(Context)) && target(rule) && args(context) &&
+		cflow(_onRuleApplication(tagger, *, sentence, *)) && within(RuleBasedTagger+);
 }
 

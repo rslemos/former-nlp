@@ -2,7 +2,7 @@ package br.eti.rslemos.brill.events;
 
 import java.util.EventObject;
 
-import br.eti.rslemos.brill.DelayedContext;
+import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
@@ -14,8 +14,10 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
 	private Sentence<T> onSentence;
 	private Rule<T> actingRule;
-	private DelayedContext<T> context;
+	private Context<T> context;
 	private Token<T> token;
+
+	private boolean applies;
 
 	public RuleBasedTaggerEvent(RuleBasedTagger<T> tagger) {
 		super(tagger);
@@ -37,11 +39,11 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		return actingRule;
 	}
 
-	public void setContext(DelayedContext<T> context) {
+	public void setContext(Context<T> context) {
 		this.context = context;
 	}
 	
-	public DelayedContext<T> getContext() {
+	public Context<T> getContext() {
 		return context;
 	}
 
@@ -51,6 +53,14 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 	
 	public Token<T> getToken() {
 		return token;
+	}
+
+	public void setRuleApplies(boolean applies) {
+		this.applies = applies;
+	}
+	
+	public boolean doesRuleApplies() {
+		return applies;
 	}
 
 	@SuppressWarnings("unchecked")

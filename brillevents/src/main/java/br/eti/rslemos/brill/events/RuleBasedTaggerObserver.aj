@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
@@ -45,6 +46,7 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 	private static final Method AFTERRULEAPPLICATION;
 	private static final Method ADVANCE;
 	private static final Method COMMIT;
+	private static final Method RULEAPPLIED;
 	
 	static {
 		Class<RuleBasedTaggerListener> clazz = RuleBasedTaggerListener.class;
@@ -59,6 +61,7 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 			AFTERRULEAPPLICATION = clazz.getMethod("afterRuleApplication", args);
 			ADVANCE = clazz.getMethod("advance", args);
 			COMMIT = clazz.getMethod("commit", args);
+			RULEAPPLIED = clazz.getMethod("ruleApplied", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -129,4 +132,15 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 		tagger.fireNotification(COMMIT, prototype);
 	}
 
+	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, Context context) returning (boolean result):
+		onContextualRuleApplication(tagger, rule, sentence, context) {
+		
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		prototype.setOnSentence(sentence);
+		prototype.setActingRule(rule);
+		prototype.setContext(context);
+		prototype.setRuleApplies(result);
+
+		tagger.fireNotification(RULEAPPLIED, prototype);
+	}
 }

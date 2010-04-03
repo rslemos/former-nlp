@@ -20,4 +20,6 @@ public interface RuleBasedTaggerListener<T> extends EventListener {
 
 	void commit(RuleBasedTaggerEvent<T> event);
 
+	void ruleApplied(RuleBasedTaggerEvent<T> event);
+
 }
