@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Queue;
 
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.RulesetTrainer.Score;
-import br.eti.rslemos.brill.RulesetTrainer.TrainingContext;
+import br.eti.rslemos.brill.RulesetTrainer;
 
 public privileged aspect Progress {
 	private int bestScore;
@@ -15,19 +14,19 @@ public privileged aspect Progress {
 	private long start;
 	private long before;
 
-	before(): execution(List<Rule> TrainingContext.discoverRules()) {
+	before(): execution(List RulesetTrainer.discoverRules()) {
 		start = System.currentTimeMillis();
 		rules = 0;
 	}
 
-	Score around(Queue<Score> rules): call(Score TrainingContext.selectBestRule(Queue<Score>)) && args(rules) {
+	RulesetTrainer.Score around(Queue rules): call(RulesetTrainer.Score RulesetTrainer.selectBestRule(Queue)) && args(rules) {
 		
 		System.out.printf("Considering %7d rules...\n", rules.size());
 		
 		bestScore = 0;
 		
 		before = System.currentTimeMillis();
-		Score bestScore = proceed(rules);
+		RulesetTrainer.Score bestScore = proceed(rules);
 		long after = System.currentTimeMillis();
 
 		this.rules++;
@@ -39,7 +38,7 @@ public privileged aspect Progress {
 		return bestScore;
 	}
 	
-	void around(Score score): call(void TrainingContext.computeNegativeScore(Score)) && args(score) {
+	void around(RulesetTrainer.Score score): call(void RulesetTrainer.computeNegativeScore(RulesetTrainer.Score)) && args(score) {
 		proceed(score);
 				
 		if (score.getScore() > bestScore) {
