@@ -7,6 +7,7 @@ import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
 
+@SuppressWarnings("unchecked")
 public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this(RuleBasedTagger+)) {
 	
 	private List<RuleBasedTaggerListener> listeners = new ArrayList<RuleBasedTaggerListener>();

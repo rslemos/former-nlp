@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.events;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
@@ -13,6 +12,7 @@ import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 
+@SuppressWarnings("unchecked")
 public class RuleBasedTaggerListenerBehavior {
 	
 	@Test

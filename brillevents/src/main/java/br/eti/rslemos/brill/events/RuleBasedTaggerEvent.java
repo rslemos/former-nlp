@@ -8,6 +8,8 @@ import br.eti.rslemos.tagger.Sentence;
 
 public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Sentence<T> onSentence;
 	private Rule<T> actingRule;
 
@@ -31,6 +33,7 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		return actingRule;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
