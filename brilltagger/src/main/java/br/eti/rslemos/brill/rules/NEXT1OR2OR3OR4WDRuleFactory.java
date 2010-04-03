@@ -5,20 +5,21 @@ import java.util.Collection;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public class NEXT1OR2OR3OR4WDRuleFactory<T> extends AbstractRuleFactory<T> {
-	@SuppressWarnings("unchecked")
-	public Collection<Rule<T>> create(T from, T to, Context<T> context) {
+public class NEXT1OR2OR3OR4WDRuleFactory extends AbstractRuleFactory {
+	
+	public Collection<Rule> create(Tag from, Tag to, Context context) {
 		String word1 = context.getToken(1).getWord();
 		String word2 = context.getToken(2).getWord();
 		String word3 = context.getToken(3).getWord();
 		String word4 = context.getToken(4).getWord();
 
-		return Arrays.<Rule<T>> asList(
-				new NEXT1OR2OR3OR4WDRule<T>(from, to, word1), 
-				new NEXT1OR2OR3OR4WDRule<T>(from, to, word2),
-				new NEXT1OR2OR3OR4WDRule<T>(from, to, word3),
-				new NEXT1OR2OR3OR4WDRule<T>(from, to, word4)
+		return Arrays.<Rule> asList(
+				new NEXT1OR2OR3OR4WDRule(from, to, word1), 
+				new NEXT1OR2OR3OR4WDRule(from, to, word2),
+				new NEXT1OR2OR3OR4WDRule(from, to, word3),
+				new NEXT1OR2OR3OR4WDRule(from, to, word4)
 		);
 	}
 }

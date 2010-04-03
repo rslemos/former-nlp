@@ -3,27 +3,28 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class NEXT1OR2TAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new NEXT1OR2TAGRuleFactory<T1>();
+public class NEXT1OR2TAGRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new NEXT1OR2TAGRuleFactory();
 	}
 	
-	private final T next1or2Tag;
+	private final Tag next1or2Tag;
 
-	public NEXT1OR2TAGRule(T from, T to, T next1or2Tag) {
+	public NEXT1OR2TAGRule(Tag from, Tag to, Tag next1or2Tag) {
 		super(from, to);
 		
 		this.next1or2Tag = next1or2Tag;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
-		T tag1 = context.getToken(1).getTag();
-		T tag2 = context.getToken(2).getTag();
+	private boolean thisMatches(Context context) {
+		Tag tag1 = context.getToken(1).getTag();
+		Tag tag2 = context.getToken(2).getTag();
 		
 		return next1or2Tag != null 
 		? (next1or2Tag.equals(tag1) | next1or2Tag.equals(tag2)) 
@@ -31,12 +32,12 @@ public class NEXT1OR2TAGRule<T> extends AbstractRule<T> implements SerializableA
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(T tag) {
+	public boolean firingDependsOnTag(Tag tag) {
 		return super.firingDependsOnTag(tag) || 
 			(next1or2Tag != null ? next1or2Tag.equals(tag) : tag == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

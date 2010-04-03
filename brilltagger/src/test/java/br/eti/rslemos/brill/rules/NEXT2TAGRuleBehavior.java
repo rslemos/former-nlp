@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class NEXT2TAGRuleBehavior {
-	private boolean matches(String next2Tag) {
-		Context<String> context = buildContext();
+	private boolean matches(Tag next2Tag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new NEXT2TAGRule<String>(THIS_TAG, TO_TAG, next2Tag);
+		Rule rule = new NEXT2TAGRule(THIS_TAG, TO_TAG, next2Tag);
 		return rule.matches(context);
 	}
 
@@ -37,27 +38,27 @@ public class NEXT2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXT2TAGRule.<String>FACTORY());
+		createAndTestBasicDependency(NEXT2TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new NEXT2TAGRule<String>(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(new NEXT2TAGRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT2TAGRule.<String>FACTORY());
+		createAndTestMatchability(NEXT2TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT2TAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(NEXT2TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT2TAGRule.<String>FACTORY(), 
+		createAndTestBrillText(NEXT2TAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " NEXT2TAG " + NEXT2_TAG);
 	}
 }

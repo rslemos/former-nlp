@@ -2,30 +2,31 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class PREVWDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new PREVWDRuleFactory<T1>();
+public class PREVWDRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new PREVWDRuleFactory();
 	}
 	
 	private final String prevWord;
 
-	public PREVWDRule(T from, T to, String prevWord) {
+	public PREVWDRule(Tag from, Tag to, String prevWord) {
 		super(from, to);
 		this.prevWord = prevWord;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word_1 = context.getToken(-1).getWord();
 		
 		return prevWord != null ? prevWord.equals(word_1) : word_1 == null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

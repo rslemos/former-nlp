@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXT2WDRuleBehavior {
 	private boolean matches(String nextWord) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new NEXT2WDRule<String>(THIS_TAG, TO_TAG, nextWord);
+		Rule rule = new NEXT2WDRule(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class NEXT2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXT2WDRule.<String>FACTORY());
+		createAndTestBasicDependency(NEXT2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new NEXT2WDRule<String>(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new NEXT2WDRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT2WDRule.<String>FACTORY());
+		createAndTestMatchability(NEXT2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT2WDRule.<String>FACTORY());
+		createAndTestObjectSemantics(NEXT2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT2WDRule.<String>FACTORY(), 
+		createAndTestBrillText(NEXT2WDRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " NEXT2WD " + NEXT2_WORD);
 	}
 }

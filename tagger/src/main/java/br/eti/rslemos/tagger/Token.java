@@ -1,8 +1,8 @@
 package br.eti.rslemos.tagger;
 
-public interface Token<T> {
+public interface Token {
 	String getWord();
 	
-	T getTag();
-	void setTag(T tag);
+	Tag getTag();
+	void setTag(Tag tag);
 }

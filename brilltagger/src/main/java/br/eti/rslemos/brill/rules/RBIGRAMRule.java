@@ -2,26 +2,27 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class RBIGRAMRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new RBIGRAMRuleFactory<T1>();
+public class RBIGRAMRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new RBIGRAMRuleFactory();
 	}
 	
 	private final String word;
 	private final String nextWord;
 
-	public RBIGRAMRule(T from, T to, String word, String nextWord) {
+	public RBIGRAMRule(Tag from, Tag to, String word, String nextWord) {
 		super(from, to);
 		this.word = word;
 		this.nextWord = nextWord;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
 		String word1 = context.getToken(1).getWord();
 		
@@ -29,7 +30,7 @@ public class RBIGRAMRule<T> extends AbstractRule<T> implements SerializableAsBri
 			(nextWord != null ? nextWord.equals(word1) : word1 == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

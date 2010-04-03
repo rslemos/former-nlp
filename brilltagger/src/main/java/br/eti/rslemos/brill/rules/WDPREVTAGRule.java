@@ -2,40 +2,41 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class WDPREVTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> AbstractRuleFactory<T1> FACTORY() {
-		return new WDPREVTAGRuleFactory<T1>();
+public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  AbstractRuleFactory FACTORY() {
+		return new WDPREVTAGRuleFactory();
 	}
 	
 	private final String word;
-	private final T prevTag;
+	private final Tag prevTag;
 
-	public WDPREVTAGRule(T from, T to, T prevTag, String word) {
+	public WDPREVTAGRule(Tag from, Tag to, Tag prevTag, String word) {
 		super(from, to);
 		this.word = word;
 		this.prevTag = prevTag;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
-		T tag_1 = context.getToken(-1).getTag();
+		Tag tag_1 = context.getToken(-1).getTag();
 		
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(prevTag != null ? prevTag.equals(tag_1) : tag_1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(T tag) {
+	public boolean firingDependsOnTag(Tag tag) {
 		return super.firingDependsOnTag(tag) || 
 			(prevTag != null ? prevTag.equals(tag) : tag == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

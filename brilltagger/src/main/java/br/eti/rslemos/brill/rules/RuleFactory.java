@@ -6,8 +6,8 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
 
-public interface RuleFactory<T> {
+public interface RuleFactory {
 
-	Collection<Rule<T>> create(Context<T> context, Token<T> target);
+	Collection<Rule> create(Context context, Token target);
 
 }

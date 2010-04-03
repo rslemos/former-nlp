@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class WDNEXTTAGRuleBehavior {
-	private boolean matches(String word, String next1Tag) {
-		Context<String> context = buildContext();
+	private boolean matches(String word, Tag next1Tag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new WDNEXTTAGRule<String>(THIS_TAG, TO_TAG, word, next1Tag);
+		Rule rule = new WDNEXTTAGRule(THIS_TAG, TO_TAG, word, next1Tag);
 		return rule.matches(context);
 	}
 
@@ -46,27 +47,27 @@ public class WDNEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(WDNEXTTAGRule.<String>FACTORY());
+		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new WDNEXTTAGRule<String>(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(new WDNEXTTAGRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDNEXTTAGRule.<String>FACTORY());
+		createAndTestMatchability(WDNEXTTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDNEXTTAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDNEXTTAGRule.<String>FACTORY(), 
+		createAndTestBrillText(WDNEXTTAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " WDNEXTTAG " + THIS_WORD + " " + NEXT1_TAG);
 	}
 }

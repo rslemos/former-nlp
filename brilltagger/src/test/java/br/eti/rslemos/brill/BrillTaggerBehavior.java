@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill;
 
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
@@ -12,78 +11,79 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.tagger.AbstractTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public class BrillTaggerBehavior {
 
 	@Test
 	public void shouldWorkOnEmptyInput() {
-		BrillTagger<String> tagger = new BrillTagger<String>();
+		BrillTagger tagger = new BrillTagger();
 		
 		tagger.tag(newDefaultSentence());
 	}
 
 	@Test
 	public void shouldInvokeBaseTaggerAndTagToken() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 
-		Tagger<String> baseTagger = new AbstractTokenTagger<String>() {
-			public void tag(Token<String> token) {
+		Tagger baseTagger = new AbstractTokenTagger() {
+			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
-				token.setTag("foobar");
+				token.setTag(new DefaultTag("foobar"));
 			}
 		};
 
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger);
+		BrillTagger tagger = new BrillTagger(baseTagger);
 		
 		tagger.tag(newDefaultSentence(token));
 
-		verify(token, times(1)).setTag("foobar");
+		verify(token, times(1)).setTag(new DefaultTag("foobar"));
 	}
 
 	@Test
 	public void shouldInvokeBaseTaggerAndRuleAndTagToken() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
-		when(token.getTag()).thenReturn("bar");
+		when(token.getTag()).thenReturn(new DefaultTag("bar"));
 
-		Rule<String> rule = new RuleAdapter<String>() {
+		Rule rule = new RuleAdapter() {
 			@Override
-			public boolean apply(Context<String> context) {
-				Token<String> token = context.getToken(0);
+			public boolean apply(Context context) {
+				Token token = context.getToken(0);
 				assertEquals(token.getWord(), "foo");
-				assertEquals(token.getTag(), "bar");
-				token.setTag("foobar");
+				assertEquals(token.getTag(), new DefaultTag("bar"));
+				token.setTag(new DefaultTag("foobar"));
 				
 				return true;
 			}
 		};
 		
-		Tagger<String> baseTagger = mock(Tagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 		
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule));
+		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token));
 
 		InOrder inOrder = inOrder(baseTagger, token);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
-		inOrder.verify(token, times(1)).setTag("foobar");
+		inOrder.verify(token, times(1)).setTag(new DefaultTag("foobar"));
 	}
 
 	@Test
 	public void shouldInvokeBaseTaggerAndRulesInOrder() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 
-		Tagger<String> baseTagger = mock(Tagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 
-		Rule<String> rule1 = mock(Rule.class);
-		Rule<String> rule2 = mock(Rule.class);
+		Rule rule1 = mock(Rule.class);
+		Rule rule2 = mock(Rule.class);
 		
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(token));
 
@@ -93,66 +93,70 @@ public class BrillTaggerBehavior {
 		inOrder.verify(rule2, times(1)).apply(anyContext());
 	}
 
-	private Context<String> anyContext() {
-		return (Context<String>) anyObject();
+	private Context anyContext() {
+		return (Context) anyObject();
 	}
 
 	@Test
 	public void shouldIsolateRuleEffects() {
-		final Token<String> token1 = mock(Token.class);
-		final Token<String> token2 = mock(Token.class);
+		final Token token1 = mock(Token.class);
+		final Token token2 = mock(Token.class);
 
-		Tagger<String> baseTagger = mock(Tagger.class);
+		Tagger baseTagger = mock(Tagger.class);
 
-		Rule<String> rule = new RuleAdapter<String>() {
+		Rule rule = new RuleAdapter() {
 			@Override
-			public boolean apply(Context<String> context) {
-				verify(token2, never()).setTag(anyString());
-				verify(token1, never()).setTag(anyString());
+			public boolean apply(Context context) {
+				verify(token2, never()).setTag(anyTag());
+				verify(token1, never()).setTag(anyTag());
 				
-				Token<String> token = context.getToken(0);
-				token.setTag("foobar");
+				Token token = context.getToken(0);
+				token.setTag(new DefaultTag("foobar"));
 				
 				return true;
 			}
 		};
 
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule));
+		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
-		verify(token1, times(1)).setTag("foobar");
-		verify(token2, times(1)).setTag("foobar");
+		verify(token1, times(1)).setTag(new DefaultTag("foobar"));
+		verify(token2, times(1)).setTag(new DefaultTag("foobar"));
 	}
 
-	private static class RuleAdapter<T1> implements Rule<T1> {
-		public T1 getFrom() {
+	private static class RuleAdapter implements Rule {
+		public Tag getFrom() {
 			return null;
 		}
 
-		public T1 getTo() {
+		public Tag getTo() {
 			return null;
 		}
 
-		public boolean matches(Context<T1> context) {
+		public boolean matches(Context context) {
 			return false;
 		}
 
-		public boolean apply(Context<T1> context) {
+		public boolean apply(Context context) {
 			return false;
 		}
 
-		public boolean firingDependsOnTag(T1 tag) {
+		public boolean firingDependsOnTag(Tag tag) {
 			return false;
 		}
 	}
 
-	private static Sentence<String> anySentence() {
-		return (Sentence<String>) anyObject();
+	private static Sentence anySentence() {
+		return anyObject();
 	}
 
-	private DefaultSentence<String> newDefaultSentence(Token<String>... tokens) {
-		return new DefaultSentence<String>(Arrays.asList(tokens));
+	private static Tag anyTag() {
+		return anyObject();
+	}
+	
+	private DefaultSentence newDefaultSentence(Token... tokens) {
+		return new DefaultSentence(Arrays.asList(tokens));
 	}
 	
 }

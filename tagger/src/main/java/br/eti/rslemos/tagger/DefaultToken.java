@@ -1,15 +1,15 @@
 package br.eti.rslemos.tagger;
 
-public final class DefaultToken<T> implements Token<T> {
+public final class DefaultToken implements Token {
 
 	private final String word;
-	private T tag;
+	private Tag tag;
 
 	public DefaultToken(String word) {
 		this.word = word;
 	}
 
-	public DefaultToken(Token<T> token) {
+	public DefaultToken(Token token) {
 		this.word = token.getWord();
 		this.tag = token.getTag();
 	}
@@ -18,11 +18,11 @@ public final class DefaultToken<T> implements Token<T> {
 		return word;
 	}
 
-	public T getTag() {
+	public Tag getTag() {
 		return tag;
 	}
 
-	public void setTag(T tag) {
+	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
 

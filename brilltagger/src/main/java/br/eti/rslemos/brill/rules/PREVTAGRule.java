@@ -2,36 +2,37 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class PREVTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new PREVTAGRuleFactory<T1>();
+public class PREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new PREVTAGRuleFactory();
 	}
 	
-	private final T prevTag;
+	private final Tag prevTag;
 
-	public PREVTAGRule(T from, T to, T prevTag) {
+	public PREVTAGRule(Tag from, Tag to, Tag prevTag) {
 		super(from, to);
 		this.prevTag = prevTag;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
-		T tag_1 = context.getToken(-1).getTag();
+	private boolean thisMatches(Context context) {
+		Tag tag_1 = context.getToken(-1).getTag();
 		
 		return prevTag != null ? prevTag.equals(tag_1) : tag_1 == null;
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(T tag) {
+	public boolean firingDependsOnTag(Tag tag) {
 		return super.firingDependsOnTag(tag) || 
 			(prevTag != null ? prevTag.equals(tag) : tag == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

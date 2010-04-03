@@ -12,7 +12,6 @@ import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 	private List<BrillTaggerListener> BrillTagger.listeners = new ArrayList<BrillTaggerListener>();
 	
@@ -49,7 +48,7 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 	
 	static {
 		Class<BrillTaggerListener> clazz = BrillTaggerListener.class;
-		Class[] args = new Class[] {BrillTaggerEvent.class};
+		Class<?>[] args = new Class[] {BrillTaggerEvent.class};
 		
 		try {
 			TAGGINGSENTENCE = clazz.getMethod("taggingSentence", args);

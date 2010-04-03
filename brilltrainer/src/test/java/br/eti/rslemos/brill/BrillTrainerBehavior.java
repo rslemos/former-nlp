@@ -16,60 +16,61 @@ import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.LookupTokenTagger;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public class BrillTrainerBehavior {
 	@Test
 	public void shouldProduceNoRulesForPerfectBaseTagger() {
-		List<Sentence<String>> sentences = buildText_ToSignUp();
+		List<Sentence> sentences = buildText_ToSignUp();
 		
-		Map<String, String> lexicon = new HashMap<String, String>();
-		lexicon.put("to", "TO");
-		lexicon.put("sign", "VB");
-		lexicon.put("up", "RP");
+		Map<String, Tag> lexicon = new HashMap<String, Tag>();
+		lexicon.put("to", new DefaultTag("TO"));
+		lexicon.put("sign", new DefaultTag("VB"));
+		lexicon.put("up", new DefaultTag("RP"));
 		
-		List<RuleFactory<String>> ruleFactories = Collections.emptyList();
-		BrillTrainer<String> trainer = new BrillTrainer<String>(new LookupTokenTagger<String>(lexicon), ruleFactories);
+		List<RuleFactory> ruleFactories = Collections.emptyList();
+		BrillTrainer trainer = new BrillTrainer(new LookupTokenTagger(lexicon), ruleFactories);
 		
-		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences).getRules();
 		assertEquals(rules.size(), 0);
 	}
 
 	@Test
 	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
-		final String FROM_TAG = "TAG";
+		final Tag FROM_TAG = new DefaultTag("TAG");
 		
-		List<Sentence<String>> sentences = buildText_ToSignUp();
+		List<Sentence> sentences = buildText_ToSignUp();
 		
-		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 3);
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TO", "to")));
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "VB", "sign")));
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "RP", "up")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TO"), "to")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("VB"), "sign")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("RP"), "up")));
 	}
 	
 	@Test
 	public void shouldNeverConsiderTheSameRuleTwiceForTheSameWord() throws Throwable {
 		final String WORD1 = "WORD1";
 		final String WORD2 = "WORD2";
-		final String TAG = "TAG";
+		final Tag TAG = new DefaultTag("TAG");
 		
-		List<Sentence<String>> sentences = buildText(
+		List<Sentence> sentences = buildText(
 				buildSentence(
 						buildToken(WORD1, TAG), 
 						buildToken(WORD2, TAG)
 				)
 		);
 
-		class IdentityRule extends AbstractRule<String> {
+		class IdentityRule extends AbstractRule {
 			private final String name;
 
 			protected IdentityRule(String name) {
@@ -97,21 +98,21 @@ public class BrillTrainerBehavior {
 			}
 
 			@Override
-			public boolean matches(Context<String> context) {
+			public boolean matches(Context context) {
 				return (context.getToken(0).getWord() == word) && super.matches(context);
 			}
 		}
 		
-		class TheFactory implements RuleFactory<String> {
-			private final Rule<String> rule1;
-			private final Rule<String> rule2;
+		class TheFactory implements RuleFactory {
+			private final Rule rule1;
+			private final Rule rule2;
 
-			protected TheFactory(Rule<String> rule1, Rule<String> rule2) {
+			protected TheFactory(Rule rule1, Rule rule2) {
 				this.rule1 = rule1;
 				this.rule2 = rule2;
 			}
 
-			public Collection<Rule<String>> create(Context<String> context, Token<String> target) {
+			public Collection<Rule> create(Context context, Token target) {
 				String word = target.getWord();
 				
 				if (word == WORD1)
@@ -127,96 +128,96 @@ public class BrillTrainerBehavior {
 		// rule1 will be returned thrice (factory1_a, factory1_b, factory1_c) for token1
 		// rule1_x will be returned once (factory1_x) for token1
 		// rule2 will be returned one time for each token
-		Rule<String> rule1 = new WordRule("rule1", WORD1);
-		Rule<String> rule1_a = new WordRule("rule1_a", WORD2);
-		Rule<String> rule1_b = new WordRule("rule1_b", WORD2);
-		Rule<String> rule1_c = new WordRule("rule1_c", WORD2);
-		Rule<String> rule2 = new IdentityRule("rule2");
+		Rule rule1 = new WordRule("rule1", WORD1);
+		Rule rule1_a = new WordRule("rule1_a", WORD2);
+		Rule rule1_b = new WordRule("rule1_b", WORD2);
+		Rule rule1_c = new WordRule("rule1_c", WORD2);
+		Rule rule2 = new IdentityRule("rule2");
 
-		RuleFactory<String> factory1_a = new TheFactory(rule1, rule1_a);
-		RuleFactory<String> factory1_b = new TheFactory(rule1, rule1_b);
-		RuleFactory<String> factory1_c = new TheFactory(rule1, rule1_c);
-		RuleFactory<String> factory2 = new TheFactory(rule2, rule2);
+		RuleFactory factory1_a = new TheFactory(rule1, rule1_a);
+		RuleFactory factory1_b = new TheFactory(rule1, rule1_b);
+		RuleFactory factory1_c = new TheFactory(rule1, rule1_c);
+		RuleFactory factory2 = new TheFactory(rule2, rule2);
 		
-		List<RuleFactory<String>> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
-		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(null), ruleFactories);
+		List<RuleFactory> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
+		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(null), ruleFactories);
 		
-		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.get(0), rule2);
 	}
 
 	@Test
 	public void shouldConsiderEachAndEverySentenceInCorpus() throws Throwable {
-		List<Sentence<String>> sentences = buildText(
+		List<Sentence> sentences = buildText(
 				buildSentence(
-						buildToken("WORD1", "TAG1"), 
-						buildToken("WORD2", "TAG2") 
+						buildToken("WORD1", new DefaultTag("TAG1")), 
+						buildToken("WORD2", new DefaultTag("TAG2")) 
 				),
 				buildSentence(
-						buildToken("WORD3", "TAG3"), 
-						buildToken("WORD4", "TAG4") 
+						buildToken("WORD3", new DefaultTag("TAG3")), 
+						buildToken("WORD4", new DefaultTag("TAG4")) 
 				)
 		);
 		
-		final String FROM_TAG = "TAG";
+		final Tag FROM_TAG = new DefaultTag("TAG");
 		
-		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 4);
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG2", "WORD2")));
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG3", "WORD3")));
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG4", "WORD4")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TAG1"), "WORD1")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TAG2"), "WORD2")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TAG3"), "WORD3")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TAG4"), "WORD4")));
 	}
 	
 	@Test
 	public void shouldConsiderForNegativeScoreEachAndEverySentenceInCorpus() throws Throwable {
-		List<Sentence<String>> sentences = buildText(
+		List<Sentence> sentences = buildText(
 				buildSentence(
-						buildToken("WORD1", "TAG1"), 
-						buildToken("WORD2", "TAG2") 
+						buildToken("WORD1", new DefaultTag("TAG1")), 
+						buildToken("WORD2", new DefaultTag("TAG2")) 
 				),
 				buildSentence(
-						buildToken("WORD2", "TAG"), 
-						buildToken("WORD2", "TAG") 
+						buildToken("WORD2", new DefaultTag("TAG")), 
+						buildToken("WORD2", new DefaultTag("TAG")) 
 				)
 		);
 		
-		final String FROM_TAG = "TAG";
+		final Tag FROM_TAG = new DefaultTag("TAG");
 		
-		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
-		List<Rule<String>> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences).getRules();
 		
 		assertEquals(rules.size(), 1);
-		assertTrue(rules.contains(new CURWDRule<String>(FROM_TAG, "TAG1", "WORD1")));
+		assertTrue(rules.contains(new CURWDRule(FROM_TAG, new DefaultTag("TAG1"), "WORD1")));
 	}
 	
-	public static List<Sentence<String>> buildText_ToSignUp() {
+	public static List<Sentence> buildText_ToSignUp() {
 		return buildText(
 				buildSentence(
-						buildToken("to", "TO"), 
-						buildToken("sign", "VB"), 
-						buildToken("up", "RP")
+						buildToken("to", new DefaultTag("TO")), 
+						buildToken("sign", new DefaultTag("VB")), 
+						buildToken("up", new DefaultTag("RP"))
 				)
 		);
 	}
 
-	private static <T> List<Sentence<T>> buildText(Sentence<T>... sentence) {
+	private static  List<Sentence> buildText(Sentence... sentence) {
 		return Arrays.asList(sentence);
 	}
 
-	private static <T> Sentence<T> buildSentence(Token<T>... tokens) {
-		return new DefaultSentence<T>(Arrays.asList(tokens));
+	private static  Sentence buildSentence(Token... tokens) {
+		return new DefaultSentence(Arrays.asList(tokens));
 	}
 
-	private static <T> Token<T> buildToken(String word, T tag) {
-		Token<T> token = new DefaultToken<T>(word);
+	private static Token buildToken(String word, Tag tag) {
+		Token token = new DefaultToken(word);
 		token.setTag(tag);
 		return token;
 	}

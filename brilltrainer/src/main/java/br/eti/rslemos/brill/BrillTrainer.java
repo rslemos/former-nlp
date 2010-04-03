@@ -18,17 +18,17 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
-public class BrillTrainer<T> {
-	private final Tagger<T> baseTagger;
+public class BrillTrainer {
+	private final Tagger baseTagger;
 
-	private final List<RuleFactory<T>> ruleFactories;
+	private final List<RuleFactory> ruleFactories;
 	private final int threshold;
 
-	public BrillTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories) {
+	public BrillTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
 		this(baseTagger, ruleFactories, 1);
 	}
 
-	public BrillTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories, int threshold) {
+	public BrillTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, int threshold) {
 		if (threshold < 0)
 			throw new IllegalArgumentException("Threshold must be non-negative");
 		
@@ -37,18 +37,18 @@ public class BrillTrainer<T> {
 		this.threshold = threshold;
 	}
 
-	private transient List<Sentence<T>> proofCorpus;
-	private transient List<Sentence<T>> trainingCorpus;
+	private transient List<Sentence> proofCorpus;
+	private transient List<Sentence> trainingCorpus;
 
-	private transient ScoreBoard<T> board;
-	private transient ArrayList<Rule<T>> rules;
+	private transient ScoreBoard board;
+	private transient ArrayList<Rule> rules;
 
-	public synchronized BrillTagger<T> train(List<Sentence<T>> proofCorpus) {
+	public synchronized BrillTagger train(List<Sentence> proofCorpus) {
 		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
-		this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
+		this.trainingCorpus = new ArrayList<Sentence>(proofCorpus.size());
 
-		this.board = new ScoreBoard<T>();
-		this.rules = new ArrayList<Rule<T>>();
+		this.board = new ScoreBoard();
+		this.rules = new ArrayList<Rule>();
 
 		try {
 			prepareTrainingCorpus();
@@ -56,7 +56,7 @@ public class BrillTrainer<T> {
 			
 			rules.trimToSize();
 
-			return new BrillTagger<T>(baseTagger, rules);
+			return new BrillTagger(baseTagger, rules);
 		} finally {
 			// dispose
 			this.proofCorpus = null;
@@ -67,27 +67,27 @@ public class BrillTrainer<T> {
 	}
 
 	private void prepareTrainingCorpus() {
-		for (Sentence<T> proofSentence : proofCorpus) {
-			Sentence<T> trainingSentence = new DefaultSentence<T>(proofSentence);
+		for (Sentence proofSentence : proofCorpus) {
+			Sentence trainingSentence = new DefaultSentence(proofSentence);
 			baseTagger.tag(trainingSentence);
 			trainingCorpus.add(trainingSentence);
 		}
 	}
 
 	private void discoverRules() {
-		Rule<T> bestRule;
+		Rule bestRule;
 		
 		while ((bestRule = discoverNextRule()) != null) {
 			rules.add(bestRule);
 		}
 	}
 
-	private Rule<T> discoverNextRule() {
+	private Rule discoverNextRule() {
 		board.newRound();
 		
 		produceAllPossibleRules();
 		
-		Score<T> bestScore = selectBestRule();
+		Score bestScore = selectBestRule();
 		
 		if (bestScore.getScore() >= threshold) {
 			board.discardDependentsOn(bestScore.rule);
@@ -98,48 +98,48 @@ public class BrillTrainer<T> {
 			return null;
 	}
 
-	private void applyRule(Rule<T> bestRule) {
-		for (Sentence<T> trainingSentence : trainingCorpus)
-			BrillTagger.applyRule(new DelayedContext<T>(new SentenceContext<T>(trainingSentence)), bestRule);
+	private void applyRule(Rule bestRule) {
+		for (Sentence trainingSentence : trainingCorpus)
+			BrillTagger.applyRule(new DelayedContext(new SentenceContext(trainingSentence)), bestRule);
 	}
 
 	private void produceAllPossibleRules() {
-		for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
+		for (Pair<Sentence, Sentence> pair : pairOf(proofCorpus, trainingCorpus)) {
 			produceAllPossibleRules(pair.x, pair.y);
 		}
 	}
 
-	private void produceAllPossibleRules(Sentence<T> proofSentence, Sentence<T> trainingSentence) {
-		Context<T> trainingContext = new SentenceContext<T>(trainingSentence);
+	private void produceAllPossibleRules(Sentence proofSentence, Sentence trainingSentence) {
+		Context trainingContext = new SentenceContext(trainingSentence);
 		
-		for (Token<T> proofToken : proofSentence) {
-			Token<T> trainingToken = trainingContext.next();
+		for (Token proofToken : proofSentence) {
+			Token trainingToken = trainingContext.next();
 			
 			if (!ObjectUtils.equals(proofToken.getTag(), trainingToken.getTag())) {
-				Collection<Rule<T>> rules = invokeRuleFactories(trainingContext, proofToken);
+				Collection<Rule> rules = invokeRuleFactories(trainingContext, proofToken);
 				
 				board.addTruePositives(rules);
 			}
 		}
 	}
 
-	private Collection<Rule<T>> invokeRuleFactories(Context<T> context, Token<T> target) {
-		Collection<Rule<T>> rules = new LinkedHashSet<Rule<T>>(ruleFactories.size());
+	private Collection<Rule> invokeRuleFactories(Context context, Token target) {
+		Collection<Rule> rules = new LinkedHashSet<Rule>(ruleFactories.size());
 
-		for (RuleFactory<T> factory : ruleFactories)
+		for (RuleFactory factory : ruleFactories)
 			rules.addAll(factory.create(context, target));
 
 		return rules;
 	}
 
-	private Score<T> selectBestRule() {
-		Queue<Score<T>> rules = board.getRulesByPriority();
+	private Score selectBestRule() {
+		Queue<Score> rules = board.getRulesByPriority();
 		
-		Score<T> bestScore = new Score<T>(null, null, Integer.MAX_VALUE);
+		Score bestScore = new Score(null, null, Integer.MAX_VALUE);
 		bestScore.dec();
 		
 		while(!rules.isEmpty()) {
-			Score<T> entry = rules.poll();
+			Score entry = rules.poll();
 			
 			if (entry.getScore() > bestScore.getScore()) {
 				computeNegativeScore(entry);
@@ -154,36 +154,36 @@ public class BrillTrainer<T> {
 		return bestScore;
 	}
 
-	private void computeNegativeScore(Score<T> entry) {
+	private void computeNegativeScore(Score entry) {
 		if (entry.initNegativeMatches()) {
-			for (Pair<Sentence<T>, Sentence<T>> pair : pairOf(proofCorpus, trainingCorpus)) {
+			for (Pair<Sentence, Sentence> pair : pairOf(proofCorpus, trainingCorpus)) {
 				computeNegativeScore(entry, pair.x, pair.y);
 			}
 		}
 	}
 
-	private void computeNegativeScore(Score<T> entry, Sentence<T> proofSentence, Sentence<T> trainingSentence) {
-		Context<T> trainingContext = new SentenceContext<T>(trainingSentence);
+	private void computeNegativeScore(Score entry, Sentence proofSentence, Sentence trainingSentence) {
+		Context trainingContext = new SentenceContext(trainingSentence);
 		
-		for (Token<T> proofToken : proofSentence) {
+		for (Token proofToken : proofSentence) {
 			trainingContext.next();
 		
 			computeNegativeScore(entry, proofToken, trainingContext);
 		}
 	}
 
-	private void computeNegativeScore(Score<T> score, Token<T> proofToken, Context<T> trainingSentence) {
-		Rule<T> rule = score.rule;
+	private void computeNegativeScore(Score score, Token proofToken, Context trainingSentence) {
+		Rule rule = score.rule;
 
 		if (rule.matches(trainingSentence))
 			if (ObjectUtils.equals(rule.getFrom(), proofToken.getTag()))
 				score.dec();
 	}
 	
-	private static class Score<T1> implements Comparable<Score<T1>> {
+	private static class Score implements Comparable<Score> {
 		public final Object roundCreated;
 		
-		public final Rule<T1> rule;
+		public final Rule rule;
 
 		private final int counter;
 		
@@ -192,7 +192,7 @@ public class BrillTrainer<T> {
 
 		private boolean init = false;
 
-		protected Score(Object roundCreated, Rule<T1> rule, int counter) {
+		protected Score(Object roundCreated, Rule rule, int counter) {
 			this.roundCreated = roundCreated;
 			this.rule = rule;
 			this.counter = counter;
@@ -218,24 +218,24 @@ public class BrillTrainer<T> {
 			return positiveMatches - negativeMatches;
 		}
 
-		public int compareTo(Score<T1> o) {
+		public int compareTo(Score o) {
 			int primaryCriteria = o.getScore() - getScore();
 			
 			return primaryCriteria != 0 ? primaryCriteria : o.counter - counter;
 		}
 	}
 
-	private static class ScoreBoard<T1> {
-		private final HashMap<Rule<T1>, Score<T1>> rules = new HashMap<Rule<T1>, Score<T1>>();
+	private static class ScoreBoard {
+		private final HashMap<Rule, Score> rules = new HashMap<Rule, Score>();
 		private Object round;
 		
 		private int counter;
 		
-		public void addTruePositive(Rule<T1> rule) {
-			Score<T1> score = rules.get(rule);
+		public void addTruePositive(Rule rule) {
+			Score score = rules.get(rule);
 			
 			if (score == null) {
-				score = new Score<T1>(round, rule, counter);
+				score = new Score(round, rule, counter);
 				rules.put(rule, score);
 			}
 			
@@ -243,8 +243,8 @@ public class BrillTrainer<T> {
 				score.inc();
 		}
 
-		public void addTruePositives(Collection<Rule<T1>> rules) {
-			for (Rule<T1> rule : rules) {
+		public void addTruePositives(Collection<Rule> rules) {
+			for (Rule rule : rules) {
 				addTruePositive(rule);
 			}
 		}
@@ -253,13 +253,13 @@ public class BrillTrainer<T> {
 			round = new Object();
 		}
 
-		public Queue<Score<T1>> getRulesByPriority() {
-			return new PriorityQueue<Score<T1>>(rules.values());
+		public Queue<Score> getRulesByPriority() {
+			return new PriorityQueue<Score>(rules.values());
 		}
 		
-		public void discardDependentsOn(Rule<T1> rule) {
-			for (Iterator<Rule<T1>> it = rules.keySet().iterator(); it.hasNext();) {
-				Rule<T1> r = it.next();
+		public void discardDependentsOn(Rule rule) {
+			for (Iterator<Rule> it = rules.keySet().iterator(); it.hasNext();) {
+				Rule r = it.next();
 				
 				// already covers the case where rule == bestRule, since a rule firing depends on its tags anyway
 				if (r.firingDependsOnTag(rule.getFrom()) || r.firingDependsOnTag(rule.getTo()))

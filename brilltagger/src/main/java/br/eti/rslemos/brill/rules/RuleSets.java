@@ -3,38 +3,38 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.rules.lexical.PREFIXRule;
 import br.eti.rslemos.brill.rules.lexical.SUFFIXRule;
 
-@SuppressWarnings("unchecked")
+
 public interface RuleSets {
-	static final RuleFactory<String>[] BRILL = new RuleFactory[] {
-		CURWDRule.<String>FACTORY(),
-		LBIGRAMRule.<String>FACTORY(),
-		NEXT1OR2OR3TAGRule.<String>FACTORY(),
-		NEXT1OR2TAGRule.<String>FACTORY(),
-		NEXT1OR2WDRule.<String>FACTORY(),
-		NEXT2TAGRule.<String>FACTORY(),
-		NEXT2WDRule.<String>FACTORY(),
-		NEXTBIGRAMRule.<String>FACTORY(),
-		NEXTTAGRule.<String>FACTORY(),
-		NEXTWDRule.<String>FACTORY(),
-		PREV1OR2OR3TAGRule.<String>FACTORY(),
-		PREV1OR2TAGRule.<String>FACTORY(),
-		PREV1OR2WDRule.<String>FACTORY(),
-		PREV2TAGRule.<String>FACTORY(),
-		PREV2WDRule.<String>FACTORY(),
-		PREVBIGRAMRule.<String>FACTORY(),
-		PREVTAGRule.<String>FACTORY(),
-		PREVWDRule.<String>FACTORY(),
-		RBIGRAMRule.<String>FACTORY(),
-		SURROUNDTAGRule.<String>FACTORY(),
-		WDAND2AFTRule.<String>FACTORY(),
-		WDAND2BFRRule.<String>FACTORY(),
-		WDAND2TAGAFTRule.<String>FACTORY(),
-		WDAND2TAGBFRRule.<String>FACTORY(),
-		WDNEXTTAGRule.<String>FACTORY(),
-		WDPREVTAGRule.<String>FACTORY(),		
+	static final RuleFactory[] BRILL = new RuleFactory[] {
+		CURWDRule.FACTORY(),
+		LBIGRAMRule.FACTORY(),
+		NEXT1OR2OR3TAGRule.FACTORY(),
+		NEXT1OR2TAGRule.FACTORY(),
+		NEXT1OR2WDRule.FACTORY(),
+		NEXT2TAGRule.FACTORY(),
+		NEXT2WDRule.FACTORY(),
+		NEXTBIGRAMRule.FACTORY(),
+		NEXTTAGRule.FACTORY(),
+		NEXTWDRule.FACTORY(),
+		PREV1OR2OR3TAGRule.FACTORY(),
+		PREV1OR2TAGRule.FACTORY(),
+		PREV1OR2WDRule.FACTORY(),
+		PREV2TAGRule.FACTORY(),
+		PREV2WDRule.FACTORY(),
+		PREVBIGRAMRule.FACTORY(),
+		PREVTAGRule.FACTORY(),
+		PREVWDRule.FACTORY(),
+		RBIGRAMRule.FACTORY(),
+		SURROUNDTAGRule.FACTORY(),
+		WDAND2AFTRule.FACTORY(),
+		WDAND2BFRRule.FACTORY(),
+		WDAND2TAGAFTRule.FACTORY(),
+		WDAND2TAGBFRRule.FACTORY(),
+		WDNEXTTAGRule.FACTORY(),
+		WDPREVTAGRule.FACTORY(),		
 	};
 
-	static final RuleFactory<String>[] BRILL_LEXICAL = new RuleFactory[] {
+	static final RuleFactory[] BRILL_LEXICAL = new RuleFactory[] {
 		PREFIXRule.FACTORY(), SUFFIXRule.FACTORY()
 	};
 }

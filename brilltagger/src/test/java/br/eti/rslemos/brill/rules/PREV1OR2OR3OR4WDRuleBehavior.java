@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2OR3OR4WDRuleBehavior {
 	private boolean matches(String prev1or2or3Word) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new PREV1OR2OR3OR4WDRule<String>(THIS_TAG, TO_TAG, prev1or2or3Word);
+		Rule rule = new PREV1OR2OR3OR4WDRule(THIS_TAG, TO_TAG, prev1or2or3Word);
 		return rule.matches(context);
 	}
 	
@@ -37,30 +37,30 @@ public class PREV1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.<String>FACTORY());
+		createAndTestBasicDependency(PREV1OR2OR3OR4WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new PREV1OR2OR3OR4WDRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(new PREV1OR2OR3OR4WDRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
-		testDependency(new PREV1OR2OR3OR4WDRule<String>(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
-		testDependency(new PREV1OR2OR3OR4WDRule<String>(THIS_TAG, THIS_TAG, PREV4_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3OR4WDRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3OR4WDRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3OR4WDRule(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3OR4WDRule(THIS_TAG, THIS_TAG, PREV4_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3OR4WDRule.<String>FACTORY());
+		createAndTestMatchability(PREV1OR2OR3OR4WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2OR3OR4WDRule.<String>FACTORY(), 
+		createAndTestBrillText(PREV1OR2OR3OR4WDRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV2_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV3_WORD,

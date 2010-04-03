@@ -13,9 +13,9 @@ import br.eti.rslemos.brill.rules.lexical.SUFFIXRule;
 
 public class SUFFIXRuleBehavior {
 	private boolean matches(String suffix) {
-		Context<String> context = buildUntaggedContext();
+		Context context = buildUntaggedContext();
 		
-		Rule<String> rule = new SUFFIXRule<String>(null, TO_TAG, suffix);
+		Rule rule = new SUFFIXRule(null, TO_TAG, suffix);
 		return rule.matches(context);
 	}
 
@@ -42,17 +42,17 @@ public class SUFFIXRuleBehavior {
 //	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(SUFFIXRule.<String>FACTORY());
+		createAndTestUntaggedMatchability(SUFFIXRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SUFFIXRule.<String>FACTORY());
+		createAndTestObjectSemantics(SUFFIXRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SUFFIXRule.<String>FACTORY(), 
+		createAndTestBrillText(SUFFIXRule.FACTORY(), 
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 1, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 2, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 3, THIS_WORD.length()),

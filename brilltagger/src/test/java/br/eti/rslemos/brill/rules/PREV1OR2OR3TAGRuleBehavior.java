@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class PREV1OR2OR3TAGRuleBehavior {
-	private boolean matches(String prev1or2or3Tag) {
-		Context<String> context = buildContext();
+	private boolean matches(Tag prev1or2or3Tag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new PREV1OR2OR3TAGRule<String>(THIS_TAG, TO_TAG, prev1or2or3Tag);
+		Rule rule = new PREV1OR2OR3TAGRule(THIS_TAG, TO_TAG, prev1or2or3Tag);
 		return rule.matches(context);
 	}
 	
@@ -37,29 +38,29 @@ public class PREV1OR2OR3TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2OR3TAGRule.<String>FACTORY());
+		createAndTestBasicDependency(PREV1OR2OR3TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new PREV1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
-		testDependency(new PREV1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
-		testDependency(new PREV1OR2OR3TAGRule<String>(THIS_TAG, THIS_TAG, PREV3_TAG), F, T, F, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
+		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
+		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV3_TAG), F, T, F, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3TAGRule.<String>FACTORY());
+		createAndTestMatchability(PREV1OR2OR3TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3TAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREV1OR2OR3TAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2OR3TAGRule.<String>FACTORY(), 
+		createAndTestBrillText(PREV1OR2OR3TAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV1_TAG,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV2_TAG,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV3_TAG);

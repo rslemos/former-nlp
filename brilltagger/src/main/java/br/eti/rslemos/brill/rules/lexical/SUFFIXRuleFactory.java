@@ -1,10 +1,11 @@
 package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public class SUFFIXRuleFactory<T> extends AbstractAFFIXRuleFactory<T> {
+public class SUFFIXRuleFactory extends AbstractAFFIXRuleFactory {
 	@Override
-	protected Rule<T> create(T from, T to, String word, int length) {
-		return new SUFFIXRule<T>(from, to, word.substring(word.length() - length, word.length()));
+	protected Rule create(Tag from, Tag to, String word, int length) {
+		return new SUFFIXRule(from, to, word.substring(word.length() - length, word.length()));
 	}
 }

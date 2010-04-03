@@ -7,54 +7,54 @@ import br.eti.rslemos.tagger.NullTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 
-public class BrillTagger<T> implements Tagger<T> {
+public class BrillTagger implements Tagger {
 
-	private Tagger<T> baseTagger;
-	private List<Rule<T>> rules;
+	private Tagger baseTagger;
+	private List<Rule> rules;
 
 	public BrillTagger() {
-		this(new NullTagger<T>());
+		this(new NullTagger());
 	}
 
-	public BrillTagger(Tagger<T> baseTagger) {
-		this(baseTagger, Collections.<Rule<T>>emptyList());
+	public BrillTagger(Tagger baseTagger) {
+		this(baseTagger, Collections.<Rule>emptyList());
 	}
 
-	public BrillTagger(Tagger<T> baseTagger, List<Rule<T>> rules) {
+	public BrillTagger(Tagger baseTagger, List<Rule> rules) {
 		this.baseTagger = baseTagger;
 		this.rules = rules;
 	}
 
-	public Tagger<T> getBaseTagger() {
+	public Tagger getBaseTagger() {
 		return baseTagger;
 	}
 
-	public void setBaseTagger(Tagger<T> baseTagger) {
+	public void setBaseTagger(Tagger baseTagger) {
 		this.baseTagger = baseTagger;
 	}
 
-	public List<Rule<T>> getRules() {
+	public List<Rule> getRules() {
 		return rules;
 	}
 
-	public void setRules(List<Rule<T>> rules) {
+	public void setRules(List<Rule> rules) {
 		this.rules = rules;
 	}
 
-	public void tag(Sentence<T> sentence) {
+	public void tag(Sentence sentence) {
 		applyBaseTagger(sentence);
 
-		SentenceContext<T> context = new SentenceContext<T>(sentence);
+		SentenceContext context = new SentenceContext(sentence);
 		
-		for (Rule<T> rule : rules)
-			applyRule(new DelayedContext<T>(context.clone()), rule);
+		for (Rule rule : rules)
+			applyRule(new DelayedContext(context.clone()), rule);
 	}
 
-	private void applyBaseTagger(Sentence<T> sentence) {
+	private void applyBaseTagger(Sentence sentence) {
 		baseTagger.tag(sentence);
 	}
 
-	static <T1> void applyRule(DelayedContext<T1> context, Rule<T1> rule) {
+	static void applyRule(DelayedContext context, Rule rule) {
 		while(context.hasNext()) {
 			context.next();
 			rule.apply(context);

@@ -250,16 +250,16 @@ public class BrillTaggerListenerBehavior {
 		
 	}
 
-	private static Sentence<String> anySentence() {
-		return (Sentence<String>) anyObject();
+	private static Sentence anySentence() {
+		return anyObject();
 	}
 
-	private static BrillTaggerEvent<String> anyEvent() {
-		return (BrillTaggerEvent<String>) anyObject();
+	private static BrillTaggerEvent anyEvent() {
+		return anyObject();
 	}
 
-	private static Context<String> anyContext() {
-		return (Context<String>) anyObject();
+	private static Context anyContext() {
+		return anyObject();
 	}
 
 	private BrillTaggerEvent eventWithSentence() {

@@ -3,15 +3,16 @@ package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
+import br.eti.rslemos.tagger.Tag;
 
-public class SUFFIXRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new SUFFIXRuleFactory<T1>();
+public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText {
+	public static final  RuleFactory FACTORY() {
+		return new SUFFIXRuleFactory();
 	}
 
 	private final String suffix;
 
-	public SUFFIXRule(T fromTag, T toTag, String suffix) {
+	public SUFFIXRule(Tag fromTag, Tag toTag, String suffix) {
 		super(fromTag, toTag);
 		
 		this.suffix = suffix;
@@ -22,7 +23,7 @@ public class SUFFIXRule<T> extends AbstractRule<T> implements SerializableAsBril
 		return suffix != null ? word0.endsWith(suffix) : word0 == null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

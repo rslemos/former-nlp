@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXTBIGRAMRuleBehavior {
 	private boolean matches(String next1Word, String next2Word) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new NEXTBIGRAMRule<String>(THIS_TAG, TO_TAG, next1Word, next2Word);
+		Rule rule = new NEXTBIGRAMRule(THIS_TAG, TO_TAG, next1Word, next2Word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXTBIGRAMRule.<String>FACTORY());
+		createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new NEXTBIGRAMRule<String>(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new NEXTBIGRAMRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTBIGRAMRule.<String>FACTORY());
+		createAndTestMatchability(NEXTBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTBIGRAMRule.<String>FACTORY());
+		createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXTBIGRAMRule.<String>FACTORY(), 
+		createAndTestBrillText(NEXTBIGRAMRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }

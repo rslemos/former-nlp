@@ -4,12 +4,13 @@ import java.util.NoSuchElementException;
 
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
+import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Token;
 
-public class SentenceContext<T> implements Context<T> {
-	private final Token<T> NULL_TOKEN = new Token<T>() {
+public class SentenceContext implements Context {
+	private final Token NULL_TOKEN = new Token() {
 
-		public T getTag() {
+		public Tag getTag() {
 			return null;
 		}
 
@@ -17,20 +18,20 @@ public class SentenceContext<T> implements Context<T> {
 			return null;
 		}
 
-		public void setTag(T tag) {
-			throw new IllegalStateException("Can't set NULL token tag to '" + tag + "'");
+		public void setTag(Tag tag) {
+			throw new IllegalStateException("Can'Tag set NULL token tag to '" + tag + "'");
 		}
 	};
 	
-	private final Sentence<T> contents;
+	private final Sentence contents;
 	private int current;
 
-	public SentenceContext(Sentence<T> contents) {
+	public SentenceContext(Sentence contents) {
 		this.contents = contents;
 		current = -1;
 	}
 
-	public Token<T> getToken(int offset) {
+	public Token getToken(int offset) {
 		try {
 			return contents.get(current+offset);
 		} catch (SentenceIndexOutOfBoundsException e) {
@@ -38,11 +39,10 @@ public class SentenceContext<T> implements Context<T> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public SentenceContext<T> clone() {
+	public SentenceContext clone() {
 		try {
-			return (SentenceContext<T>) super.clone();
+			return (SentenceContext) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new Error("Object#clone() threw CloneNotSupportedException", e);
 		}
@@ -52,7 +52,7 @@ public class SentenceContext<T> implements Context<T> {
 		return current + 1 < contents.size();
 	}
 
-	public Token<T> next() {
+	public Token next() {
 		// next() should advance BEFORE since we must
 		// retain state AFTER invocation
 		// (the just returned Token is the current one)
@@ -71,12 +71,12 @@ public class SentenceContext<T> implements Context<T> {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		
-		Token<T> current = getToken(0);
+		Token current = getToken(0);
 		
 		if (current == NULL_TOKEN)
 			result.append("><");
 		
-		for (Token<T> token : contents) {
+		for (Token token : contents) {
 			if (token == current)
 				result.append(">");
 			

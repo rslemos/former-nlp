@@ -14,120 +14,121 @@ import br.eti.rslemos.brill.rules.WDPREVTAGRule;
 import br.eti.rslemos.tagger.CompositeTagger;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.LookupTokenTagger;
+import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public class BrillTaggerExampleBehavior {
 	
 	@Test
 	public void exampleMarkHepple2000() {
-		Token<String> to = new DefaultToken<String>("to");
-		Token<String> sign = new DefaultToken<String>("sign");
-		Token<String> up = new DefaultToken<String>("up");
+		Token to = new DefaultToken("to");
+		Token sign = new DefaultToken("sign");
+		Token up = new DefaultToken("up");
 		
-		Map<String, String> lexicon = new HashMap<String, String>();
-		lexicon.put("to", "TO");
-		lexicon.put("sign", "NN");
-		lexicon.put("up", "RB");
+		Map<String, Tag> lexicon = new HashMap<String, Tag>();
+		lexicon.put("to", new DefaultTag("TO"));
+		lexicon.put("sign", new DefaultTag("NN"));
+		lexicon.put("up", new DefaultTag("RB"));
 		
-		Tagger<String> baseTagger = new LookupTokenTagger<String>(lexicon);
+		Tagger baseTagger = new LookupTokenTagger(lexicon);
 		
-		Rule<String> rule1 = new PREVTAGRule<String>("NN", "VB", "TO");
-		Rule<String> rule2 = new WDPREVTAGRule<String>("RB", "RP", "VB", "up");
+		Rule rule1 = new PREVTAGRule(new DefaultTag("NN"), new DefaultTag("VB"), new DefaultTag("TO"));
+		Rule rule2 = new WDPREVTAGRule(new DefaultTag("RB"), new DefaultTag("RP"), new DefaultTag("VB"), "up");
 		
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(to, sign, up));
 		
-		assertEquals(to.getTag(), "TO");
-		assertEquals(sign.getTag(), "VB");
-		assertEquals(up.getTag(), "RP");
+		assertEquals(to.getTag(), new DefaultTag("TO"));
+		assertEquals(sign.getTag(), new DefaultTag("VB"));
+		assertEquals(up.getTag(), new DefaultTag("RP"));
 	}
 
 	@Test
 	public void example1RocheAndSchabes1995() {
-		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token<String> Chapman = new DefaultToken<String>("Chapman");
-		Token<String> killed = new DefaultToken<String>("killed");
-		Token<String> John = new DefaultToken<String>("John");
-		Token<String> Lennon = new DefaultToken<String>("Lennon");
+		Token Chapman = new DefaultToken("Chapman");
+		Token killed = new DefaultToken("killed");
+		Token John = new DefaultToken("John");
+		Token Lennon = new DefaultToken("Lennon");
 		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
-		assertEquals(Chapman.getTag(), "NP");
-		assertEquals(killed.getTag(), "VBD");
-		assertEquals(John.getTag(), "NP");
-		assertEquals(Lennon.getTag(), "NP");
+		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
+		assertEquals(killed.getTag(), new DefaultTag("VBD"));
+		assertEquals(John.getTag(), new DefaultTag("NP"));
+		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
 	}
 
 	@Test
 	public void example2RocheAndSchabes1995() {
-		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token<String> John = new DefaultToken<String>("John");
-		Token<String> Lennon = new DefaultToken<String>("Lennon");
-		Token<String> was = new DefaultToken<String>("was");
-		Token<String> shot = new DefaultToken<String>("shot");
-		Token<String> by = new DefaultToken<String>("by");
-		Token<String> Chapman = new DefaultToken<String>("Chapman");
+		Token John = new DefaultToken("John");
+		Token Lennon = new DefaultToken("Lennon");
+		Token was = new DefaultToken("was");
+		Token shot = new DefaultToken("shot");
+		Token by = new DefaultToken("by");
+		Token Chapman = new DefaultToken("Chapman");
 		
 		tagger.tag(newDefaultSentence(John, Lennon, was, shot, by, Chapman));
 
-		assertEquals(John.getTag(), "NP");
-		assertEquals(Lennon.getTag(), "NP");
-		assertEquals(was.getTag(), "BEDZ");
-		assertEquals(shot.getTag(), "VBN");
-		assertEquals(by.getTag(), "BY");
-		assertEquals(Chapman.getTag(), "NP");
+		assertEquals(John.getTag(), new DefaultTag("NP"));
+		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
+		assertEquals(was.getTag(), new DefaultTag("BEDZ"));
+		assertEquals(shot.getTag(), new DefaultTag("VBN"));
+		assertEquals(by.getTag(), new DefaultTag("BY"));
+		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
 	}
 
 	@Test
 	public void example3RocheAndSchabes1995() {
-		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 
-		Token<String> He = new DefaultToken<String>("He");
-		Token<String> witnessed = new DefaultToken<String>("witnessed");
-		Token<String> Lennon = new DefaultToken<String>("Lennon");
-		Token<String> killed = new DefaultToken<String>("killed");
-		Token<String> by = new DefaultToken<String>("by");
-		Token<String> Chapman = new DefaultToken<String>("Chapman");
+		Token He = new DefaultToken("He");
+		Token witnessed = new DefaultToken("witnessed");
+		Token Lennon = new DefaultToken("Lennon");
+		Token killed = new DefaultToken("killed");
+		Token by = new DefaultToken("by");
+		Token Chapman = new DefaultToken("Chapman");
 		
 		tagger.tag(newDefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 
-		assertEquals(He.getTag(), "PPS");
-		assertEquals(witnessed.getTag(), "VBD");
-		assertEquals(Lennon.getTag(), "NP");
-		assertEquals(killed.getTag(), "VBN");
-		assertEquals(by.getTag(), "BY");
-		assertEquals(Chapman.getTag(), "NP");
+		assertEquals(He.getTag(), new DefaultTag("PPS"));
+		assertEquals(witnessed.getTag(), new DefaultTag("VBD"));
+		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
+		assertEquals(killed.getTag(), new DefaultTag("VBN"));
+		assertEquals(by.getTag(), new DefaultTag("BY"));
+		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
 	}
 
-	private static BrillTagger<String> buildRocheAndSchabes1995SampleTagger() {
-		Map<String, String> lexicon = new HashMap<String, String>();
-		lexicon.put("killed", "VBN");
-		lexicon.put("was", "BEDZ");
-		lexicon.put("shot", "VBD");
-		lexicon.put("by", "BY");
-		lexicon.put("He", "PPS");
-		lexicon.put("witnessed", "VBD");
+	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {
+		Map<String, Tag> lexicon = new HashMap<String, Tag>();
+		lexicon.put("killed", new DefaultTag("VBN"));
+		lexicon.put("was", new DefaultTag("BEDZ"));
+		lexicon.put("shot", new DefaultTag("VBD"));
+		lexicon.put("by", new DefaultTag("BY"));
+		lexicon.put("He", new DefaultTag("PPS"));
+		lexicon.put("witnessed", new DefaultTag("VBD"));
 		
-		Tagger<String> tagger1 = new LookupTokenTagger<String>(lexicon);
-		Tagger<String> tagger2 = new ConstantTokenTagger<String>("NP");
-		Tagger<String> baseTagger = new CompositeTagger<String>(tagger1, tagger2);
+		Tagger tagger1 = new LookupTokenTagger(lexicon);
+		Tagger tagger2 = new ConstantTokenTagger(new DefaultTag("NP"));
+		Tagger baseTagger = new CompositeTagger(tagger1, tagger2);
 		
-		Rule<String> rule1 = new PREVTAGRule<String>("VBN", "VBD", "NP");
-		Rule<String> rule2 = new NEXTTAGRule<String>("VBD", "VBN", "BY");
+		Rule rule1 = new PREVTAGRule(new DefaultTag("VBN"), new DefaultTag("VBD"), new DefaultTag("NP"));
+		Rule rule2 = new NEXTTAGRule(new DefaultTag("VBD"), new DefaultTag("VBN"), new DefaultTag("BY"));
 		
-		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
 		return tagger;
 	}
 
-	private DefaultSentence<String> newDefaultSentence(Token<String>... tokens) {
-		return new DefaultSentence<String>(Arrays.asList(tokens));
+	private DefaultSentence newDefaultSentence(Token... tokens) {
+		return new DefaultSentence(Arrays.asList(tokens));
 	}
 }

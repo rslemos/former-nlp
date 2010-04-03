@@ -2,11 +2,12 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public class NEXTTAGRuleFactory<T> extends AbstractSingleRuleFactory<T> {
-	public Rule<T> createRule(T from, T to, Context<T> context) {
-		T tag1 = context.getToken(1).getTag();
+public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
+	public Rule createRule(Tag from, Tag to, Context context) {
+		Tag tag1 = context.getToken(1).getTag();
 
-		return new NEXTTAGRule<T>(from, to, tag1);
+		return new NEXTTAGRule(from, to, tag1);
 	}
 }

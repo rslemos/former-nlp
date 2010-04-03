@@ -3,28 +3,29 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class PREV1OR2OR3TAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new PREV1OR2OR3TAGRuleFactory<T1>();
+public class PREV1OR2OR3TAGRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new PREV1OR2OR3TAGRuleFactory();
 	}
 	
-	private final T prev1or2or3Tag;
+	private final Tag prev1or2or3Tag;
 
-	public PREV1OR2OR3TAGRule(T from, T to, T prev1or2or3Tag) {
+	public PREV1OR2OR3TAGRule(Tag from, Tag to, Tag prev1or2or3Tag) {
 		super(from, to);
 		
 		this.prev1or2or3Tag = prev1or2or3Tag;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
-		T tag_1 = context.getToken(-1).getTag();
-		T tag_2 = context.getToken(-2).getTag();
-		T tag_3 = context.getToken(-3).getTag();
+	private boolean thisMatches(Context context) {
+		Tag tag_1 = context.getToken(-1).getTag();
+		Tag tag_2 = context.getToken(-2).getTag();
+		Tag tag_3 = context.getToken(-3).getTag();
 		
 		return prev1or2or3Tag != null 
 		? (prev1or2or3Tag.equals(tag_1) | prev1or2or3Tag.equals(tag_2) | prev1or2or3Tag.equals(tag_3)) 
@@ -32,12 +33,12 @@ public class PREV1OR2OR3TAGRule<T> extends AbstractRule<T> implements Serializab
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(T tag) {
+	public boolean firingDependsOnTag(Tag tag) {
 		return super.firingDependsOnTag(tag) || 
 			(prev1or2or3Tag != null ? prev1or2or3Tag.equals(tag) : tag == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

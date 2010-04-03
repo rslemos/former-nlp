@@ -3,25 +3,26 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class PREV1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new PREV1OR2OR3OR4WDRuleFactory<T1>();
+public class PREV1OR2OR3OR4WDRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new PREV1OR2OR3OR4WDRuleFactory();
 	}
 	
 	private final String prev1or2or3or4Word;
 
-	public PREV1OR2OR3OR4WDRule(T from, T to, String prev1or2or3or4Word) {
+	public PREV1OR2OR3OR4WDRule(Tag from, Tag to, String prev1or2or3or4Word) {
 		super(from, to);
 		
 		this.prev1or2or3or4Word = prev1or2or3or4Word;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word_1 = context.getToken(-1).getWord();
 		String word_2 = context.getToken(-2).getWord();
 		String word_3 = context.getToken(-3).getWord();
@@ -32,7 +33,7 @@ public class PREV1OR2OR3OR4WDRule<T> extends AbstractRule<T> implements Serializ
 		: (word_1 == null | word_2 == null | word_3 == null | word_4 == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

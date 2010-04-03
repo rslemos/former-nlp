@@ -1,6 +1,6 @@
 package br.eti.rslemos.tagger;
 
-public class SuffixTagger<T> extends ConstantTokenTagger<T> {
+public class SuffixTagger extends ConstantTokenTagger {
 
 	private static final long serialVersionUID = -4973038023566826266L;
 
@@ -10,13 +10,13 @@ public class SuffixTagger<T> extends ConstantTokenTagger<T> {
 		super();
 	}
 
-	public SuffixTagger(String suffix, T tag) {
+	public SuffixTagger(String suffix, Tag tag) {
 		super(tag);
 		this.suffix = suffix;
 	}
 
 	@Override
-	public void tag(Token<T> token) {
+	public void tag(Token token) {
 		if (token.getWord().endsWith(suffix))
 			super.tag(token);
 	}

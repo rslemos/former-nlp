@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class LBIGRAMRuleBehavior {
 	private boolean matches(String prevWord, String word) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new LBIGRAMRule<String>(THIS_TAG, TO_TAG, prevWord, word);
+		Rule rule = new LBIGRAMRule(THIS_TAG, TO_TAG, prevWord, word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(LBIGRAMRule.<String>FACTORY());
+		createAndTestBasicDependency(LBIGRAMRule.FACTORY());
 	}
 
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new LBIGRAMRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new LBIGRAMRule(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(LBIGRAMRule.<String>FACTORY());
+		createAndTestMatchability(LBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(LBIGRAMRule.<String>FACTORY());
+		createAndTestObjectSemantics(LBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(LBIGRAMRule.<String>FACTORY(), 
+		createAndTestBrillText(LBIGRAMRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " LBIGRAM " + PREV1_WORD + " " + THIS_WORD);
 	}
 }

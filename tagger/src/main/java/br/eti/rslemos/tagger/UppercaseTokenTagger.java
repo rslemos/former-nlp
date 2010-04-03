@@ -1,7 +1,7 @@
 package br.eti.rslemos.tagger;
 
 
-public class UppercaseTokenTagger<T> extends ConstantTokenTagger<T> {
+public class UppercaseTokenTagger extends ConstantTokenTagger {
 	
 	private static final long serialVersionUID = -3428754969530138564L;
 
@@ -9,12 +9,12 @@ public class UppercaseTokenTagger<T> extends ConstantTokenTagger<T> {
 		this(null);
 	}
 
-	public UppercaseTokenTagger(T tag) {
+	public UppercaseTokenTagger(Tag tag) {
 		super(tag);
 	}
 
 	@Override
-	public void tag(Token<T> token) {
+	public void tag(Token token) {
 		if (Character.isUpperCase(token.getWord().charAt(0)))
 			super.tag(token);
 	}

@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class WDPREVTAGRuleBehavior {
-	private boolean matches(String prevTag, String word) {
-		Context<String> context = buildContext();
+	private boolean matches(Tag prevTag, String word) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new WDPREVTAGRule<String>(THIS_TAG, TO_TAG, prevTag, word);
+		Rule rule = new WDPREVTAGRule(THIS_TAG, TO_TAG, prevTag, word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +47,27 @@ public class WDPREVTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(WDPREVTAGRule.<String>FACTORY());
+		createAndTestBasicDependency(WDPREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new WDPREVTAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
+		testDependency(new WDPREVTAGRule(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDPREVTAGRule.<String>FACTORY());
+		createAndTestMatchability(WDPREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDPREVTAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(WDPREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDPREVTAGRule.<String>FACTORY(), 
+		createAndTestBrillText(WDPREVTAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " WDPREVTAG " + PREV1_TAG + " " + THIS_WORD);
 	}
 }

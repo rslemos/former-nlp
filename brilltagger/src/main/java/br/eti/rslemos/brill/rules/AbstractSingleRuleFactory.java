@@ -5,14 +5,15 @@ import java.util.Collections;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public abstract class AbstractSingleRuleFactory<T> extends AbstractRuleFactory<T> {
+public abstract class AbstractSingleRuleFactory extends AbstractRuleFactory {
 
 	@Override
-	protected Collection<Rule<T>> create(T from, T to, Context<T> context) {
+	protected Collection<Rule> create(Tag from, Tag to, Context context) {
 		return Collections.singleton(createRule(from, to, context));
 	}
 
-	protected abstract Rule<T> createRule(T from, T to, Context<T> context);
+	protected abstract Rule createRule(Tag from, Tag to, Context context);
 
 }

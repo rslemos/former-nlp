@@ -1,6 +1,6 @@
 package br.eti.rslemos.tagger;
 
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.*;
 
 import java.util.Collections;
@@ -11,35 +11,34 @@ import org.testng.annotations.Test;
 import br.eti.rslemos.tagger.LookupTokenTagger;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public class LookupTokenTaggerBehavior {
 	@Test
 	public void shouldNotTagToken() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 		
-		LookupTokenTagger<String> tagger = new LookupTokenTagger<String>(Collections.singletonMap("foo", "bar"));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Tag)new DefaultTag("bar")));
 		tagger.tag(token);
 		
-		verify(token, never()).setTag(anyString());
+		verify(token, never()).setTag(anyTag());
 	}
 
 	@Test
 	public void shouldTagToken() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		
-		LookupTokenTagger<String> tagger = new LookupTokenTagger<String>(Collections.singletonMap("foo", "bar"));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Tag)new DefaultTag("bar")));
 		tagger.tag(token);
 		
-		verify(token).setTag("bar");
+		verify(token).setTag(new DefaultTag("bar"));
 	}
 
 	@Test
 	public void shouldNullTagToken() {
-		Token<String> token = mock(Token.class);
+		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 		
-		LookupTokenTagger<String> tagger = new LookupTokenTagger<String>(Collections.singletonMap("foo", (String)null));
+		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Tag)null));
 		tagger.tag(token);
 		
 		verify(token).setTag(null);
@@ -47,23 +46,26 @@ public class LookupTokenTaggerBehavior {
 
 	@Test
 	public void shouldCorreclyTagTokens() {
-		Token<String> token1 = mock(Token.class);
+		Token token1 = mock(Token.class);
 		when(token1.getWord()).thenReturn("foo");
 
-		Token<String> token2 = mock(Token.class);
+		Token token2 = mock(Token.class);
 		when(token2.getWord()).thenReturn("bar");
 		
-		HashMap<String, String> lexicon = new HashMap<String, String>();
-		lexicon.put("foo", "tag-foo");
-		lexicon.put("bar", "tag-bar");
+		HashMap<String, Tag> lexicon = new HashMap<String, Tag>();
+		lexicon.put("foo", new DefaultTag("tag-foo"));
+		lexicon.put("bar", new DefaultTag("tag-bar"));
 		
-		LookupTokenTagger<String> tagger = new LookupTokenTagger<String>(lexicon);
+		LookupTokenTagger tagger = new LookupTokenTagger(lexicon);
 
 		tagger.tag(token1);
-		verify(token1).setTag("tag-foo");
+		verify(token1).setTag(new DefaultTag("tag-foo"));
 
 		tagger.tag(token2);
-		verify(token2).setTag("tag-bar");
+		verify(token2).setTag(new DefaultTag("tag-bar"));
 	}
 
+	private static Tag anyTag() {
+		return anyObject();
+	}
 }

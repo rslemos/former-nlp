@@ -8,50 +8,50 @@ import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
-public class BrillTaggerEvent<T> extends EventObject implements Cloneable {
+public class BrillTaggerEvent extends EventObject implements Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Sentence<T> onSentence;
-	private Rule<T> actingRule;
-	private Context<T> context;
-	private Token<T> token;
+	private Sentence onSentence;
+	private Rule actingRule;
+	private Context context;
+	private Token token;
 
 	private boolean applies;
 
-	public BrillTaggerEvent(BrillTagger<T> tagger) {
+	public BrillTaggerEvent(BrillTagger tagger) {
 		super(tagger);
 	}
 
-	public void setOnSentence(Sentence<T> sentence) {
+	public void setOnSentence(Sentence sentence) {
 		this.onSentence = sentence;
 	}
 
-	public Sentence<T> getOnSentence() {
+	public Sentence getOnSentence() {
 		return onSentence;
 	}
 
-	public void setActingRule(Rule<T> rule) {
+	public void setActingRule(Rule rule) {
 		this.actingRule = rule;
 	}
 	
-	public Rule<T> getActingRule() {
+	public Rule getActingRule() {
 		return actingRule;
 	}
 
-	public void setContext(Context<T> context) {
+	public void setContext(Context context) {
 		this.context = context;
 	}
 	
-	public Context<T> getContext() {
+	public Context getContext() {
 		return context;
 	}
 
-	public void setToken(Token<T> token) {
+	public void setToken(Token token) {
 		this.token = token;
 	}
 	
-	public Token<T> getToken() {
+	public Token getToken() {
 		return token;
 	}
 
@@ -63,7 +63,6 @@ public class BrillTaggerEvent<T> extends EventObject implements Cloneable {
 		return applies;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

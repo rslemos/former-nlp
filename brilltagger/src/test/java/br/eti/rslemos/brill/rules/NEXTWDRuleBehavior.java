@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXTWDRuleBehavior {
 	private boolean matches(String nextWord) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new NEXTWDRule<String>(THIS_TAG, TO_TAG, nextWord);
+		Rule rule = new NEXTWDRule(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class NEXTWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(NEXTWDRule.<String>FACTORY());
+		createAndTestBasicDependency(NEXTWDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new NEXTWDRule<String>(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new NEXTWDRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTWDRule.<String>FACTORY());
+		createAndTestMatchability(NEXTWDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTWDRule.<String>FACTORY());
+		createAndTestObjectSemantics(NEXTWDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXTWDRule.<String>FACTORY(), 
+		createAndTestBrillText(NEXTWDRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " NEXTWD " + NEXT1_WORD);
 	}
 }

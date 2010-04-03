@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREVBIGRAMRuleBehavior {
 	private boolean matches(String prev2Word, String prev1Word) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new PREVBIGRAMRule<String>(THIS_TAG, TO_TAG, prev2Word, prev1Word);
+		Rule rule = new PREVBIGRAMRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class PREVBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREVBIGRAMRule.<String>FACTORY());
+		createAndTestBasicDependency(PREVBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		testDependency(new PREVBIGRAMRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREVBIGRAMRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVBIGRAMRule.<String>FACTORY());
+		createAndTestMatchability(PREVBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVBIGRAMRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVBIGRAMRule.<String>FACTORY(), 
+		createAndTestBrillText(PREVBIGRAMRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

@@ -1,13 +1,13 @@
 package br.eti.rslemos.tagger;
 
-public abstract class AbstractTokenTagger<T> implements Tagger<T> {
+public abstract class AbstractTokenTagger implements Tagger {
 	protected AbstractTokenTagger() {	
 	}
 	
-	public abstract void tag(Token<T> token);
+	public abstract void tag(Token token);
 
-	public final void tag(Sentence<T> sentence) {
-		for (Token<T> token : sentence)
+	public final void tag(Sentence sentence) {
+		for (Token token : sentence)
 			tag(token);
 	}
 }

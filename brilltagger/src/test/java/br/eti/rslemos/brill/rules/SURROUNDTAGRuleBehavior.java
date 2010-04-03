@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class SURROUNDTAGRuleBehavior {
-	private boolean matches(String prev1Tag, String next1Tag) {
-		Context<String> context = buildContext();
+	private boolean matches(Tag prev1Tag, Tag next1Tag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new SURROUNDTAGRule<String>(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
+		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
 		return rule.matches(context);
 	}
 
@@ -46,27 +47,27 @@ public class SURROUNDTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(SURROUNDTAGRule.<String>FACTORY());
+		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new SURROUNDTAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
+		testDependency(new SURROUNDTAGRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(SURROUNDTAGRule.<String>FACTORY());
+		createAndTestMatchability(SURROUNDTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SURROUNDTAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SURROUNDTAGRule.<String>FACTORY(), 
+		createAndTestBrillText(SURROUNDTAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

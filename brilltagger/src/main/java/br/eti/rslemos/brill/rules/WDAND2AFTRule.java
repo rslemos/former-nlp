@@ -2,26 +2,27 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class WDAND2AFTRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new WDAND2AFTRuleFactory<T1>();
+public class WDAND2AFTRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new WDAND2AFTRuleFactory();
 	}
 	
 	private final String word;
 	private final String next2Word;
 
-	public WDAND2AFTRule(T from, T to, String word, String next2Word) {
+	public WDAND2AFTRule(Tag from, Tag to, String word, String next2Word) {
 		super(from, to);
 		this.word = word;
 		this.next2Word = next2Word;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
 		String word2 = context.getToken(2).getWord();
 		
@@ -29,7 +30,7 @@ public class WDAND2AFTRule<T> extends AbstractRule<T> implements SerializableAsB
 			(next2Word != null ? next2Word.equals(word2) : word2 == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

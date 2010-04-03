@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class PREVTAGRuleBehavior {
-	private boolean matches(String prevTag) {
-		Context<String> context = buildContext();
+	private boolean matches(Tag prevTag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new PREVTAGRule<String>(THIS_TAG, TO_TAG, prevTag);
+		Rule rule = new PREVTAGRule(THIS_TAG, TO_TAG, prevTag);
 		return rule.matches(context);
 	}
 
@@ -37,27 +38,27 @@ public class PREVTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREVTAGRule.<String>FACTORY());
+		createAndTestBasicDependency(PREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new PREVTAGRule<String>(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
+		testDependency(new PREVTAGRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVTAGRule.<String>FACTORY());
+		createAndTestMatchability(PREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVTAGRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREVTAGRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVTAGRule.<String>FACTORY(), 
+		createAndTestBrillText(PREVTAGRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREVTAG " + PREV1_TAG);
 	}
 }

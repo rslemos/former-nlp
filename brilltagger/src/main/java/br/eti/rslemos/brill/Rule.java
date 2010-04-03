@@ -1,20 +1,22 @@
 package br.eti.rslemos.brill;
 
-public interface Rule<T> {
+import br.eti.rslemos.tagger.Tag;
 
-	T getFrom();
+public interface Rule {
 
-	T getTo();
+	Tag getFrom();
+
+	Tag getTo();
 	
 	
-	boolean matches(Context<T> context);
+	boolean matches(Context context);
 	
-	boolean apply(Context<T> context);
+	boolean apply(Context context);
 
 	boolean equals(Object o);
 
 	int hashCode();
 
-	boolean firingDependsOnTag(T tag);
+	boolean firingDependsOnTag(Tag tag);
 
 }

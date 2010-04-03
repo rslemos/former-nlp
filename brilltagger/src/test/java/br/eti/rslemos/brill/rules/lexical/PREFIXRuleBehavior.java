@@ -13,9 +13,9 @@ import br.eti.rslemos.brill.rules.lexical.PREFIXRule;
 
 public class PREFIXRuleBehavior {
 	private boolean matches(String prefix) {
-		Context<String> context = buildUntaggedContext();
+		Context context = buildUntaggedContext();
 		
-		Rule<String> rule = new PREFIXRule<String>(null, TO_TAG, prefix);
+		Rule rule = new PREFIXRule(null, TO_TAG, prefix);
 		return rule.matches(context);
 	}
 
@@ -42,17 +42,17 @@ public class PREFIXRuleBehavior {
 //	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(PREFIXRule.<String>FACTORY());
+		createAndTestUntaggedMatchability(PREFIXRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREFIXRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREFIXRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREFIXRule.<String>FACTORY(), 
+		createAndTestBrillText(PREFIXRule.FACTORY(), 
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 1),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 2),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 3),

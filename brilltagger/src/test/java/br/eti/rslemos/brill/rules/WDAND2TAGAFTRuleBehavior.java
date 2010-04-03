@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
 public class WDAND2TAGAFTRuleBehavior {
-	private boolean matches(String word, String next2Tag) {
-		Context<String> context = buildContext();
+	private boolean matches(String word, Tag next2Tag) {
+		Context context = buildContext();
 		
-		Rule<String> rule = new WDAND2TAGAFTRule<String>(THIS_TAG, TO_TAG, word, next2Tag);
+		Rule rule = new WDAND2TAGAFTRule(THIS_TAG, TO_TAG, word, next2Tag);
 		return rule.matches(context);
 	}
 
@@ -46,27 +47,27 @@ public class WDAND2TAGAFTRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(WDAND2TAGAFTRule.<String>FACTORY());
+		createAndTestBasicDependency(WDAND2TAGAFTRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldDependOnContextTag() {
-		testDependency(new WDAND2TAGAFTRule<String>(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(new WDAND2TAGAFTRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2TAGAFTRule.<String>FACTORY());
+		createAndTestMatchability(WDAND2TAGAFTRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2TAGAFTRule.<String>FACTORY());
+		createAndTestObjectSemantics(WDAND2TAGAFTRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2TAGAFTRule.<String>FACTORY(), 
+		createAndTestBrillText(WDAND2TAGAFTRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGAFT " + THIS_WORD + " " + NEXT2_TAG);
 	}
 }

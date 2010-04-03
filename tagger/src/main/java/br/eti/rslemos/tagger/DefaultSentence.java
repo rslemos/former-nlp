@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DefaultSentence<T> implements Sentence<T> {
-	private final List<Token<T>> sentence;
+public class DefaultSentence implements Sentence {
+	private final List<Token> sentence;
 
-	public DefaultSentence(List<Token<T>> sentence) {
+	public DefaultSentence(List<Token> sentence) {
 		this.sentence = sentence;
 	}
 
-	public DefaultSentence(Sentence<T> sentence) {
-		this.sentence = new ArrayList<Token<T>>(sentence.size());
-		for (Token<T> token : sentence) {
-			this.sentence.add(new DefaultToken<T>(token));
+	public DefaultSentence(Sentence sentence) {
+		this.sentence = new ArrayList<Token>(sentence.size());
+		for (Token token : sentence) {
+			this.sentence.add(new DefaultToken(token));
 		}
 		
-		((ArrayList<Token<T>>)this.sentence).trimToSize();
+		((ArrayList<Token>)this.sentence).trimToSize();
 	}
 
-	public Iterator<Token<T>> iterator() {
+	public Iterator<Token> iterator() {
 		return sentence.iterator();
 	}
 
@@ -28,7 +28,7 @@ public class DefaultSentence<T> implements Sentence<T> {
 		return sentence.size();
 	}
 
-	public Token<T> get(int i) {
+	public Token get(int i) {
 		try {
 			return sentence.get(i);
 		} catch (IndexOutOfBoundsException e) {
@@ -41,7 +41,7 @@ public class DefaultSentence<T> implements Sentence<T> {
 		StringBuilder result = new StringBuilder();
 		result.append("\"");
 		
-		for (Token<T> token : sentence) {
+		for (Token token : sentence) {
 			result.append(token.toString()).append(" ");
 		}
 		

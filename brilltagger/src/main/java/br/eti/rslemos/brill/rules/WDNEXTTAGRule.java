@@ -2,40 +2,41 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
+import br.eti.rslemos.tagger.Tag;
 
-public class WDNEXTTAGRule<T> extends AbstractRule<T> implements SerializableAsBrillText  {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new WDNEXTTAGRuleFactory<T1>();
+public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillText  {
+	public static final  RuleFactory FACTORY() {
+		return new WDNEXTTAGRuleFactory();
 	}
 	
 	private final String word;
-	private final T next1Tag;
+	private final Tag next1Tag;
 
-	public WDNEXTTAGRule(T from, T to, String word, T next1Tag) {
+	public WDNEXTTAGRule(Tag from, Tag to, String word, Tag next1Tag) {
 		super(from, to);
 		this.word = word;
 		this.next1Tag = next1Tag;
 	}
 
-	public boolean matches(Context<T> context) {
+	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
 
-	private boolean thisMatches(Context<T> context) {
+	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
-		T tag1 = context.getToken(1).getTag();
+		Tag tag1 = context.getToken(1).getTag();
 		
 		return (word != null ? word.equals(word0) : word0 == null) &&
 			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(T tag) {
+	public boolean firingDependsOnTag(Tag tag) {
 		return super.firingDependsOnTag(tag) || 
 			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))

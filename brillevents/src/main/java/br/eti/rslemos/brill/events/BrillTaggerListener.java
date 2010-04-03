@@ -2,24 +2,24 @@ package br.eti.rslemos.brill.events;
 
 import java.util.EventListener;
 
-public interface BrillTaggerListener<T> extends EventListener {
+public interface BrillTaggerListener extends EventListener {
 
-	void taggingSentence(BrillTaggerEvent<T> event);
+	void taggingSentence(BrillTaggerEvent event);
 
-	void sentenceTagged(BrillTaggerEvent<T> event);
+	void sentenceTagged(BrillTaggerEvent event);
 
-	void beforeBaseTagger(BrillTaggerEvent<T> event);
+	void beforeBaseTagger(BrillTaggerEvent event);
 
-	void afterBaseTagger(BrillTaggerEvent<T> event);
+	void afterBaseTagger(BrillTaggerEvent event);
 
-	void beforeRuleApplication(BrillTaggerEvent<T> event);
+	void beforeRuleApplication(BrillTaggerEvent event);
 
-	void afterRuleApplication(BrillTaggerEvent<T> event);
+	void afterRuleApplication(BrillTaggerEvent event);
 
-	void advance(BrillTaggerEvent<T> event);
+	void advance(BrillTaggerEvent event);
 
-	void commit(BrillTaggerEvent<T> event);
+	void commit(BrillTaggerEvent event);
 
-	void ruleApplied(BrillTaggerEvent<T> event);
+	void ruleApplied(BrillTaggerEvent event);
 
 }

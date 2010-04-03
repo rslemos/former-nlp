@@ -12,9 +12,9 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2WDRuleBehavior {
 	private boolean matches(String prev1or2Word) {
-		Context<String> context = buildContext();
+		Context context = buildContext();
 		
-		Rule<String> rule = new PREV1OR2WDRule<String>(THIS_TAG, TO_TAG, prev1or2Word);
+		Rule rule = new PREV1OR2WDRule(THIS_TAG, TO_TAG, prev1or2Word);
 		return rule.matches(context);
 	}
 	
@@ -37,28 +37,28 @@ public class PREV1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromTag() {
-		createAndTestBasicDependency(PREV1OR2WDRule.<String>FACTORY());
+		createAndTestBasicDependency(PREV1OR2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldNotDependOnContextTag() {
-		testDependency(new PREV1OR2WDRule<String>(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(new PREV1OR2WDRule<String>(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2WDRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(new PREV1OR2WDRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2WDRule.<String>FACTORY());
+		createAndTestMatchability(PREV1OR2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2WDRule.<String>FACTORY());
+		createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY());
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2WDRule.<String>FACTORY(), 
+		createAndTestBrillText(PREV1OR2WDRule.FACTORY(), 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV2_WORD);
 	}

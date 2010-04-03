@@ -2,12 +2,13 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public class WDAND2TAGAFTRuleFactory<T> extends AbstractSingleRuleFactory<T> {
-	public Rule<T> createRule(T from, T to, Context<T> context) {
+public class WDAND2TAGAFTRuleFactory extends AbstractSingleRuleFactory {
+	public Rule createRule(Tag from, Tag to, Context context) {
 		String word0 = context.getToken(0).getWord();
-		T tag2 = context.getToken(2).getTag();
+		Tag tag2 = context.getToken(2).getTag();
 
-		return new WDAND2TAGAFTRule<T>(from, to, word0, tag2);
+		return new WDAND2TAGAFTRule(from, to, word0, tag2);
 	}
 }

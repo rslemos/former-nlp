@@ -3,56 +3,55 @@ package br.eti.rslemos.tagger;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CompositeTagger<T> implements Tagger<T>, Serializable {
+public class CompositeTagger implements Tagger, Serializable {
 
 	private static final long serialVersionUID = -8583142580025744638L;
 
-	private Tagger<T>[] taggers;
+	private Tagger[] taggers;
 
-	@SuppressWarnings("unchecked")
 	public CompositeTagger() {
 		this(new Tagger[0]);
 	}
 
-	public CompositeTagger(Tagger<T>... taggers) {
+	public CompositeTagger(Tagger... taggers) {
 		this.taggers = taggers;
 	}
 
-	public void tag(Sentence<T> sentence) {
+	public void tag(Sentence sentence) {
 		sentence = wrapSentence(sentence);
 
-		for (Tagger<T> tagger : taggers) {
+		for (Tagger tagger : taggers) {
 			tagger.tag(sentence);
 		}
 	}
 
-	private Sentence<T> wrapSentence(Sentence<T> sentence) {
-		ArrayList<Token<T>> wrappedSentence = new ArrayList<Token<T>>(sentence.size());
+	private Sentence wrapSentence(Sentence sentence) {
+		ArrayList<Token> wrappedSentence = new ArrayList<Token>(sentence.size());
 		
-		for (Token<T> token : sentence) {
-			wrappedSentence.add(new FilteringToken<T>(token));
+		for (Token token : sentence) {
+			wrappedSentence.add(new FilteringToken(token));
 		}
 		
-		return new DefaultSentence<T>(wrappedSentence);
+		return new DefaultSentence(wrappedSentence);
 	}
 	
-	public Tagger<T>[] getTaggers() {
+	public Tagger[] getTaggers() {
 		return taggers;
 	}
 
-	public void setTaggers(Tagger<T>[] taggers) {
+	public void setTaggers(Tagger[] taggers) {
 		this.taggers = taggers;
 	}
 
-	private static final class FilteringToken<T> implements Token<T> {
-		private final Token<T> token;
+	private static final class FilteringToken implements Token {
+		private final Token token;
 		private boolean alreadySet = false;
 
-		private FilteringToken(Token<T> token) {
+		private FilteringToken(Token token) {
 			this.token = token;
 		}
 
-		public T getTag() {
+		public Tag getTag() {
 			return token.getTag();
 		}
 
@@ -60,7 +59,7 @@ public class CompositeTagger<T> implements Tagger<T>, Serializable {
 			return token.getWord();
 		}
 
-		public void setTag(T tag) {
+		public void setTag(Tag tag) {
 			if (!alreadySet) {
 				token.setTag(tag);
 				alreadySet = true;

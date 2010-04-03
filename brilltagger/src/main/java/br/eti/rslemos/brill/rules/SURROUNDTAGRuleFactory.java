@@ -2,12 +2,13 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.Tag;
 
-public class SURROUNDTAGRuleFactory<T> extends AbstractSingleRuleFactory<T> {
-	public Rule<T> createRule(T from, T to, Context<T> context) {
-		T tag_1 = context.getToken(-1).getTag();
-		T tag1 = context.getToken(1).getTag();
+public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
+	public Rule createRule(Tag from, Tag to, Context context) {
+		Tag tag_1 = context.getToken(-1).getTag();
+		Tag tag1 = context.getToken(1).getTag();
 
-		return new SURROUNDTAGRule<T>(from, to, tag_1, tag1);
+		return new SURROUNDTAGRule(from, to, tag_1, tag1);
 	}
 }

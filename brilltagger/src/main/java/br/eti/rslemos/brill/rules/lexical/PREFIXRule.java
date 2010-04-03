@@ -3,15 +3,16 @@ package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
+import br.eti.rslemos.tagger.Tag;
 
-public class PREFIXRule<T> extends AbstractRule<T> implements SerializableAsBrillText {
-	public static final <T1> RuleFactory<T1> FACTORY() {
-		return new PREFIXRuleFactory<T1>();
+public class PREFIXRule extends AbstractRule implements SerializableAsBrillText {
+	public static final  RuleFactory FACTORY() {
+		return new PREFIXRuleFactory();
 	}
 
 	private final String prefix;
 
-	public PREFIXRule(T fromTag, T toTag, String prefix) {
+	public PREFIXRule(Tag fromTag, Tag toTag, String prefix) {
 		super(fromTag, toTag);
 		
 		this.prefix = prefix;
@@ -22,7 +23,7 @@ public class PREFIXRule<T> extends AbstractRule<T> implements SerializableAsBril
 		return prefix != null ? word0.startsWith(prefix) : word0 == null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!super.equals(o))
