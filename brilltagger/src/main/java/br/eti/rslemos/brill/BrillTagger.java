@@ -7,20 +7,20 @@ import br.eti.rslemos.tagger.NullTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 
-public class RuleBasedTagger<T> implements Tagger<T> {
+public class BrillTagger<T> implements Tagger<T> {
 
 	private Tagger<T> baseTagger;
 	private List<Rule<T>> rules;
 
-	public RuleBasedTagger() {
+	public BrillTagger() {
 		this(new NullTagger<T>());
 	}
 
-	public RuleBasedTagger(Tagger<T> baseTagger) {
+	public BrillTagger(Tagger<T> baseTagger) {
 		this(baseTagger, Collections.<Rule<T>>emptyList());
 	}
 
-	public RuleBasedTagger(Tagger<T> baseTagger, List<Rule<T>> rules) {
+	public BrillTagger(Tagger<T> baseTagger, List<Rule<T>> rules) {
 		this.baseTagger = baseTagger;
 		this.rules = rules;
 	}

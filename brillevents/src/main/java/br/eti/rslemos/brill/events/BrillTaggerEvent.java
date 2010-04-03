@@ -4,11 +4,11 @@ import java.util.EventObject;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.RuleBasedTagger;
+import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
-public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
+public class BrillTaggerEvent<T> extends EventObject implements Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
 	private boolean applies;
 
-	public RuleBasedTaggerEvent(RuleBasedTagger<T> tagger) {
+	public BrillTaggerEvent(BrillTagger<T> tagger) {
 		super(tagger);
 	}
 
@@ -75,7 +75,7 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		if (this.getClass() != o.getClass())
 			return false;
 
-		RuleBasedTaggerEvent other = (RuleBasedTaggerEvent)o;
+		BrillTaggerEvent other = (BrillTaggerEvent)o;
 		
 		return
 			(source != null ? source.equals(other.source) : other.source == null) &&

@@ -20,7 +20,7 @@ import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
-public class RuleBasedTaggerExampleBehavior {
+public class BrillTaggerExampleBehavior {
 	
 	@Test
 	public void exampleMarkHepple2000() {
@@ -38,7 +38,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Rule<String> rule1 = new PREVTAGRule<String>("NN", "VB", "TO");
 		Rule<String> rule2 = new WDPREVTAGRule<String>("RB", "RP", "VB", "up");
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(to, sign, up));
 		
@@ -49,7 +49,7 @@ public class RuleBasedTaggerExampleBehavior {
 
 	@Test
 	public void example1RocheAndSchabes1995() {
-		RuleBasedTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
 		
 		Token<String> Chapman = new DefaultToken<String>("Chapman");
 		Token<String> killed = new DefaultToken<String>("killed");
@@ -66,7 +66,7 @@ public class RuleBasedTaggerExampleBehavior {
 
 	@Test
 	public void example2RocheAndSchabes1995() {
-		RuleBasedTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
 		
 		Token<String> John = new DefaultToken<String>("John");
 		Token<String> Lennon = new DefaultToken<String>("Lennon");
@@ -87,7 +87,7 @@ public class RuleBasedTaggerExampleBehavior {
 
 	@Test
 	public void example3RocheAndSchabes1995() {
-		RuleBasedTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
+		BrillTagger<String> tagger = buildRocheAndSchabes1995SampleTagger();
 
 		Token<String> He = new DefaultToken<String>("He");
 		Token<String> witnessed = new DefaultToken<String>("witnessed");
@@ -106,7 +106,7 @@ public class RuleBasedTaggerExampleBehavior {
 		assertEquals(Chapman.getTag(), "NP");
 	}
 
-	private static RuleBasedTagger<String> buildRocheAndSchabes1995SampleTagger() {
+	private static BrillTagger<String> buildRocheAndSchabes1995SampleTagger() {
 		Map<String, String> lexicon = new HashMap<String, String>();
 		lexicon.put("killed", "VBN");
 		lexicon.put("was", "BEDZ");
@@ -122,7 +122,7 @@ public class RuleBasedTaggerExampleBehavior {
 		Rule<String> rule1 = new PREVTAGRule<String>("VBN", "VBD", "NP");
 		Rule<String> rule2 = new NEXTTAGRule<String>("VBD", "VBN", "BY");
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
 		
 		return tagger;
 	}

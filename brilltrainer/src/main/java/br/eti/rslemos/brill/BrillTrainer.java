@@ -18,17 +18,17 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
-public class RulesetTrainer<T> {
+public class BrillTrainer<T> {
 	private final Tagger<T> baseTagger;
 
 	private final List<RuleFactory<T>> ruleFactories;
 	private final int threshold;
 
-	public RulesetTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories) {
+	public BrillTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories) {
 		this(baseTagger, ruleFactories, 1);
 	}
 
-	public RulesetTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories, int threshold) {
+	public BrillTrainer(Tagger<T> baseTagger, List<RuleFactory<T>> ruleFactories, int threshold) {
 		if (threshold < 0)
 			throw new IllegalArgumentException("Threshold must be non-negative");
 		
@@ -43,7 +43,7 @@ public class RulesetTrainer<T> {
 	private transient ScoreBoard<T> board;
 	private transient ArrayList<Rule<T>> rules;
 
-	public synchronized RuleBasedTagger<T> train(List<Sentence<T>> proofCorpus) {
+	public synchronized BrillTagger<T> train(List<Sentence<T>> proofCorpus) {
 		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
 		this.trainingCorpus = new ArrayList<Sentence<T>>(proofCorpus.size());
 
@@ -56,7 +56,7 @@ public class RulesetTrainer<T> {
 			
 			rules.trimToSize();
 
-			return new RuleBasedTagger<T>(baseTagger, rules);
+			return new BrillTagger<T>(baseTagger, rules);
 		} finally {
 			// dispose
 			this.proofCorpus = null;
@@ -100,7 +100,7 @@ public class RulesetTrainer<T> {
 
 	private void applyRule(Rule<T> bestRule) {
 		for (Sentence<T> trainingSentence : trainingCorpus)
-			RuleBasedTagger.applyRule(new DelayedContext<T>(new SentenceContext<T>(trainingSentence)), bestRule);
+			BrillTagger.applyRule(new DelayedContext<T>(new SentenceContext<T>(trainingSentence)), bestRule);
 	}
 
 	private void produceAllPossibleRules() {

@@ -8,26 +8,25 @@ import java.util.List;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.RuleBasedTagger;
+import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
-public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
+public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
+	private List<BrillTaggerListener> BrillTagger.listeners = new ArrayList<BrillTaggerListener>();
 	
-	private List<RuleBasedTaggerListener> RuleBasedTagger.listeners = new ArrayList<RuleBasedTaggerListener>();
-	
-	public void RuleBasedTagger.addRuleBasedTaggerListener(RuleBasedTaggerListener listener) {
+	public void BrillTagger.addBrillTaggerListener(BrillTaggerListener listener) {
 		listeners.add(listener);
 	}
 	
-	public void RuleBasedTagger.removeRuleBasedTaggerListener(RuleBasedTaggerListener listener) {
+	public void BrillTagger.removeBrillTaggerListener(BrillTaggerListener listener) {
 		listeners.remove(listener);
 	}
 
-	private void RuleBasedTagger.fireNotification(Method method, RuleBasedTaggerEvent prototype) {
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
+	private void BrillTagger.fireNotification(Method method, BrillTaggerEvent prototype) {
+		for (BrillTaggerListener listener : listeners) {
+			BrillTaggerEvent event = (BrillTaggerEvent) prototype.clone();
 			try {
 				method.invoke(listener, event);
 			} catch (InvocationTargetException e) {
@@ -49,8 +48,8 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 	private static final Method RULEAPPLIED;
 	
 	static {
-		Class<RuleBasedTaggerListener> clazz = RuleBasedTaggerListener.class;
-		Class[] args = new Class[] {RuleBasedTaggerEvent.class};
+		Class<BrillTaggerListener> clazz = BrillTaggerListener.class;
+		Class[] args = new Class[] {BrillTaggerEvent.class};
 		
 		try {
 			TAGGINGSENTENCE = clazz.getMethod("taggingSentence", args);
@@ -67,53 +66,53 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 		}
 	}
 	
-	before(RuleBasedTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	before(BrillTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		
 		tagger.fireNotification(TAGGINGSENTENCE, prototype);
 	}
 
-	after(RuleBasedTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	after(BrillTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
 		tagger.fireNotification(SENTENCETAGGED, prototype);
 	}
 
-	before(RuleBasedTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	before(BrillTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
 		tagger.fireNotification(BEFOREBASETAGGER, prototype);
 	}
 
-	after(RuleBasedTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	after(BrillTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
 		tagger.fireNotification(AFTERBASETAGGER, prototype);
 	}
 
-	before(RuleBasedTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	before(BrillTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
 		tagger.fireNotification(BEFORERULEAPPLICATION, prototype);
 	}
 
-	after(RuleBasedTagger tagger, Rule rule, Sentence sentence) returning: onRuleApplication(tagger, rule, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+	after(BrillTagger tagger, Rule rule, Sentence sentence) returning: onRuleApplication(tagger, rule, sentence) {
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
 		tagger.fireNotification(AFTERRULEAPPLICATION, prototype);
 	}
 
-	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning (Token token): 
+	after(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning (Token token): 
 		onContextAdvance(tagger, rule, sentence, context) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 		prototype.setContext(context);
@@ -122,9 +121,9 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 		tagger.fireNotification(ADVANCE, prototype);
 	}
 	
-	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning: 
+	after(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning: 
 		onContextCommit(tagger, rule, sentence, context) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 		prototype.setContext(context);
@@ -132,10 +131,10 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 		tagger.fireNotification(COMMIT, prototype);
 	}
 
-	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, Context context) returning (boolean result):
+	after(BrillTagger tagger, Rule rule, Sentence sentence, Context context) returning (boolean result):
 		onContextualRuleApplication(tagger, rule, sentence, context) {
 		
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 		prototype.setContext(context);

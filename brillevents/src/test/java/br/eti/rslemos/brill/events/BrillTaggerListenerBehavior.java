@@ -16,17 +16,17 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.RuleBasedTagger;
+import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
-public class RuleBasedTaggerListenerBehavior {
-	@Mock private RuleBasedTaggerListener listener;
+public class BrillTaggerListenerBehavior {
+	@Mock private BrillTaggerListener listener;
 
-	private RuleBasedTagger tagger;;
+	private BrillTagger tagger;;
 
 	@Mock private Tagger baseTagger;
 
@@ -41,8 +41,8 @@ public class RuleBasedTaggerListenerBehavior {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		tagger = new RuleBasedTagger();
-		tagger.addRuleBasedTaggerListener(listener);
+		tagger = new BrillTagger();
+		tagger.addBrillTaggerListener(listener);
 		
 		tagger.setBaseTagger(baseTagger);
 		tagger.setRules(Arrays.asList(rule1, rule2));
@@ -52,8 +52,8 @@ public class RuleBasedTaggerListenerBehavior {
 	
 	@Test
 	public void shouldAcceptListeners() {
-		//tagger.addRuleBasedTaggerListener(listener);
-		tagger.removeRuleBasedTaggerListener(listener);
+		//tagger.addBrillTaggerListener(listener);
+		tagger.removeBrillTaggerListener(listener);
 	}
 
 	@Test
@@ -184,8 +184,8 @@ public class RuleBasedTaggerListenerBehavior {
 		
 	}
 
-	private static Matcher<RuleBasedTaggerEvent> matchesEvent(
-			Matcher<RuleBasedTagger> taggerMatcher,
+	private static Matcher<BrillTaggerEvent> matchesEvent(
+			Matcher<BrillTagger> taggerMatcher,
 			Matcher<Sentence> sentenceMatcher,
 			Matcher<Rule> ruleMatcher,
 			Matcher<Context> contextMatcher,
@@ -195,9 +195,9 @@ public class RuleBasedTaggerListenerBehavior {
 		return new CustomEventMatcher(taggerMatcher, sentenceMatcher, ruleMatcher, contextMatcher, tokenMatcher, ruleAppliesMatcher);
 	}
 	
-	private static class CustomEventMatcher extends BaseMatcher<RuleBasedTaggerEvent> {
+	private static class CustomEventMatcher extends BaseMatcher<BrillTaggerEvent> {
 
-		private final Matcher<RuleBasedTagger> sourceMatcher;
+		private final Matcher<BrillTagger> sourceMatcher;
 		private final Matcher<Sentence> onSentenceMatcher;
 		private final Matcher<Rule> actingRuleMatcher;
 		private final Matcher<Context> contextMatcher;
@@ -205,7 +205,7 @@ public class RuleBasedTaggerListenerBehavior {
 		private final Matcher<Boolean> ruleAppliesMatcher;
 
 		public CustomEventMatcher(
-				Matcher<RuleBasedTagger> sourceMatcher,
+				Matcher<BrillTagger> sourceMatcher,
 				Matcher<Sentence> onSentenceMatcher,
 				Matcher<Rule> actingRuleMatcher,
 				Matcher<Context> contextMatcher,
@@ -221,10 +221,10 @@ public class RuleBasedTaggerListenerBehavior {
 
 		@Override
 		public boolean matches(Object item) {
-			if (!(item instanceof RuleBasedTaggerEvent))
+			if (!(item instanceof BrillTaggerEvent))
 				return false;
 			
-			RuleBasedTaggerEvent other = (RuleBasedTaggerEvent) item;
+			BrillTaggerEvent other = (BrillTaggerEvent) item;
 			
 			return 
 				sourceMatcher.matches(other.getSource()) &&
@@ -237,7 +237,7 @@ public class RuleBasedTaggerListenerBehavior {
 
 		@Override
 		public void describeTo(Description description) {
-			description.appendText(RuleBasedTaggerEvent.class.getName());
+			description.appendText(BrillTaggerEvent.class.getName());
 			description.appendText("(");
 			description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
 			description.appendText("onSentence ").appendDescriptionOf(onSentenceMatcher).appendText(", ");
@@ -254,19 +254,19 @@ public class RuleBasedTaggerListenerBehavior {
 		return (Sentence<String>) anyObject();
 	}
 
-	private static RuleBasedTaggerEvent<String> anyEvent() {
-		return (RuleBasedTaggerEvent<String>) anyObject();
+	private static BrillTaggerEvent<String> anyEvent() {
+		return (BrillTaggerEvent<String>) anyObject();
 	}
 
 	private static Context<String> anyContext() {
 		return (Context<String>) anyObject();
 	}
 
-	private RuleBasedTaggerEvent eventWithSentence() {
+	private BrillTaggerEvent eventWithSentence() {
 		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(nullValue(Rule.class)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
 	}
 	
-	private RuleBasedTaggerEvent eventWithSentenceAndRule(Rule rule) {
+	private BrillTaggerEvent eventWithSentenceAndRule(Rule rule) {
 		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
 	}
 }

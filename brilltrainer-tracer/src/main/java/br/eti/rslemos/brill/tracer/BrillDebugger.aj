@@ -11,7 +11,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.RulesetTrainer;
+import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.rules.PREVTAGRule;
 
 public privileged abstract aspect BrillDebugger {
@@ -79,7 +79,7 @@ public privileged abstract aspect BrillDebugger {
 */
 	private static final Rule THERULE = new PREVTAGRule("v-fin", "n", "art");
 	
-	void around(Rule rule): call(void RulesetTrainer.ScoreBoard.addTruePositive(Rule)) && args(rule) {
+	void around(Rule rule): call(void BrillTrainer.ScoreBoard.addTruePositive(Rule)) && args(rule) {
 		if (THERULE.equals(rule))
 			proceed(rule);
 	}
@@ -87,7 +87,7 @@ public privileged abstract aspect BrillDebugger {
 	int positive = 0, negative = 0;
 	
 	after(Context context, Token token) returning(Collection<Rule> localRules): 
-		call(Collection<Rule> RulesetTrainer.RuleProducingStrategy.produceAllPossibleRules(Context, Token)) && args(context, token) {
+		call(Collection<Rule> BrillTrainer.RuleProducingStrategy.produceAllPossibleRules(Context, Token)) && args(context, token) {
 		if (localRules.contains(THERULE)) {
 			String[] args = buildArgsFromContext(context);
 			
@@ -96,7 +96,7 @@ public privileged abstract aspect BrillDebugger {
 		}
 	}
 
-	after(RulesetTrainer.Score score, Token token, DelayedContext context, Object a, Object b) returning (boolean result):
+	after(BrillTrainer.Score score, Token token, DelayedContext context, Object a, Object b) returning (boolean result):
 		call(boolean ObjectUtils.equals(Object, Object)) && args(a, b) &&
 		cflow(execution(void BrillScoringStrategy.computeNegativeScore(Score, Token, BufferingContext)) && args(score, token, context)) {
 		

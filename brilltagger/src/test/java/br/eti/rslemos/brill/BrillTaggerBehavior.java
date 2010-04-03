@@ -17,11 +17,11 @@ import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
-public class RuleBasedTaggerBehavior {
+public class BrillTaggerBehavior {
 
 	@Test
 	public void shouldWorkOnEmptyInput() {
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>();
+		BrillTagger<String> tagger = new BrillTagger<String>();
 		
 		tagger.tag(newDefaultSentence());
 	}
@@ -38,7 +38,7 @@ public class RuleBasedTaggerBehavior {
 			}
 		};
 
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger);
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger);
 		
 		tagger.tag(newDefaultSentence(token));
 
@@ -65,7 +65,7 @@ public class RuleBasedTaggerBehavior {
 		
 		Tagger<String> baseTagger = mock(Tagger.class);
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token));
 
@@ -83,7 +83,7 @@ public class RuleBasedTaggerBehavior {
 		Rule<String> rule1 = mock(Rule.class);
 		Rule<String> rule2 = mock(Rule.class);
 		
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(token));
 
@@ -117,7 +117,7 @@ public class RuleBasedTaggerBehavior {
 			}
 		};
 
-		RuleBasedTagger<String> tagger = new RuleBasedTagger<String>(baseTagger, Arrays.asList(rule));
+		BrillTagger<String> tagger = new BrillTagger<String>(baseTagger, Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 

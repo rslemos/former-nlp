@@ -22,7 +22,7 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
-public class RulesetTrainerBehavior {
+public class BrillTrainerBehavior {
 	@Test
 	public void shouldProduceNoRulesForPerfectBaseTagger() {
 		List<Sentence<String>> sentences = buildText_ToSignUp();
@@ -33,7 +33,7 @@ public class RulesetTrainerBehavior {
 		lexicon.put("up", "RP");
 		
 		List<RuleFactory<String>> ruleFactories = Collections.emptyList();
-		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new LookupTokenTagger<String>(lexicon), ruleFactories);
+		BrillTrainer<String> trainer = new BrillTrainer<String>(new LookupTokenTagger<String>(lexicon), ruleFactories);
 		
 		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		assertEquals(rules.size(), 0);
@@ -46,7 +46,7 @@ public class RulesetTrainerBehavior {
 		List<Sentence<String>> sentences = buildText_ToSignUp();
 		
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
 		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
@@ -139,7 +139,7 @@ public class RulesetTrainerBehavior {
 		RuleFactory<String> factory2 = new TheFactory(rule2, rule2);
 		
 		List<RuleFactory<String>> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
-		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(null), ruleFactories);
+		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(null), ruleFactories);
 		
 		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
@@ -162,7 +162,7 @@ public class RulesetTrainerBehavior {
 		final String FROM_TAG = "TAG";
 		
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
 		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
@@ -189,7 +189,7 @@ public class RulesetTrainerBehavior {
 		final String FROM_TAG = "TAG";
 		
 		List<RuleFactory<String>> ruleFactories = Collections.singletonList((RuleFactory<String>)CURWDRule.<String>FACTORY());
-		RulesetTrainer<String> trainer = new RulesetTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
+		BrillTrainer<String> trainer = new BrillTrainer<String>(new ConstantTokenTagger<String>(FROM_TAG), ruleFactories);
 		
 		List<Rule<String>> rules = trainer.train(sentences).getRules();
 		
