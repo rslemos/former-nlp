@@ -36,12 +36,12 @@ public class NEXTWDRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(NEXTWDRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new NEXTWDRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 

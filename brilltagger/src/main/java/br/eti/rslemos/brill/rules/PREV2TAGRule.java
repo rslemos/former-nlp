@@ -2,18 +2,17 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class PREV2TAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
 		return new PREV2TAGRuleFactory();
 	}
 	
-	private final Tag prev2Tag;
+	private final Object prev2Object;
 
-	public PREV2TAGRule(Tag from, Tag to, Tag prev2Tag) {
+	public PREV2TAGRule(Object from, Object to, Object prev2Object) {
 		super(from, to);
-		this.prev2Tag = prev2Tag;
+		this.prev2Object = prev2Object;
 	}
 
 	public boolean matches(Context context) {
@@ -21,15 +20,15 @@ public class PREV2TAGRule extends AbstractRule implements SerializableAsBrillTex
 	}
 
 	private boolean thisMatches(Context context) {
-		Tag tag_2 = context.getToken(-2).getTag();
+		Object tag_2 = context.getToken(-2).getTag();
 		
-		return prev2Tag != null ? prev2Tag.equals(tag_2) : tag_2 == null;
+		return prev2Object != null ? prev2Object.equals(tag_2) : tag_2 == null;
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(prev2Tag != null ? prev2Tag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(prev2Object != null ? prev2Object.equals(tag) : tag == null);
 	}
 
 	
@@ -40,7 +39,7 @@ public class PREV2TAGRule extends AbstractRule implements SerializableAsBrillTex
 		
 		PREV2TAGRule other = (PREV2TAGRule) o;
 		
-		return prev2Tag != null ? prev2Tag.equals(other.prev2Tag) : other.prev2Tag == null;
+		return prev2Object != null ? prev2Object.equals(other.prev2Object) : other.prev2Object == null;
 	}
 
 	@Override
@@ -48,13 +47,13 @@ public class PREV2TAGRule extends AbstractRule implements SerializableAsBrillTex
 		int hashCode = super.hashCode();
 		
 		hashCode *= 43;
-		hashCode += prev2Tag != null ? prev2Tag.hashCode() : 0;
+		hashCode += prev2Object != null ? prev2Object.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + prev2Tag;
+		return super.toBrillText() + " " + prev2Object;
 	}
 }

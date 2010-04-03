@@ -6,7 +6,6 @@ import java.util.Collection;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.rules.AbstractRuleFactory;
-import br.eti.rslemos.tagger.Tag;
 
 public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
 
@@ -14,14 +13,14 @@ public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
 		super();
 	}
 
-	protected abstract Rule create(Tag from, Tag to, String word, int length);
+	protected abstract Rule create(Object from, Object to, String word, int length);
 
 	@Override
-	public Collection<Rule> create(Tag from, Tag to, Context context) {
+	public Collection<Rule> create(Object from, Object to, Context context) {
 		return create(from, to, context.getToken(0).getWord());
 	}
 
-	private Collection<Rule> create(Tag from, Tag to, String word) {
+	private Collection<Rule> create(Object from, Object to, String word) {
 		Collection<Rule> result = new ArrayList<Rule>(word.length() - 1);
 	
 		for (int i = 1; i < word.length(); i++) {

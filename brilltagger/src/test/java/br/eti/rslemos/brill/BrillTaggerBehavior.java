@@ -11,9 +11,7 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.tagger.AbstractTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
@@ -27,14 +25,14 @@ public class BrillTaggerBehavior {
 	}
 
 	@Test
-	public void shouldInvokeBaseTaggerAndTagToken() {
+	public void shouldInvokeBaseTaggerAndObjectToken() {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
 
 		Tagger baseTagger = new AbstractTokenTagger() {
 			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
-				token.setTag(new DefaultTag("foobar"));
+				token.setTag("foobar");
 			}
 		};
 
@@ -42,22 +40,22 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token));
 
-		verify(token, times(1)).setTag(new DefaultTag("foobar"));
+		verify(token, times(1)).setTag("foobar");
 	}
 
 	@Test
-	public void shouldInvokeBaseTaggerAndRuleAndTagToken() {
+	public void shouldInvokeBaseTaggerAndRuleAndObjectToken() {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
-		when(token.getTag()).thenReturn(new DefaultTag("bar"));
+		when(token.getTag()).thenReturn("bar");
 
 		Rule rule = new RuleAdapter() {
 			@Override
 			public boolean apply(Context context) {
 				Token token = context.getToken(0);
 				assertEquals(token.getWord(), "foo");
-				assertEquals(token.getTag(), new DefaultTag("bar"));
-				token.setTag(new DefaultTag("foobar"));
+				assertEquals(token.getTag(), "bar");
+				token.setTag("foobar");
 				
 				return true;
 			}
@@ -71,7 +69,7 @@ public class BrillTaggerBehavior {
 
 		InOrder inOrder = inOrder(baseTagger, token);
 		inOrder.verify(baseTagger, times(1)).tag(anySentence());
-		inOrder.verify(token, times(1)).setTag(new DefaultTag("foobar"));
+		inOrder.verify(token, times(1)).setTag("foobar");
 	}
 
 	@Test
@@ -107,11 +105,11 @@ public class BrillTaggerBehavior {
 		Rule rule = new RuleAdapter() {
 			@Override
 			public boolean apply(Context context) {
-				verify(token2, never()).setTag(anyTag());
-				verify(token1, never()).setTag(anyTag());
+				verify(token2, never()).setTag(anyObject());
+				verify(token1, never()).setTag(anyObject());
 				
 				Token token = context.getToken(0);
-				token.setTag(new DefaultTag("foobar"));
+				token.setTag("foobar");
 				
 				return true;
 			}
@@ -121,16 +119,16 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
-		verify(token1, times(1)).setTag(new DefaultTag("foobar"));
-		verify(token2, times(1)).setTag(new DefaultTag("foobar"));
+		verify(token1, times(1)).setTag("foobar");
+		verify(token2, times(1)).setTag("foobar");
 	}
 
 	private static class RuleAdapter implements Rule {
-		public Tag getFrom() {
+		public Object getFrom() {
 			return null;
 		}
 
-		public Tag getTo() {
+		public Object getTo() {
 			return null;
 		}
 
@@ -142,7 +140,7 @@ public class BrillTaggerBehavior {
 			return false;
 		}
 
-		public boolean firingDependsOnTag(Tag tag) {
+		public boolean firingDependsOnObject(Object tag) {
 			return false;
 		}
 	}
@@ -151,10 +149,6 @@ public class BrillTaggerBehavior {
 		return anyObject();
 	}
 
-	private static Tag anyTag() {
-		return anyObject();
-	}
-	
 	private DefaultSentence newDefaultSentence(Token... tokens) {
 		return new DefaultSentence(Arrays.asList(tokens));
 	}

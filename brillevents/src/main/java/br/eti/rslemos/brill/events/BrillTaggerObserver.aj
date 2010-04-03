@@ -52,7 +52,7 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		
 		try {
 			TAGGINGSENTENCE = clazz.getMethod("taggingSentence", args);
-			SENTENCETAGGED = clazz.getMethod("sentenceTagged", args);
+			SENTENCETAGGED = clazz.getMethod("sentenceObjectged", args);
 			BEFOREBASETAGGER = clazz.getMethod("beforeBaseTagger", args);
 			AFTERBASETAGGER = clazz.getMethod("afterBaseTagger", args);
 			BEFORERULEAPPLICATION = clazz.getMethod("beforeRuleApplication", args);
@@ -65,14 +65,14 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		}
 	}
 	
-	before(BrillTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
+	before(BrillTagger tagger, Sentence sentence): onObjectSentence(tagger, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		
 		tagger.fireNotification(TAGGINGSENTENCE, prototype);
 	}
 
-	after(BrillTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
+	after(BrillTagger tagger, Sentence sentence) returning: onObjectSentence(tagger, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	

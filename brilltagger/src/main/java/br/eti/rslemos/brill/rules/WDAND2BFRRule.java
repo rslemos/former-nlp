@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class WDAND2BFRRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
@@ -12,7 +11,7 @@ public class WDAND2BFRRule extends AbstractRule implements SerializableAsBrillTe
 	private final String prev2Word;
 	private final String word;
 
-	public WDAND2BFRRule(Tag from, Tag to, String prev2Word, String word) {
+	public WDAND2BFRRule(Object from, Object to, String prev2Word, String word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 		this.word = word;

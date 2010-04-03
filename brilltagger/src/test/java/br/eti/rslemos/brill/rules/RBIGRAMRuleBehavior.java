@@ -45,12 +45,12 @@ public class RBIGRAMRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(RBIGRAMRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldNotDependOnContextTag() {
+	public void shouldNotDependOnContextObject() {
 		testDependency(new RBIGRAMRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 

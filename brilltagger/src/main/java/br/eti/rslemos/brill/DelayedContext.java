@@ -2,34 +2,33 @@ package br.eti.rslemos.brill;
 
 import java.util.LinkedList;
 
-import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Token;
 
 public class DelayedContext implements Context {
-	private static class SetTagCommand {
+	private static class SetObjectCommand {
 		private final Token token;
-		private final Tag tag;
+		private final Object tag;
 
-		protected SetTagCommand(Token token, Tag tag) {
+		protected SetObjectCommand(Token token, Object tag) {
 			this.token = token;
 			this.tag = tag;
 		}
 		
-		public void setTag() {
+		public void setObject() {
 			token.setTag(tag);
 		}
 	}
 	
 	private Context context;
-	private LinkedList<SetTagCommand> commands = new LinkedList<SetTagCommand>();
+	private LinkedList<SetObjectCommand> commands = new LinkedList<SetObjectCommand>();
 	
 	public DelayedContext(Context context) {
 		this.context = context;
 	}
 
 	public void commit() {
-		for (SetTagCommand command : commands) {
-			command.setTag();
+		for (SetObjectCommand command : commands) {
+			command.setObject();
 		}
 
 		commands.clear();
@@ -56,7 +55,7 @@ public class DelayedContext implements Context {
 		try {
 			DelayedContext result = (DelayedContext) super.clone();
 			result.context = context.clone();
-			result.commands = new LinkedList<SetTagCommand>();
+			result.commands = new LinkedList<SetObjectCommand>();
 			
 			return result;
 		} catch (CloneNotSupportedException e) {
@@ -78,7 +77,7 @@ public class DelayedContext implements Context {
 			this.token = token;
 		}
 
-		public Tag getTag() {
+		public Object getTag() {
 			return token.getTag();
 		}
 
@@ -86,8 +85,8 @@ public class DelayedContext implements Context {
 			return token.getWord();
 		}
 
-		public void setTag(Tag tag) {
-			commands.add(new SetTagCommand(token, tag));
+		public void setTag(Object tag) {
+			commands.add(new SetObjectCommand(token, tag));
 		}
 	}
 

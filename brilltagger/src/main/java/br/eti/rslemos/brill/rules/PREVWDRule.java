@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class PREVWDRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
@@ -11,7 +10,7 @@ public class PREVWDRule extends AbstractRule implements SerializableAsBrillText 
 	
 	private final String prevWord;
 
-	public PREVWDRule(Tag from, Tag to, String prevWord) {
+	public PREVWDRule(Object from, Object to, String prevWord) {
 		super(from, to);
 		this.prevWord = prevWord;
 	}

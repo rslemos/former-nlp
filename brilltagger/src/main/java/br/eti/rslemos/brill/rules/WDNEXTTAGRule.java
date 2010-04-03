@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
@@ -10,12 +9,12 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 	}
 	
 	private final String word;
-	private final Tag next1Tag;
+	private final Object next1Object;
 
-	public WDNEXTTAGRule(Tag from, Tag to, String word, Tag next1Tag) {
+	public WDNEXTTAGRule(Object from, Object to, String word, Object next1Object) {
 		super(from, to);
 		this.word = word;
-		this.next1Tag = next1Tag;
+		this.next1Object = next1Object;
 	}
 
 	public boolean matches(Context context) {
@@ -24,16 +23,16 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 
 	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
-		Tag tag1 = context.getToken(1).getTag();
+		Object tag1 = context.getToken(1).getTag();
 		
 		return (word != null ? word.equals(word0) : word0 == null) &&
-			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
+			(next1Object != null ? next1Object.equals(tag1) : tag1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(next1Object != null ? next1Object.equals(tag) : tag == null);
 	}
 
 	
@@ -45,7 +44,7 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 		WDNEXTTAGRule other = (WDNEXTTAGRule) o;
 		
 		return (word != null ? word.equals(other.word) : other.word == null) &&
-			(next1Tag != null ? next1Tag.equals(other.next1Tag) : other.next1Tag == null);
+			(next1Object != null ? next1Object.equals(other.next1Object) : other.next1Object == null);
 	}
 
 	@Override
@@ -55,13 +54,13 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 		hashCode *= 19;
 		hashCode += word != null ? word.hashCode() : 0;
 		hashCode *= 13;
-		hashCode += next1Tag != null ? next1Tag.hashCode() : 0;
+		hashCode += next1Object != null ? next1Object.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + word + " " + next1Tag;
+		return super.toBrillText() + " " + word + " " + next1Object;
 	}
 }

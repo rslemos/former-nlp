@@ -51,7 +51,7 @@ public class CompositeTagger implements Tagger, Serializable {
 			this.token = token;
 		}
 
-		public Tag getTag() {
+		public Object getTag() {
 			return token.getTag();
 		}
 
@@ -59,7 +59,7 @@ public class CompositeTagger implements Tagger, Serializable {
 			return token.getWord();
 		}
 
-		public void setTag(Tag tag) {
+		public void setTag(Object tag) {
 			if (!alreadySet) {
 				token.setTag(tag);
 				alreadySet = true;

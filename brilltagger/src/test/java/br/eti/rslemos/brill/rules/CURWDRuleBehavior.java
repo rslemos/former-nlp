@@ -36,12 +36,12 @@ public class CURWDRuleBehavior {
 	}
 	
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(CURWDRule.FACTORY());
 	}
 
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new CURWDRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 	

@@ -6,13 +6,13 @@ public class ConstantTokenTagger extends AbstractTokenTagger implements Serializ
 
 	private static final long serialVersionUID = 1432743370347430019L;
 	
-	private Tag tag;
+	private Object tag;
 
 	public ConstantTokenTagger() {
 		this(null);
 	}
 	
-	public ConstantTokenTagger(Tag tag) {
+	public ConstantTokenTagger(Object tag) {
 		this.tag = tag;
 	}
 
@@ -20,11 +20,11 @@ public class ConstantTokenTagger extends AbstractTokenTagger implements Serializ
 		token.setTag(tag);
 	}
 
-	public Tag getTag() {
+	public Object getTag() {
 		return tag;
 	}
 
-	public void setTag(Tag tag) {
+	public void setTag(Object tag) {
 		this.tag = tag;
 	}
 }

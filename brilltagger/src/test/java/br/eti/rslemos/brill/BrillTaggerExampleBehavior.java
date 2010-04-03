@@ -14,10 +14,8 @@ import br.eti.rslemos.brill.rules.WDPREVTAGRule;
 import br.eti.rslemos.tagger.CompositeTagger;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.LookupTokenTagger;
-import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
@@ -29,23 +27,23 @@ public class BrillTaggerExampleBehavior {
 		Token sign = new DefaultToken("sign");
 		Token up = new DefaultToken("up");
 		
-		Map<String, Tag> lexicon = new HashMap<String, Tag>();
-		lexicon.put("to", new DefaultTag("TO"));
-		lexicon.put("sign", new DefaultTag("NN"));
-		lexicon.put("up", new DefaultTag("RB"));
+		Map<String, Object> lexicon = new HashMap<String, Object>();
+		lexicon.put("to", "TO");
+		lexicon.put("sign", "NN");
+		lexicon.put("up", "RB");
 		
 		Tagger baseTagger = new LookupTokenTagger(lexicon);
 		
-		Rule rule1 = new PREVTAGRule(new DefaultTag("NN"), new DefaultTag("VB"), new DefaultTag("TO"));
-		Rule rule2 = new WDPREVTAGRule(new DefaultTag("RB"), new DefaultTag("RP"), new DefaultTag("VB"), "up");
+		Rule rule1 = new PREVTAGRule("NN", "VB", "TO");
+		Rule rule2 = new WDPREVTAGRule("RB", "RP", "VB", "up");
 		
 		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(to, sign, up));
 		
-		assertEquals(to.getTag(), new DefaultTag("TO"));
-		assertEquals(sign.getTag(), new DefaultTag("VB"));
-		assertEquals(up.getTag(), new DefaultTag("RP"));
+		assertEquals(to.getTag(), "TO");
+		assertEquals(sign.getTag(), "VB");
+		assertEquals(up.getTag(), "RP");
 	}
 
 	@Test
@@ -59,10 +57,10 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
-		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
-		assertEquals(killed.getTag(), new DefaultTag("VBD"));
-		assertEquals(John.getTag(), new DefaultTag("NP"));
-		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
+		assertEquals(Chapman.getTag(), "NP");
+		assertEquals(killed.getTag(), "VBD");
+		assertEquals(John.getTag(), "NP");
+		assertEquals(Lennon.getTag(), "NP");
 	}
 
 	@Test
@@ -78,12 +76,12 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(John, Lennon, was, shot, by, Chapman));
 
-		assertEquals(John.getTag(), new DefaultTag("NP"));
-		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
-		assertEquals(was.getTag(), new DefaultTag("BEDZ"));
-		assertEquals(shot.getTag(), new DefaultTag("VBN"));
-		assertEquals(by.getTag(), new DefaultTag("BY"));
-		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
+		assertEquals(John.getTag(), "NP");
+		assertEquals(Lennon.getTag(), "NP");
+		assertEquals(was.getTag(), "BEDZ");
+		assertEquals(shot.getTag(), "VBN");
+		assertEquals(by.getTag(), "BY");
+		assertEquals(Chapman.getTag(), "NP");
 	}
 
 	@Test
@@ -99,29 +97,29 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 
-		assertEquals(He.getTag(), new DefaultTag("PPS"));
-		assertEquals(witnessed.getTag(), new DefaultTag("VBD"));
-		assertEquals(Lennon.getTag(), new DefaultTag("NP"));
-		assertEquals(killed.getTag(), new DefaultTag("VBN"));
-		assertEquals(by.getTag(), new DefaultTag("BY"));
-		assertEquals(Chapman.getTag(), new DefaultTag("NP"));
+		assertEquals(He.getTag(), "PPS");
+		assertEquals(witnessed.getTag(), "VBD");
+		assertEquals(Lennon.getTag(), "NP");
+		assertEquals(killed.getTag(), "VBN");
+		assertEquals(by.getTag(), "BY");
+		assertEquals(Chapman.getTag(), "NP");
 	}
 
 	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {
-		Map<String, Tag> lexicon = new HashMap<String, Tag>();
-		lexicon.put("killed", new DefaultTag("VBN"));
-		lexicon.put("was", new DefaultTag("BEDZ"));
-		lexicon.put("shot", new DefaultTag("VBD"));
-		lexicon.put("by", new DefaultTag("BY"));
-		lexicon.put("He", new DefaultTag("PPS"));
-		lexicon.put("witnessed", new DefaultTag("VBD"));
+		Map<String, Object> lexicon = new HashMap<String, Object>();
+		lexicon.put("killed", "VBN");
+		lexicon.put("was", "BEDZ");
+		lexicon.put("shot", "VBD");
+		lexicon.put("by", "BY");
+		lexicon.put("He", "PPS");
+		lexicon.put("witnessed", "VBD");
 		
 		Tagger tagger1 = new LookupTokenTagger(lexicon);
-		Tagger tagger2 = new ConstantTokenTagger(new DefaultTag("NP"));
+		Tagger tagger2 = new ConstantTokenTagger("NP");
 		Tagger baseTagger = new CompositeTagger(tagger1, tagger2);
 		
-		Rule rule1 = new PREVTAGRule(new DefaultTag("VBN"), new DefaultTag("VBD"), new DefaultTag("NP"));
-		Rule rule2 = new NEXTTAGRule(new DefaultTag("VBD"), new DefaultTag("VBN"), new DefaultTag("BY"));
+		Rule rule1 = new PREVTAGRule("VBN", "VBD", "NP");
+		Rule rule2 = new NEXTTAGRule("VBD", "VBN", "BY");
 		
 		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
 		

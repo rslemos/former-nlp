@@ -2,20 +2,19 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
 		return new SURROUNDTAGRuleFactory();
 	}
 	
-	private final Tag prev1Tag;
-	private final Tag next1Tag;
+	private final Object prev1Object;
+	private final Object next1Object;
 
-	public SURROUNDTAGRule(Tag from, Tag to, Tag prev1Tag, Tag next1Tag) {
+	public SURROUNDTAGRule(Object from, Object to, Object prev1Object, Object next1Object) {
 		super(from, to);
-		this.prev1Tag = prev1Tag;
-		this.next1Tag = next1Tag;
+		this.prev1Object = prev1Object;
+		this.next1Object = next1Object;
 	}
 
 	public boolean matches(Context context) {
@@ -23,18 +22,18 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 	}
 
 	private boolean thisMatches(Context context) {
-		Tag tag_1 = context.getToken(-1).getTag();
-		Tag tag1 = context.getToken(1).getTag();
+		Object tag_1 = context.getToken(-1).getTag();
+		Object tag1 = context.getToken(1).getTag();
 		
-		return (prev1Tag != null ? prev1Tag.equals(tag_1) : tag_1 == null) &&
-			(next1Tag != null ? next1Tag.equals(tag1) : tag1 == null);
+		return (prev1Object != null ? prev1Object.equals(tag_1) : tag_1 == null) &&
+			(next1Object != null ? next1Object.equals(tag1) : tag1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(prev1Tag != null ? prev1Tag.equals(tag) : tag == null) ||
-			(next1Tag != null ? next1Tag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(prev1Object != null ? prev1Object.equals(tag) : tag == null) ||
+			(next1Object != null ? next1Object.equals(tag) : tag == null);
 	}
 
 	
@@ -45,8 +44,8 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 		
 		SURROUNDTAGRule other = (SURROUNDTAGRule) o;
 		
-		return (prev1Tag != null ? prev1Tag.equals(other.prev1Tag) : other.prev1Tag == null) &&
-			(next1Tag != null ? next1Tag.equals(other.next1Tag) : other.next1Tag == null);
+		return (prev1Object != null ? prev1Object.equals(other.prev1Object) : other.prev1Object == null) &&
+			(next1Object != null ? next1Object.equals(other.next1Object) : other.next1Object == null);
 	}
 
 	@Override
@@ -54,15 +53,15 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 		int hashCode = super.hashCode();
 		
 		hashCode *= 13;
-		hashCode += prev1Tag != null ? prev1Tag.hashCode() : 0;
+		hashCode += prev1Object != null ? prev1Object.hashCode() : 0;
 		hashCode *= 7;
-		hashCode += next1Tag != null ? next1Tag.hashCode() : 0;
+		hashCode += next1Object != null ? next1Object.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + prev1Tag + " " + next1Tag;
+		return super.toBrillText() + " " + prev1Object + " " + next1Object;
 	}
 }

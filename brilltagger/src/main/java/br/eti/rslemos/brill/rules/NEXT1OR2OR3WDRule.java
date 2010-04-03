@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class NEXT1OR2OR3WDRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
@@ -12,7 +11,7 @@ public class NEXT1OR2OR3WDRule extends AbstractRule implements SerializableAsBri
 	
 	private final String next1or2or3Word;
 
-	public NEXT1OR2OR3WDRule(Tag from, Tag to, String next1or2or3Word) {
+	public NEXT1OR2OR3WDRule(Object from, Object to, String next1or2or3Word) {
 		super(from, to);
 		
 		this.next1or2or3Word = next1or2or3Word;

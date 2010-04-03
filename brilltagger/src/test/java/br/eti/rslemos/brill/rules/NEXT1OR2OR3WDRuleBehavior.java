@@ -36,12 +36,12 @@ public class NEXT1OR2OR3WDRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(NEXT1OR2OR3WDRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new NEXT1OR2OR3WDRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 		testDependency(new NEXT1OR2OR3WDRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
 		testDependency(new NEXT1OR2OR3WDRule(THIS_TAG, THIS_TAG, NEXT3_WORD), F, F, F, F, F, F, F, F);

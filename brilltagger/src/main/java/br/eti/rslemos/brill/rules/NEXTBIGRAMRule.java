@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class NEXTBIGRAMRule extends AbstractRule implements SerializableAsBrillText {
 	public static final  RuleFactory FACTORY() {
@@ -12,7 +11,7 @@ public class NEXTBIGRAMRule extends AbstractRule implements SerializableAsBrillT
 	private final String next1Word;
 	private final String next2Word;
 
-	public NEXTBIGRAMRule(Tag from, Tag to, String next1Word, String next2Word) {
+	public NEXTBIGRAMRule(Object from, Object to, String next1Word, String next2Word) {
 		super(from, to);
 		this.next1Word = next1Word;
 		this.next2Word = next2Word;

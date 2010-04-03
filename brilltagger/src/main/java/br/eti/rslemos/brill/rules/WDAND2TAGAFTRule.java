@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
@@ -10,12 +9,12 @@ public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBril
 	}
 	
 	private final String word;
-	private final Tag next2Tag;
+	private final Object next2Object;
 
-	public WDAND2TAGAFTRule(Tag from, Tag to, String word, Tag next2Tag) {
+	public WDAND2TAGAFTRule(Object from, Object to, String word, Object next2Object) {
 		super(from, to);
 		this.word = word;
-		this.next2Tag = next2Tag;
+		this.next2Object = next2Object;
 	}
 
 	public boolean matches(Context context) {
@@ -24,16 +23,16 @@ public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBril
 
 	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
-		Tag tag2 = context.getToken(2).getTag();
+		Object tag2 = context.getToken(2).getTag();
 		
 		return (word != null ? word.equals(word0) : word0 == null) &&
-			(next2Tag != null ? next2Tag.equals(tag2) : tag2 == null);
+			(next2Object != null ? next2Object.equals(tag2) : tag2 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(next2Tag != null ? next2Tag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(next2Object != null ? next2Object.equals(tag) : tag == null);
 	}
 
 	
@@ -45,7 +44,7 @@ public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBril
 		WDAND2TAGAFTRule other = (WDAND2TAGAFTRule) o;
 		
 		return (word != null ? word.equals(other.word) : other.word == null) &&
-			(next2Tag != null ? next2Tag.equals(other.next2Tag) : other.next2Tag == null);
+			(next2Object != null ? next2Object.equals(other.next2Object) : other.next2Object == null);
 	}
 
 	@Override
@@ -55,13 +54,13 @@ public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBril
 		hashCode *= 19;
 		hashCode += word != null ? word.hashCode() : 0;
 		hashCode *= 7;
-		hashCode += next2Tag != null ? next2Tag.hashCode() : 0;
+		hashCode += next2Object != null ? next2Object.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + word + " " + next2Tag;
+		return super.toBrillText() + " " + word + " " + next2Object;
 	}
 }

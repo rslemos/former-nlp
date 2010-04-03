@@ -128,21 +128,21 @@ public abstract class RuleBehaviorUtils {
 		Collection<Rule> rules = factory.create(context, context.getToken(0));
 		
 		for (Rule rule : rules) {
-			assertTrue(rule.firingDependsOnTag(THIS_TAG));
-			assertFalse(rule.firingDependsOnTag(TO_TAG));
+			assertTrue(rule.firingDependsOnObject(THIS_TAG));
+			assertFalse(rule.firingDependsOnObject(TO_TAG));
 		}
 	}
 
 	public static void testDependency(Rule rule, boolean... dependencies) {
-		assertEquals(rule.firingDependsOnTag(PREV4_TAG), dependencies[0]);
-		assertEquals(rule.firingDependsOnTag(PREV3_TAG), dependencies[1]);
-		assertEquals(rule.firingDependsOnTag(PREV2_TAG), dependencies[2]);
-		assertEquals(rule.firingDependsOnTag(PREV1_TAG), dependencies[3]);
-		assertEquals(rule.firingDependsOnTag(THIS_TAG), true);
-		assertEquals(rule.firingDependsOnTag(NEXT1_TAG), dependencies[4]);
-		assertEquals(rule.firingDependsOnTag(NEXT2_TAG), dependencies[5]);
-		assertEquals(rule.firingDependsOnTag(NEXT3_TAG), dependencies[6]);
-		assertEquals(rule.firingDependsOnTag(NEXT4_TAG), dependencies[7]);
+		assertEquals(rule.firingDependsOnObject(PREV4_TAG), dependencies[0]);
+		assertEquals(rule.firingDependsOnObject(PREV3_TAG), dependencies[1]);
+		assertEquals(rule.firingDependsOnObject(PREV2_TAG), dependencies[2]);
+		assertEquals(rule.firingDependsOnObject(PREV1_TAG), dependencies[3]);
+		assertEquals(rule.firingDependsOnObject(THIS_TAG), true);
+		assertEquals(rule.firingDependsOnObject(NEXT1_TAG), dependencies[4]);
+		assertEquals(rule.firingDependsOnObject(NEXT2_TAG), dependencies[5]);
+		assertEquals(rule.firingDependsOnObject(NEXT3_TAG), dependencies[6]);
+		assertEquals(rule.firingDependsOnObject(NEXT4_TAG), dependencies[7]);
 	}
 
 }

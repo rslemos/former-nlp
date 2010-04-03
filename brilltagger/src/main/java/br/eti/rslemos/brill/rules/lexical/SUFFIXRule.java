@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
-import br.eti.rslemos.tagger.Tag;
 
 public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText {
 	public static final  RuleFactory FACTORY() {
@@ -12,8 +11,8 @@ public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText 
 
 	private final String suffix;
 
-	public SUFFIXRule(Tag fromTag, Tag toTag, String suffix) {
-		super(fromTag, toTag);
+	public SUFFIXRule(Object fromObject, Object toObject, String suffix) {
+		super(fromObject, toObject);
 		
 		this.suffix = suffix;
 	}

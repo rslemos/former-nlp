@@ -3,19 +3,18 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  RuleFactory FACTORY() {
 		return new NEXT1OR2OR3TAGRuleFactory();
 	}
 	
-	private final Tag next1or2or3Tag;
+	private final Object next1or2or3Object;
 
-	public NEXT1OR2OR3TAGRule(Tag from, Tag to, Tag next1or2or3Tag) {
+	public NEXT1OR2OR3TAGRule(Object from, Object to, Object next1or2or3Object) {
 		super(from, to);
 		
-		this.next1or2or3Tag = next1or2or3Tag;
+		this.next1or2or3Object = next1or2or3Object;
 	}
 
 	public boolean matches(Context context) {
@@ -23,19 +22,19 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 	}
 
 	private boolean thisMatches(Context context) {
-		Tag tag1 = context.getToken(1).getTag();
-		Tag tag2 = context.getToken(2).getTag();
-		Tag tag3 = context.getToken(3).getTag();
+		Object tag1 = context.getToken(1).getTag();
+		Object tag2 = context.getToken(2).getTag();
+		Object tag3 = context.getToken(3).getTag();
 		
-		return next1or2or3Tag != null 
-		? (next1or2or3Tag.equals(tag1) | next1or2or3Tag.equals(tag2) | next1or2or3Tag.equals(tag3)) 
+		return next1or2or3Object != null 
+		? (next1or2or3Object.equals(tag1) | next1or2or3Object.equals(tag2) | next1or2or3Object.equals(tag3)) 
 		: (tag1 == null | tag2 == null | tag3 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(next1or2or3Tag != null ? next1or2or3Tag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(next1or2or3Object != null ? next1or2or3Object.equals(tag) : tag == null);
 	}
 
 	
@@ -46,7 +45,7 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 		
 		NEXT1OR2OR3TAGRule other = (NEXT1OR2OR3TAGRule) o;
 		
-		return next1or2or3Tag != null ? next1or2or3Tag.equals(other.next1or2or3Tag) : other.next1or2or3Tag == null;
+		return next1or2or3Object != null ? next1or2or3Object.equals(other.next1or2or3Object) : other.next1or2or3Object == null;
 	}
 
 	@Override
@@ -54,13 +53,13 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 		int hashCode = super.hashCode();
 		
 		hashCode *= 7;
-		hashCode += next1or2or3Tag != null ? next1or2or3Tag.hashCode() : 0;
+		hashCode += next1or2or3Object != null ? next1or2or3Object.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + next1or2or3Tag;
+		return super.toBrillText() + " " + next1or2or3Object;
 	}
 }

@@ -262,7 +262,7 @@ public class BrillTrainer {
 				Rule r = it.next();
 				
 				// already covers the case where rule == bestRule, since a rule firing depends on its tags anyway
-				if (r.firingDependsOnTag(rule.getFrom()) || r.firingDependsOnTag(rule.getTo()))
+				if (r.firingDependsOnObject(rule.getFrom()) || r.firingDependsOnObject(rule.getTo()))
 					it.remove();
 			}
 		}

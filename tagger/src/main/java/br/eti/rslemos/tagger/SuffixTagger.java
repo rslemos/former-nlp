@@ -10,7 +10,7 @@ public class SuffixTagger extends ConstantTokenTagger {
 		super();
 	}
 
-	public SuffixTagger(String suffix, Tag tag) {
+	public SuffixTagger(String suffix, Object tag) {
 		super(tag);
 		this.suffix = suffix;
 	}

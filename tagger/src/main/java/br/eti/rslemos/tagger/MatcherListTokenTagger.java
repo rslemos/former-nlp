@@ -10,7 +10,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 	protected static interface Matcher extends Serializable {
 		boolean matches(String word);
 
-		Tag getTag();
+		Object getObject();
 	}
 
 	private Matcher[] matchers;
@@ -30,7 +30,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 
 		for (Matcher matcher : matchers) {
 			if (matcher.matches(word)) {
-				token.setTag(matcher.getTag());
+				token.setTag(matcher.getObject());
 				break;
 			}
 		}
@@ -50,13 +50,13 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 		private static final long serialVersionUID = 172788707169113015L;
 
 		private String suffix;
-		private Tag tag;
+		private Object tag;
 
 		public SuffixMatcher() {
 			this(null, null);
 		}
 
-		public SuffixMatcher(String suffix, Tag tag) {
+		public SuffixMatcher(String suffix, Object tag) {
 			this.suffix = suffix;
 			this.tag = tag;
 		}
@@ -73,11 +73,11 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 			this.suffix = suffix;
 		}
 
-		public Tag getTag() {
+		public Object getObject() {
 			return tag;
 		}
 
-		public void setTag(Tag tag) {
+		public void setObject(Object tag) {
 			this.tag = tag;
 		}
 	}
@@ -87,13 +87,13 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 		private static final long serialVersionUID = -1027474386195913937L;
 		
 		private String word;
-		private Tag tag;
+		private Object tag;
 
 		public StringMatcher() {
 			this(null, null);
 		}
 
-		public StringMatcher(String word, Tag tag) {
+		public StringMatcher(String word, Object tag) {
 			this.word = word;
 			this.tag = tag;
 		}
@@ -110,11 +110,11 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 			this.word = word;
 		}
 
-		public Tag getTag() {
+		public Object getObject() {
 			return tag;
 		}
 
-		public void setTag(Tag tag) {
+		public void setObject(Object tag) {
 			this.tag = tag;
 		}
 	}

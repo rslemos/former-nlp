@@ -57,18 +57,18 @@ public class BrillTaggerListenerBehavior {
 	}
 
 	@Test
-	public void shouldNotifyTaggingStartAndFinish() {
+	public void shouldNotifyObjectgingStartAndFinish() {
 		tagger.tag(sentence);
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
 		order.verify(listener).taggingSentence(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).sentenceTagged(eventWithSentence());
+		order.verify(listener).sentenceObjectged(eventWithSentence());
 	}
 
 	@Test
-	public void shouldNotifyBaseTaggingStartAndFinish() {
+	public void shouldNotifyBaseObjectgingStartAndFinish() {
 		tagger.tag(sentence);
 		
 		InOrder order = inOrder(listener, baseTagger);
@@ -79,7 +79,7 @@ public class BrillTaggerListenerBehavior {
 		order.verify(baseTagger).tag(anySentence());
 		order.verify(listener).afterBaseTagger(eventWithSentence());
 		
-		order.verify(listener).sentenceTagged(anyEvent());
+		order.verify(listener).sentenceObjectged(anyEvent());
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class BrillTaggerListenerBehavior {
 		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule2));
 		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule2));
 		
-		order.verify(listener).sentenceTagged(anyEvent());
+		order.verify(listener).sentenceObjectged(anyEvent());
 	}
 
 	@Test
@@ -159,13 +159,13 @@ public class BrillTaggerListenerBehavior {
 			Token other = (Token) item;
 			
 			String wantedWord = wanted.getWord();
-			Object wantedTag = wanted.getTag();
+			Object wantedObject = wanted.getTag();
 			String actualWord = other.getWord();
-			Object actualTag = other.getTag();
+			Object actualObject = other.getTag();
 			
 			return
 				(wantedWord != null ? wantedWord.equals(actualWord) : actualWord == null) &&
-				(wantedTag != null ? wantedTag.equals(actualTag) : actualTag == null);
+				(wantedObject != null ? wantedObject.equals(actualObject) : actualObject == null);
 		}
 
 		@Override

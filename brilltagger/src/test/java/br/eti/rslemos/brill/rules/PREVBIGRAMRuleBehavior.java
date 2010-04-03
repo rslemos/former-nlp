@@ -45,12 +45,12 @@ public class PREVBIGRAMRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(PREVBIGRAMRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldNotDependOnContextTag() {
+	public void shouldNotDependOnContextObject() {
 		testDependency(new PREVBIGRAMRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 

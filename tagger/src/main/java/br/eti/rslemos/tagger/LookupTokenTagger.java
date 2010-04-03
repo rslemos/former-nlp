@@ -8,13 +8,13 @@ public class LookupTokenTagger extends AbstractTokenTagger implements Serializab
 
 	private static final long serialVersionUID = 6023313611881081572L;
 
-	private Map<String, Tag> lexicon;
+	private Map<String, Object> lexicon;
 
 	public LookupTokenTagger() {
-		this(new HashMap<String, Tag>());
+		this(new HashMap<String, Object>());
 	}
 
-	public LookupTokenTagger(Map<String, Tag> lexicon) {
+	public LookupTokenTagger(Map<String, Object> lexicon) {
 		this.lexicon = lexicon;
 	}
 
@@ -24,11 +24,11 @@ public class LookupTokenTagger extends AbstractTokenTagger implements Serializab
 			token.setTag(lexicon.get(word));
 	}
 
-	public Map<String, Tag> getLexicon() {
+	public Map<String, Object> getLexicon() {
 		return lexicon;
 	}
 
-	public void setLexicon(Map<String, Tag> lexicon) {
+	public void setLexicon(Map<String, Object> lexicon) {
 		this.lexicon = lexicon;
 	}
 }

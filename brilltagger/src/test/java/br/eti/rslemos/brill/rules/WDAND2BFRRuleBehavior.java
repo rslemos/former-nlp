@@ -45,12 +45,12 @@ public class WDAND2BFRRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(WDAND2BFRRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldNotDependOnContextTag() {
+	public void shouldNotDependOnContextObject() {
 		testDependency(new WDAND2BFRRule(THIS_TAG, THIS_TAG, PREV2_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 

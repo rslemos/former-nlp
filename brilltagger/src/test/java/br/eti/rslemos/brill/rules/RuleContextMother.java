@@ -8,7 +8,6 @@ import java.util.Arrays;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.SentenceContext;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.Token;
 
 
@@ -16,42 +15,42 @@ public abstract class RuleContextMother {
 
 	public static final String ALT = "alt-";
 	
-	public static final DefaultTag TO_TAG = new DefaultTag("to-tag");
+	public static final Object TO_TAG = "to-tag";
 
 	public static final String PREV4_WORD = "prev4-word4";
-	public static final DefaultTag PREV4_TAG = new DefaultTag("prev4-tag4");
-	public static final DefaultTag ALT_PREV4_TAG = new DefaultTag("alt-prev4-tag4");
+	public static final Object PREV4_TAG = "prev4-tag4";
+	public static final Object ALT_PREV4_TAG = "alt-prev4-tag4";
 
 	public static final String PREV3_WORD = "prev3-word3";
-	public static final DefaultTag PREV3_TAG = new DefaultTag("prev3-tag3");
-	public static final DefaultTag ALT_PREV3_TAG = new DefaultTag("alt-prev3-tag3");
+	public static final Object PREV3_TAG = "prev3-tag3";
+	public static final Object ALT_PREV3_TAG = "alt-prev3-tag3";
 
 	public static final String PREV2_WORD = "prev2-word2";
-	public static final DefaultTag PREV2_TAG = new DefaultTag("prev2-tag2");
-	public static final DefaultTag ALT_PREV2_TAG = new DefaultTag("alt-prev2-tag2");
+	public static final Object PREV2_TAG = "prev2-tag2";
+	public static final Object ALT_PREV2_TAG = "alt-prev2-tag2";
 
 	public static final String PREV1_WORD = "prev1-word1";
-	public static final DefaultTag PREV1_TAG = new DefaultTag("prev1-tag1");
-	public static final DefaultTag ALT_PREV1_TAG = new DefaultTag("alt-prev1-tag1");
+	public static final Object PREV1_TAG = "prev1-tag1";
+	public static final Object ALT_PREV1_TAG = "alt-prev1-tag1";
 
 	public static final String THIS_WORD = "this-word";
-	public static final DefaultTag THIS_TAG = new DefaultTag("this-tag");
+	public static final Object THIS_TAG = "this-tag";
 	
 	public static final String NEXT1_WORD = "next1-word1";
-	public static final DefaultTag NEXT1_TAG = new DefaultTag("next1-tag1");
-	public static final DefaultTag ALT_NEXT1_TAG = new DefaultTag("alt-next1-tag1");
+	public static final Object NEXT1_TAG = "next1-tag1";
+	public static final Object ALT_NEXT1_TAG = "alt-next1-tag1";
 
 	public static final String NEXT2_WORD = "next2-word2";
-	public static final DefaultTag NEXT2_TAG = new DefaultTag("next2-tag2");
-	public static final DefaultTag ALT_NEXT2_TAG = new DefaultTag("alt-next2-tag2");
+	public static final Object NEXT2_TAG = "next2-tag2";
+	public static final Object ALT_NEXT2_TAG = "alt-next2-tag2";
 
 	public static final String NEXT3_WORD = "next3-word3";
-	public static final DefaultTag NEXT3_TAG = new DefaultTag("next3-tag3");
-	public static final DefaultTag ALT_NEXT3_TAG = new DefaultTag("alt-next3-tag3");
+	public static final Object NEXT3_TAG = "next3-tag3";
+	public static final Object ALT_NEXT3_TAG = "alt-next3-tag3";
 
 	public static final String NEXT4_WORD = "next4-word4";
-	public static final DefaultTag NEXT4_TAG = new DefaultTag("next4-tag4");
-	public static final DefaultTag ALT_NEXT4_TAG = new DefaultTag("alt-next4-tag4");
+	public static final Object NEXT4_TAG = "next4-tag4";
+	public static final Object ALT_NEXT4_TAG = "alt-next4-tag4";
 
 	public static Context buildContext() {
 		return buildContext(5, RuleContextMother.getStandardTokens());
@@ -65,7 +64,7 @@ public abstract class RuleContextMother {
 		return buildContext(5, RuleContextMother.getUntaggedTokens());
 	}
 
-	private static Token mockToken(String word, DefaultTag tag) {
+	private static Token mockToken(String word, Object tag) {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn(word);
 		when(token.getTag() ).thenReturn(tag);

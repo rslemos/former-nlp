@@ -8,12 +8,12 @@ import br.eti.rslemos.tagger.Token;
 
 public class ConstantTokenTaggerBehavior {
 	@Test
-	public void shouldTag() {
+	public void shouldObject() {
 		Token token = mock(Token.class);
 		
-		ConstantTokenTagger tagger = new ConstantTokenTagger(new DefaultTag("CT"));
+		ConstantTokenTagger tagger = new ConstantTokenTagger("CT");
 		tagger.tag(token);
 		
-		verify(token).setTag(new DefaultTag("CT"));
+		verify(token).setTag("CT");
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.eti.rslemos.tagger.DefaultTag;
 import br.eti.rslemos.tagger.Token;
 
 import br.eti.rslemos.brill.AbstractRule;
@@ -78,7 +77,7 @@ public privileged abstract aspect BrillDebugger {
 		
 	}
 */
-	private static final Rule THERULE = new PREVTAGRule(new DefaultTag("v-fin"), new DefaultTag("n"), new DefaultTag("art"));
+	private static final Rule THERULE = new PREVTAGRule("v-fin", "n", "art");
 	
 	void around(Rule rule): call(void BrillTrainer.ScoreBoard.addTruePositive(Rule)) && args(rule) {
 		if (THERULE.equals(rule))

@@ -9,13 +9,12 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.Tag;
 
 public class WDNEXTTAGRuleBehavior {
-	private boolean matches(String word, Tag next1Tag) {
+	private boolean matches(String word, Object next1Object) {
 		Context context = buildContext();
 		
-		Rule rule = new WDNEXTTAGRule(THIS_TAG, TO_TAG, word, next1Tag);
+		Rule rule = new WDNEXTTAGRule(THIS_TAG, TO_TAG, word, next1Object);
 		return rule.matches(context);
 	}
 
@@ -46,12 +45,12 @@ public class WDNEXTTAGRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new WDNEXTTAGRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
 	}
 	

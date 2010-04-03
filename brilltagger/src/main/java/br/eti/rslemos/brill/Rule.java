@@ -1,12 +1,10 @@
 package br.eti.rslemos.brill;
 
-import br.eti.rslemos.tagger.Tag;
-
 public interface Rule {
 
-	Tag getFrom();
+	Object getFrom();
 
-	Tag getTo();
+	Object getTo();
 	
 	
 	boolean matches(Context context);
@@ -17,6 +15,6 @@ public interface Rule {
 
 	int hashCode();
 
-	boolean firingDependsOnTag(Tag tag);
+	boolean firingDependsOnObject(Object tag);
 
 }

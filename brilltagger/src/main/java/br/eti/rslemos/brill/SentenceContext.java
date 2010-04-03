@@ -4,13 +4,12 @@ import java.util.NoSuchElementException;
 
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
-import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
 	private final Token NULL_TOKEN = new Token() {
 
-		public Tag getTag() {
+		public Object getTag() {
 			return null;
 		}
 
@@ -18,8 +17,8 @@ public class SentenceContext implements Context {
 			return null;
 		}
 
-		public void setTag(Tag tag) {
-			throw new IllegalStateException("Can'Tag set NULL token tag to '" + tag + "'");
+		public void setTag(Object tag) {
+			throw new IllegalStateException("Can'Object set NULL token tag to '" + tag + "'");
 		}
 	};
 	

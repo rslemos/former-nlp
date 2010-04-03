@@ -9,13 +9,12 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.Tag;
 
 public class PREV1OR2OR3TAGRuleBehavior {
-	private boolean matches(Tag prev1or2or3Tag) {
+	private boolean matches(Object prev1or2or3Object) {
 		Context context = buildContext();
 		
-		Rule rule = new PREV1OR2OR3TAGRule(THIS_TAG, TO_TAG, prev1or2or3Tag);
+		Rule rule = new PREV1OR2OR3TAGRule(THIS_TAG, TO_TAG, prev1or2or3Object);
 		return rule.matches(context);
 	}
 	
@@ -37,12 +36,12 @@ public class PREV1OR2OR3TAGRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(PREV1OR2OR3TAGRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
 		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
 		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV3_TAG), F, T, F, F, F, F, F, F);

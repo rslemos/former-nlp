@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
-import br.eti.rslemos.tagger.Tag;
 
 public class PREFIXRule extends AbstractRule implements SerializableAsBrillText {
 	public static final  RuleFactory FACTORY() {
@@ -12,8 +11,8 @@ public class PREFIXRule extends AbstractRule implements SerializableAsBrillText 
 
 	private final String prefix;
 
-	public PREFIXRule(Tag fromTag, Tag toTag, String prefix) {
-		super(fromTag, toTag);
+	public PREFIXRule(Object fromObject, Object toObject, String prefix) {
+		super(fromObject, toObject);
 		
 		this.prefix = prefix;
 	}

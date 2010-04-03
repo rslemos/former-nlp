@@ -3,7 +3,7 @@ package br.eti.rslemos.tagger;
 public final class DefaultToken implements Token {
 
 	private final String word;
-	private Tag tag;
+	private Object tag;
 
 	public DefaultToken(String word) {
 		this.word = word;
@@ -18,11 +18,11 @@ public final class DefaultToken implements Token {
 		return word;
 	}
 
-	public Tag getTag() {
+	public Object getTag() {
 		return tag;
 	}
 
-	public void setTag(Tag tag) {
+	public void setTag(Object tag) {
 		this.tag = tag;
 	}
 

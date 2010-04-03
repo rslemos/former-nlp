@@ -5,13 +5,12 @@ import java.util.Collection;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.Tag;
 
 public class NEXT1OR2TAGRuleFactory extends AbstractRuleFactory {
 	
-	public Collection<Rule> create(Tag from, Tag to, Context context) {
-		Tag tag1 = context.getToken(1).getTag();
-		Tag tag2 = context.getToken(2).getTag();
+	public Collection<Rule> create(Object from, Object to, Context context) {
+		Object tag1 = context.getToken(1).getTag();
+		Object tag2 = context.getToken(2).getTag();
 
 		return Arrays.<Rule> asList(
 				new NEXT1OR2TAGRule(from, to, tag1),

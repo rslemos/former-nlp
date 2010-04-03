@@ -10,7 +10,7 @@ public class PrefixTagger extends ConstantTokenTagger {
 		this(null, null);
 	}
 
-	public PrefixTagger(String prefix, Tag tag) {
+	public PrefixTagger(String prefix, Object tag) {
 		super(tag);
 		this.prefix = prefix;
 	}

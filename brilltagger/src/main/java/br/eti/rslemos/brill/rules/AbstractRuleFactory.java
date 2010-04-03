@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.Tag;
 import br.eti.rslemos.tagger.Token;
 
 public abstract class AbstractRuleFactory implements RuleFactory {
@@ -12,5 +11,5 @@ public abstract class AbstractRuleFactory implements RuleFactory {
 		return create(context.getToken(0).getTag(), target.getTag(), context);
 	}
 
-	protected abstract Collection<Rule> create(Tag from, Tag to, Context context);
+	protected abstract Collection<Rule> create(Object from, Object to, Context context);
 }

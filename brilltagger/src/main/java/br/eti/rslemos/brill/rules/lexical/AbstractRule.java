@@ -1,14 +1,13 @@
 package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public abstract class AbstractRule extends br.eti.rslemos.brill.AbstractRule {
 
 	protected AbstractRule() {
 	}
 
-	protected AbstractRule(Tag from, Tag to) {
+	protected AbstractRule(Object from, Object to) {
 		super(from, to);
 	}
 

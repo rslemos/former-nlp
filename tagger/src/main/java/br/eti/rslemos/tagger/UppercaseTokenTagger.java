@@ -9,7 +9,7 @@ public class UppercaseTokenTagger extends ConstantTokenTagger {
 		this(null);
 	}
 
-	public UppercaseTokenTagger(Tag tag) {
+	public UppercaseTokenTagger(Object tag) {
 		super(tag);
 	}
 

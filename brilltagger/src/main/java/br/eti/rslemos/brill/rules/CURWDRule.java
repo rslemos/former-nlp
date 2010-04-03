@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class CURWDRule extends AbstractRule implements SerializableAsBrillText {
 	public static final  RuleFactory FACTORY() {
@@ -11,7 +10,7 @@ public class CURWDRule extends AbstractRule implements SerializableAsBrillText {
 	
 	private final String word;
 
-	public CURWDRule(Tag from, Tag to, String word) {
+	public CURWDRule(Object from, Object to, String word) {
 		super(from, to);
 		this.word = word;
 	}

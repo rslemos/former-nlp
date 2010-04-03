@@ -2,7 +2,6 @@ package br.eti.rslemos.brill.rules;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.Tag;
 
 public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
 	public static final  AbstractRuleFactory FACTORY() {
@@ -10,12 +9,12 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 	}
 	
 	private final String word;
-	private final Tag prevTag;
+	private final Object prevObject;
 
-	public WDPREVTAGRule(Tag from, Tag to, Tag prevTag, String word) {
+	public WDPREVTAGRule(Object from, Object to, Object prevObject, String word) {
 		super(from, to);
 		this.word = word;
-		this.prevTag = prevTag;
+		this.prevObject = prevObject;
 	}
 
 	public boolean matches(Context context) {
@@ -24,16 +23,16 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 
 	private boolean thisMatches(Context context) {
 		String word0 = context.getToken(0).getWord();
-		Tag tag_1 = context.getToken(-1).getTag();
+		Object tag_1 = context.getToken(-1).getTag();
 		
 		return (word != null ? word.equals(word0) : word0 == null) &&
-			(prevTag != null ? prevTag.equals(tag_1) : tag_1 == null);
+			(prevObject != null ? prevObject.equals(tag_1) : tag_1 == null);
 	}
 	
 	@Override
-	public boolean firingDependsOnTag(Tag tag) {
-		return super.firingDependsOnTag(tag) || 
-			(prevTag != null ? prevTag.equals(tag) : tag == null);
+	public boolean firingDependsOnObject(Object tag) {
+		return super.firingDependsOnObject(tag) || 
+			(prevObject != null ? prevObject.equals(tag) : tag == null);
 	}
 
 	
@@ -45,7 +44,7 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 		WDPREVTAGRule other = (WDPREVTAGRule) o;
 		
 		return (word != null ? word.equals(other.word) : other.word == null) &&
-			(prevTag != null ? prevTag.equals(other.prevTag) : other.prevTag == null);
+			(prevObject != null ? prevObject.equals(other.prevObject) : other.prevObject == null);
 	}
 
 	@Override
@@ -55,13 +54,13 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 		hashCode *= 23;
 		hashCode += word != null ? word.hashCode() : 0;
 		hashCode *= 5;
-		hashCode += prevTag != null ? prevTag.hashCode() : 0;
+		hashCode += prevObject != null ? prevObject.hashCode() : 0;
 		
 		return hashCode;
 	}
 
 	@Override
 	public String toBrillText() {
-		return super.toBrillText() + " " + prevTag + " " + word;
+		return super.toBrillText() + " " + prevObject + " " + word;
 	}
 }

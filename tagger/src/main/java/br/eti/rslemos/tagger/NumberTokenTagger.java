@@ -8,7 +8,7 @@ public class NumberTokenTagger extends ConstantTokenTagger {
 		this(null);
 	}
 
-	public NumberTokenTagger(Tag tag) {
+	public NumberTokenTagger(Object tag) {
 		super(tag);
 	}
 

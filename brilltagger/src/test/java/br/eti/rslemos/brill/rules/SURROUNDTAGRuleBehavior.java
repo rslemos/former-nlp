@@ -9,13 +9,12 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.Tag;
 
 public class SURROUNDTAGRuleBehavior {
-	private boolean matches(Tag prev1Tag, Tag next1Tag) {
+	private boolean matches(Object prev1Object, Object next1Object) {
 		Context context = buildContext();
 		
-		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Tag, next1Tag);
+		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Object, next1Object);
 		return rule.matches(context);
 	}
 
@@ -46,12 +45,12 @@ public class SURROUNDTAGRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldDependOnContextTag() {
+	public void shouldDependOnContextObject() {
 		testDependency(new SURROUNDTAGRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
 	}
 	

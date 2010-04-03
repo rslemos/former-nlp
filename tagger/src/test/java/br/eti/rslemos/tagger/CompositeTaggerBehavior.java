@@ -16,12 +16,12 @@ public class CompositeTaggerBehavior {
 	public void shouldTransferTokenProperties() {
 		Token token = mock(Token.class);
 		when(token.getWord()).thenReturn("foo");
-		when(token.getTag()).thenReturn(new DefaultTag("bar"));
+		when(token.getTag()).thenReturn("bar");
 		
 		Tagger subTagger = new AbstractTokenTagger() {
 			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
-				assertEquals(token.getTag(), new DefaultTag("bar"));
+				assertEquals(token.getTag(), "bar");
 			}
 		};
 		
@@ -29,16 +29,16 @@ public class CompositeTaggerBehavior {
 	}
 
 	@Test
-	public void shouldNotTagToken() {
+	public void shouldNotObjectToken() {
 		Token token = mock(Token.class);
 		
 		tagToken(this.buildTagger(), token);
 		
-		verify(token, never()).setTag(anyTag());
+		verify(token, never()).setTag(anyObject());
 	}
 
 	@Test
-	public void shouldInvokeAllSubTaggersInOrderAndStillNotTagToken() {
+	public void shouldInvokeAllSubTaggersInOrderAndStillNotObjectToken() {
 		Token token = mock(Token.class);
 		
 		Tagger subTagger1 = mock(Tagger.class);
@@ -53,17 +53,17 @@ public class CompositeTaggerBehavior {
 		inOrder.verify(subTagger2).tag(anySentence());
 		inOrder.verify(subTagger3).tag(anySentence());
 		
-		verify(token, never()).setTag(anyTag());
+		verify(token, never()).setTag(anyObject());
 	}
 
 	@Test
-	public void shouldInvokeAllSubTaggersInOrderAndTagToken() {
+	public void shouldInvokeAllSubTaggersInOrderAndObjectToken() {
 		Token token = mock(Token.class);
 		
 		Tagger subTagger1 = mock(Tagger.class);
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			public void tag(Token token) {
-				token.setTag(new DefaultTag("foobar"));
+				token.setTag("foobar");
 			}
 		};
 		Tagger subTagger3 = mock(Tagger.class);
@@ -73,17 +73,17 @@ public class CompositeTaggerBehavior {
 		verify(subTagger1).tag(anySentence());
 		verify(subTagger3).tag(anySentence());
 		
-		verify(token).setTag(new DefaultTag("foobar"));
+		verify(token).setTag("foobar");
 	}
 
 	@Test
-	public void shouldInvokeAllSubTaggersAndIgnoreTagOnJustTaggedToken() {
+	public void shouldInvokeAllSubTaggersAndIgnoreObjectOnJustObjectgedToken() {
 		Token token = mock(Token.class);
 		
 		Tagger subTagger1 = mock(Tagger.class);
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			public void tag(Token token) {
-				token.setTag(new DefaultTag("foobar"));
+				token.setTag("foobar");
 			}
 		};
 
@@ -91,7 +91,7 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger3 = new AbstractTokenTagger() {
 			public void tag(Token token) {
 				check[0] = true;
-				token.setTag(new DefaultTag("foobar"));
+				token.setTag("foobar");
 			}
 		};
 		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
@@ -99,7 +99,7 @@ public class CompositeTaggerBehavior {
 		assertTrue(check[0]);
 		
 		verify(subTagger1).tag(anySentence());
-		verify(token, times(1)).setTag(new DefaultTag("foobar"));
+		verify(token, times(1)).setTag("foobar");
 	}
 
 	private void tagToken(CompositeTagger tagger, Token token) {
@@ -113,9 +113,4 @@ public class CompositeTaggerBehavior {
 	private static Sentence anySentence() {
 		return anyObject();
 	}
-
-	private static Tag anyTag() {
-		return anyObject();
-	}
-
 }

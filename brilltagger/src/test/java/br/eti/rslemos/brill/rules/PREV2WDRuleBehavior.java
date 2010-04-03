@@ -36,12 +36,12 @@ public class PREV2WDRuleBehavior {
 	}
 
 	@Test
-	public void shouldDependOnFromTag() {
+	public void shouldDependOnFromObject() {
 		createAndTestBasicDependency(PREV2WDRule.FACTORY());
 	}
 	
 	@Test
-	public void shouldNotDependOnContextTag() {
+	public void shouldNotDependOnContextObject() {
 		testDependency(new PREV2WDRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
 	}
 

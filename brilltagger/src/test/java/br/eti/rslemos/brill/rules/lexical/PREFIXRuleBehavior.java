@@ -31,12 +31,12 @@ public class PREFIXRuleBehavior {
 	}
 	
 //	@Test
-//	public void shouldDependOnFromTag() {
+//	public void shouldDependOnFromObject() {
 //		createAndTestBasicUntaggedDependency(PREFIXRule.FACTORY);
 //	}
 //
 //	@Test
-//	public void shouldDependOnContextTag() {
+//	public void shouldDependOnContextObject() {
 //		createAndTestContextUntaggedIndependency(PREFIXRule.FACTORY);
 //	}
 //	
