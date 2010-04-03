@@ -1,6 +1,5 @@
 package br.eti.rslemos.brill.events;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +23,9 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 	}
 
 	private void BrillTagger.fireNotification(Method method, BrillTaggerEvent prototype) {
-		for (BrillTaggerListener listener : listeners) {
-			BrillTaggerEvent event = (BrillTaggerEvent) prototype.clone();
-			try {
-				method.invoke(listener, event);
-			} catch (InvocationTargetException e) {
-				// swallow
-			} catch (Exception e) {
-				throw (Error)(new LinkageError().initCause(e));
-			}
-		}
+		ObserverUtils.fireNotification(listeners, method, prototype);
 	}
-	
+
 	private static final Method TAGGING_START;
 	private static final Method TAGGING_FINISH;
 	private static final Method BASE_TAGGING_START;

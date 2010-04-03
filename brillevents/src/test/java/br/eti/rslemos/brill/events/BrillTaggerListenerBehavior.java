@@ -59,7 +59,7 @@ public class BrillTaggerListenerBehavior {
 	}
 
 	@Test
-	public void shouldNotifyObjectgingStartAndFinish() {
+	public void shouldNotifyTaggingStartAndFinish() {
 		tagger.tag(sentence);
 		
 		InOrder order = inOrder(listener, baseTagger);
@@ -70,7 +70,7 @@ public class BrillTaggerListenerBehavior {
 	}
 
 	@Test
-	public void shouldNotifyBaseObjectgingStartAndFinish() {
+	public void shouldNotifyBaseTaggingStartAndFinish() {
 		tagger.tag(sentence);
 		
 		InOrder order = inOrder(listener, baseTagger);
