@@ -33,6 +33,8 @@
 		<module>../brilltagger</module>
 		<module>../brilltrainer</module>
 		
+		<module>../brillevents</module>
+		
 		<module>../maven-corpus-plugin</module>
 	</modules>
 
