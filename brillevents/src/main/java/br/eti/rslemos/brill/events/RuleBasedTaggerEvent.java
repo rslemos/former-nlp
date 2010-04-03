@@ -2,9 +2,11 @@ package br.eti.rslemos.brill.events;
 
 import java.util.EventObject;
 
+import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Token;
 
 public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
@@ -12,6 +14,8 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
 	private Sentence<T> onSentence;
 	private Rule<T> actingRule;
+	private DelayedContext<T> context;
+	private Token<T> token;
 
 	public RuleBasedTaggerEvent(RuleBasedTagger<T> tagger) {
 		super(tagger);
@@ -33,6 +37,22 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		return actingRule;
 	}
 
+	public void setContext(DelayedContext<T> context) {
+		this.context = context;
+	}
+	
+	public DelayedContext<T> getContext() {
+		return context;
+	}
+
+	public void setToken(Token<T> token) {
+		this.token = token;
+	}
+	
+	public Token<T> getToken() {
+		return token;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
@@ -50,7 +70,9 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		return
 			(source != null ? source.equals(other.source) : other.source == null) &&
 			(onSentence != null ? onSentence.equals(other.onSentence) : other.onSentence == null) &&
-			(actingRule != null ? actingRule.equals(other.actingRule) : other.actingRule == null);
+			(actingRule != null ? actingRule.equals(other.actingRule) : other.actingRule == null) &&
+			(context != null ? context.equals(other.context) : other.context == null) &&
+			(token != null ? token.equals(other.token) : other.token == null);
 	}
 
 	@Override
@@ -62,6 +84,10 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		hashCode += onSentence != null ? onSentence.hashCode() : 0;
 		hashCode *= 5;
 		hashCode += actingRule != null ? actingRule.hashCode() : 0;
+		hashCode *= 7;
+		hashCode += context != null ? context.hashCode() : 0;
+		hashCode *= 11;
+		hashCode += token != null ? token.hashCode() : 0;
 		
 		return hashCode;
 	}
@@ -75,5 +101,4 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		}
 	}
 
-	
 }

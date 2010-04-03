@@ -5,9 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
 public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
@@ -41,6 +43,8 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 	private static final Method AFTERBASETAGGER;
 	private static final Method BEFORERULEAPPLICATION;
 	private static final Method AFTERRULEAPPLICATION;
+	private static final Method ADVANCE;
+	private static final Method COMMIT;
 	
 	static {
 		Class<RuleBasedTaggerListener> clazz = RuleBasedTaggerListener.class;
@@ -53,6 +57,8 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 			AFTERBASETAGGER = clazz.getMethod("afterBaseTagger", args);
 			BEFORERULEAPPLICATION = clazz.getMethod("beforeRuleApplication", args);
 			AFTERRULEAPPLICATION = clazz.getMethod("afterRuleApplication", args);
+			ADVANCE = clazz.getMethod("advance", args);
+			COMMIT = clazz.getMethod("commit", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -100,6 +106,27 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 		prototype.setActingRule(rule);
 
 		tagger.fireNotification(AFTERRULEAPPLICATION, prototype);
+	}
+
+	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning (Token token): 
+		onContextAdvance(tagger, rule, sentence, context) {
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		prototype.setOnSentence(sentence);
+		prototype.setActingRule(rule);
+		prototype.setContext(context);
+		prototype.setToken(token);
+
+		tagger.fireNotification(ADVANCE, prototype);
+	}
+	
+	after(RuleBasedTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning: 
+		onContextCommit(tagger, rule, sentence, context) {
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		prototype.setOnSentence(sentence);
+		prototype.setActingRule(rule);
+		prototype.setContext(context);
+
+		tagger.fireNotification(COMMIT, prototype);
 	}
 
 }
