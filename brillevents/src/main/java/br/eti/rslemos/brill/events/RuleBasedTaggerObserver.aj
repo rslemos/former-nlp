@@ -1,5 +1,7 @@
 package br.eti.rslemos.brill.events;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,62 +22,41 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		aspectOf(this).listeners.remove(listener);
 	}
 
-	private static interface Method<T, A> {
-		void invoke(T target, A argument);
-	}
-	
-	private void fireNotification(Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> method, RuleBasedTaggerEvent prototype) {
+	private void fireNotification(Method method, RuleBasedTaggerEvent prototype) {
 		for (RuleBasedTaggerListener listener : listeners) {
 			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
 			try {
 				method.invoke(listener, event);
-			} catch (Throwable t) {
+			} catch (InvocationTargetException e) {
 				// swallow
+			} catch (Exception e) {
+				throw (Error)(new LinkageError().initCause(e));
 			}
 		}
 	}
 	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> TAGGINGSENTENCE =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.taggingSentence(argument);
-			}
-	};
+	private static final Method TAGGINGSENTENCE;
+	private static final Method SENTENCETAGGED;
+	private static final Method BEFOREBASETAGGER;
+	private static final Method AFTERBASETAGGER;
+	private static final Method BEFORERULEAPPLICATION;
+	private static final Method AFTERRULEAPPLICATION;
 	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> SENTENCETAGGED =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.sentenceTagged(argument);
-			}
-	};
-	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> BEFOREBASETAGGER =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.beforeBaseTagger(argument);
-			}
-	};
-	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> AFTERBASETAGGER =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.afterBaseTagger(argument);
-			}
-	};
-	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> BEFORERULEAPPLICATION =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.beforeRuleApplication(argument);
-			}
-	};
-	
-	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> AFTERRULEAPPLICATION =
-		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
-			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
-				target.afterRuleApplication(argument);
-			}
-	};
+	static {
+		Class<RuleBasedTaggerListener> clazz = RuleBasedTaggerListener.class;
+		Class[] args = new Class[] {RuleBasedTaggerEvent.class};
+		
+		try {
+			TAGGINGSENTENCE = clazz.getMethod("taggingSentence", args);
+			SENTENCETAGGED = clazz.getMethod("sentenceTagged", args);
+			BEFOREBASETAGGER = clazz.getMethod("beforeBaseTagger", args);
+			AFTERBASETAGGER = clazz.getMethod("afterBaseTagger", args);
+			BEFORERULEAPPLICATION = clazz.getMethod("beforeRuleApplication", args);
+			AFTERRULEAPPLICATION = clazz.getMethod("afterRuleApplication", args);
+		} catch (Exception e) {
+			throw (Error)(new LinkageError().initCause(e));
+		}
+	}
 	
 	before(RuleBasedTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
