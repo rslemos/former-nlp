@@ -3,6 +3,9 @@ package br.eti.rslemos.brill.events;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.*;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
 import org.hamcrest.BaseMatcher;
@@ -139,6 +142,23 @@ public class BrillTaggerListenerBehavior {
 		order.verify(rule1, never()).apply(anyContext());
 	}
 
+	@Test
+	public void example() {
+		listener = (BrillTaggerListener) Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] {BrillTaggerListener.class}, new InvocationHandler() {
+
+			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+				System.out.printf("%s\n\t%s\n", method.getName(), args[0]);
+				
+				return null;
+			}
+			
+		});
+		
+		tagger.addBrillTaggerListener(listener);
+		
+		tagger.tag(sentence);
+	}
+	
 	private static Matcher<Token> tokenExternallyEquals(Token token) {
 		return new CustomTokenMatcher(token);
 	}
