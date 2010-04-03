@@ -299,7 +299,7 @@ public class BrillTrainer {
 		}
 	}
 	
-	private static class Pair<X, Y> {
+	public static class Pair<X, Y> {
 		public final X x;
 		public final Y y;
 
@@ -309,7 +309,7 @@ public class BrillTrainer {
 		}
 	}
 
-	private static <X, Y> Iterable<Pair<X, Y>> pairOf(final Iterable<X> x, final Iterable<Y> y) {
+	public static <X, Y> Iterable<Pair<X, Y>> pairOf(final Iterable<X> x, final Iterable<Y> y) {
 		return new Iterable<Pair<X, Y>>() {
 
 			@Override

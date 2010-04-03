@@ -26,8 +26,8 @@ public abstract privileged aspect BrillTaggerPointcuts {
 	public pointcut onRuleApplication(BrillTagger tagger, Rule rule, Sentence sentence):
 		_onRuleApplication(tagger, rule, sentence, *);
 	
-	public pointcut onContextAdvance(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context):
-		call(Token+ DelayedContext+.next()) && target(context) &&
+	public pointcut onContextAdvance(BrillTagger tagger, Rule rule, Sentence sentence, Context context):
+		call(Token+ Context+.next()) && target(context) &&
 		cflow(_onRuleApplication(tagger, rule, sentence, *)) && within(BrillTagger+);
 	
 	public pointcut onContextCommit(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context):

@@ -6,4 +6,6 @@ public interface BrillTrainerListener {
 
 	void trainingFinish(BrillTrainerEvent event);
 
+	void trainingCorpusInitialized(BrillTrainerEvent event);
+
 }

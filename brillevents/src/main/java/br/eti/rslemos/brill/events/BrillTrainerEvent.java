@@ -10,6 +10,7 @@ public class BrillTrainerEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
 	private List<Sentence> overCorpus;
+	private List<Sentence> trainingCorpus;
 
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
@@ -21,6 +22,14 @@ public class BrillTrainerEvent extends EventObject {
 
 	public void setOverCorpus(List<Sentence> overCorpus) {
 		this.overCorpus = overCorpus;
+	}
+
+	public List<Sentence> getTrainingCorpus() {
+		return trainingCorpus;
+	}
+
+	public void setTrainingCorpus(List<Sentence> trainingCorpus) {
+		this.trainingCorpus = trainingCorpus;
 	}
 
 }

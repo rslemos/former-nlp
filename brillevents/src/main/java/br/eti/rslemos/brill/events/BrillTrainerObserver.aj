@@ -7,7 +7,7 @@ import java.util.List;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.tagger.Sentence;
 
-public aspect BrillTrainerObserver extends BrillTrainerPointcuts {
+public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private List<BrillTrainerListener> BrillTrainer.listeners = new ArrayList<BrillTrainerListener>();
 	
 	public void BrillTrainer.addBrillTrainerListener(BrillTrainerListener listener) {
@@ -24,6 +24,7 @@ public aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 
 	private static final Method TRAINING_START;
 	private static final Method TRAINING_FINISH;
+	private static final Method TRAINING_CORPUS_INITIALIZED;
 	
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -32,22 +33,31 @@ public aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		try {
 			TRAINING_START = clazz.getMethod("trainingStart", args);
 			TRAINING_FINISH = clazz.getMethod("trainingFinish", args);
+			TRAINING_CORPUS_INITIALIZED = clazz.getMethod("trainingCorpusInitialized", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
 	}
 
-	before(BrillTrainer trainer, List<Sentence> proofCorpus): onTraining(trainer, proofCorpus) {
+	before(BrillTrainer trainer, List<Sentence> overCorpus): onTraining(trainer, overCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(proofCorpus);
+		prototype.setOverCorpus(overCorpus);
 		
 		trainer.fireNotification(TRAINING_START, prototype);
 	}
 
-	after(BrillTrainer trainer, List<Sentence> proofCorpus) returning: onTraining(trainer, proofCorpus) {
+	after(BrillTrainer trainer, List<Sentence> overCorpus) returning: onTraining(trainer, overCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(proofCorpus);
+		prototype.setOverCorpus(overCorpus);
 		
 		trainer.fireNotification(TRAINING_FINISH, prototype);
+	}
+	
+	after(BrillTrainer trainer, List<Sentence> overCorpus) returning: onPreparing(trainer, overCorpus) { 
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setOverCorpus(overCorpus);
+		prototype.setTrainingCorpus(trainer.trainingCorpus);
+		
+		trainer.fireNotification(TRAINING_CORPUS_INITIALIZED, prototype);
 	}
 }

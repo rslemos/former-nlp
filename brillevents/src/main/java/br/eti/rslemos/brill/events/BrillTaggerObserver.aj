@@ -99,7 +99,7 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		tagger.fireNotification(RULE_APPLICATION_FINISH, prototype);
 	}
 
-	after(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning (Token token): 
+	after(BrillTagger tagger, Rule rule, Sentence sentence, Context context) returning (Token token): 
 		onContextAdvance(tagger, rule, sentence, context) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
