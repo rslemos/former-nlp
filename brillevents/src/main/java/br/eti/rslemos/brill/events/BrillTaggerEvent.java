@@ -14,8 +14,8 @@ public class BrillTaggerEvent extends EventObject implements Cloneable {
 
 	private Sentence onSentence;
 	private Rule actingRule;
-	private Context context;
-	private Token token;
+	private Context atContext;
+	private Token currentToken;
 
 	private boolean applies;
 
@@ -39,20 +39,20 @@ public class BrillTaggerEvent extends EventObject implements Cloneable {
 		return actingRule;
 	}
 
-	public void setContext(Context context) {
-		this.context = context;
+	public void setAtContext(Context atContext) {
+		this.atContext = atContext;
 	}
 	
-	public Context getContext() {
-		return context;
+	public Context getAtContext() {
+		return atContext;
 	}
 
-	public void setToken(Token token) {
-		this.token = token;
+	public void setCurrentToken(Token currentToken) {
+		this.currentToken = currentToken;
 	}
 	
-	public Token getToken() {
-		return token;
+	public Token getCurrentToken() {
+		return currentToken;
 	}
 
 	public void setRuleApplies(boolean applies) {
@@ -80,8 +80,8 @@ public class BrillTaggerEvent extends EventObject implements Cloneable {
 			(source != null ? source.equals(other.source) : other.source == null) &&
 			(onSentence != null ? onSentence.equals(other.onSentence) : other.onSentence == null) &&
 			(actingRule != null ? actingRule.equals(other.actingRule) : other.actingRule == null) &&
-			(context != null ? context.equals(other.context) : other.context == null) &&
-			(token != null ? token.equals(other.token) : other.token == null);
+			(atContext != null ? atContext.equals(other.atContext) : other.atContext == null) &&
+			(currentToken != null ? currentToken.equals(other.currentToken) : other.currentToken == null);
 	}
 
 	@Override
@@ -94,9 +94,9 @@ public class BrillTaggerEvent extends EventObject implements Cloneable {
 		hashCode *= 5;
 		hashCode += actingRule != null ? actingRule.hashCode() : 0;
 		hashCode *= 7;
-		hashCode += context != null ? context.hashCode() : 0;
+		hashCode += atContext != null ? atContext.hashCode() : 0;
 		hashCode *= 11;
-		hashCode += token != null ? token.hashCode() : 0;
+		hashCode += currentToken != null ? currentToken.hashCode() : 0;
 		
 		return hashCode;
 	}

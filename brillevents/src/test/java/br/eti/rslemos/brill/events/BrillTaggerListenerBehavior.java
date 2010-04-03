@@ -62,9 +62,9 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).taggingSentence(eventWithSentence());
+		order.verify(listener).taggingStart(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).sentenceTagged(eventWithSentence());
+		order.verify(listener).taggingFinish(eventWithSentence());
 	}
 
 	@Test
@@ -73,13 +73,13 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).taggingSentence(anyEvent());
+		order.verify(listener).taggingStart(anyEvent());
 		
-		order.verify(listener).beforeBaseTagger(eventWithSentence());
+		order.verify(listener).baseTaggingStart(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).afterBaseTagger(eventWithSentence());
+		order.verify(listener).baseTaggingFinish(eventWithSentence());
 		
-		order.verify(listener).sentenceTagged(anyEvent());
+		order.verify(listener).taggingFinish(anyEvent());
 	}
 
 	@Test
@@ -88,14 +88,14 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener);
 		
-		order.verify(listener).afterBaseTagger(anyEvent());
+		order.verify(listener).baseTaggingFinish(anyEvent());
 		
-		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule1));
-		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule1));
-		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule2));
-		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule2));
+		order.verify(listener).ruleApplicationStart(eventWithSentenceAndRule(rule1));
+		order.verify(listener).ruleApplicationFinish(eventWithSentenceAndRule(rule1));
+		order.verify(listener).ruleApplicationStart(eventWithSentenceAndRule(rule2));
+		order.verify(listener).ruleApplicationFinish(eventWithSentenceAndRule(rule2));
 		
-		order.verify(listener).sentenceTagged(anyEvent());
+		order.verify(listener).taggingFinish(anyEvent());
 	}
 
 	@Test
@@ -107,13 +107,13 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener);
 		
-		order.verify(listener).beforeRuleApplication(anyEvent());
+		order.verify(listener).ruleApplicationStart(anyEvent());
 		
-		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token1)), is(equalTo(false)))));
-		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token2)), is(equalTo(false)))));
-		order.verify(listener).commit(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).contextAdvanced(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token1)), is(equalTo(false)))));
+		order.verify(listener).contextAdvanced(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token2)), is(equalTo(false)))));
+		order.verify(listener).contextCommitted(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
 
-		order.verify(listener).afterRuleApplication(anyEvent());
+		order.verify(listener).ruleApplicationFinish(anyEvent());
 	}
 
 	@Test
@@ -125,15 +125,15 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener, rule1);
 		
-		order.verify(listener).advance(anyEvent());
+		order.verify(listener).contextAdvanced(anyEvent());
 		order.verify(rule1).apply(anyContext());
 		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
 
-		order.verify(listener).advance(anyEvent());
+		order.verify(listener).contextAdvanced(anyEvent());
 		order.verify(rule1).apply(anyContext());
 		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
 		
-		order.verify(listener).commit(anyEvent());
+		order.verify(listener).contextCommitted(anyEvent());
 		
 		order.verify(listener, never()).ruleApplied(anyEvent());
 		order.verify(rule1, never()).apply(anyContext());
@@ -159,13 +159,13 @@ public class BrillTaggerListenerBehavior {
 			Token other = (Token) item;
 			
 			String wantedWord = wanted.getWord();
-			Object wantedObject = wanted.getTag();
+			Object wantedTag = wanted.getTag();
 			String actualWord = other.getWord();
-			Object actualObject = other.getTag();
+			Object actualTag = other.getTag();
 			
 			return
 				(wantedWord != null ? wantedWord.equals(actualWord) : actualWord == null) &&
-				(wantedObject != null ? wantedObject.equals(actualObject) : actualObject == null);
+				(wantedTag != null ? wantedTag.equals(actualTag) : actualTag == null);
 		}
 
 		@Override
@@ -188,11 +188,11 @@ public class BrillTaggerListenerBehavior {
 			Matcher<BrillTagger> taggerMatcher,
 			Matcher<Sentence> sentenceMatcher,
 			Matcher<Rule> ruleMatcher,
-			Matcher<Context> contextMatcher,
-			Matcher<Token> tokenMatcher,
+			Matcher<Context> atContextMatcher,
+			Matcher<Token> currentTokenMatcher,
 			Matcher<Boolean> ruleAppliesMatcher) {
 
-		return new CustomEventMatcher(taggerMatcher, sentenceMatcher, ruleMatcher, contextMatcher, tokenMatcher, ruleAppliesMatcher);
+		return new CustomEventMatcher(taggerMatcher, sentenceMatcher, ruleMatcher, atContextMatcher, currentTokenMatcher, ruleAppliesMatcher);
 	}
 	
 	private static class CustomEventMatcher extends BaseMatcher<BrillTaggerEvent> {
@@ -200,22 +200,22 @@ public class BrillTaggerListenerBehavior {
 		private final Matcher<BrillTagger> sourceMatcher;
 		private final Matcher<Sentence> onSentenceMatcher;
 		private final Matcher<Rule> actingRuleMatcher;
-		private final Matcher<Context> contextMatcher;
-		private final Matcher<Token> tokenMatcher;
+		private final Matcher<Context> atContextMatcher;
+		private final Matcher<Token> currentTokenMatcher;
 		private final Matcher<Boolean> ruleAppliesMatcher;
 
 		public CustomEventMatcher(
 				Matcher<BrillTagger> sourceMatcher,
 				Matcher<Sentence> onSentenceMatcher,
 				Matcher<Rule> actingRuleMatcher,
-				Matcher<Context> contextMatcher,
-				Matcher<Token> tokenMatcher,
+				Matcher<Context> atContextMatcher,
+				Matcher<Token> currentTokenMatcher,
 				Matcher<Boolean> ruleAppliesMatcher) {
 					this.sourceMatcher = sourceMatcher;
 					this.onSentenceMatcher = onSentenceMatcher;
 					this.actingRuleMatcher = actingRuleMatcher;
-					this.contextMatcher = contextMatcher;
-					this.tokenMatcher = tokenMatcher;
+					this.atContextMatcher = atContextMatcher;
+					this.currentTokenMatcher = currentTokenMatcher;
 					this.ruleAppliesMatcher = ruleAppliesMatcher;
 		}
 
@@ -230,8 +230,8 @@ public class BrillTaggerListenerBehavior {
 				sourceMatcher.matches(other.getSource()) &&
 				onSentenceMatcher.matches(other.getOnSentence()) &&
 				actingRuleMatcher.matches(other.getActingRule()) &&
-				contextMatcher.matches(other.getContext()) &&
-				tokenMatcher.matches(other.getToken()) &&
+				atContextMatcher.matches(other.getAtContext()) &&
+				currentTokenMatcher.matches(other.getCurrentToken()) &&
 				ruleAppliesMatcher.matches(matches(other.doesRuleApplies()));
 		}
 
@@ -242,8 +242,8 @@ public class BrillTaggerListenerBehavior {
 			description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
 			description.appendText("onSentence ").appendDescriptionOf(onSentenceMatcher).appendText(", ");
 			description.appendText("actingRule ").appendDescriptionOf(actingRuleMatcher).appendText(", ");
-			description.appendText("context ").appendDescriptionOf(contextMatcher).appendText(", ");
-			description.appendText("token ").appendDescriptionOf(tokenMatcher).appendText(", ");
+			description.appendText("atContext ").appendDescriptionOf(atContextMatcher).appendText(", ");
+			description.appendText("currentToken ").appendDescriptionOf(currentTokenMatcher).appendText(", ");
 			description.appendText("does rule applies? ").appendDescriptionOf(ruleAppliesMatcher);
 			description.appendText(")");
 		}

@@ -36,61 +36,61 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		}
 	}
 	
-	private static final Method TAGGINGSENTENCE;
-	private static final Method SENTENCETAGGED;
-	private static final Method BEFOREBASETAGGER;
-	private static final Method AFTERBASETAGGER;
-	private static final Method BEFORERULEAPPLICATION;
-	private static final Method AFTERRULEAPPLICATION;
-	private static final Method ADVANCE;
-	private static final Method COMMIT;
-	private static final Method RULEAPPLIED;
+	private static final Method TAGGING_START;
+	private static final Method TAGGING_FINISH;
+	private static final Method BASE_TAGGING_START;
+	private static final Method BASE_TAGGING_FINISH;
+	private static final Method RULE_APPLICATION_START;
+	private static final Method RULE_APPLICATION_FINISH;
+	private static final Method CONTEXT_ADVANCED;
+	private static final Method CONTEXT_COMMITED;
+	private static final Method RULE_APPLIED;
 	
 	static {
 		Class<BrillTaggerListener> clazz = BrillTaggerListener.class;
 		Class<?>[] args = new Class[] {BrillTaggerEvent.class};
 		
 		try {
-			TAGGINGSENTENCE = clazz.getMethod("taggingSentence", args);
-			SENTENCETAGGED = clazz.getMethod("sentenceObjectged", args);
-			BEFOREBASETAGGER = clazz.getMethod("beforeBaseTagger", args);
-			AFTERBASETAGGER = clazz.getMethod("afterBaseTagger", args);
-			BEFORERULEAPPLICATION = clazz.getMethod("beforeRuleApplication", args);
-			AFTERRULEAPPLICATION = clazz.getMethod("afterRuleApplication", args);
-			ADVANCE = clazz.getMethod("advance", args);
-			COMMIT = clazz.getMethod("commit", args);
-			RULEAPPLIED = clazz.getMethod("ruleApplied", args);
+			TAGGING_START = clazz.getMethod("taggingStart", args);
+			TAGGING_FINISH = clazz.getMethod("taggingFinish", args);
+			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
+			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
+			RULE_APPLICATION_START = clazz.getMethod("ruleApplicationStart", args);
+			RULE_APPLICATION_FINISH = clazz.getMethod("ruleApplicationFinish", args);
+			CONTEXT_ADVANCED = clazz.getMethod("contextAdvanced", args);
+			CONTEXT_COMMITED = clazz.getMethod("contextCommitted", args);
+			RULE_APPLIED = clazz.getMethod("ruleApplied", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
 	}
 	
-	before(BrillTagger tagger, Sentence sentence): onObjectSentence(tagger, sentence) {
+	before(BrillTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		
-		tagger.fireNotification(TAGGINGSENTENCE, prototype);
+		tagger.fireNotification(TAGGING_START, prototype);
 	}
 
-	after(BrillTagger tagger, Sentence sentence) returning: onObjectSentence(tagger, sentence) {
+	after(BrillTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		tagger.fireNotification(SENTENCETAGGED, prototype);
+		tagger.fireNotification(TAGGING_FINISH, prototype);
 	}
 
 	before(BrillTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		tagger.fireNotification(BEFOREBASETAGGER, prototype);
+		tagger.fireNotification(BASE_TAGGING_START, prototype);
 	}
 
 	after(BrillTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		tagger.fireNotification(AFTERBASETAGGER, prototype);
+		tagger.fireNotification(BASE_TAGGING_FINISH, prototype);
 	}
 
 	before(BrillTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {
@@ -98,7 +98,7 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
-		tagger.fireNotification(BEFORERULEAPPLICATION, prototype);
+		tagger.fireNotification(RULE_APPLICATION_START, prototype);
 	}
 
 	after(BrillTagger tagger, Rule rule, Sentence sentence) returning: onRuleApplication(tagger, rule, sentence) {
@@ -106,7 +106,7 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
-		tagger.fireNotification(AFTERRULEAPPLICATION, prototype);
+		tagger.fireNotification(RULE_APPLICATION_FINISH, prototype);
 	}
 
 	after(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning (Token token): 
@@ -114,10 +114,10 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
-		prototype.setContext(context);
-		prototype.setToken(token);
+		prototype.setAtContext(context);
+		prototype.setCurrentToken(token);
 
-		tagger.fireNotification(ADVANCE, prototype);
+		tagger.fireNotification(CONTEXT_ADVANCED, prototype);
 	}
 	
 	after(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context) returning: 
@@ -125,9 +125,9 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
-		prototype.setContext(context);
+		prototype.setAtContext(context);
 
-		tagger.fireNotification(COMMIT, prototype);
+		tagger.fireNotification(CONTEXT_COMMITED, prototype);
 	}
 
 	after(BrillTagger tagger, Rule rule, Sentence sentence, Context context) returning (boolean result):
@@ -136,9 +136,9 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
-		prototype.setContext(context);
+		prototype.setAtContext(context);
 		prototype.setRuleApplies(result);
 
-		tagger.fireNotification(RULEAPPLIED, prototype);
+		tagger.fireNotification(RULE_APPLIED, prototype);
 	}
 }

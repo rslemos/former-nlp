@@ -10,18 +10,18 @@ import br.eti.rslemos.brill.Context;
 
 public abstract privileged aspect BrillTaggerPointcuts {
 	
-	public pointcut onObjectSentence(BrillTagger tagger, Sentence sentence):
+	public pointcut onTagSentence(BrillTagger tagger, Sentence sentence):
 		this(tagger) && 
 		execution(public void BrillTagger+.tag(Sentence+)) && args(sentence) &&
 		within(BrillTagger+);
 	
 	public pointcut onBaseTagger(BrillTagger tagger, Tagger baseTagger, Sentence sentence):
 		call(void Tagger+.tag(Sentence+)) && target(baseTagger) &&
-		cflow(onObjectSentence(tagger, sentence)) && within(BrillTagger+);
+		cflow(onTagSentence(tagger, sentence)) && within(BrillTagger+);
 
 	private pointcut _onRuleApplication(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context):
 		call(void BrillTagger.applyRule(DelayedContext+, Rule+)) && args(context, rule) &&
-		cflow(onObjectSentence(tagger, sentence)) && within(BrillTagger+);
+		cflow(onTagSentence(tagger, sentence)) && within(BrillTagger+);
 		
 	public pointcut onRuleApplication(BrillTagger tagger, Rule rule, Sentence sentence):
 		_onRuleApplication(tagger, rule, sentence, *);

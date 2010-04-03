@@ -4,21 +4,21 @@ import java.util.EventListener;
 
 public interface BrillTaggerListener extends EventListener {
 
-	void taggingSentence(BrillTaggerEvent event);
+	void taggingStart(BrillTaggerEvent event);
 
-	void sentenceTagged(BrillTaggerEvent event);
+	void taggingFinish(BrillTaggerEvent event);
 
-	void beforeBaseTagger(BrillTaggerEvent event);
+	void baseTaggingStart(BrillTaggerEvent event);
 
-	void afterBaseTagger(BrillTaggerEvent event);
+	void baseTaggingFinish(BrillTaggerEvent event);
 
-	void beforeRuleApplication(BrillTaggerEvent event);
+	void ruleApplicationStart(BrillTaggerEvent event);
 
-	void afterRuleApplication(BrillTaggerEvent event);
+	void ruleApplicationFinish(BrillTaggerEvent event);
 
-	void advance(BrillTaggerEvent event);
+	void contextAdvanced(BrillTaggerEvent event);
 
-	void commit(BrillTaggerEvent event);
+	void contextCommitted(BrillTaggerEvent event);
 
 	void ruleApplied(BrillTaggerEvent event);
 
