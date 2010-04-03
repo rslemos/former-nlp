@@ -49,4 +49,32 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 			}
 		}
 	}
+
+	before(RuleBasedTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent((RuleBasedTagger)thisJoinPoint.getThis());
+		prototype.setOnSentence(sentence);
+	
+		for (RuleBasedTaggerListener listener : listeners) {
+			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
+			try {
+				listener.beforeBaseTagger(event);
+			} catch (Throwable t) {
+				// swallow
+			}
+		}
+	}
+
+	after(RuleBasedTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent((RuleBasedTagger)thisJoinPoint.getThis());
+		prototype.setOnSentence(sentence);
+	
+		for (RuleBasedTaggerListener listener : listeners) {
+			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
+			try {
+				listener.afterBaseTagger(event);
+			} catch (Throwable t) {
+				// swallow
+			}
+		}
+	}
 }

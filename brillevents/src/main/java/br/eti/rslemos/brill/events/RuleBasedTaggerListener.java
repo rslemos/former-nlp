@@ -8,4 +8,8 @@ public interface RuleBasedTaggerListener<T> extends EventListener {
 
 	void sentenceTagged(RuleBasedTaggerEvent<T> event);
 
+	void beforeBaseTagger(RuleBasedTaggerEvent<T> event);
+
+	void afterBaseTagger(RuleBasedTaggerEvent<T> event);
+
 }
