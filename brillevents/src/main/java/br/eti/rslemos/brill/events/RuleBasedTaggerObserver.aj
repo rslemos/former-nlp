@@ -20,75 +20,97 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		aspectOf(this).listeners.remove(listener);
 	}
 
-	before(RuleBasedTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
-		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
-		prototype.setOnSentence(sentence);
+	private static interface Method<T, A> {
+		void invoke(T target, A argument);
+	}
 	
+	private void fireNotification(Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> method, RuleBasedTaggerEvent prototype) {
 		for (RuleBasedTaggerListener listener : listeners) {
 			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
 			try {
-				listener.taggingSentence(event);
+				method.invoke(listener, event);
 			} catch (Throwable t) {
 				// swallow
 			}
 		}
+	}
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> TAGGINGSENTENCE =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.taggingSentence(argument);
+			}
+	};
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> SENTENCETAGGED =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.sentenceTagged(argument);
+			}
+	};
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> BEFOREBASETAGGER =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.beforeBaseTagger(argument);
+			}
+	};
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> AFTERBASETAGGER =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.afterBaseTagger(argument);
+			}
+	};
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> BEFORERULEAPPLICATION =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.beforeRuleApplication(argument);
+			}
+	};
+	
+	private static final Method<RuleBasedTaggerListener, RuleBasedTaggerEvent> AFTERRULEAPPLICATION =
+		new Method<RuleBasedTaggerListener, RuleBasedTaggerEvent>() {
+			public void invoke(RuleBasedTaggerListener target, RuleBasedTaggerEvent argument) {
+				target.afterRuleApplication(argument);
+			}
+	};
+	
+	before(RuleBasedTagger tagger, Sentence sentence): onTagSentence(tagger, sentence) {
+		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
+		prototype.setOnSentence(sentence);
+		
+		fireNotification(TAGGINGSENTENCE, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
-			try {
-				listener.sentenceTagged(event);
-			} catch (Throwable t) {
-				// swallow
-			}
-		}
+		fireNotification(SENTENCETAGGED, prototype);
 	}
 
 	before(RuleBasedTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
-			try {
-				listener.beforeBaseTagger(event);
-			} catch (Throwable t) {
-				// swallow
-			}
-		}
+		fireNotification(BEFOREBASETAGGER, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
-			try {
-				listener.afterBaseTagger(event);
-			} catch (Throwable t) {
-				// swallow
-			}
-		}
+		fireNotification(AFTERBASETAGGER, prototype);
 	}
 
 	before(RuleBasedTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
-	
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
-			try {
-				listener.beforeRuleApplication(event);
-			} catch (Throwable t) {
-				// swallow
-			}
-		}
+
+		fireNotification(BEFORERULEAPPLICATION, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Rule rule, Sentence sentence) returning: onRuleApplication(tagger, rule, sentence) {
@@ -96,14 +118,7 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
-		for (RuleBasedTaggerListener listener : listeners) {
-			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
-			try {
-				listener.afterRuleApplication(event);
-			} catch (Throwable t) {
-				// swallow
-			}
-		}
+		fireNotification(AFTERRULEAPPLICATION, prototype);
 	}
 
 }
