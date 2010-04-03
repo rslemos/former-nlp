@@ -15,7 +15,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
@@ -25,30 +24,30 @@ import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
 public class RuleBasedTaggerListenerBehavior {
-	@Mock private RuleBasedTaggerListener<String> listener;
+	@Mock private RuleBasedTaggerListener listener;
 
-	private RuleBasedTagger<String> tagger;;
+	private RuleBasedTagger tagger;;
 
-	@Mock private Tagger<String> baseTagger;
+	@Mock private Tagger baseTagger;
 
-	@Mock private Rule<String> rule1;
-	@Mock private Rule<String> rule2;
+	@Mock private Rule rule1;
+	@Mock private Rule rule2;
 
-	@Mock private Token<String> token1;
-	@Mock private Token<String> token2;
-	private Sentence<String> sentence;
+	@Mock private Token token1;
+	@Mock private Token token2;
+	private Sentence sentence;
 
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		tagger = new RuleBasedTagger<String>();
+		tagger = new RuleBasedTagger();
 		tagger.addRuleBasedTaggerListener(listener);
 		
 		tagger.setBaseTagger(baseTagger);
 		tagger.setRules(Arrays.asList(rule1, rule2));
 
-		sentence = new DefaultSentence<String>(Arrays.asList(token1, token2));
+		sentence = new DefaultSentence(Arrays.asList(token1, token2));
 	}
 	
 	@Test
@@ -61,57 +60,42 @@ public class RuleBasedTaggerListenerBehavior {
 	public void shouldNotifyTaggingStartAndFinish() {
 		tagger.tag(sentence);
 		
-		RuleBasedTaggerEvent<String> event = new RuleBasedTaggerEvent<String>(tagger);
-		event.setOnSentence(sentence);
-		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).taggingSentence(event);
+		order.verify(listener).taggingSentence(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).sentenceTagged(event);
-
+		order.verify(listener).sentenceTagged(eventWithSentence());
 	}
 
 	@Test
 	public void shouldNotifyBaseTaggingStartAndFinish() {
 		tagger.tag(sentence);
 		
-		RuleBasedTaggerEvent<String> event = new RuleBasedTaggerEvent<String>(tagger);
-		event.setOnSentence(sentence);
-		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).taggingSentence(event);
-		order.verify(listener).beforeBaseTagger(event);
+		order.verify(listener).taggingSentence(anyEvent());
+		
+		order.verify(listener).beforeBaseTagger(eventWithSentence());
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).afterBaseTagger(event);
-		order.verify(listener).sentenceTagged(event);
+		order.verify(listener).afterBaseTagger(eventWithSentence());
+		
+		order.verify(listener).sentenceTagged(anyEvent());
 	}
-	
+
 	@Test
 	public void shouldNotifyRuleApplicationStartAndFinish() {
 		tagger.tag(sentence);
 		
-		RuleBasedTaggerEvent<String> event = new RuleBasedTaggerEvent<String>(tagger);
-		event.setOnSentence(sentence);
+		InOrder order = inOrder(listener);
 		
-		RuleBasedTaggerEvent<String> event1 = (RuleBasedTaggerEvent<String>) event.clone();
-		event1.setActingRule(rule1);
+		order.verify(listener).afterBaseTagger(anyEvent());
 		
-		RuleBasedTaggerEvent<String> event2 = (RuleBasedTaggerEvent<String>) event.clone();
-		event2.setActingRule(rule2);
+		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule1));
+		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule1));
+		order.verify(listener).beforeRuleApplication(eventWithSentenceAndRule(rule2));
+		order.verify(listener).afterRuleApplication(eventWithSentenceAndRule(rule2));
 		
-		InOrder order = inOrder(listener, baseTagger, rule1, rule2);
-		
-		order.verify(listener).taggingSentence(event);
-		order.verify(listener).beforeBaseTagger(event);
-		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).afterBaseTagger(event);
-		order.verify(listener).beforeRuleApplication(event1);
-		order.verify(listener).afterRuleApplication(event1);
-		order.verify(listener).beforeRuleApplication(event2);
-		order.verify(listener).afterRuleApplication(event2);
-		order.verify(listener).sentenceTagged(event);
+		order.verify(listener).sentenceTagged(anyEvent());
 	}
 
 	@Test
@@ -121,24 +105,15 @@ public class RuleBasedTaggerListenerBehavior {
 		
 		tagger.tag(sentence);
 		
-		RuleBasedTaggerEvent<String> event = new RuleBasedTaggerEvent<String>(tagger);
-		event.setOnSentence(sentence);
+		InOrder order = inOrder(listener);
 		
-		RuleBasedTaggerEvent<String> eventrule = (RuleBasedTaggerEvent<String>) event.clone();
-		eventrule.setActingRule(rule1);
+		order.verify(listener).beforeRuleApplication(anyEvent());
+		
+		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token1)), is(equalTo(false)))));
+		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token2)), is(equalTo(false)))));
+		order.verify(listener).commit(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
 
-		InOrder order = inOrder(listener, baseTagger);
-		
-		order.verify(listener).taggingSentence(event);
-		order.verify(listener).beforeBaseTagger(event);
-		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).afterBaseTagger(event);
-		order.verify(listener).beforeRuleApplication(eventrule);
-		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(DelayedContext.class))), is(tokenExternallyEquals(token1)), is(equalTo(false)))));
-		order.verify(listener).advance(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(DelayedContext.class))), is(tokenExternallyEquals(token2)), is(equalTo(false)))));
-		order.verify(listener).commit(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(DelayedContext.class))), is(nullValue(Token.class)), is(equalTo(false)))));
-		order.verify(listener).afterRuleApplication(eventrule);
-		order.verify(listener).sentenceTagged(event);
+		order.verify(listener).afterRuleApplication(anyEvent());
 	}
 
 	@Test
@@ -148,19 +123,18 @@ public class RuleBasedTaggerListenerBehavior {
 		
 		tagger.tag(sentence);
 		
-		RuleBasedTaggerEvent<String> event = new RuleBasedTaggerEvent<String>(tagger);
-		event.setOnSentence(sentence);
-		event.setActingRule(rule1);
-		
 		InOrder order = inOrder(listener, rule1);
 		
 		order.verify(listener).advance(anyEvent());
 		order.verify(rule1).apply(anyContext());
-		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(DelayedContext.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+
 		order.verify(listener).advance(anyEvent());
 		order.verify(rule1).apply(anyContext());
-		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(DelayedContext.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		
 		order.verify(listener).commit(anyEvent());
+		
 		order.verify(listener, never()).ruleApplied(anyEvent());
 		order.verify(rule1, never()).apply(anyContext());
 	}
@@ -211,10 +185,10 @@ public class RuleBasedTaggerListenerBehavior {
 	}
 
 	private static Matcher<RuleBasedTaggerEvent> matchesEvent(
-			Matcher<RuleBasedTagger<String>> taggerMatcher,
-			Matcher<Sentence<String>> sentenceMatcher,
-			Matcher<Rule<String>> ruleMatcher,
-			Matcher<DelayedContext> contextMatcher,
+			Matcher<RuleBasedTagger> taggerMatcher,
+			Matcher<Sentence> sentenceMatcher,
+			Matcher<Rule> ruleMatcher,
+			Matcher<Context> contextMatcher,
 			Matcher<Token> tokenMatcher,
 			Matcher<Boolean> ruleAppliesMatcher) {
 
@@ -223,18 +197,18 @@ public class RuleBasedTaggerListenerBehavior {
 	
 	private static class CustomEventMatcher extends BaseMatcher<RuleBasedTaggerEvent> {
 
-		private final Matcher<RuleBasedTagger<String>> sourceMatcher;
-		private final Matcher<Sentence<String>> onSentenceMatcher;
-		private final Matcher<Rule<String>> actingRuleMatcher;
-		private final Matcher<DelayedContext> contextMatcher;
+		private final Matcher<RuleBasedTagger> sourceMatcher;
+		private final Matcher<Sentence> onSentenceMatcher;
+		private final Matcher<Rule> actingRuleMatcher;
+		private final Matcher<Context> contextMatcher;
 		private final Matcher<Token> tokenMatcher;
 		private final Matcher<Boolean> ruleAppliesMatcher;
 
 		public CustomEventMatcher(
-				Matcher<RuleBasedTagger<String>> sourceMatcher,
-				Matcher<Sentence<String>> onSentenceMatcher,
-				Matcher<Rule<String>> actingRuleMatcher,
-				Matcher<DelayedContext> contextMatcher,
+				Matcher<RuleBasedTagger> sourceMatcher,
+				Matcher<Sentence> onSentenceMatcher,
+				Matcher<Rule> actingRuleMatcher,
+				Matcher<Context> contextMatcher,
 				Matcher<Token> tokenMatcher,
 				Matcher<Boolean> ruleAppliesMatcher) {
 					this.sourceMatcher = sourceMatcher;
@@ -286,5 +260,13 @@ public class RuleBasedTaggerListenerBehavior {
 
 	private static Context<String> anyContext() {
 		return (Context<String>) anyObject();
+	}
+
+	private RuleBasedTaggerEvent eventWithSentence() {
+		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(nullValue(Rule.class)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
+	}
+	
+	private RuleBasedTaggerEvent eventWithSentenceAndRule(Rule rule) {
+		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
 	}
 }
