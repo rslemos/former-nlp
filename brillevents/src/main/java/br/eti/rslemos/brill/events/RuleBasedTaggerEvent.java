@@ -2,12 +2,14 @@ package br.eti.rslemos.brill.events;
 
 import java.util.EventObject;
 
+import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
 
 public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 
 	private Sentence<T> onSentence;
+	private Rule<T> actingRule;
 
 	public RuleBasedTaggerEvent(RuleBasedTagger<T> tagger) {
 		super(tagger);
@@ -21,7 +23,14 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		return onSentence;
 	}
 
+	public void setActingRule(Rule<T> rule) {
+		this.actingRule = rule;
+	}
 	
+	public Rule<T> getActingRule() {
+		return actingRule;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -37,7 +46,8 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		
 		return
 			(source != null ? source.equals(other.source) : other.source == null) &&
-			(onSentence != null ? onSentence.equals(other.onSentence) : other.onSentence == null);
+			(onSentence != null ? onSentence.equals(other.onSentence) : other.onSentence == null) &&
+			(actingRule != null ? actingRule.equals(other.actingRule) : other.actingRule == null);
 	}
 
 	@Override
@@ -47,6 +57,8 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 		hashCode += source != null ? source.hashCode() : 0;
 		hashCode *= 3;
 		hashCode += onSentence != null ? onSentence.hashCode() : 0;
+		hashCode *= 5;
+		hashCode += actingRule != null ? actingRule.hashCode() : 0;
 		
 		return hashCode;
 	}
@@ -59,5 +71,6 @@ public class RuleBasedTaggerEvent<T> extends EventObject implements Cloneable {
 			throw new RuntimeException(e);
 		}
 	}
+
 	
 }
