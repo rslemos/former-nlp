@@ -25,7 +25,6 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
-@SuppressWarnings("unchecked")
 public class BrillTaggerListenerBehavior {
 	@Mock private BrillTaggerListener listener;
 
