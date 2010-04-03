@@ -10,19 +10,19 @@ import br.eti.rslemos.brill.RuleBasedTagger;
 import br.eti.rslemos.tagger.Sentence;
 
 @SuppressWarnings("unchecked")
-public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this(RuleBasedTagger+)) {
+public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents {
 	
-	private List<RuleBasedTaggerListener> listeners = new ArrayList<RuleBasedTaggerListener>();
+	private List<RuleBasedTaggerListener> RuleBasedTagger.listeners = new ArrayList<RuleBasedTaggerListener>();
 	
 	public void RuleBasedTagger.addRuleBasedTaggerListener(RuleBasedTaggerListener listener) {
-		aspectOf(this).listeners.add(listener);
+		listeners.add(listener);
 	}
 	
 	public void RuleBasedTagger.removeRuleBasedTaggerListener(RuleBasedTaggerListener listener) {
-		aspectOf(this).listeners.remove(listener);
+		listeners.remove(listener);
 	}
 
-	private void fireNotification(Method method, RuleBasedTaggerEvent prototype) {
+	private void RuleBasedTagger.fireNotification(Method method, RuleBasedTaggerEvent prototype) {
 		for (RuleBasedTaggerListener listener : listeners) {
 			RuleBasedTaggerEvent event = (RuleBasedTaggerEvent) prototype.clone();
 			try {
@@ -62,28 +62,28 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 		
-		fireNotification(TAGGINGSENTENCE, prototype);
+		tagger.fireNotification(TAGGINGSENTENCE, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Sentence sentence) returning: onTagSentence(tagger, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		fireNotification(SENTENCETAGGED, prototype);
+		tagger.fireNotification(SENTENCETAGGED, prototype);
 	}
 
 	before(RuleBasedTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		fireNotification(BEFOREBASETAGGER, prototype);
+		tagger.fireNotification(BEFOREBASETAGGER, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
 		RuleBasedTaggerEvent prototype = new RuleBasedTaggerEvent(tagger);
 		prototype.setOnSentence(sentence);
 	
-		fireNotification(AFTERBASETAGGER, prototype);
+		tagger.fireNotification(AFTERBASETAGGER, prototype);
 	}
 
 	before(RuleBasedTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {
@@ -91,7 +91,7 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
-		fireNotification(BEFORERULEAPPLICATION, prototype);
+		tagger.fireNotification(BEFORERULEAPPLICATION, prototype);
 	}
 
 	after(RuleBasedTagger tagger, Rule rule, Sentence sentence) returning: onRuleApplication(tagger, rule, sentence) {
@@ -99,7 +99,7 @@ public aspect RuleBasedTaggerObserver extends RuleBasedTaggerEvents perthis(this
 		prototype.setOnSentence(sentence);
 		prototype.setActingRule(rule);
 
-		fireNotification(AFTERRULEAPPLICATION, prototype);
+		tagger.fireNotification(AFTERRULEAPPLICATION, prototype);
 	}
 
 }
