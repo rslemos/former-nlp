@@ -91,7 +91,7 @@ public class BrillTrainerListenerBehavior {
 		InOrder order = inOrder(listener);
 		
 		order.verify(listener).trainingStart(anyEvent());
-		order.verify(listener).trainingCorpusInitialized(eventWithTaggedCorpus());
+		order.verify(listener).trainingCorpusInitialized(eventWithBaseTaggedCorpus());
 		order.verify(listener).trainingFinish(anyEvent());
 	}
 
@@ -175,7 +175,7 @@ public class BrillTrainerListenerBehavior {
 		};
 	}
 
-	private BrillTrainerEvent eventWithTaggedCorpus() {
+	private BrillTrainerEvent eventWithBaseTaggedCorpus() {
 		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(sameWordsBaseTag(proofCorpus, "BASE"))));
 	}
 
