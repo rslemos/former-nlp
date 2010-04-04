@@ -8,7 +8,7 @@ import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
-public class BrillTaggerEvent extends EventObject implements Cloneable {
+public class BrillTaggerEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,15 +61,6 @@ public class BrillTaggerEvent extends EventObject implements Cloneable {
 	
 	public boolean doesRuleApplies() {
 		return applies;
-	}
-
-	@Override
-	public Object clone() {
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 }
