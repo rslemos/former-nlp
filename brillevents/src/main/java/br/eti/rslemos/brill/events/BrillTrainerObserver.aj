@@ -125,12 +125,14 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	}
 	
 	after(BrillTrainer trainer) returning(Rule rule): onNewRuleDiscovery(trainer) {
-		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setProofCorpus(trainer.proofCorpus);
-		prototype.setWorkingCorpus(trainer.trainingCorpus);
-		prototype.setFoundRules(trainer.rules);
-		prototype.setNewRule(rule);
-		
-		trainer.fireNotification(NEW_RULE_DISCOVERED, prototype);
+		if (rule != null) {
+			BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+			prototype.setProofCorpus(trainer.proofCorpus);
+			prototype.setWorkingCorpus(trainer.trainingCorpus);
+			prototype.setFoundRules(trainer.rules);
+			prototype.setNewRule(rule);
+			
+			trainer.fireNotification(NEW_RULE_DISCOVERED, prototype);
+		}
 	}
 }

@@ -19,7 +19,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.BrillTrainer;
+import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.BrillTrainerEventMatcher;
+import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.CURWDRuleFactory;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
@@ -39,7 +41,7 @@ public class BrillTrainerListenerBehavior {
 	
 	private Token[][] tokens = {
 			{ new DefaultToken("W00").setTag("T00"), new DefaultToken("W01").setTag("T01") },
-			{ new DefaultToken("W10").setTag("T10"), new DefaultToken("W11").setTag("T11") },
+			{ new DefaultToken("W00").setTag("T00"), new DefaultToken("W11").setTag("T11") },
 	};
 	
 	private Sentence[] sentences = { 
@@ -79,7 +81,7 @@ public class BrillTrainerListenerBehavior {
 		 * 
 		 * Avoiding discovery implies immutability on working corpus.
 		 */
-		trainer.setThreshold(2);
+		trainer.setThreshold(3);
 		
 	}
 	
@@ -179,6 +181,10 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyNewRuleDiscovered() {
+		final Rule rule = new CURWDRule(BASE_TAG, "T00", "W00");
+		
+		trainer.setThreshold(2);
+		
 		trainer.train(proofCorpus);
 		
 		InOrder order = inOrder(listener);
@@ -187,11 +193,17 @@ public class BrillTrainerListenerBehavior {
 
 		order.verify(listener).newRuleDiscovered(argThat(
 				isBasicInitializedBrillTrainerEvent()
-					.withFoundRules(whichSize(is(equalTo(0))))
-					.justFoundRule(null)
+					// should be an empty list
+					// but by the time it is verified, the list already has rules
+					.withFoundRules(is(any(List.class)))
+					.justFoundRule(rule)
 				));
 		
-		order.verify(listener).ruleDiscoveryFinish(anyEvent());
+		order.verify(listener, never()).newRuleDiscovered(anyEvent());
+		
+		order.verify(listener).ruleDiscoveryFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withFoundRules(is(equalTo(Collections.singletonList(rule))))));
 	}
 
 	private BrillTrainerEventMatcher isBasicBrillTrainerEvent() {
