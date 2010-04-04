@@ -3,12 +3,12 @@ package br.eti.rslemos.brill.events;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.*;
+import static br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.mockito.InOrder;
 import org.mockito.Mock;
@@ -19,7 +19,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.BrillTrainer;
-import br.eti.rslemos.brill.BrillTrainer.Pair;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
@@ -124,162 +123,20 @@ public class BrillTrainerListenerBehavior {
 		InOrder order = inOrder(listener, baseTagger);
 		
 		order.verify(listener).workingCorpusInitializationStart(anyEvent());
+		
 		order.verify(listener).baseTaggingStart(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(0)), sameWords(sentences[0]))));
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[0]))));
 		order.verify(listener).baseTaggingFinish(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(0)), allOf(sameWords(sentences[0]), taggedAs("BASE")))));
+		
 		order.verify(listener).baseTaggingStart(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(1)), sameWords(sentences[1]))));
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[1]))));
 		order.verify(listener).baseTaggingFinish(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(1)), allOf(sameWords(sentences[1]), taggedAs("BASE")))));
+
 		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
 		
 		order.verify(baseTagger, never()).tag(anySentence());
 		order.verify(listener, never()).baseTaggingStart(anyEvent());
 		order.verify(listener, never()).baseTaggingFinish(anyEvent());
-	}
-
-	private static boolean sameWords(Sentence x, Sentence y) {
-		if (x.size() != y.size())
-			return false;
-		
-		for (Pair<Token, Token> pair : BrillTrainer.pairOf(x, y)) {
-			if (!pair.x.getWord().equals(pair.y.getWord()))
-				return false;
-		}
-		
-		return true;
-	}
-
-	private static boolean sameTag(Object baseTag, Sentence y) {
-		for (Token token : y) {
-			if (token.getTag() != baseTag)
-				return false;
-		}
-		
-		return true;
-	}
-
-
-	private static Matcher<Sentence> sameWords(final Sentence sentence) {
-		return new BaseMatcher<Sentence>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof Sentence))
-					return false;
-				
-				Sentence other = (Sentence) item;
-
-				return sameWords(sentence, other);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("same words as ").appendValue(sentence);
-			}
-		};
-	}
-
-	private static Matcher<Sentence> taggedAs(final Object baseTag) {
-		return new BaseMatcher<Sentence>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof Sentence))
-					return false;
-				
-				Sentence other = (Sentence) item;
-
-				return sameTag(baseTag, other);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("tagged as ").appendValue(baseTag);
-			}
-		};
-	}
-
-	private static Matcher<List<Sentence>> sameWords(final List<Sentence> proofCorpus) {
-		return new BaseMatcher<List<Sentence>>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof List))
-					return false;
-				
-				List<Sentence> other = (List<Sentence>) item;
-
-				for (Pair<Sentence, Sentence> pair : BrillTrainer.pairOf(proofCorpus, other)) {
-					if (!sameWords(pair.x, pair.y))
-						return false;
-				}
-				
-				return true;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("same words as ").appendValue(proofCorpus);
-			}
-		};
-	}
-
-	private static Matcher<List<Sentence>> sentencesTaggedAs(final Object baseTag) {
-		return new BaseMatcher<List<Sentence>>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof List))
-					return false;
-				
-				List<Sentence> other = (List<Sentence>) item;
-
-				for (Sentence sentence : other) {
-					if (!sameTag(baseTag, sentence))
-						return false;
-				}
-				
-				return true;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("tagged as ").appendValue(baseTag);
-			}
-		};
-	}
-
-	private static Matcher<BrillTrainerEvent> matchesEvent(
-			final Matcher<BrillTrainer> sourceMatcher, 
-			final Matcher<? super List<Sentence>> proofCorpusMatcher,
-			final Matcher<? super List<Sentence>> workingCorpusMatcher,
-			final Matcher<Integer> currentSentenceIndexMatcher,
-			final Matcher<? super Sentence> currentSentenceMatcher) {
-
-		return new BaseMatcher<BrillTrainerEvent>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof BrillTrainerEvent))
-					return false;
-				
-				BrillTrainerEvent other = (BrillTrainerEvent) item;
-				
-				return 
-					sourceMatcher.matches(other.getSource()) &&
-					proofCorpusMatcher.matches(other.getProofCorpus()) &&
-					workingCorpusMatcher.matches(other.getWorkingCorpus()) &&
-					currentSentenceIndexMatcher.matches(other.getCurrentSentenceIndex()) &&
-					currentSentenceMatcher.matches(other.getCurrentSentence());
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText(BrillTrainerEvent.class.getName());
-				description.appendText("(");
-				description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
-				description.appendText("proofCorpus ").appendDescriptionOf(proofCorpusMatcher).appendText(", ");
-				description.appendText("workingCorpus ").appendDescriptionOf(workingCorpusMatcher).appendText(", ");
-				description.appendText("currentSentenceIndex ").appendDescriptionOf(currentSentenceIndexMatcher).appendText(", ");
-				description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher);
-				description.appendText(")");
-			}
-		};
 	}
 
 	private Matcher<BrillTrainerEvent> matchesBasicEvent(
@@ -312,18 +169,6 @@ public class BrillTrainerListenerBehavior {
 
 	private BrillTrainerEvent eventWithProofCorpus() {
 		return argThat(matchesBasicEvent(is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(equalTo(-1)), is(nullValue(Sentence.class))));
-	}
-
-	private BrillTrainerEvent eventWithSentenceWordsAndBaseTag(Sentence sentence) {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(any(int.class)), is(allOf(sameWords(sentence), taggedAs("BASE")))));
-	}
-
-	private static BrillTrainerEvent anyEvent() {
-		return anyObject();
-	}
-
-	private static Sentence anySentence() {
-		return anyObject();
 	}
 
 }

@@ -2,15 +2,14 @@ package br.eti.rslemos.brill.events;
 
 import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.*;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.*;
+import static br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.*;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -158,129 +157,6 @@ public class BrillTaggerListenerBehavior {
 		tagger.tag(sentence);
 	}
 	
-	private static Matcher<Token> tokenExternallyEquals(Token token) {
-		return new CustomTokenMatcher(token);
-	}
-	
-	private static class CustomTokenMatcher extends BaseMatcher<Token> {
-
-		private final Token wanted;
-
-		public CustomTokenMatcher(Token wanted) {
-			this.wanted = wanted;
-		}
-
-		@Override
-		public boolean matches(Object item) {
-			if (!(item instanceof Token))
-				return false;
-			
-			Token other = (Token) item;
-			
-			String wantedWord = wanted.getWord();
-			Object wantedTag = wanted.getTag();
-			String actualWord = other.getWord();
-			Object actualTag = other.getTag();
-			
-			return
-				(wantedWord != null ? wantedWord.equals(actualWord) : actualWord == null) &&
-				(wantedTag != null ? wantedTag.equals(actualTag) : actualTag == null);
-		}
-
-		@Override
-		public void describeTo(Description description) {
-			description.appendText("externally like ");
-			
-			String wantedWord = wanted.getWord();
-			if (wantedWord != null)
-				description.appendText("\"");
-			description.appendText(wantedWord);
-			if (wantedWord != null)
-				description.appendText("\"");
-			description.appendText("/");
-			description.appendValue(wanted.getTag());
-		}
-		
-	}
-
-	private static Matcher<BrillTaggerEvent> matchesEvent(
-			Matcher<BrillTagger> taggerMatcher,
-			Matcher<Sentence> sentenceMatcher,
-			Matcher<Rule> ruleMatcher,
-			Matcher<Context> atContextMatcher,
-			Matcher<Token> currentTokenMatcher,
-			Matcher<Boolean> ruleAppliesMatcher) {
-
-		return new CustomEventMatcher(taggerMatcher, sentenceMatcher, ruleMatcher, atContextMatcher, currentTokenMatcher, ruleAppliesMatcher);
-	}
-	
-	private static class CustomEventMatcher extends BaseMatcher<BrillTaggerEvent> {
-
-		private final Matcher<BrillTagger> sourceMatcher;
-		private final Matcher<Sentence> onSentenceMatcher;
-		private final Matcher<Rule> actingRuleMatcher;
-		private final Matcher<Context> atContextMatcher;
-		private final Matcher<Token> currentTokenMatcher;
-		private final Matcher<Boolean> ruleAppliesMatcher;
-
-		public CustomEventMatcher(
-				Matcher<BrillTagger> sourceMatcher,
-				Matcher<Sentence> onSentenceMatcher,
-				Matcher<Rule> actingRuleMatcher,
-				Matcher<Context> atContextMatcher,
-				Matcher<Token> currentTokenMatcher,
-				Matcher<Boolean> ruleAppliesMatcher) {
-					this.sourceMatcher = sourceMatcher;
-					this.onSentenceMatcher = onSentenceMatcher;
-					this.actingRuleMatcher = actingRuleMatcher;
-					this.atContextMatcher = atContextMatcher;
-					this.currentTokenMatcher = currentTokenMatcher;
-					this.ruleAppliesMatcher = ruleAppliesMatcher;
-		}
-
-		@Override
-		public boolean matches(Object item) {
-			if (!(item instanceof BrillTaggerEvent))
-				return false;
-			
-			BrillTaggerEvent other = (BrillTaggerEvent) item;
-			
-			return 
-				sourceMatcher.matches(other.getSource()) &&
-				onSentenceMatcher.matches(other.getOnSentence()) &&
-				actingRuleMatcher.matches(other.getActingRule()) &&
-				atContextMatcher.matches(other.getAtContext()) &&
-				currentTokenMatcher.matches(other.getCurrentToken()) &&
-				ruleAppliesMatcher.matches(matches(other.doesRuleApplies()));
-		}
-
-		@Override
-		public void describeTo(Description description) {
-			description.appendText(BrillTaggerEvent.class.getName());
-			description.appendText("(");
-			description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
-			description.appendText("onSentence ").appendDescriptionOf(onSentenceMatcher).appendText(", ");
-			description.appendText("actingRule ").appendDescriptionOf(actingRuleMatcher).appendText(", ");
-			description.appendText("atContext ").appendDescriptionOf(atContextMatcher).appendText(", ");
-			description.appendText("currentToken ").appendDescriptionOf(currentTokenMatcher).appendText(", ");
-			description.appendText("does rule applies? ").appendDescriptionOf(ruleAppliesMatcher);
-			description.appendText(")");
-		}
-		
-	}
-
-	private static Sentence anySentence() {
-		return anyObject();
-	}
-
-	private static BrillTaggerEvent anyEvent() {
-		return anyObject();
-	}
-
-	private static Context anyContext() {
-		return anyObject();
-	}
-
 	private BrillTaggerEvent eventWithSentence() {
 		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(nullValue(Rule.class)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
 	}
