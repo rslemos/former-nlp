@@ -59,11 +59,12 @@ public class CompositeTagger implements Tagger, Serializable {
 			return token.getWord();
 		}
 
-		public void setTag(Object tag) {
+		public FilteringToken setTag(Object tag) {
 			if (!alreadySet) {
 				token.setTag(tag);
 				alreadySet = true;
 			}
+			return this;
 		}
 	}
 

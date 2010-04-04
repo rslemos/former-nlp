@@ -1,12 +1,17 @@
 package br.eti.rslemos.tagger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class DefaultSentence implements Sentence {
 	private final List<Token> sentence;
 
+	public DefaultSentence(Token[] sentence) {
+		this(Arrays.asList(sentence));
+	}
+	
 	public DefaultSentence(List<Token> sentence) {
 		this.sentence = sentence;
 	}

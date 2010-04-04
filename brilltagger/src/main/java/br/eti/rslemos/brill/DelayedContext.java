@@ -85,8 +85,9 @@ public class DelayedContext implements Context {
 			return token.getWord();
 		}
 
-		public void setTag(Object tag) {
+		public DelayedToken setTag(Object tag) {
 			commands.add(new SetObjectCommand(token, tag));
+			return this;
 		}
 	}
 

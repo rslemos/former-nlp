@@ -17,7 +17,7 @@ public class SentenceContext implements Context {
 			return null;
 		}
 
-		public void setTag(Object tag) {
+		public Token setTag(Object tag) {
 			throw new IllegalStateException("Can'Object set NULL token tag to '" + tag + "'");
 		}
 	};

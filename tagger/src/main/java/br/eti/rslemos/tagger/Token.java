@@ -4,5 +4,5 @@ public interface Token {
 	String getWord();
 	
 	Object getTag();
-	void setTag(Object tag);
+	Token setTag(Object tag);
 }

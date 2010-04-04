@@ -22,8 +22,9 @@ public final class DefaultToken implements Token {
 		return tag;
 	}
 
-	public void setTag(Object tag) {
+	public DefaultToken setTag(Object tag) {
 		this.tag = tag;
+		return this;
 	}
 
 	@Override
