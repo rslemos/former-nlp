@@ -3,6 +3,7 @@ package br.eti.rslemos.brill.events;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.*;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hamcrest.BaseMatcher;
@@ -188,4 +189,24 @@ public class BrillCustomMatchers {
 		return anyObject();
 	}
 
+	/* Collection */
+	public static Matcher<Collection<?>> whichSize(final Matcher<Integer> wantedSize) {
+		return new BaseMatcher<Collection<?>>() {
+
+			@Override
+			public boolean matches(Object item) {
+				if (!(item instanceof Collection))
+					return false;
+				
+				Collection<?> other = (Collection<?>) item;
+				
+				return wantedSize.matches(other.size());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("collection which size ").appendDescriptionOf(wantedSize);
+			}
+		};
+	}
 }

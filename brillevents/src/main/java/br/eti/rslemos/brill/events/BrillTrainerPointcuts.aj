@@ -5,6 +5,7 @@ import java.util.List;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.brill.Rule;
 
 public abstract privileged aspect BrillTrainerPointcuts {
 	
@@ -26,5 +27,10 @@ public abstract privileged aspect BrillTrainerPointcuts {
 	public pointcut onRuleDiscovery(BrillTrainer trainer):
 		this(trainer) &&
 		execution(void BrillTrainer+.discoverRules()) && 
+		within(BrillTrainer+);
+	
+	public pointcut onNewRuleDiscovery(BrillTrainer trainer):
+		this(trainer) &&
+		call(Rule+ BrillTrainer+.discoverNextRule()) &&
 		within(BrillTrainer+);
 }

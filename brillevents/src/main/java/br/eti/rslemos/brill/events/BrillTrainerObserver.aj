@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.eti.rslemos.brill.BrillTrainer;
+import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
 
 public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
@@ -30,7 +31,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method BASE_TAGGING_FINISH;
 	private static final Method RULE_DISCOVERY_START;
 	private static final Method RULE_DISCOVERY_FINISH;
-	
+	private static final Method NEW_RULE_DISCOVERED;
+
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
 		Class<?>[] args = new Class[] {BrillTrainerEvent.class};
@@ -44,6 +46,9 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
 			RULE_DISCOVERY_START = clazz.getMethod("ruleDiscoveryStart", args);
 			RULE_DISCOVERY_FINISH = clazz.getMethod("ruleDiscoveryFinish", args);
+			NEW_RULE_DISCOVERED = clazz.getMethod("newRuleDiscovered", args);
+			
+			
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -118,4 +123,13 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		trainer.fireNotification(RULE_DISCOVERY_FINISH, prototype);
 	}
 	
+	after(BrillTrainer trainer) returning(Rule rule): onNewRuleDiscovery(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setFoundRules(trainer.rules);
+		prototype.setNewRule(rule);
+		
+		trainer.fireNotification(NEW_RULE_DISCOVERED, prototype);
+	}
 }

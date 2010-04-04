@@ -161,17 +161,12 @@ public class BrillTrainerListenerBehavior {
 	public void shouldNotifyRuleDiscovery() {
 		trainer.train(proofCorpus);
 		
-		InOrder order = inOrder(listener, baseTagger);
+		InOrder order = inOrder(listener);
 		
 		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
 		
-		order.verify(listener).ruleDiscoveryStart(argThat(
-				isBasicBrillTrainerEvent()
-					.withWorkingCorpus(is(sameWords(proofCorpus)))));
-		
-		order.verify(listener).ruleDiscoveryFinish(argThat(
-				isBasicBrillTrainerEvent()
-					.withWorkingCorpus(is(sameWords(proofCorpus)))));
+		order.verify(listener).ruleDiscoveryStart(argThat(isBasicInitializedBrillTrainerEvent()));		
+		order.verify(listener).ruleDiscoveryFinish(argThat(isBasicInitializedBrillTrainerEvent()));
 		
 		order.verify(listener).trainingFinish(anyEvent());
 		
@@ -179,7 +174,28 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener, never()).ruleDiscoveryFinish(anyEvent());
 	}
 
+	@Test
+	public void shouldNotifyNewRuleDiscovered() {
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener);
+		
+		order.verify(listener).ruleDiscoveryStart(anyEvent());
+
+		order.verify(listener).newRuleDiscovered(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withFoundRules(whichSize(is(equalTo(0))))
+					.justFoundRule(null)
+				));
+		
+		order.verify(listener).ruleDiscoveryFinish(anyEvent());
+	}
+
 	private BrillTrainerEventMatcher isBasicBrillTrainerEvent() {
 		return isBrillTrainerEvent().from(trainer).proofedByCorpusEqualsTo(proofCorpus);
+	}
+
+	private BrillTrainerEventMatcher isBasicInitializedBrillTrainerEvent() {
+		return isBasicBrillTrainerEvent().withWorkingCorpus(is(sameWords(proofCorpus)));
 	}
 }

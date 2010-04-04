@@ -18,5 +18,7 @@ public interface BrillTrainerListener {
 
 	void ruleDiscoveryFinish(BrillTrainerEvent event);
 
+	void newRuleDiscovered(BrillTrainerEvent event);
+
 
 }

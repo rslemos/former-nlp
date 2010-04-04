@@ -3,6 +3,7 @@ package br.eti.rslemos.brill.events;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.*;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hamcrest.BaseMatcher;
@@ -10,6 +11,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import br.eti.rslemos.brill.BrillTrainer;
+import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
 
 public class BrillTrainerCustomMatchers {
@@ -26,7 +28,9 @@ public class BrillTrainerCustomMatchers {
 			.withProofCorpus(is(nullValue(List.class)))
 			.withWorkingCorpus(is(nullValue(List.class)))
 			.withCurrentSentenceIndex(is(equalTo(-1)))
-			.withCurrentSentence(is(nullValue(Sentence.class)));
+			.withCurrentSentence(is(nullValue(Sentence.class)))
+			.withFoundRules(is(nullValue(List.class)))
+			.withNewRule(is(nullValue(Rule.class)));
 	}
 
 	public static class BrillTrainerEventMatcher extends BaseMatcher<BrillTrainerEvent> {
@@ -35,6 +39,8 @@ public class BrillTrainerCustomMatchers {
 		private Matcher<? super Sentence> currentSentenceMatcher;
 		private Matcher<Integer> currentSentenceIndexMatcher;
 		private Matcher<? super List<Sentence>> proofCorpusMatcher;
+		private Matcher<Rule> newRuleMatcher;
+		private Matcher<? super List<Rule>> foundRulesMatcher;
 
 		public BrillTrainerEventMatcher() {}
 		
@@ -50,7 +56,9 @@ public class BrillTrainerCustomMatchers {
 				proofCorpusMatcher.matches(other.getProofCorpus()) &&
 				workingCorpusMatcher.matches(other.getWorkingCorpus()) &&
 				currentSentenceIndexMatcher.matches(other.getCurrentSentenceIndex()) &&
-				currentSentenceMatcher.matches(other.getCurrentSentence());
+				currentSentenceMatcher.matches(other.getCurrentSentence()) &&
+				foundRulesMatcher.matches(other.getFoundRules()) &&
+				newRuleMatcher.matches(other.getNewRule());
 		}
 
 		@Override
@@ -61,7 +69,9 @@ public class BrillTrainerCustomMatchers {
 			description.appendText("proofCorpus ").appendDescriptionOf(proofCorpusMatcher).appendText(", ");
 			description.appendText("workingCorpus ").appendDescriptionOf(workingCorpusMatcher).appendText(", ");
 			description.appendText("currentSentenceIndex ").appendDescriptionOf(currentSentenceIndexMatcher).appendText(", ");
-			description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher);
+			description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher).appendText(", ");
+			description.appendText("foundRules ").appendDescriptionOf(foundRulesMatcher).appendText(", ");
+			description.appendText("newRule ").appendDescriptionOf(newRuleMatcher);
 			description.appendText(")");
 		}
 
@@ -90,6 +100,16 @@ public class BrillTrainerCustomMatchers {
 			return this;
 		}
 
+		public BrillTrainerEventMatcher withFoundRules(Matcher<? super List<Rule>> rulesFoundMatcher) {
+			this.foundRulesMatcher = rulesFoundMatcher;
+			return this;
+		}
+
+		public BrillTrainerEventMatcher withNewRule(Matcher<Rule> newRuleMatcher) {
+			this.newRuleMatcher = newRuleMatcher;
+			return this;
+		}
+
 		public BrillTrainerEventMatcher from(BrillTrainer trainer) {
 			return withSource(is(sameInstance(trainer)));
 		}
@@ -104,6 +124,10 @@ public class BrillTrainerCustomMatchers {
 
 		public BrillTrainerEventMatcher withCurrentSentenceIndex(int index) {
 			return withCurrentSentenceIndex(is(equalTo(index)));
+		}
+
+		public BrillTrainerEventMatcher justFoundRule(Rule rule) {
+			return withNewRule(is(equalTo(rule)));
 		}
 
 	}

@@ -4,6 +4,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import br.eti.rslemos.brill.BrillTrainer;
+import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
 
 public class BrillTrainerEvent extends EventObject {
@@ -15,6 +16,10 @@ public class BrillTrainerEvent extends EventObject {
 	
 	private Sentence currentSentence;
 	private int currentSentenceIndex = -1;
+
+	private Rule newRule;
+
+	private List<Rule> foundRules;
 	
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
@@ -52,5 +57,19 @@ public class BrillTrainerEvent extends EventObject {
 		this.currentSentenceIndex = currentSentenceIndex;
 	}
 
-	
+	public List<Rule> getFoundRules() {
+		return foundRules;
+	}
+
+	public void setFoundRules(List<Rule> foundRules) {
+		this.foundRules = foundRules;
+	}
+
+	public Rule getNewRule() {
+		return newRule;
+	}
+
+	public void setNewRule(Rule newRule) {
+		this.newRule = newRule;
+	}
 }
