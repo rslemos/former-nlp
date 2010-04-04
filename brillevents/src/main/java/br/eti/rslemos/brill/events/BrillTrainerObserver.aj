@@ -119,6 +119,7 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(trainer.proofCorpus);
 		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setFoundRules(trainer.rules);
 		
 		trainer.fireNotification(RULE_DISCOVERY_FINISH, prototype);
 	}

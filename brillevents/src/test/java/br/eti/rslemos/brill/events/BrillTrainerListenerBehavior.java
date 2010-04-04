@@ -166,7 +166,9 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
 		
 		order.verify(listener).ruleDiscoveryStart(argThat(isBasicInitializedBrillTrainerEvent()));		
-		order.verify(listener).ruleDiscoveryFinish(argThat(isBasicInitializedBrillTrainerEvent()));
+		order.verify(listener).ruleDiscoveryFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withFoundRules(whichSize(is(equalTo(0))))));
 		
 		order.verify(listener).trainingFinish(anyEvent());
 		
