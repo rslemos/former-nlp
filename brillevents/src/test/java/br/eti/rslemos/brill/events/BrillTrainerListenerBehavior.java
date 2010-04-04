@@ -97,21 +97,44 @@ public class BrillTrainerListenerBehavior {
 		
 		order.verify(listener).trainingStart(eventWithProofCorpus());
 		order.verify(listener).trainingFinish(eventWithProofCorpus());
+
+		order.verify(listener, never()).trainingStart(anyEvent());
+		order.verify(listener, never()).trainingFinish(anyEvent());
 	}
 
 	@Test
-	public void shouldNotifyBaseTaggerApplicationAndTrainingCorpusInitialization() {
+	public void shouldNotifyTrainingCorpusInitialization() {
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener);
+		
+		order.verify(listener).trainingStart(anyEvent());
+		order.verify(listener).workingCorpusInitializationStart(eventWithReadOnlyProofCorpusAndEmptyWorkingCorpus());
+		order.verify(listener).workingCorpusInitializationFinish(eventWithReadOnlyProofCorpusAndFullWorkingCorpusBaseTagged());
+		order.verify(listener).trainingFinish(anyEvent());
+
+		order.verify(listener, never()).workingCorpusInitializationStart(anyEvent());
+		order.verify(listener, never()).workingCorpusInitializationFinish(anyEvent());
+	}
+
+	@Test
+	public void shouldNotifyBaseTaggerApplication() {
 		trainer.train(proofCorpus);
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).trainingStart(anyEvent());
+		order.verify(listener).workingCorpusInitializationStart(anyEvent());
+		order.verify(listener).baseTaggingStart(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(0)), sameWords(sentences[0]))));
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[0]))));
-		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[0]));
+		order.verify(listener).baseTaggingFinish(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(0)), allOf(sameWords(sentences[0]), taggedAs("BASE")))));
+		order.verify(listener).baseTaggingStart(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(1)), sameWords(sentences[1]))));
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[1]))));
-		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[1]));
-		order.verify(listener).trainingCorpusInitialized(eventWithBaseTaggedCorpus());
-		order.verify(listener).trainingFinish(anyEvent());
+		order.verify(listener).baseTaggingFinish(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(nullValue(List.class)), is(equalTo(1)), allOf(sameWords(sentences[1]), taggedAs("BASE")))));
+		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
+		
+		order.verify(baseTagger, never()).tag(anySentence());
+		order.verify(listener, never()).baseTaggingStart(anyEvent());
+		order.verify(listener, never()).baseTaggingFinish(anyEvent());
 	}
 
 	private static boolean sameWords(Sentence x, Sentence y) {
@@ -174,41 +197,6 @@ public class BrillTrainerListenerBehavior {
 		};
 	}
 
-
-	private static Matcher<BrillTrainerEvent> matchesEvent(
-			final Matcher<BrillTrainer> sourceMatcher, 
-			final Matcher<? super List<Sentence>> overCorpusMatcher,
-			final Matcher<? super List<Sentence>> trainingCorpusMatcher,
-			final Matcher<? super Sentence> lastProcessedSentenceMatcher) {
-
-		return new BaseMatcher<BrillTrainerEvent>() {
-			@Override
-			public boolean matches(Object item) {
-				if (!(item instanceof BrillTrainerEvent))
-					return false;
-				
-				BrillTrainerEvent other = (BrillTrainerEvent) item;
-				
-				return 
-					sourceMatcher.matches(other.getSource()) &&
-					overCorpusMatcher.matches(other.getOverCorpus()) &&
-					trainingCorpusMatcher.matches(other.getTrainingCorpus()) &&
-					lastProcessedSentenceMatcher.matches(other.getLastProcessedSentence());
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText(BrillTrainerEvent.class.getName());
-				description.appendText("(");
-				description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
-				description.appendText("overCorpus ").appendDescriptionOf(overCorpusMatcher).appendText(", ");
-				description.appendText("trainingCorpus ").appendDescriptionOf(trainingCorpusMatcher).appendText(", ");
-				description.appendText("lastProcessedSentence ").appendDescriptionOf(lastProcessedSentenceMatcher);
-				description.appendText(")");
-			}
-		};
-	}
-	
 	private static Matcher<List<Sentence>> sameWords(final List<Sentence> proofCorpus) {
 		return new BaseMatcher<List<Sentence>>() {
 			@Override
@@ -257,16 +245,77 @@ public class BrillTrainerListenerBehavior {
 		};
 	}
 
-	private BrillTrainerEvent eventWithSentenceWordsAndBaseTag(Sentence sentence) {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(allOf(sameWords(sentence), taggedAs("BASE")))));
+	private static Matcher<BrillTrainerEvent> matchesEvent(
+			final Matcher<BrillTrainer> sourceMatcher, 
+			final Matcher<? super List<Sentence>> proofCorpusMatcher,
+			final Matcher<? super List<Sentence>> workingCorpusMatcher,
+			final Matcher<Integer> currentSentenceIndexMatcher,
+			final Matcher<? super Sentence> currentSentenceMatcher) {
+
+		return new BaseMatcher<BrillTrainerEvent>() {
+			@Override
+			public boolean matches(Object item) {
+				if (!(item instanceof BrillTrainerEvent))
+					return false;
+				
+				BrillTrainerEvent other = (BrillTrainerEvent) item;
+				
+				return 
+					sourceMatcher.matches(other.getSource()) &&
+					proofCorpusMatcher.matches(other.getProofCorpus()) &&
+					workingCorpusMatcher.matches(other.getWorkingCorpus()) &&
+					currentSentenceIndexMatcher.matches(other.getCurrentSentenceIndex()) &&
+					currentSentenceMatcher.matches(other.getCurrentSentence());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText(BrillTrainerEvent.class.getName());
+				description.appendText("(");
+				description.appendText("source ").appendDescriptionOf(sourceMatcher).appendText(", ");
+				description.appendText("proofCorpus ").appendDescriptionOf(proofCorpusMatcher).appendText(", ");
+				description.appendText("workingCorpus ").appendDescriptionOf(workingCorpusMatcher).appendText(", ");
+				description.appendText("currentSentenceIndex ").appendDescriptionOf(currentSentenceIndexMatcher).appendText(", ");
+				description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher);
+				description.appendText(")");
+			}
+		};
 	}
 
-	private BrillTrainerEvent eventWithBaseTaggedCorpus() {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(allOf(sameWords(proofCorpus), sentencesTaggedAs("BASE"))), is(nullValue(Sentence.class))));
+	private Matcher<BrillTrainerEvent> matchesBasicEvent(
+			Matcher<? super List<Sentence>> proofCorpusMatcher,
+			Matcher<? super List<Sentence>> workingCorpusMatcher,
+			Matcher<Integer> currentSentenceIndexMatcher,
+			Matcher<Sentence> currentSentenceMatcher) {
+		return matchesEvent(is(sameInstance(trainer)), proofCorpusMatcher, workingCorpusMatcher, currentSentenceIndexMatcher, currentSentenceMatcher);
+	}
+
+	private Matcher<BrillTrainerEvent> matchesBasicEventWithReadOnlyProofCorpus(
+			Matcher<? super List<Sentence>> workingCorpusMatcher,
+			Matcher<Integer> currentSentenceIndexMatcher,
+			Matcher<Sentence> currentSentenceMatcher) {
+		return matchesBasicEvent(is(equalTo(proofCorpus)), workingCorpusMatcher, currentSentenceIndexMatcher, currentSentenceMatcher);
+	}
+	
+	private Matcher<BrillTrainerEvent> matchesBasicEventWithReadOnlyProofCorpusAndWithoutSentence(
+			Matcher<? super List<Sentence>> workingCorpusMatcher) {
+		return matchesBasicEventWithReadOnlyProofCorpus(workingCorpusMatcher, is(equalTo(-1)), is(nullValue(Sentence.class)));
+	}
+
+	private BrillTrainerEvent eventWithReadOnlyProofCorpusAndFullWorkingCorpusBaseTagged() {
+		return argThat(matchesBasicEventWithReadOnlyProofCorpusAndWithoutSentence(is(allOf(sameWords(proofCorpus), sentencesTaggedAs("BASE")))));
+	}
+
+	private BrillTrainerEvent eventWithReadOnlyProofCorpusAndEmptyWorkingCorpus() {
+		return argThat(matchesBasicEventWithReadOnlyProofCorpusAndWithoutSentence(is(nullValue(List.class))));
 	}
 
 	private BrillTrainerEvent eventWithProofCorpus() {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(nullValue(Sentence.class))));
+		return argThat(matchesBasicEvent(is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(equalTo(-1)), is(nullValue(Sentence.class))));
+	}
+
+	private BrillTrainerEvent eventWithSentenceWordsAndBaseTag(Sentence sentence) {
+		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(any(int.class)), is(allOf(sameWords(sentence), taggedAs("BASE")))));
 	}
 
 	private static BrillTrainerEvent anyEvent() {

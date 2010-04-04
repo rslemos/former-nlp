@@ -24,8 +24,10 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 
 	private static final Method TRAINING_START;
 	private static final Method TRAINING_FINISH;
-	private static final Method TRAINING_CORPUS_INITIALIZED;
-	private static final Method BASE_TAGGER_APPLIED;
+	private static final Method WORKING_CORPUS_INITIALIZATION_START;
+	private static final Method WORKING_CORPUS_INITIALIZATION_FINISH;
+	private static final Method BASE_TAGGING_START;
+	private static final Method BASE_TAGGING_FINISH;
 	
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -34,40 +36,66 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		try {
 			TRAINING_START = clazz.getMethod("trainingStart", args);
 			TRAINING_FINISH = clazz.getMethod("trainingFinish", args);
-			TRAINING_CORPUS_INITIALIZED = clazz.getMethod("trainingCorpusInitialized", args);
-			BASE_TAGGER_APPLIED = clazz.getMethod("baseTaggerApplied", args);
+			WORKING_CORPUS_INITIALIZATION_START = clazz.getMethod("workingCorpusInitializationStart", args);
+			WORKING_CORPUS_INITIALIZATION_FINISH = clazz.getMethod("workingCorpusInitializationFinish", args);
+			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
+			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
 	}
 
-	before(BrillTrainer trainer, List<Sentence> overCorpus): onTraining(trainer, overCorpus) {
+	before(BrillTrainer trainer, List<Sentence> proofCorpus): onTraining(trainer, proofCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(overCorpus);
+		prototype.setProofCorpus(proofCorpus);
 		
 		trainer.fireNotification(TRAINING_START, prototype);
 	}
 
-	after(BrillTrainer trainer, List<Sentence> overCorpus) returning: onTraining(trainer, overCorpus) {
+	after(BrillTrainer trainer, List<Sentence> proofCorpus) returning: onTraining(trainer, proofCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(overCorpus);
+		prototype.setProofCorpus(proofCorpus);
 		
 		trainer.fireNotification(TRAINING_FINISH, prototype);
 	}
+
+	private int BrillTrainer.baseTaggerSentenceCounter;
 	
-	after(BrillTrainer trainer, List<Sentence> overCorpus) returning: onPreparing(trainer, overCorpus) { 
+	before(BrillTrainer trainer): onPreparing(trainer) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(overCorpus);
-		prototype.setTrainingCorpus(trainer.trainingCorpus);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		//prototype.setWorkingCorpus(trainer.trainingCorpus);
 		
-		trainer.fireNotification(TRAINING_CORPUS_INITIALIZED, prototype);
+		trainer.fireNotification(WORKING_CORPUS_INITIALIZATION_START, prototype);
+		
+		trainer.baseTaggerSentenceCounter = -1;
+	}
+
+	after(BrillTrainer trainer) returning: onPreparing(trainer) { 
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		
+		trainer.fireNotification(WORKING_CORPUS_INITIALIZATION_FINISH, prototype);
 	}
 	
-	after(BrillTrainer trainer, List<Sentence> overCorpus, Sentence onSentence) returning: onBaseTagging(trainer, overCorpus, onSentence) {
-		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setOverCorpus(overCorpus);
-		prototype.setLastProcessedSentence(onSentence);
+	before(BrillTrainer trainer, Sentence onSentence): onBaseTagging(trainer, onSentence) {
+		trainer.baseTaggerSentenceCounter++;
 		
-		trainer.fireNotification(BASE_TAGGER_APPLIED, prototype);
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setCurrentSentenceIndex(trainer.baseTaggerSentenceCounter);
+		prototype.setCurrentSentence(onSentence);
+		
+		trainer.fireNotification(BASE_TAGGING_START, prototype);
+	}
+
+	after(BrillTrainer trainer, Sentence onSentence) returning: onBaseTagging(trainer, onSentence) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setCurrentSentenceIndex(trainer.baseTaggerSentenceCounter);
+		prototype.setCurrentSentence(onSentence);
+		
+		trainer.fireNotification(BASE_TAGGING_FINISH, prototype);
 	}
 }

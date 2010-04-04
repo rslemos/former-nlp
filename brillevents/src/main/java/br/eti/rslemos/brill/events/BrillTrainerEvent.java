@@ -9,36 +9,48 @@ import br.eti.rslemos.tagger.Sentence;
 public class BrillTrainerEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
-	private List<Sentence> overCorpus;
-	private List<Sentence> trainingCorpus;
-	private Sentence lastProcessedSentence;
-
+	
+	private List<Sentence> proofCorpus;
+	private List<Sentence> workingCorpus;
+	
+	private Sentence currentSentence;
+	private int currentSentenceIndex = -1;
+	
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
 	}
 
-	public List<Sentence> getOverCorpus() {
-		return overCorpus;
+	public List<Sentence> getProofCorpus() {
+		return proofCorpus;
 	}
 
-	public void setOverCorpus(List<Sentence> overCorpus) {
-		this.overCorpus = overCorpus;
+	public void setProofCorpus(List<Sentence> proofCorpus) {
+		this.proofCorpus = proofCorpus;
 	}
 
-	public List<Sentence> getTrainingCorpus() {
-		return trainingCorpus;
+	public List<Sentence> getWorkingCorpus() {
+		return workingCorpus;
 	}
 
-	public void setTrainingCorpus(List<Sentence> trainingCorpus) {
-		this.trainingCorpus = trainingCorpus;
+	public void setWorkingCorpus(List<Sentence> workingCorpus) {
+		this.workingCorpus = workingCorpus;
 	}
 
-	public Sentence getLastProcessedSentence() {
-		return lastProcessedSentence;
+	public Sentence getCurrentSentence() {
+		return currentSentence;
 	}
 
-	public void setLastProcessedSentence(Sentence lastProcessedSentence) {
-		this.lastProcessedSentence = lastProcessedSentence;
+	public void setCurrentSentence(Sentence currentSentence) {
+		this.currentSentence = currentSentence;
 	}
+
+	public int getCurrentSentenceIndex() {
+		return currentSentenceIndex;
+	}
+
+	public void setCurrentSentenceIndex(int currentSentenceIndex) {
+		this.currentSentenceIndex = currentSentenceIndex;
+	}
+
 	
 }

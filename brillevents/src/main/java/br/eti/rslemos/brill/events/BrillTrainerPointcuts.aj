@@ -13,11 +13,11 @@ public abstract privileged aspect BrillTrainerPointcuts {
 		execution(public * BrillTrainer+.train(List+)) && args(overCorpus) &&
 		within(BrillTrainer+);
 
-	public pointcut onPreparing(BrillTrainer trainer, List<Sentence> overCorpus):
+	public pointcut onPreparing(BrillTrainer trainer):
 		execution(void BrillTrainer+.prepareTrainingCorpus()) && 
-		cflow(onTraining(trainer, overCorpus)) && within(BrillTrainer+);
+		cflow(onTraining(trainer, *)) && within(BrillTrainer+);
 	
-	public pointcut onBaseTagging(BrillTrainer trainer, List<Sentence> overCorpus, Sentence onSentence):
+	public pointcut onBaseTagging(BrillTrainer trainer, Sentence onSentence):
 		call(void Tagger+.tag(Sentence+)) && args(onSentence) &&
-		cflow(onTraining(trainer, overCorpus)) && within(BrillTrainer+);
+		cflow(onTraining(trainer, *)) && within(BrillTrainer+);
 }

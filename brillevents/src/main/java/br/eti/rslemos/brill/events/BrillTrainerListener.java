@@ -6,8 +6,13 @@ public interface BrillTrainerListener {
 
 	void trainingFinish(BrillTrainerEvent event);
 
-	void baseTaggerApplied(BrillTrainerEvent event);
+	void workingCorpusInitializationStart(BrillTrainerEvent event);
 
-	void trainingCorpusInitialized(BrillTrainerEvent event);
+	void workingCorpusInitializationFinish(BrillTrainerEvent event);
+
+	void baseTaggingStart(BrillTrainerEvent event);
+
+	void baseTaggingFinish(BrillTrainerEvent event);
+
 
 }
