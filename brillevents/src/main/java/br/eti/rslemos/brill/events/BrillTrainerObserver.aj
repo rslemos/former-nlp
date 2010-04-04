@@ -25,6 +25,7 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method TRAINING_START;
 	private static final Method TRAINING_FINISH;
 	private static final Method TRAINING_CORPUS_INITIALIZED;
+	private static final Method BASE_TAGGER_APPLIED;
 	
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -34,6 +35,7 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			TRAINING_START = clazz.getMethod("trainingStart", args);
 			TRAINING_FINISH = clazz.getMethod("trainingFinish", args);
 			TRAINING_CORPUS_INITIALIZED = clazz.getMethod("trainingCorpusInitialized", args);
+			BASE_TAGGER_APPLIED = clazz.getMethod("baseTaggerApplied", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -59,5 +61,13 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		prototype.setTrainingCorpus(trainer.trainingCorpus);
 		
 		trainer.fireNotification(TRAINING_CORPUS_INITIALIZED, prototype);
+	}
+	
+	after(BrillTrainer trainer, List<Sentence> overCorpus, Sentence onSentence) returning: onBaseTagging(trainer, overCorpus, onSentence) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setOverCorpus(overCorpus);
+		prototype.setLastProcessedSentence(onSentence);
+		
+		trainer.fireNotification(BASE_TAGGER_APPLIED, prototype);
 	}
 }

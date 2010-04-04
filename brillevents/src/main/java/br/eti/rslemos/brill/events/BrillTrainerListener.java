@@ -8,4 +8,6 @@ public interface BrillTrainerListener {
 
 	void trainingCorpusInitialized(BrillTrainerEvent event);
 
+	void baseTaggerApplied(BrillTrainerEvent event);
+
 }

@@ -11,6 +11,7 @@ public class BrillTrainerEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	private List<Sentence> overCorpus;
 	private List<Sentence> trainingCorpus;
+	private Sentence lastProcessedSentence;
 
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
@@ -32,4 +33,12 @@ public class BrillTrainerEvent extends EventObject {
 		this.trainingCorpus = trainingCorpus;
 	}
 
+	public Sentence getLastProcessedSentence() {
+		return lastProcessedSentence;
+	}
+
+	public void setLastProcessedSentence(Sentence lastProcessedSentence) {
+		this.lastProcessedSentence = lastProcessedSentence;
+	}
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Tagger;
 
 public abstract privileged aspect BrillTrainerPointcuts {
 	
@@ -16,4 +17,7 @@ public abstract privileged aspect BrillTrainerPointcuts {
 		execution(void BrillTrainer+.prepareTrainingCorpus()) && 
 		cflow(onTraining(trainer, overCorpus)) && within(BrillTrainer+);
 	
+	public pointcut onBaseTagging(BrillTrainer trainer, List<Sentence> overCorpus, Sentence onSentence):
+		call(void Tagger+.tag(Sentence+)) && args(onSentence) &&
+		cflow(onTraining(trainer, overCorpus)) && within(BrillTrainer+);
 }
