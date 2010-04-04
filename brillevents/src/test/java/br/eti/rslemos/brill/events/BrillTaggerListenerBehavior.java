@@ -1,9 +1,10 @@
 package br.eti.rslemos.brill.events;
 
-import static org.mockito.Mockito.*;
-import static org.hamcrest.CoreMatchers.*;
 import static br.eti.rslemos.brill.events.BrillCustomMatchers.*;
 import static br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -16,9 +17,9 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.BrillTagger;
+import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.BrillTaggerEventMatcher;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
@@ -63,9 +64,9 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
-		order.verify(listener).taggingStart(eventWithSentence());
+		order.verify(listener).taggingStart(argThat(isBasicBrillTaggerEvent()));
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).taggingFinish(eventWithSentence());
+		order.verify(listener).taggingFinish(argThat(isBasicBrillTaggerEvent()));
 	}
 
 	@Test
@@ -76,9 +77,9 @@ public class BrillTaggerListenerBehavior {
 		
 		order.verify(listener).taggingStart(anyEvent());
 		
-		order.verify(listener).baseTaggingStart(eventWithSentence());
+		order.verify(listener).baseTaggingStart(argThat(isBasicBrillTaggerEvent()));
 		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).baseTaggingFinish(eventWithSentence());
+		order.verify(listener).baseTaggingFinish(argThat(isBasicBrillTaggerEvent()));
 		
 		order.verify(listener).taggingFinish(anyEvent());
 	}
@@ -91,10 +92,11 @@ public class BrillTaggerListenerBehavior {
 		
 		order.verify(listener).baseTaggingFinish(anyEvent());
 		
-		order.verify(listener).ruleApplicationStart(eventWithSentenceAndRule(rule1));
-		order.verify(listener).ruleApplicationFinish(eventWithSentenceAndRule(rule1));
-		order.verify(listener).ruleApplicationStart(eventWithSentenceAndRule(rule2));
-		order.verify(listener).ruleApplicationFinish(eventWithSentenceAndRule(rule2));
+		order.verify(listener).ruleApplicationStart(argThat(isBasicBrillTaggerEvent().underRuleOf(rule1)));
+		order.verify(listener).ruleApplicationFinish(argThat(isBasicBrillTaggerEvent().underRuleOf(rule1)));
+		
+		order.verify(listener).ruleApplicationStart(argThat(isBasicBrillTaggerEvent().underRuleOf(rule2)));
+		order.verify(listener).ruleApplicationFinish(argThat(isBasicBrillTaggerEvent().underRuleOf(rule2)));
 		
 		order.verify(listener).taggingFinish(anyEvent());
 	}
@@ -110,9 +112,24 @@ public class BrillTaggerListenerBehavior {
 		
 		order.verify(listener).ruleApplicationStart(anyEvent());
 		
-		order.verify(listener).contextAdvanced(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token1)), is(equalTo(false)))));
-		order.verify(listener).contextAdvanced(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(tokenExternallyEquals(token2)), is(equalTo(false)))));
-		order.verify(listener).contextCommitted(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).contextAdvanced(argThat(
+				isBasicBrillTaggerEvent()
+					.underRuleOf(rule1)
+					.atSomeContext()
+					.withCurrentToken(is(tokenExternallyEquals(token1)))
+					.inWhichRuleDidntApply()));
+		
+		order.verify(listener).contextAdvanced(argThat(
+				isBasicBrillTaggerEvent()
+					.underRuleOf(rule1)
+					.atSomeContext()
+					.withCurrentToken(is(tokenExternallyEquals(token2)))
+					.inWhichRuleDidntApply()));
+		
+		order.verify(listener).contextCommitted(argThat(
+				isBasicBrillTaggerEvent()
+					.underRuleOf(rule1)
+					.atSomeContext()));
 
 		order.verify(listener).ruleApplicationFinish(anyEvent());
 	}
@@ -128,11 +145,17 @@ public class BrillTaggerListenerBehavior {
 		
 		order.verify(listener).contextAdvanced(anyEvent());
 		order.verify(rule1).apply(anyContext());
-		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).ruleApplied(argThat(
+				isBasicBrillTaggerEvent()
+					.underRuleOf(rule1)
+					.atSomeContext()));
 
 		order.verify(listener).contextAdvanced(anyEvent());
 		order.verify(rule1).apply(anyContext());
-		order.verify(listener).ruleApplied(argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule1)), is(not(nullValue(Context.class))), is(nullValue(Token.class)), is(equalTo(false)))));
+		order.verify(listener).ruleApplied(argThat(
+				isBasicBrillTaggerEvent()
+					.underRuleOf(rule1)
+					.atSomeContext()));
 		
 		order.verify(listener).contextCommitted(anyEvent());
 		
@@ -156,12 +179,8 @@ public class BrillTaggerListenerBehavior {
 		
 		tagger.tag(sentence);
 	}
-	
-	private BrillTaggerEvent eventWithSentence() {
-		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(nullValue(Rule.class)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
-	}
-	
-	private BrillTaggerEvent eventWithSentenceAndRule(Rule rule) {
-		return argThat(matchesEvent(is(sameInstance(tagger)), is(sameInstance(sentence)), is(sameInstance(rule)), is(nullValue(Context.class)), is(nullValue(Token.class)), is(equalTo(false))));
+
+	private BrillTaggerEventMatcher isBasicBrillTaggerEvent() {
+		return isBrillTaggerEvent().from(tagger).onSentence(sentence);
 	}
 }
