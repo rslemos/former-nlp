@@ -7,6 +7,7 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.mockito.InOrder;
@@ -19,12 +20,17 @@ import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.BrillTrainerEventMatcher;
+import br.eti.rslemos.brill.rules.CURWDRuleFactory;
+import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 public class BrillTrainerListenerBehavior {
+	private static final Object BASE_TAG = "BASE";
+
 	private BrillTrainer trainer;
 	
 	@Mock private BrillTrainerListener listener;
@@ -32,33 +38,20 @@ public class BrillTrainerListenerBehavior {
 	@Mock private Tagger baseTagger;
 	
 	private Token[][] tokens = {
-			{ null, null },
-			{ null, null },
+			{ new DefaultToken("W00").setTag("T00"), new DefaultToken("W01").setTag("T01") },
+			{ new DefaultToken("W10").setTag("T10"), new DefaultToken("W11").setTag("T11") },
 	};
 	
-	private Sentence[] sentences = { null, null };
+	private Sentence[] sentences = { 
+			new DefaultSentence(tokens[0]),
+			new DefaultSentence(tokens[1]),
+	};
 	
-	private List<Sentence> proofCorpus;
-	
-	
+	private List<Sentence> proofCorpus = Arrays.asList(sentences);
 
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-
-		for (int i = 0; i < tokens.length; i++) {
-			for (int j = 0; j < tokens[i].length; j++) {
-				tokens[i][j] = mock(Token.class, i + ", " + j);
-				when(tokens[i][j].getWord()).thenReturn("word " + i + ", " + j);
-				when(tokens[i][j].getTag()).thenReturn("tag " + i + ", " + j);
-			}
-		}
-	
-		for (int i = 0; i < sentences.length; i++) {
-			sentences[i] = new DefaultSentence(Arrays.asList(tokens[i]));
-		}
-		
-		proofCorpus = Arrays.asList(sentences);
 
 		trainer = new BrillTrainer();
 		
@@ -68,17 +61,25 @@ public class BrillTrainerListenerBehavior {
 			public Object answer(InvocationOnMock invocation) throws Throwable {
 				Sentence sentence = (Sentence) invocation.getArguments()[0];
 				for (Token token : sentence) {
-					token.setTag("BASE");
+					token.setTag(BASE_TAG);
 				}
 				return null;
 			}
 		}).when(baseTagger).tag(anySentence());
 		
-		
-		
-		
-		//spy(new ConstantTokenTagger("BASE"));
 		trainer.setBaseTagger(baseTagger);
+		trainer.setRuleFactories(Collections.singletonList((RuleFactory)new CURWDRuleFactory()));
+		
+		/*
+		 * Effective rule discovery should be avoided until strictly necessary.
+		 * 
+		 * Mockito postpones the verification phase until the system was exercised,
+		 * but BrillTrainer reuses it's working corpus (well, it is this way because
+		 * that is the way it should be). So when verifying it is already too late.
+		 * 
+		 * Avoiding discovery implies immutability on working corpus.
+		 */
+		trainer.setThreshold(2);
 		
 	}
 	
@@ -112,7 +113,7 @@ public class BrillTrainerListenerBehavior {
 		
 		order.verify(listener).workingCorpusInitializationFinish(argThat(
 				isBasicBrillTrainerEvent()
-					.withWorkingCorpus(is(allOf(sameWords(proofCorpus), sentencesTaggedAs("BASE"))))));
+					.withWorkingCorpus(is(allOf(sameWords(proofCorpus), sentencesTaggedAs(BASE_TAG))))));
 		
 		order.verify(listener).trainingFinish(anyEvent());
 
@@ -137,7 +138,7 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener).baseTaggingFinish(argThat(
 				isBasicBrillTrainerEvent()
 					.withCurrentSentenceIndex(0)
-					.withCurrentSentence(allOf(sameWords(sentences[0]), taggedAs("BASE")))));
+					.withCurrentSentence(allOf(sameWords(sentences[0]), taggedAs(BASE_TAG)))));
 		
 		order.verify(listener).baseTaggingStart(argThat(
 				isBasicBrillTrainerEvent()
@@ -148,7 +149,7 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener).baseTaggingFinish(argThat(
 				isBasicBrillTrainerEvent()
 					.withCurrentSentenceIndex(1)
-					.withCurrentSentence(allOf(sameWords(sentences[1]), taggedAs("BASE")))));
+					.withCurrentSentence(allOf(sameWords(sentences[1]), taggedAs(BASE_TAG)))));
 
 		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
 		
