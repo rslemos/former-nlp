@@ -100,16 +100,16 @@ public class BrillTrainerListenerBehavior {
 	}
 
 	@Test
-	public void shouldNotifyTrainingCorpusInitialization() {
+	public void shouldNotifyBaseTaggerApplicationAndTrainingCorpusInitialization() {
 		trainer.train(proofCorpus);
 		
 		InOrder order = inOrder(listener, baseTagger);
 		
 		order.verify(listener).trainingStart(anyEvent());
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[0]))));
-		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[0], "BASE"));
+		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[0]));
 		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[1]))));
-		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[1], "BASE"));
+		order.verify(listener).baseTaggerApplied(eventWithSentenceWordsAndBaseTag(sentences[1]));
 		order.verify(listener).trainingCorpusInitialized(eventWithBaseTaggedCorpus());
 		order.verify(listener).trainingFinish(anyEvent());
 	}
@@ -155,7 +155,7 @@ public class BrillTrainerListenerBehavior {
 		};
 	}
 
-	private static Matcher<Sentence> sameTag(final Object baseTag) {
+	private static Matcher<Sentence> taggedAs(final Object baseTag) {
 		return new BaseMatcher<Sentence>() {
 			@Override
 			public boolean matches(Object item) {
@@ -209,7 +209,7 @@ public class BrillTrainerListenerBehavior {
 		};
 	}
 	
-	private static Matcher<List<Sentence>> sameWordsBaseTag(final List<Sentence> proofCorpus, final Object baseTag) {
+	private static Matcher<List<Sentence>> sameWords(final List<Sentence> proofCorpus) {
 		return new BaseMatcher<List<Sentence>>() {
 			@Override
 			public boolean matches(Object item) {
@@ -221,9 +221,6 @@ public class BrillTrainerListenerBehavior {
 				for (Pair<Sentence, Sentence> pair : BrillTrainer.pairOf(proofCorpus, other)) {
 					if (!sameWords(pair.x, pair.y))
 						return false;
-					
-					if (!sameTag(baseTag, pair.y))
-						return false;
 				}
 				
 				return true;
@@ -232,17 +229,40 @@ public class BrillTrainerListenerBehavior {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("same words as ").appendValue(proofCorpus);
+			}
+		};
+	}
+
+	private static Matcher<List<Sentence>> sentencesTaggedAs(final Object baseTag) {
+		return new BaseMatcher<List<Sentence>>() {
+			@Override
+			public boolean matches(Object item) {
+				if (!(item instanceof List))
+					return false;
+				
+				List<Sentence> other = (List<Sentence>) item;
+
+				for (Sentence sentence : other) {
+					if (!sameTag(baseTag, sentence))
+						return false;
+				}
+				
+				return true;
+			}
+
+			@Override
+			public void describeTo(Description description) {
 				description.appendText("tagged as ").appendValue(baseTag);
 			}
 		};
 	}
 
-	private BrillTrainerEvent eventWithSentenceWordsAndBaseTag(Sentence sentence, Object baseTag) {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(allOf(sameWords(sentence), sameTag(baseTag)))));
+	private BrillTrainerEvent eventWithSentenceWordsAndBaseTag(Sentence sentence) {
+		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(nullValue(List.class)), is(allOf(sameWords(sentence), taggedAs("BASE")))));
 	}
 
 	private BrillTrainerEvent eventWithBaseTaggedCorpus() {
-		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(sameWordsBaseTag(proofCorpus, "BASE")), is(nullValue(Sentence.class))));
+		return argThat(matchesEvent(is(sameInstance(trainer)), is(sameInstance(proofCorpus)), is(allOf(sameWords(proofCorpus), sentencesTaggedAs("BASE"))), is(nullValue(Sentence.class))));
 	}
 
 	private BrillTrainerEvent eventWithProofCorpus() {
