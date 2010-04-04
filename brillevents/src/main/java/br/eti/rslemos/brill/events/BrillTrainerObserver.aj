@@ -28,6 +28,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method WORKING_CORPUS_INITIALIZATION_FINISH;
 	private static final Method BASE_TAGGING_START;
 	private static final Method BASE_TAGGING_FINISH;
+	private static final Method RULE_DISCOVERY_START;
+	private static final Method RULE_DISCOVERY_FINISH;
 	
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -40,6 +42,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			WORKING_CORPUS_INITIALIZATION_FINISH = clazz.getMethod("workingCorpusInitializationFinish", args);
 			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
 			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
+			RULE_DISCOVERY_START = clazz.getMethod("ruleDiscoveryStart", args);
+			RULE_DISCOVERY_FINISH = clazz.getMethod("ruleDiscoveryFinish", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -64,7 +68,6 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	before(BrillTrainer trainer): onPreparing(trainer) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(trainer.proofCorpus);
-		//prototype.setWorkingCorpus(trainer.trainingCorpus);
 		
 		trainer.fireNotification(WORKING_CORPUS_INITIALIZATION_START, prototype);
 		
@@ -98,4 +101,21 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		
 		trainer.fireNotification(BASE_TAGGING_FINISH, prototype);
 	}
+
+	before(BrillTrainer trainer): onRuleDiscovery(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		
+		trainer.fireNotification(RULE_DISCOVERY_START, prototype);
+	}
+
+	after(BrillTrainer trainer) returning: onRuleDiscovery(trainer) { 
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		
+		trainer.fireNotification(RULE_DISCOVERY_FINISH, prototype);
+	}
+	
 }

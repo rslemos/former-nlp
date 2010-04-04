@@ -139,6 +139,23 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener, never()).baseTaggingFinish(anyEvent());
 	}
 
+	@Test
+	public void shouldNotifyRuleDiscovery() {
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener, baseTagger);
+		
+		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
+		
+		order.verify(listener).ruleDiscoveryStart(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(sameWords(proofCorpus)), is(any(int.class)), is(nullValue(Sentence.class)))));
+		order.verify(listener).ruleDiscoveryFinish(argThat(matchesBasicEventWithReadOnlyProofCorpus(is(sameWords(proofCorpus)), is(any(int.class)), is(nullValue(Sentence.class)))));
+		
+		order.verify(listener).trainingFinish(anyEvent());
+		
+		order.verify(listener, never()).ruleDiscoveryStart(anyEvent());
+		order.verify(listener, never()).ruleDiscoveryFinish(anyEvent());
+	}
+
 	private Matcher<BrillTrainerEvent> matchesBasicEvent(
 			Matcher<? super List<Sentence>> proofCorpusMatcher,
 			Matcher<? super List<Sentence>> workingCorpusMatcher,

@@ -20,4 +20,8 @@ public abstract privileged aspect BrillTrainerPointcuts {
 	public pointcut onBaseTagging(BrillTrainer trainer, Sentence onSentence):
 		call(void Tagger+.tag(Sentence+)) && args(onSentence) &&
 		cflow(onTraining(trainer, *)) && within(BrillTrainer+);
+	
+	public pointcut onRuleDiscovery(BrillTrainer trainer):
+		execution(void BrillTrainer+.discoverRules()) && 
+		cflow(onTraining(trainer, *)) && within(BrillTrainer+);
 }

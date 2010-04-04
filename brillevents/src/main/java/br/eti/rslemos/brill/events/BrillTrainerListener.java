@@ -14,5 +14,9 @@ public interface BrillTrainerListener {
 
 	void baseTaggingFinish(BrillTrainerEvent event);
 
+	void ruleDiscoveryStart(BrillTrainerEvent event);
+
+	void ruleDiscoveryFinish(BrillTrainerEvent event);
+
 
 }
