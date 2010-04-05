@@ -14,11 +14,12 @@ public interface BrillTrainerListener {
 
 	void baseTaggingFinish(BrillTrainerEvent event);
 
-	void ruleDiscoveryStart(BrillTrainerEvent event);
+	void ruleDiscoveryPhaseStart(BrillTrainerEvent event);
 
-	void ruleDiscoveryFinish(BrillTrainerEvent event);
+	void ruleDiscoveryPhaseFinish(BrillTrainerEvent event);
 
-	void newRuleDiscovered(BrillTrainerEvent event);
+	void ruleDiscoveryRoundStart(BrillTrainerEvent event);
 
+	void ruleDiscoveryRoundFinish(BrillTrainerEvent event);
 
 }

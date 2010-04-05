@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.events;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.*;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.hamcrest.BaseMatcher;
@@ -30,6 +29,7 @@ public class BrillTrainerCustomMatchers {
 			.withCurrentSentenceIndex(is(equalTo(-1)))
 			.withCurrentSentence(is(nullValue(Sentence.class)))
 			.withFoundRules(is(nullValue(List.class)))
+			.withRound(is(nullValue(Object.class)))
 			.withNewRule(is(nullValue(Rule.class)));
 	}
 
@@ -41,6 +41,7 @@ public class BrillTrainerCustomMatchers {
 		private Matcher<? super List<Sentence>> proofCorpusMatcher;
 		private Matcher<Rule> newRuleMatcher;
 		private Matcher<? super List<Rule>> foundRulesMatcher;
+		private Matcher<Object> roundMatcher;
 
 		public BrillTrainerEventMatcher() {}
 		
@@ -58,6 +59,7 @@ public class BrillTrainerCustomMatchers {
 				currentSentenceIndexMatcher.matches(other.getCurrentSentenceIndex()) &&
 				currentSentenceMatcher.matches(other.getCurrentSentence()) &&
 				foundRulesMatcher.matches(other.getFoundRules()) &&
+				roundMatcher.matches(other.getRound()) &&
 				newRuleMatcher.matches(other.getNewRule());
 		}
 
@@ -71,6 +73,7 @@ public class BrillTrainerCustomMatchers {
 			description.appendText("currentSentenceIndex ").appendDescriptionOf(currentSentenceIndexMatcher).appendText(", ");
 			description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher).appendText(", ");
 			description.appendText("foundRules ").appendDescriptionOf(foundRulesMatcher).appendText(", ");
+			description.appendText("round ").appendDescriptionOf(roundMatcher).appendText(", ");
 			description.appendText("newRule ").appendDescriptionOf(newRuleMatcher);
 			description.appendText(")");
 		}
@@ -110,6 +113,11 @@ public class BrillTrainerCustomMatchers {
 			return this;
 		}
 
+		private BrillTrainerEventMatcher withRound(Matcher<Object> roundMatcher) {
+			this.roundMatcher = roundMatcher;
+			return this;
+		}
+
 		public BrillTrainerEventMatcher from(BrillTrainer trainer) {
 			return withSource(is(sameInstance(trainer)));
 		}
@@ -128,6 +136,10 @@ public class BrillTrainerCustomMatchers {
 
 		public BrillTrainerEventMatcher justFoundRule(Rule rule) {
 			return withNewRule(is(equalTo(rule)));
+		}
+
+		public BrillTrainerEventMatcher withRound() {
+			return withRound(is(not(nullValue())));
 		}
 
 	}

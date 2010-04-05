@@ -108,14 +108,18 @@ public class BrillTrainer {
 	private void discoverRules() {
 		Rule bestRule;
 		
-		while ((bestRule = discoverNextRule()) != null) {
+		while ((bestRule = discoverNextRule0()) != null) {
 			rules.add(bestRule);
 		}
 	}
 
-	private Rule discoverNextRule() {
+	private Rule discoverNextRule0() {
 		board.newRound();
 		
+		return discoverNextRule();
+	}
+
+	private Rule discoverNextRule() {
 		produceAllPossibleRules();
 		
 		Score bestScore = selectBestRule();

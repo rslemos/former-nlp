@@ -168,19 +168,42 @@ public class BrillTrainerListenerBehavior {
 		
 		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
 		
-		order.verify(listener).ruleDiscoveryStart(argThat(isBasicInitializedBrillTrainerEvent()));		
-		order.verify(listener).ruleDiscoveryFinish(argThat(
+		order.verify(listener).ruleDiscoveryPhaseStart(argThat(isBasicInitializedBrillTrainerEvent()));		
+		order.verify(listener).ruleDiscoveryPhaseFinish(argThat(
 				isBasicInitializedBrillTrainerEvent()
 					.withFoundRules(whichSize(is(equalTo(0))))));
 		
 		order.verify(listener).trainingFinish(anyEvent());
 		
-		order.verify(listener, never()).ruleDiscoveryStart(anyEvent());
-		order.verify(listener, never()).ruleDiscoveryFinish(anyEvent());
+		order.verify(listener, never()).ruleDiscoveryPhaseStart(anyEvent());
+		order.verify(listener, never()).ruleDiscoveryPhaseFinish(anyEvent());
 	}
 
 	@Test
-	public void shouldNotifyNewRuleDiscovered() {
+	public void shouldNotifyRuleDiscoveryRound() {
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener);
+		
+		order.verify(listener).ruleDiscoveryPhaseStart(anyEvent());	
+		
+		order.verify(listener).ruleDiscoveryRoundStart(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					.withFoundRules(whichSize(is(equalTo(0))))
+		));
+		
+		order.verify(listener).ruleDiscoveryRoundFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					.withFoundRules(whichSize(is(equalTo(0))))
+		));
+		
+		order.verify(listener).ruleDiscoveryPhaseFinish(anyEvent());		
+	}
+
+	@Test
+	public void shouldNotifyRuleDiscoveryRoundWithNewRule() {
 		final Rule rule = new CURWDRule(BASE_TAG, "T00", "W00");
 		
 		trainer.setThreshold(2);
@@ -189,19 +212,26 @@ public class BrillTrainerListenerBehavior {
 		
 		InOrder order = inOrder(listener);
 		
-		order.verify(listener).ruleDiscoveryStart(anyEvent());
-
-		order.verify(listener).newRuleDiscovered(argThat(
+		order.verify(listener).ruleDiscoveryPhaseStart(anyEvent());	
+		
+		order.verify(listener).ruleDiscoveryRoundStart(argThat(
 				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					// should be an empty list
+					// but by the time it is verified, the list already has rules
+					.withFoundRules(is(any(List.class)))
+		));
+		
+		order.verify(listener).ruleDiscoveryRoundFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
 					// should be an empty list
 					// but by the time it is verified, the list already has rules
 					.withFoundRules(is(any(List.class)))
 					.justFoundRule(rule)
-				));
+		));
 		
-		order.verify(listener, never()).newRuleDiscovered(anyEvent());
-		
-		order.verify(listener).ruleDiscoveryFinish(argThat(
+		order.verify(listener).ruleDiscoveryPhaseFinish(argThat(
 				isBasicInitializedBrillTrainerEvent()
 					.withFoundRules(is(equalTo(Collections.singletonList(rule))))));
 	}

@@ -24,13 +24,14 @@ public abstract privileged aspect BrillTrainerPointcuts {
 		call(void Tagger+.tag(Sentence+)) && args(onSentence) &&
 		within(BrillTrainer+);
 	
-	public pointcut onRuleDiscovery(BrillTrainer trainer):
+	public pointcut onRuleDiscoveryPhase(BrillTrainer trainer):
 		this(trainer) &&
 		execution(void BrillTrainer+.discoverRules()) && 
 		within(BrillTrainer+);
 	
-	public pointcut onNewRuleDiscovery(BrillTrainer trainer):
+	public pointcut onRuleDiscoveryRound(BrillTrainer trainer):
 		this(trainer) &&
-		call(Rule+ BrillTrainer+.discoverNextRule()) &&
+		execution(Rule+ BrillTrainer+.discoverNextRule()) && 
 		within(BrillTrainer+);
+	
 }

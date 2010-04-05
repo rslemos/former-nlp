@@ -17,10 +17,12 @@ public class BrillTrainerEvent extends EventObject {
 	private Sentence currentSentence;
 	private int currentSentenceIndex = -1;
 
+	private List<Rule> foundRules;
+
+	private Object round;
+	
 	private Rule newRule;
 
-	private List<Rule> foundRules;
-	
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
 	}
@@ -63,6 +65,14 @@ public class BrillTrainerEvent extends EventObject {
 
 	public void setFoundRules(List<Rule> foundRules) {
 		this.foundRules = foundRules;
+	}
+
+	public Object getRound() {
+		return round;
+	}
+
+	public void setRound(Object round) {
+		this.round = round;
 	}
 
 	public Rule getNewRule() {

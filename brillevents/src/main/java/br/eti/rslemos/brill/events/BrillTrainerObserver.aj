@@ -29,9 +29,10 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method WORKING_CORPUS_INITIALIZATION_FINISH;
 	private static final Method BASE_TAGGING_START;
 	private static final Method BASE_TAGGING_FINISH;
-	private static final Method RULE_DISCOVERY_START;
-	private static final Method RULE_DISCOVERY_FINISH;
-	private static final Method NEW_RULE_DISCOVERED;
+	private static final Method RULE_DISCOVERY_PHASE_START;
+	private static final Method RULE_DISCOVERY_PHASE_FINISH;
+	private static final Method RULE_DISCOVERY_ROUND_START;
+	private static final Method RULE_DISCOVERY_ROUND_FINISH;
 
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -44,11 +45,10 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			WORKING_CORPUS_INITIALIZATION_FINISH = clazz.getMethod("workingCorpusInitializationFinish", args);
 			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
 			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
-			RULE_DISCOVERY_START = clazz.getMethod("ruleDiscoveryStart", args);
-			RULE_DISCOVERY_FINISH = clazz.getMethod("ruleDiscoveryFinish", args);
-			NEW_RULE_DISCOVERED = clazz.getMethod("newRuleDiscovered", args);
-			
-			
+			RULE_DISCOVERY_PHASE_START = clazz.getMethod("ruleDiscoveryPhaseStart", args);
+			RULE_DISCOVERY_PHASE_FINISH = clazz.getMethod("ruleDiscoveryPhaseFinish", args);
+			RULE_DISCOVERY_ROUND_START = clazz.getMethod("ruleDiscoveryRoundStart", args);
+			RULE_DISCOVERY_ROUND_FINISH = clazz.getMethod("ruleDiscoveryRoundFinish", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -107,32 +107,41 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		trainer.fireNotification(BASE_TAGGING_FINISH, prototype);
 	}
 
-	before(BrillTrainer trainer): onRuleDiscovery(trainer) {
+	before(BrillTrainer trainer): onRuleDiscoveryPhase(trainer) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(trainer.proofCorpus);
 		prototype.setWorkingCorpus(trainer.trainingCorpus);
 		
-		trainer.fireNotification(RULE_DISCOVERY_START, prototype);
+		trainer.fireNotification(RULE_DISCOVERY_PHASE_START, prototype);
 	}
 
-	after(BrillTrainer trainer) returning: onRuleDiscovery(trainer) { 
+	after(BrillTrainer trainer) returning: onRuleDiscoveryPhase(trainer) { 
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(trainer.proofCorpus);
 		prototype.setWorkingCorpus(trainer.trainingCorpus);
 		prototype.setFoundRules(trainer.rules);
 		
-		trainer.fireNotification(RULE_DISCOVERY_FINISH, prototype);
+		trainer.fireNotification(RULE_DISCOVERY_PHASE_FINISH, prototype);
 	}
 	
-	after(BrillTrainer trainer) returning(Rule rule): onNewRuleDiscovery(trainer) {
-		if (rule != null) {
-			BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-			prototype.setProofCorpus(trainer.proofCorpus);
-			prototype.setWorkingCorpus(trainer.trainingCorpus);
-			prototype.setFoundRules(trainer.rules);
-			prototype.setNewRule(rule);
-			
-			trainer.fireNotification(NEW_RULE_DISCOVERED, prototype);
-		}
+	before(BrillTrainer trainer): onRuleDiscoveryRound(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+		prototype.setFoundRules(trainer.rules);
+
+		trainer.fireNotification(RULE_DISCOVERY_ROUND_START, prototype);
+	}
+
+	after(BrillTrainer trainer) returning(Rule rule): onRuleDiscoveryRound(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+		prototype.setFoundRules(trainer.rules);
+		prototype.setNewRule(rule);
+
+		trainer.fireNotification(RULE_DISCOVERY_ROUND_FINISH, prototype);
 	}
 }
