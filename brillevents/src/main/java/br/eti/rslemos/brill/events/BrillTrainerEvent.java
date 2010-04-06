@@ -82,4 +82,25 @@ public class BrillTrainerEvent extends EventObject {
 	public void setNewRule(Rule newRule) {
 		this.newRule = newRule;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder(1000);
+		
+		result.append(getClass().getName());
+		result.append('[');
+		result.append("source=").append(source).append(';');
+		result.append("proofCorpus=").append(proofCorpus).append(';');
+		result.append("workingCorpus=").append(workingCorpus).append(';');
+		result.append("currentSentenceIndex=").append(currentSentenceIndex).append(';');
+		result.append("currentSentence=").append(currentSentence).append(';');
+		result.append("foundRules=").append(foundRules).append(';');
+		result.append("round=").append(round).append(';');
+		result.append("newRule=").append(newRule).append(';');
+		result.append(']');
+		
+		return result.toString();
+	}
+	
+	
 }
