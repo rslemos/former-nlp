@@ -170,7 +170,7 @@ public class BrillTrainer {
 	private Score selectBestRule() {
 		Queue<Score> rules = board.getRulesByPriority();
 		
-		Score bestScore = new Score(null, null, Integer.MAX_VALUE);
+		Score bestScore = new Score(Integer.MAX_VALUE, null);
 		bestScore.dec();
 		
 		while(!rules.isEmpty()) {
@@ -216,21 +216,18 @@ public class BrillTrainer {
 	}
 	
 	private static class Score implements Comparable<Score> {
-		public final Object roundCreated;
+		public final int roundCreated;
 		
 		public final Rule rule;
 
-		private final int counter;
-		
 		private int positiveMatches = 0;
 		private int negativeMatches = 0;
 
 		private boolean init = false;
 
-		protected Score(Object roundCreated, Rule rule, int counter) {
+		protected Score(int roundCreated, Rule rule) {
 			this.roundCreated = roundCreated;
 			this.rule = rule;
-			this.counter = counter;
 		}
 		
 		public void inc() {
@@ -254,23 +251,19 @@ public class BrillTrainer {
 		}
 
 		public int compareTo(Score o) {
-			int primaryCriteria = o.getScore() - getScore();
-			
-			return primaryCriteria != 0 ? primaryCriteria : o.counter - counter;
+			return o.getScore() - getScore();
 		}
 	}
 
 	private static class ScoreBoard {
 		private final HashMap<Rule, Score> rules = new HashMap<Rule, Score>();
-		private Object round;
-		
-		private int counter;
+		private int round = -1;
 		
 		public void addTruePositive(Rule rule) {
 			Score score = rules.get(rule);
 			
 			if (score == null) {
-				score = new Score(round, rule, counter);
+				score = new Score(round, rule);
 				rules.put(rule, score);
 			}
 			
@@ -285,7 +278,7 @@ public class BrillTrainer {
 		}
 		
 		public void newRound() {
-			round = new Object();
+			round++;
 		}
 
 		public Queue<Score> getRulesByPriority() {

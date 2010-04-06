@@ -29,7 +29,7 @@ public class BrillTrainerCustomMatchers {
 			.withCurrentSentenceIndex(is(equalTo(-1)))
 			.withCurrentSentence(is(nullValue(Sentence.class)))
 			.withFoundRules(is(nullValue(List.class)))
-			.withRound(is(nullValue(Object.class)))
+			.withRound(is(equalTo(-1)))
 			.withNewRule(is(nullValue(Rule.class)));
 	}
 
@@ -41,7 +41,7 @@ public class BrillTrainerCustomMatchers {
 		private Matcher<? super List<Sentence>> proofCorpusMatcher;
 		private Matcher<Rule> newRuleMatcher;
 		private Matcher<? super List<Rule>> foundRulesMatcher;
-		private Matcher<Object> roundMatcher;
+		private Matcher<Integer> roundMatcher;
 
 		public BrillTrainerEventMatcher() {}
 		
@@ -113,7 +113,7 @@ public class BrillTrainerCustomMatchers {
 			return this;
 		}
 
-		private BrillTrainerEventMatcher withRound(Matcher<Object> roundMatcher) {
+		private BrillTrainerEventMatcher withRound(Matcher<Integer> roundMatcher) {
 			this.roundMatcher = roundMatcher;
 			return this;
 		}
@@ -139,7 +139,7 @@ public class BrillTrainerCustomMatchers {
 		}
 
 		public BrillTrainerEventMatcher withRound() {
-			return withRound(is(not(nullValue())));
+			return withRound(is(not(equalTo(-1))));
 		}
 
 	}

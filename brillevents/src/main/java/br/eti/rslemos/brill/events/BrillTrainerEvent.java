@@ -19,7 +19,7 @@ public class BrillTrainerEvent extends EventObject {
 
 	private List<Rule> foundRules;
 
-	private Object round;
+	private int round = -1;
 	
 	private Rule newRule;
 
@@ -67,11 +67,11 @@ public class BrillTrainerEvent extends EventObject {
 		this.foundRules = foundRules;
 	}
 
-	public Object getRound() {
+	public int getRound() {
 		return round;
 	}
 
-	public void setRound(Object round) {
+	public void setRound(int round) {
 		this.round = round;
 	}
 
