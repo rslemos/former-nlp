@@ -1,9 +1,11 @@
 package br.eti.rslemos.brill.events;
 
+import java.util.Collection;
 import java.util.EventObject;
 import java.util.List;
 
 import br.eti.rslemos.brill.BrillTrainer;
+import br.eti.rslemos.brill.BrillTrainer.Score;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
 
@@ -22,6 +24,8 @@ public class BrillTrainerEvent extends EventObject {
 	private int round = -1;
 	
 	private Rule newRule;
+
+	private Collection<Score> possibleRules;
 
 	public BrillTrainerEvent(BrillTrainer source) {
 		super(source);
@@ -83,6 +87,14 @@ public class BrillTrainerEvent extends EventObject {
 		this.newRule = newRule;
 	}
 
+	public Collection<Score> getPossibleRules() {
+		return possibleRules;
+	}
+	
+	public void setPossibleRules(Collection<Score> possibleRules) {
+		this.possibleRules = possibleRules;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder(1000);
@@ -97,10 +109,10 @@ public class BrillTrainerEvent extends EventObject {
 		result.append("foundRules=").append(foundRules).append(';');
 		result.append("round=").append(round).append(';');
 		result.append("newRule=").append(newRule).append(';');
+		result.append("possibleRules=").append(possibleRules).append(';');
 		result.append(']');
 		
 		return result.toString();
 	}
-	
 	
 }

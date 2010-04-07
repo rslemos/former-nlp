@@ -3,6 +3,7 @@ package br.eti.rslemos.brill.events;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.*;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hamcrest.BaseMatcher;
@@ -11,6 +12,7 @@ import org.hamcrest.Matcher;
 
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.brill.BrillTrainer.Score;
 import br.eti.rslemos.tagger.Sentence;
 
 public class BrillTrainerCustomMatchers {
@@ -30,7 +32,8 @@ public class BrillTrainerCustomMatchers {
 			.withCurrentSentence(is(nullValue(Sentence.class)))
 			.withFoundRules(is(nullValue(List.class)))
 			.withRound(is(equalTo(-1)))
-			.withNewRule(is(nullValue(Rule.class)));
+			.withNewRule(is(nullValue(Rule.class)))
+			.withPossibleRules(is(nullValue(Collection.class)));
 	}
 
 	public static class BrillTrainerEventMatcher extends BaseMatcher<BrillTrainerEvent> {
@@ -42,6 +45,7 @@ public class BrillTrainerCustomMatchers {
 		private Matcher<Rule> newRuleMatcher;
 		private Matcher<? super List<Rule>> foundRulesMatcher;
 		private Matcher<Integer> roundMatcher;
+		private Matcher<? super Collection<Score>> possibleRulesMatcher;
 
 		public BrillTrainerEventMatcher() {}
 		
@@ -60,7 +64,8 @@ public class BrillTrainerCustomMatchers {
 				currentSentenceMatcher.matches(other.getCurrentSentence()) &&
 				foundRulesMatcher.matches(other.getFoundRules()) &&
 				roundMatcher.matches(other.getRound()) &&
-				newRuleMatcher.matches(other.getNewRule());
+				newRuleMatcher.matches(other.getNewRule()) &&
+				possibleRulesMatcher.matches(other.getPossibleRules());
 		}
 
 		@Override
@@ -74,7 +79,8 @@ public class BrillTrainerCustomMatchers {
 			description.appendText("currentSentence ").appendDescriptionOf(currentSentenceMatcher).appendText(", ");
 			description.appendText("foundRules ").appendDescriptionOf(foundRulesMatcher).appendText(", ");
 			description.appendText("round ").appendDescriptionOf(roundMatcher).appendText(", ");
-			description.appendText("newRule ").appendDescriptionOf(newRuleMatcher);
+			description.appendText("newRule ").appendDescriptionOf(newRuleMatcher).appendText(", ");
+			description.appendText("possibleRules ").appendDescriptionOf(possibleRulesMatcher);
 			description.appendText(")");
 		}
 
@@ -115,6 +121,11 @@ public class BrillTrainerCustomMatchers {
 
 		private BrillTrainerEventMatcher withRound(Matcher<Integer> roundMatcher) {
 			this.roundMatcher = roundMatcher;
+			return this;
+		}
+
+		public BrillTrainerEventMatcher withPossibleRules(Matcher<? super Collection<Score>> possibleRulesMatcher) {
+			this.possibleRulesMatcher = possibleRulesMatcher;
 			return this;
 		}
 

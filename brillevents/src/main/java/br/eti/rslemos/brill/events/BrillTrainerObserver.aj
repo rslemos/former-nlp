@@ -33,6 +33,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method RULE_DISCOVERY_PHASE_FINISH;
 	private static final Method RULE_DISCOVERY_ROUND_START;
 	private static final Method RULE_DISCOVERY_ROUND_FINISH;
+	private static final Method POSSIBLE_RULES_PRODUCTION_START;
+	private static final Method POSSIBLE_RULES_PRODUCTION_FINISH;
 
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -49,6 +51,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			RULE_DISCOVERY_PHASE_FINISH = clazz.getMethod("ruleDiscoveryPhaseFinish", args);
 			RULE_DISCOVERY_ROUND_START = clazz.getMethod("ruleDiscoveryRoundStart", args);
 			RULE_DISCOVERY_ROUND_FINISH = clazz.getMethod("ruleDiscoveryRoundFinish", args);
+			POSSIBLE_RULES_PRODUCTION_START = clazz.getMethod("possibleRulesProductionStart", args);
+			POSSIBLE_RULES_PRODUCTION_FINISH = clazz.getMethod("possibleRulesProductionFinish", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -144,4 +148,24 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 
 		trainer.fireNotification(RULE_DISCOVERY_ROUND_FINISH, prototype);
 	}
+
+	before(BrillTrainer trainer): onPossibleRulesProduction(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+
+		trainer.fireNotification(POSSIBLE_RULES_PRODUCTION_START, prototype);
+	}
+
+	after(BrillTrainer trainer) returning: onPossibleRulesProduction(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+		prototype.setPossibleRules(trainer.board.rules.values());
+
+		trainer.fireNotification(POSSIBLE_RULES_PRODUCTION_FINISH, prototype);
+	}
+
 }

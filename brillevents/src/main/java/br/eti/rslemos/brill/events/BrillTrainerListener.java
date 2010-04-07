@@ -22,4 +22,8 @@ public interface BrillTrainerListener {
 
 	void ruleDiscoveryRoundFinish(BrillTrainerEvent event);
 
+	void possibleRulesProductionStart(BrillTrainerEvent event);
+
+	void possibleRulesProductionFinish(BrillTrainerEvent event);
+
 }

@@ -215,7 +215,7 @@ public class BrillTrainer {
 				score.dec();
 	}
 	
-	private static class Score implements Comparable<Score> {
+	public static class Score implements Comparable<Score> {
 		public final int roundCreated;
 		
 		public final Rule rule;
@@ -252,6 +252,11 @@ public class BrillTrainer {
 
 		public int compareTo(Score o) {
 			return o.getScore() - getScore();
+		}
+
+		@Override
+		public String toString() {
+			return String.valueOf(rule) + " [round=" + roundCreated + "; P=" + positiveMatches + "; N=" + (init ? negativeMatches : "?") + "]";
 		}
 	}
 

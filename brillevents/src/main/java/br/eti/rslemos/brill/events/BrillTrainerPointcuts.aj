@@ -34,4 +34,9 @@ public abstract privileged aspect BrillTrainerPointcuts {
 		execution(Rule+ BrillTrainer+.discoverNextRule()) && 
 		within(BrillTrainer+);
 	
+	public pointcut onPossibleRulesProduction(BrillTrainer trainer):
+		this(trainer) &&
+		execution(void BrillTrainer+.produceAllPossibleRules()) && 
+		within(BrillTrainer+);
+	
 }

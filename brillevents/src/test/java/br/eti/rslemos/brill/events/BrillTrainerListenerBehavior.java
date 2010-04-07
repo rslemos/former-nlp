@@ -7,6 +7,7 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -234,6 +235,30 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener).ruleDiscoveryPhaseFinish(argThat(
 				isBasicInitializedBrillTrainerEvent()
 					.withFoundRules(is(equalTo(Collections.singletonList(rule))))));
+	}
+
+	@Test
+	public void shouldNotifyPossibleRulesProduction() {
+		trainer.setThreshold(2);
+		
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener);
+		
+		order.verify(listener).ruleDiscoveryRoundStart(anyEvent());
+
+		order.verify(listener).possibleRulesProductionStart(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+		));
+		
+		order.verify(listener).possibleRulesProductionFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					.withPossibleRules(is(not(nullValue(Collection.class))))
+		));
+		
+		order.verify(listener).ruleDiscoveryRoundFinish(anyEvent());
 	}
 
 	private BrillTrainerEventMatcher isBasicBrillTrainerEvent() {
