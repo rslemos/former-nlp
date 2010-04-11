@@ -17,6 +17,7 @@ public class PREV1OR2TAGRule extends AbstractRule implements SerializableAsBrill
 		this.prev1or2Object = prev1or2Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

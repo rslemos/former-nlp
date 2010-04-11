@@ -17,6 +17,7 @@ public class WDNEXTTAGRule extends AbstractRule implements SerializableAsBrillTe
 		this.next1Object = next1Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

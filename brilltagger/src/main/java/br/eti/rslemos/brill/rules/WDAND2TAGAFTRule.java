@@ -17,6 +17,7 @@ public class WDAND2TAGAFTRule extends AbstractRule implements SerializableAsBril
 		this.next2Object = next2Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

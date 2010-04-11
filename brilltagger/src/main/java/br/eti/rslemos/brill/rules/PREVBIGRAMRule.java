@@ -17,6 +17,7 @@ public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillT
 		this.prev1Word = prev1Word;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

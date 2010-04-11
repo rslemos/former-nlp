@@ -49,7 +49,6 @@ public class BrillTrainerCustomMatchers {
 
 		public BrillTrainerEventMatcher() {}
 		
-		@Override
 		public boolean matches(Object item) {
 			if (!(item instanceof BrillTrainerEvent))
 				return false;
@@ -68,7 +67,6 @@ public class BrillTrainerCustomMatchers {
 				possibleRulesMatcher.matches(other.getPossibleRules());
 		}
 
-		@Override
 		public void describeTo(Description description) {
 			description.appendText(BrillTrainerEvent.class.getName());
 			description.appendText("(");

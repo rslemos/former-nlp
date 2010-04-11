@@ -18,6 +18,7 @@ public class LookupTokenTagger extends AbstractTokenTagger implements Serializab
 		this.lexicon = lexicon;
 	}
 
+	@Override
 	public void tag(Token token) {
 		String word = token.getWord();
 		if (lexicon.containsKey(word))

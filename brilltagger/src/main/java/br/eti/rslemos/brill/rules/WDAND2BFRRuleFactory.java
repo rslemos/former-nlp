@@ -4,6 +4,7 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class WDAND2BFRRuleFactory extends AbstractSingleRuleFactory {
+	@Override
 	public Rule createRule(Object from, Object to, Context context) {
 		String word_2 = context.getToken(-2).getWord();
 		String word0 = context.getToken(0).getWord();

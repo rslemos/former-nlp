@@ -17,6 +17,7 @@ public class LBIGRAMRule extends AbstractRule implements SerializableAsBrillText
 		this.word = word;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

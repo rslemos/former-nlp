@@ -17,6 +17,7 @@ public class WDAND2TAGBFRRule extends AbstractRule implements SerializableAsBril
 		this.prev2Object = prev2Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

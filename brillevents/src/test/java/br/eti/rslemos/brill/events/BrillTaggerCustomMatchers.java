@@ -39,7 +39,6 @@ public class BrillTaggerCustomMatchers {
 		private Matcher<Token> currentTokenMatcher;
 		private Matcher<Boolean> ruleAppliesMatcher;
 			
-		@Override
 		public boolean matches(Object item) {
 			if (!(item instanceof BrillTaggerEvent))
 				return false;
@@ -55,7 +54,6 @@ public class BrillTaggerCustomMatchers {
 				ruleAppliesMatcher.matches(matches(other.doesRuleApplies()));
 		}
 
-		@Override
 		public void describeTo(Description description) {
 			description.appendText(BrillTaggerEvent.class.getName());
 			description.appendText("(");

@@ -19,6 +19,7 @@ public class CompositeTaggerBehavior {
 		when(token.getTag()).thenReturn("bar");
 		
 		Tagger subTagger = new AbstractTokenTagger() {
+			@Override
 			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
 				assertEquals(token.getTag(), "bar");
@@ -62,6 +63,7 @@ public class CompositeTaggerBehavior {
 		
 		Tagger subTagger1 = mock(Tagger.class);
 		Tagger subTagger2 = new AbstractTokenTagger() {
+			@Override
 			public void tag(Token token) {
 				token.setTag("foobar");
 			}
@@ -82,6 +84,7 @@ public class CompositeTaggerBehavior {
 		
 		Tagger subTagger1 = mock(Tagger.class);
 		Tagger subTagger2 = new AbstractTokenTagger() {
+			@Override
 			public void tag(Token token) {
 				token.setTag("foobar");
 			}
@@ -89,6 +92,7 @@ public class CompositeTaggerBehavior {
 
 		final boolean[] check = { false };
 		Tagger subTagger3 = new AbstractTokenTagger() {
+			@Override
 			public void tag(Token token) {
 				check[0] = true;
 				token.setTag("foobar");

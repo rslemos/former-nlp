@@ -17,6 +17,7 @@ public class PREV1OR2OR3OR4WDRule extends AbstractRule implements SerializableAs
 		this.prev1or2or3or4Word = prev1or2or3or4Word;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

@@ -16,6 +16,7 @@ public class NEXT2TAGRule extends AbstractRule implements SerializableAsBrillTex
 		this.next2Object = next2Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

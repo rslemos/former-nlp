@@ -15,6 +15,7 @@ public class PREVWDRule extends AbstractRule implements SerializableAsBrillText 
 		this.prevWord = prevWord;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

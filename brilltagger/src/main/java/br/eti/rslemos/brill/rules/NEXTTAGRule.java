@@ -16,6 +16,7 @@ public class NEXTTAGRule extends AbstractRule implements SerializableAsBrillText
 		this.nextObject = nextObject;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

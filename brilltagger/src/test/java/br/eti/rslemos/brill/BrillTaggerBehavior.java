@@ -30,6 +30,7 @@ public class BrillTaggerBehavior {
 		when(token.getWord()).thenReturn("foo");
 
 		Tagger baseTagger = new AbstractTokenTagger() {
+			@Override
 			public void tag(Token token) {
 				assertEquals(token.getWord(), "foo");
 				token.setTag("foobar");

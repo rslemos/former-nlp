@@ -17,6 +17,7 @@ public class WDAND2BFRRule extends AbstractRule implements SerializableAsBrillTe
 		this.word = word;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

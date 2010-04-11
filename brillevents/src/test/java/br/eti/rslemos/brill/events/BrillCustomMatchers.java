@@ -22,7 +22,6 @@ public class BrillCustomMatchers {
 	/* Token */
 	public static Matcher<Token> sameWord(final Token token) {
 		return new BaseMatcher<Token>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof Token))
 					return false;
@@ -36,7 +35,6 @@ public class BrillCustomMatchers {
 					(word != null ? word.equals(otherWord) : otherWord == null);
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("same word as ").appendValue(token);
 			}
@@ -45,7 +43,6 @@ public class BrillCustomMatchers {
 	
 	public static Matcher<Token> sameTag(final Token token) {
 		return new BaseMatcher<Token>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof Token))
 					return false;
@@ -59,7 +56,6 @@ public class BrillCustomMatchers {
 					(tag != null ? tag.equals(otherTag) : otherTag == null);
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("same tag as ").appendValue(token);
 			}
@@ -99,7 +95,6 @@ public class BrillCustomMatchers {
 
 	public static Matcher<Sentence> sameWords(final Sentence sentence) {
 		return new BaseMatcher<Sentence>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof Sentence))
 					return false;
@@ -109,7 +104,6 @@ public class BrillCustomMatchers {
 				return sameWords(sentence, other);
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("same words as ").appendValue(sentence);
 			}
@@ -118,7 +112,6 @@ public class BrillCustomMatchers {
 
 	public static Matcher<Sentence> taggedAs(final Object baseTag) {
 		return new BaseMatcher<Sentence>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof Sentence))
 					return false;
@@ -128,7 +121,6 @@ public class BrillCustomMatchers {
 				return taggedAs(baseTag, other);
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("tagged as ").appendValue(baseTag);
 			}
@@ -138,7 +130,6 @@ public class BrillCustomMatchers {
 	/* List<Sentence> */
 	public static Matcher<List<Sentence>> sameWords(final List<Sentence> proofCorpus) {
 		return new BaseMatcher<List<Sentence>>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof List))
 					return false;
@@ -153,7 +144,6 @@ public class BrillCustomMatchers {
 				return true;
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("same words as ").appendValue(proofCorpus);
 			}
@@ -162,7 +152,6 @@ public class BrillCustomMatchers {
 
 	public static Matcher<List<Sentence>> sentencesTaggedAs(final Object baseTag) {
 		return new BaseMatcher<List<Sentence>>() {
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof List))
 					return false;
@@ -177,7 +166,6 @@ public class BrillCustomMatchers {
 				return true;
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("tagged as ").appendValue(baseTag);
 			}
@@ -192,8 +180,6 @@ public class BrillCustomMatchers {
 	/* Collection */
 	public static Matcher<Collection<?>> whichSize(final Matcher<Integer> wantedSize) {
 		return new BaseMatcher<Collection<?>>() {
-
-			@Override
 			public boolean matches(Object item) {
 				if (!(item instanceof Collection))
 					return false;
@@ -203,7 +189,6 @@ public class BrillCustomMatchers {
 				return wantedSize.matches(other.size());
 			}
 
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("collection which size ").appendDescriptionOf(wantedSize);
 			}

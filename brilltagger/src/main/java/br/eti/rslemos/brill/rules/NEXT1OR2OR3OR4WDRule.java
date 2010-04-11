@@ -17,6 +17,7 @@ public class NEXT1OR2OR3OR4WDRule extends AbstractRule implements SerializableAs
 		this.next1or2or3or4Word = next1or2or3or4Word;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

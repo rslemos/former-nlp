@@ -314,7 +314,6 @@ public class BrillTrainer {
 	public static <X, Y> Iterable<Pair<X, Y>> pairOf(final Iterable<X> x, final Iterable<Y> y) {
 		return new Iterable<Pair<X, Y>>() {
 
-			@Override
 			public Iterator<Pair<X, Y>> iterator() {
 				return pairOf(x.iterator(), y.iterator());
 			}
@@ -325,17 +324,14 @@ public class BrillTrainer {
 	private static <X, Y> Iterator<Pair<X, Y>> pairOf(final Iterator<X> x, final Iterator<Y> y) {
 		return new Iterator<Pair<X, Y>>() {
 
-			@Override
 			public boolean hasNext() {
 				return x.hasNext() && y.hasNext();
 			}
 
-			@Override
 			public Pair<X, Y> next() {
 				return new Pair<X, Y>(x.next(), y.next());
 			}
 
-			@Override
 			public void remove() {
 				x.remove();
 				y.remove();

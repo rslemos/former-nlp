@@ -26,4 +26,8 @@ public interface BrillTrainerListener {
 
 	void possibleRulesProductionFinish(BrillTrainerEvent event);
 
+	void bestRuleSelectionStart(BrillTrainerEvent event);
+
+	void bestRuleSelectionFinish(BrillTrainerEvent event);
+
 }

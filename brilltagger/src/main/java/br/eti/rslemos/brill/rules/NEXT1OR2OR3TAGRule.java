@@ -17,6 +17,7 @@ public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBr
 		this.next1or2or3Object = next1or2or3Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

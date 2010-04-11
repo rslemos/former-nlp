@@ -16,6 +16,7 @@ public class ConstantTokenTagger extends AbstractTokenTagger implements Serializ
 		this.tag = tag;
 	}
 
+	@Override
 	public void tag(Token token) {
 		token.setTag(tag);
 	}

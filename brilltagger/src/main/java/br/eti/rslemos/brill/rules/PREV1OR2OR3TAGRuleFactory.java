@@ -8,6 +8,7 @@ import br.eti.rslemos.brill.Rule;
 
 public class PREV1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 	
+	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
 		Object tag_1 = context.getToken(-1).getTag();
 		Object tag_2 = context.getToken(-2).getTag();

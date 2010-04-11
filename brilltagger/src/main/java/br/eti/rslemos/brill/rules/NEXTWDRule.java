@@ -16,6 +16,7 @@ public class NEXTWDRule extends AbstractRule implements SerializableAsBrillText 
 		this.nextWord = nextWord;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

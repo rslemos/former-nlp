@@ -17,6 +17,7 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 		this.next1Object = next1Object;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}

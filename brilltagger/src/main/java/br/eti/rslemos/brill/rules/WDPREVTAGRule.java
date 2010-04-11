@@ -17,6 +17,7 @@ public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillTe
 		this.prevObject = prevObject;
 	}
 
+	@Override
 	public boolean matches(Context context) {
 		return thisMatches(context) && super.matches(context);
 	}
