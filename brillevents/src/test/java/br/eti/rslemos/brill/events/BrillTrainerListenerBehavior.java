@@ -262,6 +262,31 @@ public class BrillTrainerListenerBehavior {
 		order.verify(listener).ruleDiscoveryRoundFinish(anyEvent());
 	}
 
+	@Test
+	public void shouldNotifyBestRuleSelection() {
+		trainer.setThreshold(2);
+		
+		trainer.train(proofCorpus);
+		
+		InOrder order = inOrder(listener);
+		
+		order.verify(listener).possibleRulesProductionFinish(anyEvent());
+		
+		order.verify(listener).bestRuleSelectionStart(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					.withPossibleRules(is(not(nullValue(Collection.class))))
+		));
+		
+		order.verify(listener).bestRuleSelectionFinish(argThat(
+				isBasicInitializedBrillTrainerEvent()
+					.withRound()
+					.withPossibleRules(is(not(nullValue(Collection.class))))
+		));
+		
+		order.verify(listener).ruleDiscoveryRoundFinish(anyEvent());
+	}
+
 	private BrillTrainerEventMatcher isBasicBrillTrainerEvent() {
 		return isBrillTrainerEvent().from(trainer).proofedByCorpusEqualsTo(proofCorpus);
 	}

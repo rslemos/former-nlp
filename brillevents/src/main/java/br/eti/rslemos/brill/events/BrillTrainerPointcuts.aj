@@ -6,6 +6,7 @@ import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.brill.BrillTrainer.Score;
 
 public abstract privileged aspect BrillTrainerPointcuts {
 	
@@ -37,6 +38,11 @@ public abstract privileged aspect BrillTrainerPointcuts {
 	public pointcut onPossibleRulesProduction(BrillTrainer trainer):
 		this(trainer) &&
 		execution(void BrillTrainer+.produceAllPossibleRules()) && 
+		within(BrillTrainer+);
+	
+	public pointcut onBestRuleSelection(BrillTrainer trainer):
+		this(trainer) &&
+		execution(Score BrillTrainer+.selectBestRule()) && 
 		within(BrillTrainer+);
 	
 }

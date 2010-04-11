@@ -7,6 +7,7 @@ import java.util.List;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.brill.BrillTrainer.Score;
 
 public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private List<BrillTrainerListener> BrillTrainer.listeners = new ArrayList<BrillTrainerListener>();
@@ -35,6 +36,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method RULE_DISCOVERY_ROUND_FINISH;
 	private static final Method POSSIBLE_RULES_PRODUCTION_START;
 	private static final Method POSSIBLE_RULES_PRODUCTION_FINISH;
+	private static final Method BEST_RULE_SELECTION_START;
+	private static final Method BEST_RULE_SELECTION_FINISH;
 
 	static {
 		Class<BrillTrainerListener> clazz = BrillTrainerListener.class;
@@ -53,6 +56,8 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			RULE_DISCOVERY_ROUND_FINISH = clazz.getMethod("ruleDiscoveryRoundFinish", args);
 			POSSIBLE_RULES_PRODUCTION_START = clazz.getMethod("possibleRulesProductionStart", args);
 			POSSIBLE_RULES_PRODUCTION_FINISH = clazz.getMethod("possibleRulesProductionFinish", args);
+			BEST_RULE_SELECTION_START = clazz.getMethod("bestRuleSelectionStart", args);
+			BEST_RULE_SELECTION_FINISH = clazz.getMethod("bestRuleSelectionFinish", args);
 		} catch (Exception e) {
 			throw (Error)(new LinkageError().initCause(e));
 		}
@@ -166,6 +171,26 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		prototype.setPossibleRules(trainer.board.rules.values());
 
 		trainer.fireNotification(POSSIBLE_RULES_PRODUCTION_FINISH, prototype);
+	}
+
+	before(BrillTrainer trainer): onBestRuleSelection(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+		prototype.setPossibleRules(trainer.board.rules.values());
+
+		trainer.fireNotification(BEST_RULE_SELECTION_START, prototype);
+	}
+
+	after(BrillTrainer trainer) returning(Score bestScore): onBestRuleSelection(trainer) {
+		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
+		prototype.setProofCorpus(trainer.proofCorpus);
+		prototype.setWorkingCorpus(trainer.trainingCorpus);
+		prototype.setRound(trainer.board.round);
+		prototype.setPossibleRules(trainer.board.rules.values());
+
+		trainer.fireNotification(BEST_RULE_SELECTION_FINISH, prototype);
 	}
 
 }
