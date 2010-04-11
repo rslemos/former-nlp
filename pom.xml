@@ -25,17 +25,17 @@
 	</properties>
 
 	<modules>
-		<module>../tigerapi</module>
-		<module>../adapi</module>
+		<module>tigerapi</module>
+		<module>adapi</module>
 		
-		<module>../tagger</module>
+		<module>tagger</module>
 		
-		<module>../brilltagger</module>
-		<module>../brilltrainer</module>
+		<module>brilltagger</module>
+		<module>brilltrainer</module>
 		
-		<module>../brillevents</module>
+		<module>brillevents</module>
 		
-		<module>../maven-corpus-plugin</module>
+		<module>maven-corpus-plugin</module>
 	</modules>
 
 	<dependencyManagement>
