@@ -31,6 +31,7 @@ import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
+@SuppressWarnings("unchecked")
 public class BrillTrainerListenerBehavior {
 	private static final Object BASE_TAG = "BASE";
 

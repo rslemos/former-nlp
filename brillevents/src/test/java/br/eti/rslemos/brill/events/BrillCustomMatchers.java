@@ -62,6 +62,7 @@ public class BrillCustomMatchers {
 		};
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static Matcher<Token> tokenExternallyEquals(Token token) {
 		return allOf(sameWord(token), sameTag(token));
 	}
@@ -130,6 +131,7 @@ public class BrillCustomMatchers {
 	/* List<Sentence> */
 	public static Matcher<List<Sentence>> sameWords(final List<Sentence> proofCorpus) {
 		return new BaseMatcher<List<Sentence>>() {
+			@SuppressWarnings("unchecked")
 			public boolean matches(Object item) {
 				if (!(item instanceof List))
 					return false;
@@ -152,6 +154,7 @@ public class BrillCustomMatchers {
 
 	public static Matcher<List<Sentence>> sentencesTaggedAs(final Object baseTag) {
 		return new BaseMatcher<List<Sentence>>() {
+			@SuppressWarnings("unchecked")
 			public boolean matches(Object item) {
 				if (!(item instanceof List))
 					return false;
@@ -180,6 +183,7 @@ public class BrillCustomMatchers {
 	/* Collection */
 	public static Matcher<Collection<?>> whichSize(final Matcher<Integer> wantedSize) {
 		return new BaseMatcher<Collection<?>>() {
+			@SuppressWarnings("unchecked")
 			public boolean matches(Object item) {
 				if (!(item instanceof Collection))
 					return false;
