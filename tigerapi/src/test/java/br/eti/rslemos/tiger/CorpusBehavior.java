@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+@SuppressWarnings("unchecked")
 public abstract class CorpusBehavior {
 
 	public abstract Corpus getStraightCorpus()

@@ -28,7 +28,7 @@ import br.eti.rslemos.tiger.Meta;
 import br.eti.rslemos.tiger.Sentence;
 import br.eti.rslemos.tiger.Terminal;
 
-
+@SuppressWarnings("unchecked")
 public class Test {
 	private static final QName POS = new QName("pos");
 	private static final QName WORD = new QName("word");
@@ -118,8 +118,6 @@ public class Test {
 				return sum;
 			}
 		});
-
-		int i = 0;
 
 		File out = new File("/home/rslemos/work/Linguística Computacional/contratos/lexicon");
 		FileOutputStream fos = new FileOutputStream(out);
