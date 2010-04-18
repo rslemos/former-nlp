@@ -42,17 +42,17 @@ public class PREFIXRuleBehavior {
 //	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(PREFIXRule.FACTORY());
+		createAndTestUntaggedMatchability(PREFIXRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREFIXRule.FACTORY());
+		createAndTestObjectSemantics(PREFIXRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREFIXRule.FACTORY(), 
+		createAndTestBrillText(PREFIXRule.FACTORY, 
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 1),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 2),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 3),

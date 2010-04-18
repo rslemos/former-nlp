@@ -37,7 +37,7 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(CURWDRule.FACTORY());
+		createAndTestBasicDependency(CURWDRule.FACTORY);
 	}
 
 	@Test
@@ -47,17 +47,17 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(CURWDRule.FACTORY());
+		createAndTestMatchability(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(CURWDRule.FACTORY());
+		createAndTestObjectSemantics(CURWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(CURWDRule.FACTORY(), 
+		createAndTestBrillText(CURWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

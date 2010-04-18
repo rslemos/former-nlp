@@ -4,9 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class WDPREVTAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final  AbstractRuleFactory FACTORY() {
-		return new WDPREVTAGRuleFactory();
-	}
+	public static final AbstractRuleFactory FACTORY = WDPREVTAGRuleFactory.INSTANCE;
 	
 	private final String word;
 	private final Object prevObject;

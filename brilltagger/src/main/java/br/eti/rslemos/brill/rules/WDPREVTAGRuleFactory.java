@@ -4,6 +4,8 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class WDPREVTAGRuleFactory extends AbstractSingleRuleFactory {
+	public static final AbstractRuleFactory INSTANCE = new WDPREVTAGRuleFactory();
+
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
 		String word0 = context.getToken(0).getWord();

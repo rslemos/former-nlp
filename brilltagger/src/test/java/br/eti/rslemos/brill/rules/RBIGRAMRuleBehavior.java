@@ -46,7 +46,7 @@ public class RBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(RBIGRAMRule.FACTORY());
+		createAndTestBasicDependency(RBIGRAMRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class RBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(RBIGRAMRule.FACTORY());
+		createAndTestMatchability(RBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(RBIGRAMRule.FACTORY());
+		createAndTestObjectSemantics(RBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(RBIGRAMRule.FACTORY(), 
+		createAndTestBrillText(RBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " RBIGRAM " + THIS_WORD + " " + NEXT1_WORD);
 	}
 }

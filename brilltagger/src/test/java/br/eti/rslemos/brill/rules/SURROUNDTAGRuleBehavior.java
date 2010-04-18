@@ -46,7 +46,7 @@ public class SURROUNDTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY());
+		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class SURROUNDTAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(SURROUNDTAGRule.FACTORY());
+		createAndTestMatchability(SURROUNDTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY());
+		createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SURROUNDTAGRule.FACTORY(), 
+		createAndTestBrillText(SURROUNDTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

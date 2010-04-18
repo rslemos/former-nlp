@@ -46,7 +46,7 @@ public class WDPREVTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDPREVTAGRule.FACTORY());
+		createAndTestBasicDependency(WDPREVTAGRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class WDPREVTAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDPREVTAGRule.FACTORY());
+		createAndTestMatchability(WDPREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDPREVTAGRule.FACTORY());
+		createAndTestObjectSemantics(WDPREVTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDPREVTAGRule.FACTORY(), 
+		createAndTestBrillText(WDPREVTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDPREVTAG " + PREV1_TAG + " " + THIS_WORD);
 	}
 }

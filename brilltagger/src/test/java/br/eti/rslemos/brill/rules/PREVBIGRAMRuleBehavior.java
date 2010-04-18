@@ -46,7 +46,7 @@ public class PREVBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREVBIGRAMRule.FACTORY());
+		createAndTestBasicDependency(PREVBIGRAMRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class PREVBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVBIGRAMRule.FACTORY());
+		createAndTestMatchability(PREVBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY());
+		createAndTestObjectSemantics(PREVBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVBIGRAMRule.FACTORY(), 
+		createAndTestBrillText(PREVBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

@@ -42,17 +42,17 @@ public class SUFFIXRuleBehavior {
 //	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(SUFFIXRule.FACTORY());
+		createAndTestUntaggedMatchability(SUFFIXRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SUFFIXRule.FACTORY());
+		createAndTestObjectSemantics(SUFFIXRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SUFFIXRule.FACTORY(), 
+		createAndTestBrillText(SUFFIXRule.FACTORY, 
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 1, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 2, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 3, THIS_WORD.length()),

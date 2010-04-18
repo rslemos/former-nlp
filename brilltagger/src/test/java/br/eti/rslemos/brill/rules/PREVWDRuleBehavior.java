@@ -37,7 +37,7 @@ public class PREVWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREVWDRule.FACTORY());
+		createAndTestBasicDependency(PREVWDRule.FACTORY);
 	}
 	
 	@Test
@@ -47,17 +47,17 @@ public class PREVWDRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVWDRule.FACTORY());
+		createAndTestMatchability(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVWDRule.FACTORY());
+		createAndTestObjectSemantics(PREVWDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVWDRule.FACTORY(), 
+		createAndTestBrillText(PREVWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVWD " + PREV1_WORD);
 	}
 }

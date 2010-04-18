@@ -5,9 +5,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class NEXT1OR2OR3TAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final  RuleFactory FACTORY() {
-		return new NEXT1OR2OR3TAGRuleFactory();
-	}
+	public static final RuleFactory FACTORY = NEXT1OR2OR3TAGRuleFactory.INSTANCE;
 	
 	private final Object next1or2or3Object;
 

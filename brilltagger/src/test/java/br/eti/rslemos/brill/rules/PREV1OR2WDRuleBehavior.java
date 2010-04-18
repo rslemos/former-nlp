@@ -37,7 +37,7 @@ public class PREV1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREV1OR2WDRule.FACTORY());
+		createAndTestBasicDependency(PREV1OR2WDRule.FACTORY);
 	}
 	
 	@Test
@@ -48,17 +48,17 @@ public class PREV1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2WDRule.FACTORY());
+		createAndTestMatchability(PREV1OR2WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY());
+		createAndTestObjectSemantics(PREV1OR2WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2WDRule.FACTORY(), 
+		createAndTestBrillText(PREV1OR2WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV2_WORD);
 	}

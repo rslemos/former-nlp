@@ -46,7 +46,7 @@ public class WDAND2TAGBFRRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDAND2TAGBFRRule.FACTORY());
+		createAndTestBasicDependency(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class WDAND2TAGBFRRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2TAGBFRRule.FACTORY());
+		createAndTestMatchability(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2TAGBFRRule.FACTORY());
+		createAndTestObjectSemantics(WDAND2TAGBFRRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2TAGBFRRule.FACTORY(), 
+		createAndTestBrillText(WDAND2TAGBFRRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGBFR " + PREV2_TAG + " " + THIS_WORD);
 	}
 }

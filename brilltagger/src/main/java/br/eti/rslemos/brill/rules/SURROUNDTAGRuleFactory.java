@@ -4,6 +4,8 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
 public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
+	public static final RuleFactory INSTANCE = new SURROUNDTAGRuleFactory();
+
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
 		Object tag_1 = context.getToken(-1).getTag();

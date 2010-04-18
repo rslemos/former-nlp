@@ -37,7 +37,7 @@ public class NEXT1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT1OR2OR3OR4WDRule.FACTORY());
+		createAndTestBasicDependency(NEXT1OR2OR3OR4WDRule.FACTORY);
 	}
 	
 	@Test
@@ -50,17 +50,17 @@ public class NEXT1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT1OR2OR3OR4WDRule.FACTORY());
+		createAndTestMatchability(NEXT1OR2OR3OR4WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT1OR2OR3OR4WDRule.FACTORY());
+		createAndTestObjectSemantics(NEXT1OR2OR3OR4WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT1OR2OR3OR4WDRule.FACTORY(), 
+		createAndTestBrillText(NEXT1OR2OR3OR4WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3OR4WD " + NEXT1_WORD,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3OR4WD " + NEXT2_WORD,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3OR4WD " + NEXT3_WORD,

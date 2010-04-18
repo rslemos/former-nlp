@@ -5,9 +5,7 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
 
 public class PREFIXRule extends AbstractRule implements SerializableAsBrillText {
-	public static final  RuleFactory FACTORY() {
-		return new PREFIXRuleFactory();
-	}
+	public static final RuleFactory FACTORY = PREFIXRuleFactory.INSTANCE;
 
 	private final String prefix;
 

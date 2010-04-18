@@ -46,7 +46,7 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(LBIGRAMRule.FACTORY());
+		createAndTestBasicDependency(LBIGRAMRule.FACTORY);
 	}
 
 	@Test
@@ -56,17 +56,17 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(LBIGRAMRule.FACTORY());
+		createAndTestMatchability(LBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(LBIGRAMRule.FACTORY());
+		createAndTestObjectSemantics(LBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(LBIGRAMRule.FACTORY(), 
+		createAndTestBrillText(LBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " LBIGRAM " + PREV1_WORD + " " + THIS_WORD);
 	}
 }

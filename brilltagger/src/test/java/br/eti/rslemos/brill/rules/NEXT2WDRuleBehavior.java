@@ -37,7 +37,7 @@ public class NEXT2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT2WDRule.FACTORY());
+		createAndTestBasicDependency(NEXT2WDRule.FACTORY);
 	}
 	
 	@Test
@@ -47,17 +47,17 @@ public class NEXT2WDRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT2WDRule.FACTORY());
+		createAndTestMatchability(NEXT2WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT2WDRule.FACTORY());
+		createAndTestObjectSemantics(NEXT2WDRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT2WDRule.FACTORY(), 
+		createAndTestBrillText(NEXT2WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXT2WD " + NEXT2_WORD);
 	}
 }

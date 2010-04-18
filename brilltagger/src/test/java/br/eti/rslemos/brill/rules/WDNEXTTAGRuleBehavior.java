@@ -46,7 +46,7 @@ public class WDNEXTTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY());
+		createAndTestBasicDependency(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class WDNEXTTAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDNEXTTAGRule.FACTORY());
+		createAndTestMatchability(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY());
+		createAndTestObjectSemantics(WDNEXTTAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDNEXTTAGRule.FACTORY(), 
+		createAndTestBrillText(WDNEXTTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDNEXTTAG " + THIS_WORD + " " + NEXT1_TAG);
 	}
 }

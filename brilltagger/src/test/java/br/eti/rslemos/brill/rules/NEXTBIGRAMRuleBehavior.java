@@ -46,7 +46,7 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY());
+		createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTBIGRAMRule.FACTORY());
+		createAndTestMatchability(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY());
+		createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXTBIGRAMRule.FACTORY(), 
+		createAndTestBrillText(NEXTBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }

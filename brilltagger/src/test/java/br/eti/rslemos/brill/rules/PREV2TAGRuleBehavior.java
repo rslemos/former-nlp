@@ -37,7 +37,7 @@ public class PREV2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREV2TAGRule.FACTORY());
+		createAndTestBasicDependency(PREV2TAGRule.FACTORY);
 	}
 	
 	@Test
@@ -47,17 +47,17 @@ public class PREV2TAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV2TAGRule.FACTORY());
+		createAndTestMatchability(PREV2TAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV2TAGRule.FACTORY());
+		createAndTestObjectSemantics(PREV2TAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV2TAGRule.FACTORY(), 
+		createAndTestBrillText(PREV2TAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREV2TAG " + PREV2_TAG);
 	}
 }

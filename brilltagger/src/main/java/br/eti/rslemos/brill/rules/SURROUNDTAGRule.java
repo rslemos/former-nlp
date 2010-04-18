@@ -4,9 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final  RuleFactory FACTORY() {
-		return new SURROUNDTAGRuleFactory();
-	}
+	public static final RuleFactory FACTORY = SURROUNDTAGRuleFactory.INSTANCE;
 	
 	private final Object prev1Object;
 	private final Object next1Object;

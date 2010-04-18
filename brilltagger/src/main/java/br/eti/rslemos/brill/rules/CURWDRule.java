@@ -4,9 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class CURWDRule extends AbstractRule implements SerializableAsBrillText {
-	public static final  RuleFactory FACTORY() {
-		return new CURWDRuleFactory();
-	}
+	public static final RuleFactory FACTORY = CURWDRuleFactory.INSTANCE;
 	
 	private final String word;
 

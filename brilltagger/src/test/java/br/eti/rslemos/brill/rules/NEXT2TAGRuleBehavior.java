@@ -37,7 +37,7 @@ public class NEXT2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT2TAGRule.FACTORY());
+		createAndTestBasicDependency(NEXT2TAGRule.FACTORY);
 	}
 	
 	@Test
@@ -47,17 +47,17 @@ public class NEXT2TAGRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT2TAGRule.FACTORY());
+		createAndTestMatchability(NEXT2TAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT2TAGRule.FACTORY());
+		createAndTestObjectSemantics(NEXT2TAGRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT2TAGRule.FACTORY(), 
+		createAndTestBrillText(NEXT2TAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXT2TAG " + NEXT2_TAG);
 	}
 }

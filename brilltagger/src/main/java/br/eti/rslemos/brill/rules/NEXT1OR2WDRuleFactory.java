@@ -8,6 +8,8 @@ import br.eti.rslemos.brill.Rule;
 
 public class NEXT1OR2WDRuleFactory extends AbstractRuleFactory {
 	
+	public static final RuleFactory INSTANCE = new NEXT1OR2WDRuleFactory();
+
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
 		String word1 = context.getToken(1).getWord();

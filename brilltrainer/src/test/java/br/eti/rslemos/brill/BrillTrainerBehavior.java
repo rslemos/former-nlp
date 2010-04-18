@@ -44,7 +44,7 @@ public class BrillTrainerBehavior {
 		
 		List<Sentence> sentences = buildText_ToSignUp();
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
 		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();
@@ -160,7 +160,7 @@ public class BrillTrainerBehavior {
 		
 		final Object FROM_TAG = "TAG";
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
 		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();
@@ -187,7 +187,7 @@ public class BrillTrainerBehavior {
 		
 		final Object FROM_TAG = "TAG";
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRule.FACTORY());
+		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
 		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
 		
 		List<Rule> rules = trainer.train(sentences).getRules();

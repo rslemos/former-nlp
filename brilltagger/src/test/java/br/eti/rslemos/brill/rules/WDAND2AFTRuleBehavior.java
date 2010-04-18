@@ -46,7 +46,7 @@ public class WDAND2AFTRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDAND2AFTRule.FACTORY());
+		createAndTestBasicDependency(WDAND2AFTRule.FACTORY);
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class WDAND2AFTRuleBehavior {
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2AFTRule.FACTORY());
+		createAndTestMatchability(WDAND2AFTRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2AFTRule.FACTORY());
+		createAndTestObjectSemantics(WDAND2AFTRule.FACTORY);
 	}
 	
 	@Test
 	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2AFTRule.FACTORY(), 
+		createAndTestBrillText(WDAND2AFTRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2AFT " + THIS_WORD + " " + NEXT2_WORD);
 	}
 }

@@ -4,9 +4,7 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class NEXTTAGRule extends AbstractRule implements SerializableAsBrillText  {
-	public static final  RuleFactory FACTORY() {
-		return new NEXTTAGRuleFactory();
-	}
+	public static final RuleFactory FACTORY = NEXTTAGRuleFactory.INSTANCE;
 	
 	private final Object nextObject;
 

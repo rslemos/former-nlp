@@ -5,9 +5,7 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.brill.rules.SerializableAsBrillText;
 
 public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText {
-	public static final  RuleFactory FACTORY() {
-		return new SUFFIXRuleFactory();
-	}
+	public static final RuleFactory FACTORY = SUFFIXRuleFactory.INSTANCE;
 
 	private final String suffix;
 
