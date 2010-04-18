@@ -5,7 +5,7 @@ import br.eti.rslemos.brill.rules.lexical.SUFFIXRule;
 
 
 public interface RuleSets {
-	static final RuleFactory[] BRILL = new RuleFactory[] {
+	RuleFactory[] BRILL = {
 		CURWDRule.FACTORY(),
 		LBIGRAMRule.FACTORY(),
 		NEXT1OR2OR3TAGRule.FACTORY(),
@@ -34,7 +34,7 @@ public interface RuleSets {
 		WDPREVTAGRule.FACTORY(),		
 	};
 
-	static final RuleFactory[] BRILL_LEXICAL = new RuleFactory[] {
+	RuleFactory[] BRILL_LEXICAL = {
 		PREFIXRule.FACTORY(), SUFFIXRule.FACTORY()
 	};
 }

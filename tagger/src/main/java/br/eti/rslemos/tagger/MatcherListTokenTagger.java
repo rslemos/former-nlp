@@ -7,7 +7,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 
 	private static final long serialVersionUID = -8533304632457176736L;
 
-	protected static interface Matcher extends Serializable {
+	public interface Matcher extends Serializable {
 		boolean matches(String word);
 
 		Object getObject();
