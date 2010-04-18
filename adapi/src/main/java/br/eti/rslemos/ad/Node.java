@@ -16,7 +16,7 @@ public abstract class Node implements Iterable<Node>, Skippable {
 		String line = corpus.line;
 		
 		int i = 0;
-		while(i < line.length() && line.charAt(i) == '=');
+		while(i < line.length() && line.charAt(i) == '=')
 			i++;
 
 		if (i < line.length())
