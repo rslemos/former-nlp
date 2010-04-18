@@ -20,7 +20,7 @@ public class ADCorpus implements Iterable<Extract> {
 		extracts = new ExtractIterator(this);
 	}
 
-	void readNextLine() {
+	final void readNextLine() {
 		try {
 			do {
 				line = input.readLine();
