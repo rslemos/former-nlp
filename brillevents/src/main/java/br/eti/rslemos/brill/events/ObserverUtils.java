@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class ObserverUtils {
+public final class ObserverUtils {
 	private ObserverUtils () {}
 	
 	public static void fireNotification(List<?> listeners, Method method, Object prototype) {

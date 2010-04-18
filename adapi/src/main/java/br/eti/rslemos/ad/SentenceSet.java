@@ -25,7 +25,7 @@ public abstract class SentenceSet implements Iterable<Sentence>, Skippable {
 			sentences.next().skip();
 	}
 
-	private static class SentenceIterator extends BaseIterator<Sentence> {
+	private static final class SentenceIterator extends BaseIterator<Sentence> {
 		private final SentenceSet set;
 		
 		private SentenceIterator(SentenceSet set, ADCorpus corpus) {

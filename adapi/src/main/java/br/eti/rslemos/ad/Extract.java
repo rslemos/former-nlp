@@ -62,7 +62,7 @@ public class Extract implements Iterable<SentenceSet>, Skippable {
 			sentenceSets.next().skip();
 	}
 
-	private static class SentenceSetIterator extends BaseIterator<SentenceSet> {
+	private static final class SentenceSetIterator extends BaseIterator<SentenceSet> {
 		private SentenceSetIterator(ADCorpus corpus) {
 			super(corpus);
 		}

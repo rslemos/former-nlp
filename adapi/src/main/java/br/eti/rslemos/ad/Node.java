@@ -88,7 +88,7 @@ public abstract class Node implements Iterable<Node>, Skippable {
 		return new String(prefixChars);
 	}
 
-	private static class NodeIterator extends Analysis.RootNodeIterator {
+	private static final class NodeIterator extends Analysis.RootNodeIterator {
 		private final Node node;
 
 		private NodeIterator(Node node, ADCorpus corpus) {

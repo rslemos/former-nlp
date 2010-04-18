@@ -63,7 +63,7 @@ public class ADCorpus implements Iterable<Extract> {
 		return extracts();
 	}
 
-	private static class ExtractIterator extends BaseIterator<Extract> {
+	private static final class ExtractIterator extends BaseIterator<Extract> {
 		private ExtractIterator(ADCorpus corpus) {
 			super(corpus);
 		}

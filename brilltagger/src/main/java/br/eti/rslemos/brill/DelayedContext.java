@@ -70,7 +70,7 @@ public class DelayedContext implements Context {
 	}
 
 
-	private class DelayedToken implements Token {
+	private final class DelayedToken implements Token {
 		private final Token token;
 
 		private DelayedToken(Token token) {

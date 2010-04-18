@@ -90,7 +90,7 @@ public class Sentence implements Iterable<Analysis>, Skippable {
 			analyses.next().skip();
 	}
 
-	private static class AnalysisIterator extends BaseIterator<Analysis> {
+	private static final class AnalysisIterator extends BaseIterator<Analysis> {
 		private AnalysisIterator(ADCorpus corpus) {
 			super(corpus);
 		}
