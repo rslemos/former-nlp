@@ -7,8 +7,7 @@ import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
 import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
-	private final Token NULL_TOKEN = new Token() {
-
+	private static final class NullToken implements Token {
 		public Object getTag() {
 			return null;
 		}
@@ -20,7 +19,9 @@ public class SentenceContext implements Context {
 		public Token setTag(Object tag) {
 			throw new IllegalStateException("Can'Object set NULL token tag to '" + tag + "'");
 		}
-	};
+	}
+
+	public static final Token NULL_TOKEN = new NullToken();
 	
 	private final Sentence contents;
 	private int current;
