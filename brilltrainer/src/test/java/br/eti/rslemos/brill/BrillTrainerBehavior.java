@@ -34,7 +34,14 @@ public class BrillTrainerBehavior {
 	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
 		final Object FROM_TAG = "TAG";
 		
-		List<Sentence> base = buildText_ToSignUp();
+		List<Sentence> base = buildText(
+				buildSentence(
+						buildToken("to", FROM_TAG), 
+						buildToken("sign", FROM_TAG), 
+						buildToken("up", FROM_TAG)
+				)
+		);
+		
 		List<Sentence> proof = buildText_ToSignUp();
 		
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
