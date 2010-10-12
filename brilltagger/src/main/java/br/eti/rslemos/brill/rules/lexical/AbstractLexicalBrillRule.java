@@ -23,4 +23,8 @@ public abstract class AbstractLexicalBrillRule extends AbstractBrillRule {
 
 	protected abstract boolean thisMatches(String word0);
 
+	@Override
+	public String toBrillString() {
+		return getTo() + " " + getType();
+	}
 }
