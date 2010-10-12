@@ -1,10 +1,19 @@
 package br.eti.rslemos.brill.events;
 
-import static br.eti.rslemos.brill.events.BrillCustomMatchers.*;
-import static br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.sameWords;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.sentencesTaggedAs;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.whichSize;
+import static br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.anyEvent;
+import static br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.isBrillTrainerEvent;
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,8 +23,6 @@ import java.util.List;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -28,7 +35,6 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 @SuppressWarnings("unchecked")
@@ -39,19 +45,29 @@ public class BrillTrainerListenerBehavior {
 	
 	@Mock private BrillTrainerListener listener;
 	
-	@Mock private Tagger baseTagger;
+	private Token[][] baseTokens = {
+			{ new DefaultToken("W00").setTag(BASE_TAG), new DefaultToken("W01").setTag(BASE_TAG) },
+			{ new DefaultToken("W00").setTag(BASE_TAG), new DefaultToken("W11").setTag(BASE_TAG) },
+	};
 	
-	private Token[][] tokens = {
+	private Sentence[] baseSentences = { 
+			new DefaultSentence(baseTokens[0]),
+			new DefaultSentence(baseTokens[1]),
+	};
+	
+	private List<Sentence> baseCorpus = Arrays.asList(baseSentences);
+
+	private Token[][] proofTokens = {
 			{ new DefaultToken("W00").setTag("T00"), new DefaultToken("W01").setTag("T01") },
 			{ new DefaultToken("W00").setTag("T00"), new DefaultToken("W11").setTag("T11") },
 	};
 	
-	private Sentence[] sentences = { 
-			new DefaultSentence(tokens[0]),
-			new DefaultSentence(tokens[1]),
+	private Sentence[] proofSentences = { 
+			new DefaultSentence(proofTokens[0]),
+			new DefaultSentence(proofTokens[1]),
 	};
 	
-	private List<Sentence> proofCorpus = Arrays.asList(sentences);
+	private List<Sentence> proofCorpus = Arrays.asList(proofSentences);
 
 	@BeforeMethod
 	public void setUp() {
@@ -61,17 +77,6 @@ public class BrillTrainerListenerBehavior {
 		
 		trainer.addBrillTrainerListener(listener);
 
-		doAnswer(new Answer<Object>() {
-			public Object answer(InvocationOnMock invocation) throws Throwable {
-				Sentence sentence = (Sentence) invocation.getArguments()[0];
-				for (Token token : sentence) {
-					token.setTag(BASE_TAG);
-				}
-				return null;
-			}
-		}).when(baseTagger).tag(anySentence());
-		
-		trainer.setBaseTagger(baseTagger);
 		trainer.setRuleFactories(Collections.singletonList((RuleFactory)new CURWDRuleFactory()));
 		
 		/*
@@ -95,7 +100,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyTrainingStartAndFinish() {
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -108,7 +113,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyTrainingCorpusInitialization() {
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -126,45 +131,8 @@ public class BrillTrainerListenerBehavior {
 	}
 
 	@Test
-	public void shouldNotifyBaseTaggerApplication() {
-		trainer.train(proofCorpus);
-		
-		InOrder order = inOrder(listener, baseTagger);
-		
-		order.verify(listener).workingCorpusInitializationStart(anyEvent());
-		
-		order.verify(listener).baseTaggingStart(argThat(
-				isBasicBrillTrainerEvent()
-					.withCurrentSentenceIndex(0)
-					.withCurrentSentence(sameWords(sentences[0]))));
-		
-		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[0]))));
-		order.verify(listener).baseTaggingFinish(argThat(
-				isBasicBrillTrainerEvent()
-					.withCurrentSentenceIndex(0)
-					.withCurrentSentence(allOf(sameWords(sentences[0]), taggedAs(BASE_TAG)))));
-		
-		order.verify(listener).baseTaggingStart(argThat(
-				isBasicBrillTrainerEvent()
-					.withCurrentSentenceIndex(1)
-					.withCurrentSentence(sameWords(sentences[1]))));
-		
-		order.verify(baseTagger).tag(argThat(is(sameWords(sentences[1]))));
-		order.verify(listener).baseTaggingFinish(argThat(
-				isBasicBrillTrainerEvent()
-					.withCurrentSentenceIndex(1)
-					.withCurrentSentence(allOf(sameWords(sentences[1]), taggedAs(BASE_TAG)))));
-
-		order.verify(listener).workingCorpusInitializationFinish(anyEvent());
-		
-		order.verify(baseTagger, never()).tag(anySentence());
-		order.verify(listener, never()).baseTaggingStart(anyEvent());
-		order.verify(listener, never()).baseTaggingFinish(anyEvent());
-	}
-
-	@Test
 	public void shouldNotifyRuleDiscovery() {
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -183,7 +151,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyRuleDiscoveryRound() {
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -210,7 +178,7 @@ public class BrillTrainerListenerBehavior {
 		
 		trainer.setThreshold(2);
 		
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -242,7 +210,7 @@ public class BrillTrainerListenerBehavior {
 	public void shouldNotifyPossibleRulesProduction() {
 		trainer.setThreshold(2);
 		
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		
@@ -266,7 +234,7 @@ public class BrillTrainerListenerBehavior {
 	public void shouldNotifyBestRuleSelection() {
 		trainer.setThreshold(2);
 		
-		trainer.train(proofCorpus);
+		trainer.train(baseCorpus, proofCorpus);
 		
 		InOrder order = inOrder(listener);
 		

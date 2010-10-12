@@ -28,8 +28,6 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 	private static final Method TRAINING_FINISH;
 	private static final Method WORKING_CORPUS_INITIALIZATION_START;
 	private static final Method WORKING_CORPUS_INITIALIZATION_FINISH;
-	private static final Method BASE_TAGGING_START;
-	private static final Method BASE_TAGGING_FINISH;
 	private static final Method RULE_DISCOVERY_PHASE_START;
 	private static final Method RULE_DISCOVERY_PHASE_FINISH;
 	private static final Method RULE_DISCOVERY_ROUND_START;
@@ -48,8 +46,6 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 			TRAINING_FINISH = clazz.getMethod("trainingFinish", args);
 			WORKING_CORPUS_INITIALIZATION_START = clazz.getMethod("workingCorpusInitializationStart", args);
 			WORKING_CORPUS_INITIALIZATION_FINISH = clazz.getMethod("workingCorpusInitializationFinish", args);
-			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
-			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
 			RULE_DISCOVERY_PHASE_START = clazz.getMethod("ruleDiscoveryPhaseStart", args);
 			RULE_DISCOVERY_PHASE_FINISH = clazz.getMethod("ruleDiscoveryPhaseFinish", args);
 			RULE_DISCOVERY_ROUND_START = clazz.getMethod("ruleDiscoveryRoundStart", args);
@@ -63,14 +59,14 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		}
 	}
 
-	before(BrillTrainer trainer, List<Sentence> proofCorpus): onTraining(trainer, proofCorpus) {
+	before(BrillTrainer trainer, List<Sentence> baseCorpus, List<Sentence> proofCorpus): onTraining(trainer, baseCorpus, proofCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(proofCorpus);
 		
 		trainer.fireNotification(TRAINING_START, prototype);
 	}
 
-	after(BrillTrainer trainer, List<Sentence> proofCorpus) returning: onTraining(trainer, proofCorpus) {
+	after(BrillTrainer trainer, List<Sentence> baseCorpus, List<Sentence> proofCorpus) returning: onTraining(trainer, baseCorpus, proofCorpus) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(proofCorpus);
 		
@@ -96,26 +92,6 @@ public privileged aspect BrillTrainerObserver extends BrillTrainerPointcuts {
 		trainer.fireNotification(WORKING_CORPUS_INITIALIZATION_FINISH, prototype);
 	}
 	
-	before(BrillTrainer trainer, Sentence onSentence): onBaseTagging(trainer, onSentence) {
-		trainer.baseTaggerSentenceCounter++;
-		
-		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setProofCorpus(trainer.proofCorpus);
-		prototype.setCurrentSentenceIndex(trainer.baseTaggerSentenceCounter);
-		prototype.setCurrentSentence(onSentence);
-		
-		trainer.fireNotification(BASE_TAGGING_START, prototype);
-	}
-
-	after(BrillTrainer trainer, Sentence onSentence) returning: onBaseTagging(trainer, onSentence) {
-		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
-		prototype.setProofCorpus(trainer.proofCorpus);
-		prototype.setCurrentSentenceIndex(trainer.baseTaggerSentenceCounter);
-		prototype.setCurrentSentence(onSentence);
-		
-		trainer.fireNotification(BASE_TAGGING_FINISH, prototype);
-	}
-
 	before(BrillTrainer trainer): onRuleDiscoveryPhase(trainer) {
 		BrillTrainerEvent prototype = new BrillTrainerEvent(trainer);
 		prototype.setProofCorpus(trainer.proofCorpus);

@@ -1,7 +1,12 @@
 package br.eti.rslemos.brill;
 
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -9,10 +14,7 @@ import java.util.Arrays;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
-import br.eti.rslemos.tagger.AbstractTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 public class BrillTaggerBehavior {
@@ -22,26 +24,6 @@ public class BrillTaggerBehavior {
 		BrillTagger tagger = new BrillTagger();
 		
 		tagger.tag(newDefaultSentence());
-	}
-
-	@Test
-	public void shouldInvokeBaseTaggerAndObjectToken() {
-		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn("foo");
-
-		Tagger baseTagger = new AbstractTokenTagger() {
-			@Override
-			public void tag(Token token) {
-				assertEquals(token.getWord(), "foo");
-				token.setTag("foobar");
-			}
-		};
-
-		BrillTagger tagger = new BrillTagger(baseTagger);
-		
-		tagger.tag(newDefaultSentence(token));
-
-		verify(token, times(1)).setTag("foobar");
 	}
 
 	@Test
@@ -62,32 +44,25 @@ public class BrillTaggerBehavior {
 			}
 		};
 		
-		Tagger baseTagger = mock(Tagger.class);
-		
-		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule));
+		BrillTagger tagger = new BrillTagger(Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token));
 
-		InOrder inOrder = inOrder(baseTagger, token);
-		inOrder.verify(baseTagger, times(1)).tag(anySentence());
-		inOrder.verify(token, times(1)).setTag("foobar");
+		verify(token, times(1)).setTag("foobar");
 	}
 
 	@Test
-	public void shouldInvokeBaseTaggerAndRulesInOrder() {
+	public void shouldInvokeRulesInOrder() {
 		Token token = mock(Token.class);
-
-		Tagger baseTagger = mock(Tagger.class);
 
 		Rule rule1 = mock(Rule.class);
 		Rule rule2 = mock(Rule.class);
 		
-		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule1, rule2));
+		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		
 		tagger.tag(newDefaultSentence(token));
 
-		InOrder inOrder = inOrder(baseTagger, rule1, rule2);
-		inOrder.verify(baseTagger, times(1)).tag(anySentence());
+		InOrder inOrder = inOrder(rule1, rule2);
 		inOrder.verify(rule1, times(1)).apply(anyContext());
 		inOrder.verify(rule2, times(1)).apply(anyContext());
 	}
@@ -100,8 +75,6 @@ public class BrillTaggerBehavior {
 	public void shouldIsolateRuleEffects() {
 		final Token token1 = mock(Token.class);
 		final Token token2 = mock(Token.class);
-
-		Tagger baseTagger = mock(Tagger.class);
 
 		Rule rule = new RuleAdapter() {
 			@Override
@@ -116,7 +89,7 @@ public class BrillTaggerBehavior {
 			}
 		};
 
-		BrillTagger tagger = new BrillTagger(baseTagger, Arrays.asList(rule));
+		BrillTagger tagger = new BrillTagger(Arrays.asList(rule));
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
@@ -144,10 +117,6 @@ public class BrillTaggerBehavior {
 		public boolean firingDependsOnObject(Object tag) {
 			return false;
 		}
-	}
-
-	private static Sentence anySentence() {
-		return anyObject();
 	}
 
 	private DefaultSentence newDefaultSentence(Token... tokens) {

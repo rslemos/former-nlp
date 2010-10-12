@@ -10,10 +10,6 @@ public interface BrillTrainerListener {
 
 	void workingCorpusInitializationFinish(BrillTrainerEvent event);
 
-	void baseTaggingStart(BrillTrainerEvent event);
-
-	void baseTaggingFinish(BrillTrainerEvent event);
-
 	void ruleDiscoveryPhaseStart(BrillTrainerEvent event);
 
 	void ruleDiscoveryPhaseFinish(BrillTrainerEvent event);

@@ -3,7 +3,6 @@ package br.eti.rslemos.brill.events;
 import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.brill.DelayedContext;
 import br.eti.rslemos.tagger.Token;
 import br.eti.rslemos.brill.Context;
@@ -15,10 +14,6 @@ public abstract privileged aspect BrillTaggerPointcuts {
 		execution(public void BrillTagger+.tag(Sentence+)) && args(sentence) &&
 		within(BrillTagger+);
 	
-	public pointcut onBaseTagger(BrillTagger tagger, Tagger baseTagger, Sentence sentence):
-		call(void Tagger+.tag(Sentence+)) && target(baseTagger) &&
-		cflow(onTagSentence(tagger, sentence)) && within(BrillTagger+);
-
 	private pointcut _onRuleApplication(BrillTagger tagger, Rule rule, Sentence sentence, DelayedContext context):
 		call(void BrillTagger.applyRule(DelayedContext+, Rule+)) && args(context, rule) &&
 		cflow(onTagSentence(tagger, sentence)) && within(BrillTagger+);

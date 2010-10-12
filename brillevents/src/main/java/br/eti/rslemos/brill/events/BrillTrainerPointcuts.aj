@@ -4,25 +4,19 @@ import java.util.List;
 
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.BrillTrainer.Score;
 
 public abstract privileged aspect BrillTrainerPointcuts {
 	
-	public pointcut onTraining(BrillTrainer trainer, List<Sentence> overCorpus):
+	public pointcut onTraining(BrillTrainer trainer, List<Sentence> baseCorpus, List<Sentence> proofCorpus):
 		this(trainer) && 
-		execution(public * BrillTrainer+.train(List+)) && args(overCorpus) &&
+		execution(public * BrillTrainer+.train(List+, List+)) && args(baseCorpus, proofCorpus) &&
 		within(BrillTrainer+);
 
 	public pointcut onPreparing(BrillTrainer trainer):
 		this(trainer) &&
 		execution(void BrillTrainer+.prepareTrainingCorpus()) && 
-		within(BrillTrainer+);
-	
-	public pointcut onBaseTagging(BrillTrainer trainer, Sentence onSentence):
-		this(trainer) &&
-		call(void Tagger+.tag(Sentence+)) && args(onSentence) &&
 		within(BrillTrainer+);
 	
 	public pointcut onRuleDiscoveryPhase(BrillTrainer trainer):

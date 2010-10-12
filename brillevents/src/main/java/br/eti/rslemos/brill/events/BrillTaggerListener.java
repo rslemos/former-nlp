@@ -8,10 +8,6 @@ public interface BrillTaggerListener extends EventListener {
 
 	void taggingFinish(BrillTaggerEvent event);
 
-	void baseTaggingStart(BrillTaggerEvent event);
-
-	void baseTaggingFinish(BrillTaggerEvent event);
-
 	void ruleApplicationStart(BrillTaggerEvent event);
 
 	void ruleApplicationFinish(BrillTaggerEvent event);

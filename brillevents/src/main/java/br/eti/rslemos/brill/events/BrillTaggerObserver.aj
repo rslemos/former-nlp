@@ -28,8 +28,6 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 
 	private static final Method TAGGING_START;
 	private static final Method TAGGING_FINISH;
-	private static final Method BASE_TAGGING_START;
-	private static final Method BASE_TAGGING_FINISH;
 	private static final Method RULE_APPLICATION_START;
 	private static final Method RULE_APPLICATION_FINISH;
 	private static final Method CONTEXT_ADVANCED;
@@ -43,8 +41,6 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		try {
 			TAGGING_START = clazz.getMethod("taggingStart", args);
 			TAGGING_FINISH = clazz.getMethod("taggingFinish", args);
-			BASE_TAGGING_START = clazz.getMethod("baseTaggingStart", args);
-			BASE_TAGGING_FINISH = clazz.getMethod("baseTaggingFinish", args);
 			RULE_APPLICATION_START = clazz.getMethod("ruleApplicationStart", args);
 			RULE_APPLICATION_FINISH = clazz.getMethod("ruleApplicationFinish", args);
 			CONTEXT_ADVANCED = clazz.getMethod("contextAdvanced", args);
@@ -67,20 +63,6 @@ public aspect BrillTaggerObserver extends BrillTaggerPointcuts {
 		prototype.setOnSentence(sentence);
 	
 		tagger.fireNotification(TAGGING_FINISH, prototype);
-	}
-
-	before(BrillTagger tagger, Sentence sentence): onBaseTagger(tagger, *, sentence) {
-		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
-		prototype.setOnSentence(sentence);
-	
-		tagger.fireNotification(BASE_TAGGING_START, prototype);
-	}
-
-	after(BrillTagger tagger, Sentence sentence) returning: onBaseTagger(tagger, *, sentence) {
-		BrillTaggerEvent prototype = new BrillTaggerEvent(tagger);
-		prototype.setOnSentence(sentence);
-	
-		tagger.fireNotification(BASE_TAGGING_FINISH, prototype);
 	}
 
 	before(BrillTagger tagger, Rule rule, Sentence sentence): onRuleApplication(tagger, rule, sentence) {

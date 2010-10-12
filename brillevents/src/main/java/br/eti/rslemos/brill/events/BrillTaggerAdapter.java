@@ -8,12 +8,6 @@ public class BrillTaggerAdapter implements BrillTaggerListener {
 	public void taggingFinish(BrillTaggerEvent event) {
 	}
 
-	public void baseTaggingStart(BrillTaggerEvent event) {
-	}
-
-	public void baseTaggingFinish(BrillTaggerEvent event) {
-	}
-
 	public void ruleApplicationStart(BrillTaggerEvent event) {
 	}
 

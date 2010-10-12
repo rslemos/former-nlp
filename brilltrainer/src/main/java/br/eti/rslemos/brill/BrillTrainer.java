@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -14,44 +15,31 @@ import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.NullTagger;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 public class BrillTrainer {
 	private static final List<RuleFactory> EMPTY_FACTORY_LIST = Collections.emptyList();
 
-	private Tagger baseTagger;
-
 	private List<RuleFactory> ruleFactories;
 	private int threshold;
 
 	public BrillTrainer() {
-		this(new NullTagger(), EMPTY_FACTORY_LIST);
+		this(EMPTY_FACTORY_LIST);
 	}
 
-	public BrillTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories) {
-		this(baseTagger, ruleFactories, 1);
+	public BrillTrainer(List<RuleFactory> ruleFactories) {
+		this(ruleFactories, 1);
 	}
 
-	public BrillTrainer(Tagger baseTagger, List<RuleFactory> ruleFactories, int threshold) {
+	public BrillTrainer(List<RuleFactory> ruleFactories, int threshold) {
 		if (threshold < 0)
 			throw new IllegalArgumentException("Threshold must be non-negative");
 		
-		this.baseTagger = baseTagger;
 		this.ruleFactories = ruleFactories;
 		this.threshold = threshold;
 	}
 	
-	public Tagger getBaseTagger() {
-		return baseTagger;
-	}
-
-	public void setBaseTagger(Tagger baseTagger) {
-		this.baseTagger = baseTagger;
-	}
-
 	public List<RuleFactory> getRuleFactories() {
 		return ruleFactories;
 	}
@@ -74,9 +62,9 @@ public class BrillTrainer {
 	private transient ScoreBoard board;
 	private transient ArrayList<Rule> rules;
 
-	public BrillTagger train(List<Sentence> proofCorpus) {
+	public BrillTagger train(List<Sentence> baseCorpus, List<Sentence> proofCorpus) {
 		this.proofCorpus = Collections.unmodifiableList(proofCorpus);
-		this.trainingCorpus = new ArrayList<Sentence>(proofCorpus.size());
+		this.trainingCorpus = new ArrayList<Sentence>(baseCorpus);
 
 		this.board = new ScoreBoard();
 		this.rules = new ArrayList<Rule>();
@@ -87,7 +75,7 @@ public class BrillTrainer {
 			
 			rules.trimToSize();
 
-			return new BrillTagger(baseTagger, rules);
+			return new BrillTagger(rules);
 		} finally {
 			// dispose
 			this.proofCorpus = null;
@@ -98,10 +86,8 @@ public class BrillTrainer {
 	}
 
 	private void prepareTrainingCorpus() {
-		for (Sentence proofSentence : proofCorpus) {
-			Sentence trainingSentence = new DefaultSentence(proofSentence);
-			baseTagger.tag(trainingSentence);
-			trainingCorpus.add(trainingSentence);
+		for (ListIterator<Sentence> it = trainingCorpus.listIterator(); it.hasNext(); ) {
+			it.set(new DefaultSentence(it.next()));
 		}
 	}
 

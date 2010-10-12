@@ -6,9 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -17,24 +15,18 @@ import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
-import br.eti.rslemos.tagger.LookupTokenTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
 public class BrillTrainerBehavior {
 	@Test
-	public void shouldProduceNoRulesForPerfectBaseTagger() {
+	public void shouldProduceNoRulesForPerfectBaseCorpus() {
 		List<Sentence> sentences = buildText_ToSignUp();
 		
-		Map<String, Object> lexicon = new HashMap<String, Object>();
-		lexicon.put("to", "TO");
-		lexicon.put("sign", "VB");
-		lexicon.put("up", "RP");
-		
 		List<RuleFactory> ruleFactories = Collections.emptyList();
-		BrillTrainer trainer = new BrillTrainer(new LookupTokenTagger(lexicon), ruleFactories);
+		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(sentences, sentences).getRules();
 		assertEquals(rules.size(), 0);
 	}
 
@@ -42,12 +34,15 @@ public class BrillTrainerBehavior {
 	public void shouldProduce3CURWDRulesForIncompetentBaseTagger() {
 		final Object FROM_TAG = "TAG";
 		
-		List<Sentence> sentences = buildText_ToSignUp();
+		List<Sentence> base = buildText_ToSignUp();
+		List<Sentence> proof = buildText_ToSignUp();
 		
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
-		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
+		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		new ConstantTokenTagger(FROM_TAG).tag(new DefaultSentence(base.get(0)));
+		
+		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 3);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TO", "to")));
@@ -61,7 +56,14 @@ public class BrillTrainerBehavior {
 		final String WORD2 = "WORD2";
 		final Object TAG = "TAG";
 		
-		List<Sentence> sentences = buildText(
+		List<Sentence> base = buildText(
+				buildSentence(
+						buildToken(WORD1, null), 
+						buildToken(WORD2, null)
+				)
+		);
+
+		List<Sentence> proof = buildText(
 				buildSentence(
 						buildToken(WORD1, TAG), 
 						buildToken(WORD2, TAG)
@@ -138,16 +140,29 @@ public class BrillTrainerBehavior {
 		RuleFactory factory2 = new TheFactory(rule2, rule2);
 		
 		List<RuleFactory> ruleFactories = Arrays.asList(factory1_a, factory1_b, factory1_c, factory2);
-		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(null), ruleFactories);
+		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.get(0), rule2);
 	}
 
 	@Test
 	public void shouldConsiderEachAndEverySentenceInCorpus() throws Throwable {
-		List<Sentence> sentences = buildText(
+		final Object FROM_TAG = "TAG";
+		
+		List<Sentence> base = buildText(
+				buildSentence(
+						buildToken("WORD1", FROM_TAG), 
+						buildToken("WORD2", FROM_TAG) 
+				),
+				buildSentence(
+						buildToken("WORD3", FROM_TAG), 
+						buildToken("WORD4", FROM_TAG) 
+				)
+		);
+		
+		List<Sentence> proof = buildText(
 				buildSentence(
 						buildToken("WORD1", "TAG1"), 
 						buildToken("WORD2", "TAG2") 
@@ -158,12 +173,10 @@ public class BrillTrainerBehavior {
 				)
 		);
 		
-		final Object FROM_TAG = "TAG";
-		
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
-		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
+		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 4);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TAG1", "WORD1")));
@@ -174,7 +187,20 @@ public class BrillTrainerBehavior {
 	
 	@Test
 	public void shouldConsiderForNegativeScoreEachAndEverySentenceInCorpus() throws Throwable {
-		List<Sentence> sentences = buildText(
+		final Object FROM_TAG = "TAG";
+		
+		List<Sentence> base = buildText(
+				buildSentence(
+						buildToken("WORD1", FROM_TAG), 
+						buildToken("WORD2", FROM_TAG) 
+				),
+				buildSentence(
+						buildToken("WORD2", FROM_TAG), 
+						buildToken("WORD2", FROM_TAG) 
+				)
+		);
+		
+		List<Sentence> proof = buildText(
 				buildSentence(
 						buildToken("WORD1", "TAG1"), 
 						buildToken("WORD2", "TAG2") 
@@ -185,12 +211,10 @@ public class BrillTrainerBehavior {
 				)
 		);
 		
-		final Object FROM_TAG = "TAG";
-		
 		List<RuleFactory> ruleFactories = Collections.singletonList(CURWDRule.FACTORY);
-		BrillTrainer trainer = new BrillTrainer(new ConstantTokenTagger(FROM_TAG), ruleFactories);
+		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
-		List<Rule> rules = trainer.train(sentences).getRules();
+		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 1);
 		assertTrue(rules.contains(new CURWDRule(FROM_TAG, "TAG1", "WORD1")));

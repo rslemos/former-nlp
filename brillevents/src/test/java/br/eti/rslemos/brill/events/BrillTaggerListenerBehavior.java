@@ -22,15 +22,12 @@ import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.BrillTaggerEventMatcher;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Tagger;
 import br.eti.rslemos.tagger.Token;
 
 public class BrillTaggerListenerBehavior {
 	@Mock private BrillTaggerListener listener;
 
 	private BrillTagger tagger;;
-
-	@Mock private Tagger baseTagger;
 
 	@Mock private Rule rule1;
 	@Mock private Rule rule2;
@@ -46,7 +43,6 @@ public class BrillTaggerListenerBehavior {
 		tagger = new BrillTagger();
 		tagger.addBrillTaggerListener(listener);
 		
-		tagger.setBaseTagger(baseTagger);
 		tagger.setRules(Arrays.asList(rule1, rule2));
 
 		sentence = new DefaultSentence(Arrays.asList(token1, token2));
@@ -62,26 +58,10 @@ public class BrillTaggerListenerBehavior {
 	public void shouldNotifyTaggingStartAndFinish() {
 		tagger.tag(sentence);
 		
-		InOrder order = inOrder(listener, baseTagger);
+		InOrder order = inOrder(listener);
 		
 		order.verify(listener).taggingStart(argThat(isBasicBrillTaggerEvent()));
-		order.verify(baseTagger).tag(anySentence());
 		order.verify(listener).taggingFinish(argThat(isBasicBrillTaggerEvent()));
-	}
-
-	@Test
-	public void shouldNotifyBaseTaggingStartAndFinish() {
-		tagger.tag(sentence);
-		
-		InOrder order = inOrder(listener, baseTagger);
-		
-		order.verify(listener).taggingStart(anyEvent());
-		
-		order.verify(listener).baseTaggingStart(argThat(isBasicBrillTaggerEvent()));
-		order.verify(baseTagger).tag(anySentence());
-		order.verify(listener).baseTaggingFinish(argThat(isBasicBrillTaggerEvent()));
-		
-		order.verify(listener).taggingFinish(anyEvent());
 	}
 
 	@Test
@@ -90,7 +70,7 @@ public class BrillTaggerListenerBehavior {
 		
 		InOrder order = inOrder(listener);
 		
-		order.verify(listener).baseTaggingFinish(anyEvent());
+		order.verify(listener).taggingStart(anyEvent());
 		
 		order.verify(listener).ruleApplicationStart(argThat(isBasicBrillTaggerEvent().underRuleOf(rule1)));
 		order.verify(listener).ruleApplicationFinish(argThat(isBasicBrillTaggerEvent().underRuleOf(rule1)));
