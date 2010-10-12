@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractRule;
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrillText  {
+public class SURROUNDTAGRule extends AbstractBrillRule {
 	public static final RuleFactory FACTORY = SURROUNDTAGRuleFactory.INSTANCE;
 	
 	private final Object prev1Object;
@@ -60,7 +60,7 @@ public class SURROUNDTAGRule extends AbstractRule implements SerializableAsBrill
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + prev1Object + " " + next1Object;
+	public String toBrillString() {
+		return super.toBrillString() + " " + prev1Object + " " + next1Object;
 	}
 }

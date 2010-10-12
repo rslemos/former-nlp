@@ -65,8 +65,8 @@ public class WDAND2TAGBFRRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2TAGBFRRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(WDAND2TAGBFRRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGBFR " + PREV2_TAG + " " + THIS_WORD);
 	}
 }

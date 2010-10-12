@@ -56,8 +56,8 @@ public class NEXTTAGRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXTTAGRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(NEXTTAGRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXTTAG " + NEXT1_TAG);
 	}
 }

@@ -30,16 +30,6 @@ public class SUFFIXRuleBehavior {
 		assertTrue(matches(THIS_WORD.substring(THIS_WORD.length() - 4, THIS_WORD.length())));
 	}
 	
-//	@Test
-//	public void shouldDependOnFromObject() {
-//		createAndTestBasicUntaggedDependency(PREFIXRule.FACTORY);
-//	}
-//
-//	@Test
-//	public void shouldDependOnContextObject() {
-//		createAndTestContextUntaggedIndependency(PREFIXRule.FACTORY);
-//	}
-//	
 	@Test
 	public void shouldCreateRule() {
 		createAndTestUntaggedMatchability(SUFFIXRule.FACTORY);
@@ -51,8 +41,8 @@ public class SUFFIXRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(SUFFIXRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(SUFFIXRule.FACTORY, 
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 1, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 2, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 3, THIS_WORD.length()),
@@ -61,7 +51,5 @@ public class SUFFIXRuleBehavior {
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 6, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 7, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 8, THIS_WORD.length()));
-//		createAndTestBrillText(SUFFIXRule.FACTORY9, 
-//				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 9, THIS_WORD.length()));
 	}
 }

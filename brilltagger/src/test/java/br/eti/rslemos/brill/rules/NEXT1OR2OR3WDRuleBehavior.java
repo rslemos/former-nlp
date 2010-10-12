@@ -58,8 +58,8 @@ public class NEXT1OR2OR3WDRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT1OR2OR3WDRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(NEXT1OR2OR3WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3WD " + NEXT1_WORD,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3WD " + NEXT2_WORD,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3WD " + NEXT3_WORD);

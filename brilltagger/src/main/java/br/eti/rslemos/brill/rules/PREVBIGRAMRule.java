@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractRule;
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillText  {
+public class PREVBIGRAMRule extends AbstractBrillRule {
 	public static final RuleFactory FACTORY = PREVBIGRAMRuleFactory.INSTANCE;
 	
 	private final String prev2Word;
@@ -53,7 +53,7 @@ public class PREVBIGRAMRule extends AbstractRule implements SerializableAsBrillT
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + prev2Word + " " + prev1Word;
+	public String toBrillString() {
+		return super.toBrillString() + " " + prev2Word + " " + prev1Word;
 	}
 }

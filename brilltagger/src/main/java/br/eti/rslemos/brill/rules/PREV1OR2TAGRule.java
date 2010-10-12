@@ -1,10 +1,10 @@
 package br.eti.rslemos.brill.rules;
 
 
-import br.eti.rslemos.brill.AbstractRule;
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public class PREV1OR2TAGRule extends AbstractRule implements SerializableAsBrillText  {
+public class PREV1OR2TAGRule extends AbstractBrillRule {
 	public static final RuleFactory FACTORY = PREV1OR2TAGRuleFactory.INSTANCE;
 	
 	private final Object prev1or2Object;
@@ -57,7 +57,7 @@ public class PREV1OR2TAGRule extends AbstractRule implements SerializableAsBrill
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + prev1or2Object;
+	public String toBrillString() {
+		return super.toBrillString() + " " + prev1or2Object;
 	}
 }

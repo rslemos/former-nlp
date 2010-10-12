@@ -1,15 +1,32 @@
 package br.eti.rslemos.brill.rules;
 
-import static br.eti.rslemos.brill.rules.RuleContextMother.*;
+import static br.eti.rslemos.brill.rules.RuleContextMother.NEXT1_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.NEXT2_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.NEXT3_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.NEXT4_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.PREV1_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.PREV2_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.PREV3_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.PREV4_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.THIS_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.TO_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.buildAltContext;
+import static br.eti.rslemos.brill.rules.RuleContextMother.buildContext;
+import static br.eti.rslemos.brill.rules.RuleContextMother.getStandardTokens;
+import static br.eti.rslemos.brill.rules.RuleContextMother.getUntaggedTokens;
+import static br.eti.rslemos.brill.rules.RuleContextMother.skip;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
@@ -108,7 +125,7 @@ public abstract class RuleBehaviorUtils {
 		assertEquals(rule.hashCode(), model.hashCode());
 	}
 
-	public static void createAndTestBrillText(RuleFactory factory, String... expected) {
+	public static void createAndTestBrillString(RuleFactory factory, String... expected) {
 		Token token = mock(Token.class);
 		when(token.getTag()).thenReturn(TO_TAG);
 		
@@ -117,7 +134,7 @@ public abstract class RuleBehaviorUtils {
 		Collection<Rule> rules = factory.create(context, token);
 		Set<String> actual = new TreeSet<String>();
 		for (Rule rule : rules) {
-			actual.add(((SerializableAsBrillText)rule).toBrillText());
+			actual.add(((AbstractBrillRule)rule).toBrillString());
 		}
 		
 		assertEquals(actual, new TreeSet<String>(Arrays.asList(expected)));

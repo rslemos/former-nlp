@@ -2,9 +2,8 @@ package br.eti.rslemos.brill.rules.lexical;
 
 
 import br.eti.rslemos.brill.rules.RuleFactory;
-import br.eti.rslemos.brill.rules.SerializableAsBrillText;
 
-public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText {
+public class SUFFIXRule extends AbstractLexicalBrillRule {
 	public static final RuleFactory FACTORY = SUFFIXRuleFactory.INSTANCE;
 
 	private final String suffix;
@@ -42,8 +41,8 @@ public class SUFFIXRule extends AbstractRule implements SerializableAsBrillText 
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + suffix;
+	public String toBrillString() {
+		return super.toBrillString() + " " + suffix;
 	}
 
 }

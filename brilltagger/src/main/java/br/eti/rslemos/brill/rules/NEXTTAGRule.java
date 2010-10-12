@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractRule;
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public class NEXTTAGRule extends AbstractRule implements SerializableAsBrillText  {
+public class NEXTTAGRule extends AbstractBrillRule {
 	public static final RuleFactory FACTORY = NEXTTAGRuleFactory.INSTANCE;
 	
 	private final Object nextObject;
@@ -53,7 +53,7 @@ public class NEXTTAGRule extends AbstractRule implements SerializableAsBrillText
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + nextObject;
+	public String toBrillString() {
+		return super.toBrillString() + " " + nextObject;
 	}
 }

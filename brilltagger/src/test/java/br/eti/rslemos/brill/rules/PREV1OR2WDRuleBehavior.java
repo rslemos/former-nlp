@@ -57,8 +57,8 @@ public class PREV1OR2WDRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREV1OR2WDRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(PREV1OR2WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV2_WORD);
 	}

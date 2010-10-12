@@ -1,13 +1,14 @@
 package br.eti.rslemos.brill.rules.lexical;
 
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public abstract class AbstractRule extends br.eti.rslemos.brill.AbstractRule {
+public abstract class AbstractLexicalBrillRule extends AbstractBrillRule {
 
-	protected AbstractRule() {
+	protected AbstractLexicalBrillRule() {
 	}
 
-	protected AbstractRule(Object from, Object to) {
+	protected AbstractLexicalBrillRule(Object from, Object to) {
 		super(from, to);
 	}
 
@@ -22,10 +23,4 @@ public abstract class AbstractRule extends br.eti.rslemos.brill.AbstractRule {
 
 	protected abstract boolean thisMatches(String word0);
 
-	@Override
-	protected String toBrillText() {
-		return getTo() + " " + getType();
-	}
-	
-	
 }

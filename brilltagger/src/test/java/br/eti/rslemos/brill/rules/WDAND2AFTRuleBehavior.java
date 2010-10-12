@@ -65,8 +65,8 @@ public class WDAND2AFTRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(WDAND2AFTRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(WDAND2AFTRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " WDAND2AFT " + THIS_WORD + " " + NEXT2_WORD);
 	}
 }

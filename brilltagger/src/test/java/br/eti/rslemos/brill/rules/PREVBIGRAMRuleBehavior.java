@@ -65,8 +65,8 @@ public class PREVBIGRAMRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREVBIGRAMRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(PREVBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

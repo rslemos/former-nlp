@@ -30,16 +30,6 @@ public class PREFIXRuleBehavior {
 		assertTrue(matches(THIS_WORD.substring(0, 4)));
 	}
 	
-//	@Test
-//	public void shouldDependOnFromObject() {
-//		createAndTestBasicUntaggedDependency(PREFIXRule.FACTORY);
-//	}
-//
-//	@Test
-//	public void shouldDependOnContextObject() {
-//		createAndTestContextUntaggedIndependency(PREFIXRule.FACTORY);
-//	}
-//	
 	@Test
 	public void shouldCreateRule() {
 		createAndTestUntaggedMatchability(PREFIXRule.FACTORY);
@@ -51,8 +41,8 @@ public class PREFIXRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(PREFIXRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(PREFIXRule.FACTORY, 
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 1),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 2),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 3),
@@ -61,7 +51,5 @@ public class PREFIXRuleBehavior {
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 6),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 7),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 8));
-//		createAndTestBrillText(PREFIXRule.FACTORY9, 
-//				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 9));
 	}
 }

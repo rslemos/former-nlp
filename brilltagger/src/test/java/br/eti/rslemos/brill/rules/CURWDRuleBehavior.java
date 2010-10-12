@@ -56,8 +56,8 @@ public class CURWDRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(CURWDRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(CURWDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

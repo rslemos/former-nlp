@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractRule;
+import br.eti.rslemos.brill.AbstractBrillRule;
 import br.eti.rslemos.brill.Context;
 
-public class RBIGRAMRule extends AbstractRule implements SerializableAsBrillText  {
+public class RBIGRAMRule extends AbstractBrillRule {
 	public static final RuleFactory FACTORY = RBIGRAMRuleFactory.INSTANCE;
 	
 	private final String word;
@@ -53,7 +53,7 @@ public class RBIGRAMRule extends AbstractRule implements SerializableAsBrillText
 	}
 
 	@Override
-	public String toBrillText() {
-		return super.toBrillText() + " " + word + " " + nextWord;
+	public String toBrillString() {
+		return super.toBrillString() + " " + word + " " + nextWord;
 	}
 }

@@ -56,8 +56,8 @@ public class NEXT2WDRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(NEXT2WDRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(NEXT2WDRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " NEXT2WD " + NEXT2_WORD);
 	}
 }

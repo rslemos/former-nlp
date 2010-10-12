@@ -65,8 +65,8 @@ public class LBIGRAMRuleBehavior {
 	}
 	
 	@Test
-	public void shouldBeSerializableAsBrillText() {
-		createAndTestBrillText(LBIGRAMRule.FACTORY, 
+	public void shouldBeSerializableToBrillString() {
+		createAndTestBrillString(LBIGRAMRule.FACTORY, 
 				THIS_TAG + " " + TO_TAG + " LBIGRAM " + PREV1_WORD + " " + THIS_WORD);
 	}
 }
