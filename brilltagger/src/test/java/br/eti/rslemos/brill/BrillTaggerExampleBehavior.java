@@ -37,10 +37,10 @@ public class BrillTaggerExampleBehavior {
 	public void example1RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token Chapman = new DefaultToken("Chapman");
-		Token killed = new DefaultToken("killed");
-		Token John = new DefaultToken("John");
-		Token Lennon = new DefaultToken("Lennon");
+		Token Chapman = new DefaultToken("Chapman").setTag("NP");
+		Token killed = new DefaultToken("killed").setTag("VBN");;
+		Token John = new DefaultToken("John").setTag("NP");
+		Token Lennon = new DefaultToken("Lennon").setTag("NP");
 		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
