@@ -1,7 +1,9 @@
 package br.eti.rslemos.ad;
 
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,7 +13,7 @@ import java.lang.ref.ReferenceQueue;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class ADParserBehavior {
 
@@ -456,13 +458,11 @@ public class ADParserBehavior {
 		verify(ext_1000r_spy, times(1)).close();
 	}
 
-	@Test(enabled = false)
 	public void shouldParseFlorestaVirgem() {
 		ADCorpus corpus = getCorpus("/pt_BR/FlorestaVirgem_CF.txt");
 		assertEquals(fullyParse(corpus), 12408);
 	}
 	
-	@Test(enabled = false)
 	public void shouldParseAmazonia() {
 		ADCorpus corpus = getCorpus("/pt_BR/Amazonia_CF.txt");
 		assertEquals(fullyParse(corpus), 4838);

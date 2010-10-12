@@ -2,13 +2,13 @@ package br.eti.rslemos.tagger;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 
 import org.mockito.InOrder;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class CompositeTaggerBehavior {
 	

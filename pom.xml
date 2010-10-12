@@ -50,20 +50,11 @@
 		</dependencies>
 	</dependencyManagement>
 	
-	<repositories>
-		<repository>
-			<id>apache-incubating</id>
-			<url>http://people.apache.org/repo/m2-incubating-repository/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>5.8</version>
-			<type>jar</type>
-			<classifier>jdk15</classifier>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -83,11 +74,6 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<configuration>
-						<suiteXmlFiles>
-							<suiteXmlFile>testng.xml</suiteXmlFile>
-						</suiteXmlFiles>
-					</configuration>
 				</plugin>
 
 				<plugin>

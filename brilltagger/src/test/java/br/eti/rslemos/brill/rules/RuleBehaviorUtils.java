@@ -3,7 +3,7 @@ package br.eti.rslemos.brill.rules;
 import static br.eti.rslemos.brill.rules.RuleContextMother.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -99,8 +99,8 @@ public abstract class RuleBehaviorUtils {
 	}
 
 	private static void assertNotEqualsRules(Rule rule, Rule model, String message) {
-		assertFalse(model.equals(rule), message);
-		assertFalse(rule.hashCode() == model.hashCode(), message);
+		assertFalse(message, model.equals(rule));
+		assertFalse(message, rule.hashCode() == model.hashCode());
 	}
 
 	private static void assertEqualsRules(Rule rule, Rule model) {

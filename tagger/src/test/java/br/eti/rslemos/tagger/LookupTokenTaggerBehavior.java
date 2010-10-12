@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import java.util.Collections;
 import java.util.HashMap;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.tagger.LookupTokenTagger;
 import br.eti.rslemos.tagger.Token;

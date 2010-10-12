@@ -1,10 +1,10 @@
 package br.eti.rslemos.brill;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.brill.rules.NEXTTAGRule;
 import br.eti.rslemos.brill.rules.PREVTAGRule;

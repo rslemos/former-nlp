@@ -1,14 +1,13 @@
 package br.eti.rslemos.tiger.stax;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.tiger.stax.StAXMetadata;
 
-@Test(groups = {"br.eti.rslemos.tiger"})
 public class StAXMetadataBehavior {
 
 	private static final StAXMetadata METADATA_A = new StAXMetadata(
@@ -65,13 +64,13 @@ public class StAXMetadataBehavior {
 		assertEquals(METADATA_A.getHistory(), "first version");
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldReturnSaneString() {
 		assertEquals(METADATA_A.toString(),
 		"{name=Test corpus, author=Wolfgang Lezius, date=April 2003, description=illustrates the TIGER-XML format, format=NeGra format, version 3, history=first version");
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldBeEqual() {
 		assertTrue(METADATA_A.equals(METADATA_B));
 		assertTrue(METADATA_B.equals(METADATA_A));
@@ -80,7 +79,7 @@ public class StAXMetadataBehavior {
 		assertTrue(METADATA_A.equals(METADATA_A));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldNotBeEqual() {
 		assertFalse(METADATA_A.equals(METADATA_C));
 		assertFalse(METADATA_C.equals(METADATA_A));
@@ -89,12 +88,12 @@ public class StAXMetadataBehavior {
 		assertFalse(METADATA_A.equals(new Object()));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldHashToSameCode() {
 		assertTrue(METADATA_A.hashCode() == METADATA_B.hashCode());
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldAcceptNulls() {
 		METADATA_NULL_A.toString();
 		METADATA_NULL_A.equals(METADATA_NULL_B);

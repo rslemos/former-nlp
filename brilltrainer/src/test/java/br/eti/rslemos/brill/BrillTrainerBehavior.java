@@ -1,14 +1,14 @@
 package br.eti.rslemos.brill;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.RuleFactory;

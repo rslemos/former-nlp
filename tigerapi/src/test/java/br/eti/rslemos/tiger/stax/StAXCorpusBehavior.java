@@ -3,14 +3,11 @@ package br.eti.rslemos.tiger.stax;
 
 import java.io.UnsupportedEncodingException;
 
-import org.testng.annotations.Test;
-
 import br.eti.rslemos.tiger.Corpus;
 import br.eti.rslemos.tiger.CorpusBehavior;
 import br.eti.rslemos.tiger.TigerException;
 import br.eti.rslemos.tiger.TigerInputMother;
 
-@Test(groups = {"br.eti.rslemos.tiger"})
 public class StAXCorpusBehavior extends CorpusBehavior {
 
 	@Override

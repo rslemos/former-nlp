@@ -1,15 +1,14 @@
 package br.eti.rslemos.tiger.stax;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertSame;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.tiger.Domain;
 
-@Test(groups = {"br.eti.rslemos.tiger"})
 public class StAXFeatureBehavior {
 
 	public void shouldHaveWorkingGetters() {
@@ -19,13 +18,13 @@ public class StAXFeatureBehavior {
 	}
 
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldReturnSaneString() {
 		StAXFeature feature = new StAXFeature("name", Domain.T);
 		assertEquals(feature.toString(), "name(T)");
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldBeEqual() {
 		StAXFeature featureA = new StAXFeature("name", Domain.T);
 		StAXFeature featureB = new StAXFeature("name", Domain.T);
@@ -37,7 +36,7 @@ public class StAXFeatureBehavior {
 		assertTrue(featureA.equals(featureA));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldBeDeeplyEqual() {
 		StAXFeature featureA = new StAXFeature("name", Domain.T);
 		featureA.add(new StAXFeatureValue("name", "comment"));
@@ -52,7 +51,7 @@ public class StAXFeatureBehavior {
 		assertTrue(featureA.equals(featureA));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldNotBeEqual() {
 		StAXFeature featureA = new StAXFeature("name", Domain.T);
 		StAXFeature featureB = new StAXFeature("other-name", Domain.T);
@@ -71,7 +70,7 @@ public class StAXFeatureBehavior {
 		assertFalse(featureA.equals(new Object()));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldNotBeDeeplyEqual() {
 		StAXFeature featureA = new StAXFeature("name", Domain.T);
 		featureA.add(new StAXFeatureValue("name", "comment"));
@@ -83,7 +82,7 @@ public class StAXFeatureBehavior {
 		assertFalse(featureB.equals(featureA));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldHashToSameCode() {
 		StAXFeature featureA = new StAXFeature("name", Domain.T);
 		featureA.add(new StAXFeatureValue("name", "comment"));
@@ -94,7 +93,7 @@ public class StAXFeatureBehavior {
 		assertTrue(featureA.hashCode() == featureB.hashCode());
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldAcceptNulls() {
 		StAXFeature featureA = new StAXFeature(null, null);
 		StAXFeature featureB = new StAXFeature(null, null);

@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Rule;
@@ -69,7 +69,7 @@ public class BrillTrainerListenerBehavior {
 	
 	private List<Sentence> proofCorpus = Arrays.asList(proofSentences);
 
-	@BeforeMethod
+	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 

@@ -3,7 +3,7 @@ package br.eti.rslemos.tiger;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 @SuppressWarnings("unchecked")
 public abstract class CorpusBehavior {

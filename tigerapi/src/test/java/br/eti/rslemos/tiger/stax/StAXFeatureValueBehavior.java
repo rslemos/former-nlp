@@ -1,14 +1,13 @@
 package br.eti.rslemos.tiger.stax;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.tiger.stax.StAXFeatureValue;
 
-@Test(groups = {"br.eti.rslemos.tiger"})
 public class StAXFeatureValueBehavior {
 
 	public void shouldHaveWorkingGetters() {
@@ -18,13 +17,13 @@ public class StAXFeatureValueBehavior {
 	}
 
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldReturnSaneString() {
 		StAXFeatureValue featureValue = new StAXFeatureValue("name", "comment");
 		assertEquals(featureValue.toString(), "name");
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldBeEqual() {
 		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
 		StAXFeatureValue featureValueB = new StAXFeatureValue("name", "comment");
@@ -36,7 +35,7 @@ public class StAXFeatureValueBehavior {
 		assertTrue(featureValueA.equals(featureValueA));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldNotBeEqual() {
 		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
 		StAXFeatureValue featureValueB = new StAXFeatureValue("other-name", "comment");
@@ -55,7 +54,7 @@ public class StAXFeatureValueBehavior {
 		assertFalse(featureValueA.equals(new Object()));
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldHashToSameCode() {
 		StAXFeatureValue featureValueA = new StAXFeatureValue("name", "comment");
 		StAXFeatureValue featureValueB = new StAXFeatureValue("name", "comment");
@@ -63,7 +62,7 @@ public class StAXFeatureValueBehavior {
 		assertTrue(featureValueA.hashCode() == featureValueB.hashCode());
 	}
 
-	@Test(groups = "basics.java.lang.Object")
+	@Test
 	public void shouldAcceptNulls() {
 		StAXFeatureValue featureValueA = new StAXFeatureValue(null, null);
 		StAXFeatureValue featureValueB = new StAXFeatureValue(null, null);

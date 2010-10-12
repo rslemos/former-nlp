@@ -1,7 +1,7 @@
 package br.eti.rslemos.tagger;
 
 import static org.mockito.Mockito.*;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.Token;

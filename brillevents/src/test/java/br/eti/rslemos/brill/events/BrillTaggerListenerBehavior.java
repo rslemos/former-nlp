@@ -1,21 +1,24 @@
 package br.eti.rslemos.brill.events;
 
-import static br.eti.rslemos.brill.events.BrillCustomMatchers.*;
-import static br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.anyContext;
+import static br.eti.rslemos.brill.events.BrillCustomMatchers.tokenExternallyEquals;
+import static br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.anyEvent;
+import static br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.isBrillTaggerEvent;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.brill.Rule;
@@ -36,7 +39,7 @@ public class BrillTaggerListenerBehavior {
 	@Mock private Token token2;
 	private Sentence sentence;
 
-	@BeforeMethod
+	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
