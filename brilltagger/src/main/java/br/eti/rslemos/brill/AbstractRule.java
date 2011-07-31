@@ -50,7 +50,7 @@ public abstract class AbstractRule implements Rule {
 		if (this.getClass() != o.getClass())
 			return false;
 	
-		AbstractBrillRule other = (AbstractBrillRule)o;
+		AbstractRule other = (AbstractRule)o;
 	
 		return (to != null ? to.equals(other.to) : other.to == null) &&
 			(from != null ? from.equals(other.from) : other.from == null);
