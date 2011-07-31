@@ -9,7 +9,7 @@ public final class DefaultToken extends AbstractToken {
 	private final Map<String, Object> features = new HashMap<String, Object>();
 
 	public DefaultToken(String word) {
-		features.put("word", word);
+		features.put(AbstractToken.WORD, word);
 	}
 
 	public DefaultToken(Token token) {
