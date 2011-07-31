@@ -2,6 +2,9 @@ package br.eti.rslemos.tagger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class CompositeTagger implements Tagger, Serializable {
 
@@ -45,26 +48,45 @@ public class CompositeTagger implements Tagger, Serializable {
 
 	private static final class FilteringToken implements Token {
 		private final Token token;
-		private boolean alreadySet = false;
+		private Set<String> alreadySet = new HashSet<String>();
 
 		private FilteringToken(Token token) {
 			this.token = token;
 		}
 
+		@Deprecated
 		public Object getTag() {
 			return token.getTag();
 		}
 
+		@Deprecated
 		public String getWord() {
 			return token.getWord();
 		}
 
+		@Deprecated
 		public FilteringToken setTag(Object tag) {
-			if (!alreadySet) {
+			if (!alreadySet.contains(AbstractToken.POS)) {
 				token.setTag(tag);
-				alreadySet = true;
+				alreadySet.add(AbstractToken.POS);
 			}
 			return this;
+		}
+
+		public Object getFeature(String name) {
+			return token.getFeature(name);
+		}
+
+		public FilteringToken setFeature(String name, Object value) {
+			if (!alreadySet.contains(name)) {
+				token.setFeature(name, value);
+				alreadySet.add(name);
+			}
+			return this;
+		}
+
+		public Map<String, Object> getFeatures() {
+			return token.getFeatures();
 		}
 	}
 

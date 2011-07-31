@@ -1,23 +1,26 @@
 package br.eti.rslemos.brill;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
 import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
-	private static final class NullToken implements Token {
-		public Object getTag() {
+	private static final class NullToken extends AbstractToken {
+		public Object getFeature(String name) {
 			return null;
 		}
 
-		public String getWord() {
-			return null;
+		public Token setFeature(String name, Object value) {
+			throw new IllegalStateException("Can'Object set NULL token tag '" + name + "' to '" + value + "'");
 		}
 
-		public Token setTag(Object tag) {
-			throw new IllegalStateException("Can'Object set NULL token tag to '" + tag + "'");
+		public Map<String, Object> getFeatures() {
+			return Collections.emptyMap();
 		}
 	}
 

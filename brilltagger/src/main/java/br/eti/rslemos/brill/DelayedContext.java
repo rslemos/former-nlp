@@ -1,21 +1,35 @@
 package br.eti.rslemos.brill;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 import br.eti.rslemos.tagger.Token;
 
 public class DelayedContext implements Context {
 	private static class SetObjectCommand {
-		private final Token token;
-		private final Object tag;
+		protected final Token token;
+		private final String name;
+		protected final Object value;
 
-		protected SetObjectCommand(Token token, Object tag) {
+		protected SetObjectCommand(Token token, String name, Object value) {
 			this.token = token;
-			this.tag = tag;
+			this.name = name;
+			this.value = value;
 		}
 		
 		public void setObject() {
-			token.setTag(tag);
+			token.setFeature(name, value);
+		}
+	}
+
+	@Deprecated
+	private static class OldSetObjectCommand extends SetObjectCommand {
+		protected OldSetObjectCommand(Token token, Object tag) {
+			super(token, null, tag);
+		}
+
+		public void setObject() {
+			token.setTag(value);
 		}
 	}
 	
@@ -77,17 +91,33 @@ public class DelayedContext implements Context {
 			this.token = token;
 		}
 
+		@Deprecated
 		public Object getTag() {
 			return token.getTag();
 		}
 
+		@Deprecated
 		public String getWord() {
 			return token.getWord();
 		}
 
-		public DelayedToken setTag(Object tag) {
-			commands.add(new SetObjectCommand(token, tag));
+		public DelayedToken setFeature(String name, Object value) {
+			commands.add(new SetObjectCommand(token, name, value));
 			return this;
+		}
+
+		@Deprecated
+		public DelayedToken setTag(Object value) {
+			commands.add(new OldSetObjectCommand(token, value));
+			return this;
+		}
+
+		public Object getFeature(String name) {
+			return token.getFeature(name);
+		}
+
+		public Map<String, Object> getFeatures() {
+			return token.getFeatures();
 		}
 	}
 

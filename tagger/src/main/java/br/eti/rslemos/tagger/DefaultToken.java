@@ -1,35 +1,37 @@
 package br.eti.rslemos.tagger;
 
-public final class DefaultToken implements Token {
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-	private final String word;
-	private Object tag;
+public final class DefaultToken extends AbstractToken {
+
+	private final Map<String, Object> features = new HashMap<String, Object>();
 
 	public DefaultToken(String word) {
-		this.word = word;
+		features.put("word", word);
 	}
 
 	public DefaultToken(Token token) {
-		this.word = token.getWord();
-		this.tag = token.getTag();
+		features.putAll(token.getFeatures());
 	}
 
-	public String getWord() {
-		return word;
+	public Object getFeature(String name) {
+		return features.get(name);
 	}
 
-	public Object getTag() {
-		return tag;
-	}
-
-	public DefaultToken setTag(Object tag) {
-		this.tag = tag;
+	public DefaultToken setFeature(String name, Object value) {
+		features.put(name, value);
 		return this;
+	}
+
+	public Map<String, Object> getFeatures() {
+		return Collections.unmodifiableMap(features);
 	}
 
 	@Override
 	public String toString() {
-		return word + "/" + tag;
+		return getWord() + "/" + getTag();
 	}
 
 	
