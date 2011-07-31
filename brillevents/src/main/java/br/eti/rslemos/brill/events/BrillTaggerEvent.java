@@ -2,9 +2,9 @@ package br.eti.rslemos.brill.events;
 
 import java.util.EventObject;
 
+import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -63,4 +63,32 @@ public class BrillTaggerEvent extends EventObject {
 		return applies;
 	}
 
+    public String toString() {
+        return "BrillTaggerEvent[" + paramString() + "] from " + source;
+    }
+
+	private String paramString() {
+		StringBuilder result = new StringBuilder();
+		
+		result.append("onSentence=");
+		result.append(String.valueOf(onSentence));
+		result.append(',');
+		
+		result.append("actingRule=");
+		result.append(String.valueOf(actingRule));
+		result.append(',');
+		
+		result.append("atContext=");
+		result.append(String.valueOf(atContext));
+		result.append(',');
+		
+		result.append("currentToken=");
+		result.append(String.valueOf(currentToken));
+		result.append(',');
+		
+		result.append("applies=");
+		result.append(String.valueOf(applies));
+		
+		return result.toString();
+	}
 }
