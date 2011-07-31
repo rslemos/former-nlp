@@ -51,7 +51,7 @@ public class BrillTaggerCustomMatchers {
 				actingRuleMatcher.matches(other.getActingRule()) &&
 				atContextMatcher.matches(other.getAtContext()) &&
 				currentTokenMatcher.matches(other.getCurrentToken()) &&
-				ruleAppliesMatcher.matches(matches(other.doesRuleApplies()));
+				ruleAppliesMatcher.matches(other.doesRuleApplies());
 		}
 
 		public void describeTo(Description description) {
