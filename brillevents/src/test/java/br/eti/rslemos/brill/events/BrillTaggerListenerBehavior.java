@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -42,7 +43,13 @@ public class BrillTaggerListenerBehavior {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-
+		// stubbing por causa do tokenExternallyEquals() 
+		when(token1.getWord()).thenReturn("token1");
+		when(token1.getTag()).thenReturn(new Object());
+		when(token2.getWord()).thenReturn("token2");
+		when(token2.getTag()).thenReturn(new Object());
+		
+		
 		tagger = new BrillTagger();
 		tagger.addBrillTaggerListener(listener);
 		
