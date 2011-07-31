@@ -30,12 +30,9 @@ public abstract class AbstractRule implements Rule {
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}
 
+	@Deprecated
 	public final boolean apply(Context context) {
-		if (matches(context)) {
-			context.getToken(0).setTag(to);
-			return true;
-		} else
-			return false;
+		return RuleUtils.applyRule(context, this);
 	}
 
 	public boolean testsTag(Object tag) {

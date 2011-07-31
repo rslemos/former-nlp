@@ -34,13 +34,12 @@ public class BrillTaggerBehavior {
 		when(token.getWord()).thenReturn("foo");
 		when(token.getTag()).thenReturn("bar");
 
-		Rule rule = new RuleAdapter() {
+		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
-			public boolean apply(Context context) {
+			public boolean matches(Context context) {
 				Token token = context.getToken(0);
 				assertEquals(token.getWord(), "foo");
 				assertEquals(token.getTag(), "bar");
-				token.setTag("foobar");
 				
 				return true;
 			}
@@ -78,14 +77,11 @@ public class BrillTaggerBehavior {
 		final Token token1 = mock(Token.class);
 		final Token token2 = mock(Token.class);
 
-		Rule rule = new RuleAdapter() {
+		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
-			public boolean apply(Context context) {
+			public boolean matches(Context context) {
 				verify(token2, never()).setTag(anyObject());
 				verify(token1, never()).setTag(anyObject());
-				
-				Token token = context.getToken(0);
-				token.setTag("foobar");
 				
 				return true;
 			}
@@ -99,27 +95,22 @@ public class BrillTaggerBehavior {
 		verify(token2, times(1)).setTag("foobar");
 	}
 
-	private static class RuleAdapter implements Rule {
-		public Object getFrom() {
-			return null;
+	private static class RuleAdapter extends AbstractRule {
+		public RuleAdapter(Object from, Object to) {
+			super(from, to);
 		}
 
-		public Object getTo() {
-			return null;
-		}
-
+		@Override
 		public boolean matches(Context context) {
 			return false;
 		}
 
-		public boolean apply(Context context) {
-			return false;
-		}
-
+		@Override
 		public boolean testsTag(Object tag) {
 			return false;
 		}
 
+		@Override
 		public void writeRule(Writer out) throws IOException {
 		}
 	}
