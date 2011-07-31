@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
@@ -134,7 +134,7 @@ public abstract class RuleBehaviorUtils {
 		Collection<Rule> rules = factory.create(context, token);
 		Set<String> actual = new TreeSet<String>();
 		for (Rule rule : rules) {
-			actual.add(((AbstractBrillRule)rule).toBrillString());
+			actual.add(((AbstractRule)rule).toString());
 		}
 		
 		assertEquals(actual, new TreeSet<String>(Arrays.asList(expected)));

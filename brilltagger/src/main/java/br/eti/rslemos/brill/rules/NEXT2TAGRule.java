@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class NEXT2TAGRule extends AbstractBrillRule {
+public class NEXT2TAGRule extends AbstractRule {
 	public static final RuleFactory FACTORY = NEXT2TAGRuleFactory.INSTANCE;
 	
 	private final Object next2Object;

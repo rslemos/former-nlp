@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class RBIGRAMRule extends AbstractBrillRule {
+public class RBIGRAMRule extends AbstractRule {
 	public static final RuleFactory FACTORY = RBIGRAMRuleFactory.INSTANCE;
 	
 	private final String word;

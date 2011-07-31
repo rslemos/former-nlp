@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules.lexical;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public abstract class AbstractLexicalBrillRule extends AbstractBrillRule {
+public abstract class AbstractLexicalBrillRule extends AbstractRule {
 
 	protected AbstractLexicalBrillRule() {
 	}

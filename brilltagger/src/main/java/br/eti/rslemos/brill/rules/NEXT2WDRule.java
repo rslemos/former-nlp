@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class NEXT2WDRule extends AbstractBrillRule {
+public class NEXT2WDRule extends AbstractRule {
 	public static final RuleFactory FACTORY = NEXT2WDRuleFactory.INSTANCE;
 	
 	private final String next2Word;

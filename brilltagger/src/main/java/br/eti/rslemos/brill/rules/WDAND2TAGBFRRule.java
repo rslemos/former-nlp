@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class WDAND2TAGBFRRule extends AbstractBrillRule {
+public class WDAND2TAGBFRRule extends AbstractRule {
 	public static final RuleFactory FACTORY = WDAND2TAGBFRRuleFactory.INSTANCE;
 	
 	private final String word;

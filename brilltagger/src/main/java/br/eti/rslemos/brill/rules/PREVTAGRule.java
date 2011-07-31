@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class PREVTAGRule extends AbstractBrillRule {
+public class PREVTAGRule extends AbstractRule {
 	public static final RuleFactory FACTORY = PREVTAGRuleFactory.INSTANCE;
 	
 	private final Object prevObject;

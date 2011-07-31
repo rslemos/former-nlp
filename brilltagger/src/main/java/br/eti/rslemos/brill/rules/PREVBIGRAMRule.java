@@ -1,9 +1,9 @@
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class PREVBIGRAMRule extends AbstractBrillRule {
+public class PREVBIGRAMRule extends AbstractRule {
 	public static final RuleFactory FACTORY = PREVBIGRAMRuleFactory.INSTANCE;
 	
 	private final String prev2Word;

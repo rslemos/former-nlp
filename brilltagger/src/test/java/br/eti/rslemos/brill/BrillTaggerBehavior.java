@@ -9,6 +9,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -116,6 +118,9 @@ public class BrillTaggerBehavior {
 
 		public boolean firingDependsOnObject(Object tag) {
 			return false;
+		}
+
+		public void writeRule(Writer out) throws IOException {
 		}
 	}
 

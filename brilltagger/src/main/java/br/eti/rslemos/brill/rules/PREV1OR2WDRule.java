@@ -1,10 +1,10 @@
 package br.eti.rslemos.brill.rules;
 
 
-import br.eti.rslemos.brill.AbstractBrillRule;
+import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
-public class PREV1OR2WDRule extends AbstractBrillRule {
+public class PREV1OR2WDRule extends AbstractRule {
 	public static final RuleFactory FACTORY = PREV1OR2WDRuleFactory.INSTANCE;
 	
 	private final String prev1or2Word;

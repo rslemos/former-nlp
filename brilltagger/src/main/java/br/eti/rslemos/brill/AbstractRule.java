@@ -1,5 +1,8 @@
 package br.eti.rslemos.brill;
 
+import java.io.IOException;
+import java.io.Writer;
+
 public abstract class AbstractRule implements Rule {
 
 	protected Object from;
@@ -67,6 +70,27 @@ public abstract class AbstractRule implements Rule {
 		hashCode += from != null ? from.hashCode() : 0;
 	
 		return hashCode;
+	}
+
+	protected String toBrillString() {
+		return from + " " + to + " " + getType();
+	}
+
+	protected final String getType() {
+		String simpleName = getClass().getSimpleName();
+		if (simpleName.endsWith("Rule"))
+			return simpleName.substring(0, simpleName.length() - 4);
+		else
+			return simpleName;
+	}
+
+	public void writeRule(Writer out) throws IOException {
+		out.write(toString());
+		out.write('\n');
+	}
+
+	public String toString() {
+		return toBrillString();
 	}
 
 }
