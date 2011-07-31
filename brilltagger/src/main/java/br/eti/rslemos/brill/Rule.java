@@ -17,7 +17,7 @@ public interface Rule {
 
 	int hashCode();
 
-	boolean firingDependsOnObject(Object tag);
+	boolean testsTag(Object tag);
 
 	void writeRule(Writer out) throws IOException;
 }

@@ -29,8 +29,8 @@ public class SURROUNDTAGRule extends AbstractRule {
 	}
 	
 	@Override
-	public boolean firingDependsOnObject(Object tag) {
-		return super.firingDependsOnObject(tag) || 
+	public boolean testsTag(Object tag) {
+		return super.testsTag(tag) || 
 			(prev1Object != null ? prev1Object.equals(tag) : tag == null) ||
 			(next1Object != null ? next1Object.equals(tag) : tag == null);
 	}

@@ -29,8 +29,8 @@ public class WDPREVTAGRule extends AbstractRule {
 	}
 	
 	@Override
-	public boolean firingDependsOnObject(Object tag) {
-		return super.firingDependsOnObject(tag) || 
+	public boolean testsTag(Object tag) {
+		return super.testsTag(tag) || 
 			(prevObject != null ? prevObject.equals(tag) : tag == null);
 	}
 

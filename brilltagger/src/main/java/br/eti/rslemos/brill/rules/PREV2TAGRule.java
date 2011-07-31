@@ -25,8 +25,8 @@ public class PREV2TAGRule extends AbstractRule {
 	}
 	
 	@Override
-	public boolean firingDependsOnObject(Object tag) {
-		return super.firingDependsOnObject(tag) || 
+	public boolean testsTag(Object tag) {
+		return super.testsTag(tag) || 
 			(prev2Object != null ? prev2Object.equals(tag) : tag == null);
 	}
 

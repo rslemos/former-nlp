@@ -38,7 +38,7 @@ public abstract class AbstractRule implements Rule {
 			return false;
 	}
 
-	public boolean firingDependsOnObject(Object tag) {
+	public boolean testsTag(Object tag) {
 		return from != null ? from.equals(tag) : tag == null;
 	}
 

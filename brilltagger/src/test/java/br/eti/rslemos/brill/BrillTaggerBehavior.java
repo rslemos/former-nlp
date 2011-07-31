@@ -116,7 +116,7 @@ public class BrillTaggerBehavior {
 			return false;
 		}
 
-		public boolean firingDependsOnObject(Object tag) {
+		public boolean testsTag(Object tag) {
 			return false;
 		}
 
