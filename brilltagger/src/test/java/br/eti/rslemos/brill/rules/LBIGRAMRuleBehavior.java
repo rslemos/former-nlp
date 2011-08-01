@@ -14,7 +14,7 @@ public class LBIGRAMRuleBehavior {
 	private boolean matches(String prevWord, String word) {
 		Context context = buildContext();
 		
-		Rule rule = LBIGRAMRule.createRule(THIS_TAG, TO_TAG, prevWord, word);
+		Rule rule = LBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevWord, word);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(LBIGRAMRule.createRule(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(LBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

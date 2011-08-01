@@ -14,7 +14,7 @@ public class NEXT1OR2WDRuleBehavior {
 	private boolean matches(String next1or2Word) {
 		Context context = buildContext();
 		
-		Rule rule = NEXT1OR2WDRule.createRule(THIS_TAG, TO_TAG, next1or2Word);
+		Rule rule = NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2Word);
 		return rule.matches(context);
 	}
 	
@@ -42,8 +42,8 @@ public class NEXT1OR2WDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXT1OR2WDRule.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(NEXT1OR2WDRule.createRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

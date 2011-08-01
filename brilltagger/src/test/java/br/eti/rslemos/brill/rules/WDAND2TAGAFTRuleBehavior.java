@@ -14,7 +14,7 @@ public class WDAND2TAGAFTRuleBehavior {
 	private boolean matches(String word, Object next2Object) {
 		Context context = buildContext();
 		
-		Rule rule = WDAND2TAGAFTRule.createRule(THIS_TAG, TO_TAG, word, next2Object);
+		Rule rule = WDAND2TAGAFTRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word, next2Object);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class WDAND2TAGAFTRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(WDAND2TAGAFTRule.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(WDAND2TAGAFTRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test

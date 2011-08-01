@@ -14,7 +14,7 @@ public class PREV2WDRuleBehavior {
 	private boolean matches(String prev2Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREV2WDRule.createRule(THIS_TAG, TO_TAG, prev2Word);
+		Rule rule = PREV2WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Word);
 		return rule.matches(context);
 	}
 
@@ -42,7 +42,7 @@ public class PREV2WDRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(PREV2WDRule.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

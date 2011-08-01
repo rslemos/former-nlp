@@ -14,7 +14,7 @@ public class NEXT1OR2OR3OR4WDRuleBehavior {
 	private boolean matches(String next1or2or3or4Word) {
 		Context context = buildContext();
 		
-		Rule rule = NEXT1OR2OR3OR4WDRule.createRule(THIS_TAG, TO_TAG,
+		Rule rule = NEXT1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG,
 				next1or2or3or4Word);
 		return rule.matches(context);
 	}
@@ -43,13 +43,13 @@ public class NEXT1OR2OR3OR4WDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXT1OR2OR3OR4WDRule.createRule(THIS_TAG, THIS_TAG,
+		testDependency(NEXT1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG,
 				NEXT1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(NEXT1OR2OR3OR4WDRule.createRule(THIS_TAG, THIS_TAG,
+		testDependency(NEXT1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG,
 				NEXT2_WORD), F, F, F, F, F, F, F, F);
-		testDependency(NEXT1OR2OR3OR4WDRule.createRule(THIS_TAG, THIS_TAG,
+		testDependency(NEXT1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG,
 				NEXT3_WORD), F, F, F, F, F, F, F, F);
-		testDependency(NEXT1OR2OR3OR4WDRule.createRule(THIS_TAG, THIS_TAG,
+		testDependency(NEXT1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG,
 				NEXT4_WORD), F, F, F, F, F, F, F, F);
 	}
 

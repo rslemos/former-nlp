@@ -14,7 +14,7 @@ public class NEXTWDRuleBehavior {
 	private boolean matches(String nextWord) {
 		Context context = buildContext();
 		
-		Rule rule = NEXTWDRule.createRule(THIS_TAG, TO_TAG, nextWord);
+		Rule rule = NEXTWDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
@@ -42,7 +42,7 @@ public class NEXTWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXTWDRule.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXTWDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

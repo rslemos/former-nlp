@@ -14,7 +14,7 @@ public class PREVBIGRAMRuleBehavior {
 	private boolean matches(String prev2Word, String prev1Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREVBIGRAMRule.createRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
+		Rule rule = PREVBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class PREVBIGRAMRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(PREVBIGRAMRule.createRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREVBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

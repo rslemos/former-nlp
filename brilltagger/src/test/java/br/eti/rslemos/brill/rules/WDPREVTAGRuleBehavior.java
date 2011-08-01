@@ -14,7 +14,7 @@ public class WDPREVTAGRuleBehavior {
 	private boolean matches(Object prevObject, String word) {
 		Context context = buildContext();
 		
-		Rule rule = WDPREVTAGRule.createRule(THIS_TAG, TO_TAG, prevObject, word);
+		Rule rule = WDPREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevObject, word);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class WDPREVTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(WDPREVTAGRule.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
+		testDependency(WDPREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test

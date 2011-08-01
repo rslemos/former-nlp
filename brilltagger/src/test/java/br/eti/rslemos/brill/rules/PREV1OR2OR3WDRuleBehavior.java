@@ -14,7 +14,7 @@ public class PREV1OR2OR3WDRuleBehavior {
 	private boolean matches(String prev1or2or3Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREV1OR2OR3WDRule.createRule(THIS_TAG, TO_TAG, prev1or2or3Word);
+		Rule rule = PREV1OR2OR3WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1or2or3Word);
 		return rule.matches(context);
 	}
 	
@@ -42,9 +42,9 @@ public class PREV1OR2OR3WDRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(PREV1OR2OR3WDRule.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2OR3WDRule.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2OR3WDRule.createRule(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

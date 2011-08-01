@@ -14,7 +14,7 @@ public class NEXTBIGRAMRuleBehavior {
 	private boolean matches(String next1Word, String next2Word) {
 		Context context = buildContext();
 		
-		Rule rule = NEXTBIGRAMRule.createRule(THIS_TAG, TO_TAG, next1Word, next2Word);
+		Rule rule = NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1Word, next2Word);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class NEXTBIGRAMRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXTBIGRAMRule.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
