@@ -4,11 +4,13 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class NEXTWDRule extends AbstractRule {
-	public static final RuleFactory FACTORY = NEXTWDRuleFactory.INSTANCE;
-	
+	public static NEXTWDRule createRule(Object from, Object to, String nextWord) {
+		return new NEXTWDRule(from, to, nextWord);
+	}
+
 	private final String nextWord;
 
-	public NEXTWDRule(Object from, Object to, String nextWord) {
+	private NEXTWDRule(Object from, Object to, String nextWord) {
 		super(from, to);
 		
 		this.nextWord = nextWord;

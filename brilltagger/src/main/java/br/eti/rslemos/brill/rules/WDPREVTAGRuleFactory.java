@@ -11,6 +11,6 @@ public class WDPREVTAGRuleFactory extends AbstractSingleRuleFactory {
 		String word0 = context.getToken(0).getWord();
 		Object tag_1 = context.getToken(-1).getTag();
 
-		return new WDPREVTAGRule(from, to, tag_1, word0);
+		return WDPREVTAGRule.createRule(from, to, tag_1, word0);
 	}
 }

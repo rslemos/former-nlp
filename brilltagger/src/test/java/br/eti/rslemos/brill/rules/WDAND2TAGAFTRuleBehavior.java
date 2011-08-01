@@ -14,7 +14,7 @@ public class WDAND2TAGAFTRuleBehavior {
 	private boolean matches(String word, Object next2Object) {
 		Context context = buildContext();
 		
-		Rule rule = new WDAND2TAGAFTRule(THIS_TAG, TO_TAG, word, next2Object);
+		Rule rule = WDAND2TAGAFTRule.createRule(THIS_TAG, TO_TAG, word, next2Object);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class WDAND2TAGAFTRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDAND2TAGAFTRule.FACTORY);
+		createAndTestBasicDependency(WDAND2TAGAFTRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new WDAND2TAGAFTRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(WDAND2TAGAFTRule.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2TAGAFTRule.FACTORY);
+		createAndTestMatchability(WDAND2TAGAFTRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2TAGAFTRule.FACTORY);
+		createAndTestObjectSemantics(WDAND2TAGAFTRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(WDAND2TAGAFTRule.FACTORY, 
+		createAndTestBrillString(WDAND2TAGAFTRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGAFT " + THIS_WORD + " " + NEXT2_TAG);
 	}
 }

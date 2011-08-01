@@ -4,11 +4,13 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class PREVWDRule extends AbstractRule {
-	public static final RuleFactory FACTORY = PREVWDRuleFactory.INSTANCE;
-	
+	public static PREVWDRule createRule(Object from, Object to, String prevWord) {
+		return new PREVWDRule(from, to, prevWord);
+	}
+
 	private final String prevWord;
 
-	public PREVWDRule(Object from, Object to, String prevWord) {
+	private PREVWDRule(Object from, Object to, String prevWord) {
 		super(from, to);
 		this.prevWord = prevWord;
 	}

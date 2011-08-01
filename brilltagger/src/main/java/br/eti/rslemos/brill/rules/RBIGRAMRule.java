@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class RBIGRAMRule extends AbstractRule {
-	public static final RuleFactory FACTORY = RBIGRAMRuleFactory.INSTANCE;
-	
+	public static RBIGRAMRule createRule(Object from, Object to, String word,
+			String nextWord) {
+		return new RBIGRAMRule(from, to, word, nextWord);
+	}
+
 	private final String word;
 	private final String nextWord;
 
-	public RBIGRAMRule(Object from, Object to, String word, String nextWord) {
+	private RBIGRAMRule(Object from, Object to, String word, String nextWord) {
 		super(from, to);
 		this.word = word;
 		this.nextWord = nextWord;

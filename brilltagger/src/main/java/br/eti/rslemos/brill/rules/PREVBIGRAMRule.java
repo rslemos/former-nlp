@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class PREVBIGRAMRule extends AbstractRule {
-	public static final RuleFactory FACTORY = PREVBIGRAMRuleFactory.INSTANCE;
-	
+	public static PREVBIGRAMRule createRule(Object from, Object to,
+			String prev2Word, String prev1Word) {
+		return new PREVBIGRAMRule(from, to, prev2Word, prev1Word);
+	}
+
 	private final String prev2Word;
 	private final String prev1Word;
 
-	public PREVBIGRAMRule(Object from, Object to, String prev2Word, String prev1Word) {
+	private PREVBIGRAMRule(Object from, Object to, String prev2Word, String prev1Word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 		this.prev1Word = prev1Word;

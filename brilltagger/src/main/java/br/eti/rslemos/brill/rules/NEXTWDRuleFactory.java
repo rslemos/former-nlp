@@ -10,6 +10,6 @@ public class NEXTWDRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		String word1 = context.getToken(1).getWord();
 
-		return new NEXTWDRule(from, to, word1);
+		return NEXTWDRule.createRule(from, to, word1);
 	}
 }

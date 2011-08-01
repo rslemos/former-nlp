@@ -1,14 +1,16 @@
 package br.eti.rslemos.brill.rules.lexical;
 
 
-import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class PREFIXRule extends AbstractLexicalBrillRule {
-	public static final RuleFactory FACTORY = PREFIXRuleFactory.INSTANCE;
+	public static PREFIXRule createRule(Object fromObject, Object toObject,
+			String prefix) {
+		return new PREFIXRule(fromObject, toObject, prefix);
+	}
 
 	private final String prefix;
 
-	public PREFIXRule(Object fromObject, Object toObject, String prefix) {
+	private PREFIXRule(Object fromObject, Object toObject, String prefix) {
 		super(fromObject, toObject);
 		
 		this.prefix = prefix;

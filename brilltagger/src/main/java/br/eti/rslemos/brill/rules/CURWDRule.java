@@ -4,11 +4,13 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class CURWDRule extends AbstractRule {
-	public static final RuleFactory FACTORY = CURWDRuleFactory.INSTANCE;
-	
+	public static CURWDRule createRule(Object from, Object to, String word) {
+		return new CURWDRule(from, to, word);
+	}
+
 	private final String word;
 
-	public CURWDRule(Object from, Object to, String word) {
+	private CURWDRule(Object from, Object to, String word) {
 		super(from, to);
 		this.word = word;
 	}

@@ -1,14 +1,16 @@
 package br.eti.rslemos.brill.rules.lexical;
 
 
-import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class SUFFIXRule extends AbstractLexicalBrillRule {
-	public static final RuleFactory FACTORY = SUFFIXRuleFactory.INSTANCE;
+	public static SUFFIXRule createRule(Object fromObject, Object toObject,
+			String suffix) {
+		return new SUFFIXRule(fromObject, toObject, suffix);
+	}
 
 	private final String suffix;
 
-	public SUFFIXRule(Object fromObject, Object toObject, String suffix) {
+	private SUFFIXRule(Object fromObject, Object toObject, String suffix) {
 		super(fromObject, toObject);
 		
 		this.suffix = suffix;

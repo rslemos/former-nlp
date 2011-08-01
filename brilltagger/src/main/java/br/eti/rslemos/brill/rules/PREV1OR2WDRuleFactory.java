@@ -16,8 +16,8 @@ public class PREV1OR2WDRuleFactory extends AbstractRuleFactory {
 		String word_2 = context.getToken(-2).getWord();
 
 		return Arrays.<Rule> asList(
-				new PREV1OR2WDRule(from, to, word_1),
-				new PREV1OR2WDRule(from, to, word_2)
+				PREV1OR2WDRule.createRule(from, to, word_1),
+				PREV1OR2WDRule.createRule(from, to, word_2)
 		);
 	}
 }

@@ -10,6 +10,6 @@ public class NEXT2WDRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		String word2 = context.getToken(2).getWord();
 
-		return new NEXT2WDRule(from, to, word2);
+		return NEXT2WDRule.createRule(from, to, word2);
 	}
 }

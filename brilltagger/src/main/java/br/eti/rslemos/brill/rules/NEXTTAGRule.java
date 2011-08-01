@@ -4,11 +4,14 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class NEXTTAGRule extends AbstractRule {
-	public static final RuleFactory FACTORY = NEXTTAGRuleFactory.INSTANCE;
-	
+	public static NEXTTAGRule createRule(Object from, Object to,
+			Object nextObject) {
+		return new NEXTTAGRule(from, to, nextObject);
+	}
+
 	private final Object nextObject;
 
-	public NEXTTAGRule(Object from, Object to, Object nextObject) {
+	private NEXTTAGRule(Object from, Object to, Object nextObject) {
 		super(from, to);
 		
 		this.nextObject = nextObject;

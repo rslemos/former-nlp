@@ -11,6 +11,6 @@ public class WDNEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 		String word0 = context.getToken(0).getWord();
 		Object tag1 = context.getToken(1).getTag();
 
-		return new WDNEXTTAGRule(from, to, word0, tag1);
+		return WDNEXTTAGRule.createRule(from, to, word0, tag1);
 	}
 }

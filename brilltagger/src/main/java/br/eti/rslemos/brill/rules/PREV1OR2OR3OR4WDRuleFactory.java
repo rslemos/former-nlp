@@ -18,10 +18,10 @@ public class PREV1OR2OR3OR4WDRuleFactory extends AbstractRuleFactory {
 		String word_4 = context.getToken(-4).getWord();
 
 		return Arrays.<Rule> asList(
-				new PREV1OR2OR3OR4WDRule(from, to, word_1), 
-				new PREV1OR2OR3OR4WDRule(from, to, word_2),
-				new PREV1OR2OR3OR4WDRule(from, to, word_3),
-				new PREV1OR2OR3OR4WDRule(from, to, word_4)
+				PREV1OR2OR3OR4WDRule.createRule(from, to, word_1), 
+				PREV1OR2OR3OR4WDRule.createRule(from, to, word_2),
+				PREV1OR2OR3OR4WDRule.createRule(from, to, word_3),
+				PREV1OR2OR3OR4WDRule.createRule(from, to, word_4)
 		);
 	}
 }

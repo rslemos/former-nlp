@@ -10,6 +10,6 @@ public class NEXT2TAGRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		Object tag2 = context.getToken(2).getTag();
 
-		return new NEXT2TAGRule(from, to, tag2);
+		return NEXT2TAGRule.createRule(from, to, tag2);
 	}
 }

@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class WDAND2BFRRule extends AbstractRule {
-	public static final RuleFactory FACTORY = WDAND2BFRRuleFactory.INSTANCE;
-	
+	public static WDAND2BFRRule createRule(Object from, Object to,
+			String prev2Word, String word) {
+		return new WDAND2BFRRule(from, to, prev2Word, word);
+	}
+
 	private final String prev2Word;
 	private final String word;
 
-	public WDAND2BFRRule(Object from, Object to, String prev2Word, String word) {
+	private WDAND2BFRRule(Object from, Object to, String prev2Word, String word) {
 		super(from, to);
 		this.prev2Word = prev2Word;
 		this.word = word;

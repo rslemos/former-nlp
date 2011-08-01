@@ -10,6 +10,6 @@ public class PREVTAGRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		Object tag_1 = context.getToken(-1).getTag();
 
-		return new PREVTAGRule(from, to, tag_1);
+		return PREVTAGRule.createRule(from, to, tag_1);
 	}
 }

@@ -14,7 +14,7 @@ public class PREV1OR2OR3TAGRuleBehavior {
 	private boolean matches(Object prev1or2or3Object) {
 		Context context = buildContext();
 		
-		Rule rule = new PREV1OR2OR3TAGRule(THIS_TAG, TO_TAG, prev1or2or3Object);
+		Rule rule = PREV1OR2OR3TAGRule.createRule(THIS_TAG, TO_TAG, prev1or2or3Object);
 		return rule.matches(context);
 	}
 	
@@ -37,29 +37,29 @@ public class PREV1OR2OR3TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREV1OR2OR3TAGRule.FACTORY);
+		createAndTestBasicDependency(PREV1OR2OR3TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
-		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
-		testDependency(new PREV1OR2OR3TAGRule(THIS_TAG, THIS_TAG, PREV3_TAG), F, T, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3TAGRule.createRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
+		testDependency(PREV1OR2OR3TAGRule.createRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
+		testDependency(PREV1OR2OR3TAGRule.createRule(THIS_TAG, THIS_TAG, PREV3_TAG), F, T, F, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3TAGRule.FACTORY);
+		createAndTestMatchability(PREV1OR2OR3TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3TAGRule.FACTORY);
+		createAndTestObjectSemantics(PREV1OR2OR3TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREV1OR2OR3TAGRule.FACTORY, 
+		createAndTestBrillString(PREV1OR2OR3TAGRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV1_TAG,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV2_TAG,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3TAG " + PREV3_TAG);

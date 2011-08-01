@@ -14,7 +14,7 @@ public class NEXT2TAGRuleBehavior {
 	private boolean matches(Object next2Object) {
 		Context context = buildContext();
 		
-		Rule rule = new NEXT2TAGRule(THIS_TAG, TO_TAG, next2Object);
+		Rule rule = NEXT2TAGRule.createRule(THIS_TAG, TO_TAG, next2Object);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class NEXT2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT2TAGRule.FACTORY);
+		createAndTestBasicDependency(NEXT2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new NEXT2TAGRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(NEXT2TAGRule.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT2TAGRule.FACTORY);
+		createAndTestMatchability(NEXT2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT2TAGRule.FACTORY);
+		createAndTestObjectSemantics(NEXT2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXT2TAGRule.FACTORY, 
+		createAndTestBrillString(NEXT2TAGRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXT2TAG " + NEXT2_TAG);
 	}
 }

@@ -10,6 +10,6 @@ public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		Object tag1 = context.getToken(1).getTag();
 
-		return new NEXTTAGRule(from, to, tag1);
+		return NEXTTAGRule.createRule(from, to, tag1);
 	}
 }

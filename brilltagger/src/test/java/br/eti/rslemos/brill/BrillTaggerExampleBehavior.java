@@ -21,8 +21,8 @@ public class BrillTaggerExampleBehavior {
 		Token sign = new DefaultToken("sign").setTag("NN");
 		Token up = new DefaultToken("up").setTag("RB");
 		
-		Rule rule1 = new PREVTAGRule("NN", "VB", "TO");
-		Rule rule2 = new WDPREVTAGRule("RB", "RP", "VB", "up");
+		Rule rule1 = PREVTAGRule.createRule("NN", "VB", "TO");
+		Rule rule2 = WDPREVTAGRule.createRule("RB", "RP", "VB", "up");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		
@@ -93,8 +93,8 @@ public class BrillTaggerExampleBehavior {
 	}
 
 	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {
-		Rule rule1 = new PREVTAGRule("VBN", "VBD", "NP");
-		Rule rule2 = new NEXTTAGRule("VBD", "VBN", "BY");
+		Rule rule1 = PREVTAGRule.createRule("VBN", "VBD", "NP");
+		Rule rule2 = NEXTTAGRule.createRule("VBD", "VBN", "BY");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		

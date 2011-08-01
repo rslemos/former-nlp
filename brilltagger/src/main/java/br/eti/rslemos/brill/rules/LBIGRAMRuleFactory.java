@@ -11,6 +11,6 @@ public class LBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		String word0 = context.getToken(0).getWord();
 		String word_1 = context.getToken(-1).getWord();
 
-		return new LBIGRAMRule(from, to, word_1, word0);
+		return LBIGRAMRule.createRule(from, to, word_1, word0);
 	}
 }

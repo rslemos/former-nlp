@@ -15,7 +15,7 @@ public class PREFIXRuleBehavior {
 	private boolean matches(String prefix) {
 		Context context = buildUntaggedContext();
 		
-		Rule rule = new PREFIXRule(null, TO_TAG, prefix);
+		Rule rule = PREFIXRule.createRule(null, TO_TAG, prefix);
 		return rule.matches(context);
 	}
 
@@ -32,17 +32,17 @@ public class PREFIXRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(PREFIXRule.FACTORY);
+		createAndTestUntaggedMatchability(PREFIXRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREFIXRule.FACTORY);
+		createAndTestObjectSemantics(PREFIXRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREFIXRule.FACTORY, 
+		createAndTestBrillString(PREFIXRuleFactory.INSTANCE, 
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 1),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 2),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 3),

@@ -11,6 +11,6 @@ public class RBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		String word0 = context.getToken(0).getWord();
 		String word1 = context.getToken(1).getWord();
 
-		return new RBIGRAMRule(from, to, word0, word1);
+		return RBIGRAMRule.createRule(from, to, word0, word1);
 	}
 }

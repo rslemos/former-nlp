@@ -16,8 +16,8 @@ public class NEXT1OR2TAGRuleFactory extends AbstractRuleFactory {
 		Object tag2 = context.getToken(2).getTag();
 
 		return Arrays.<Rule> asList(
-				new NEXT1OR2TAGRule(from, to, tag1),
-				new NEXT1OR2TAGRule(from, to, tag2)
+				NEXT1OR2TAGRule.createRule(from, to, tag1),
+				NEXT1OR2TAGRule.createRule(from, to, tag2)
 		);
 	}
 }

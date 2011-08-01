@@ -10,6 +10,6 @@ public class PREV2WDRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		String word_2 = context.getToken(-2).getWord();
 
-		return new PREV2WDRule(from, to, word_2);
+		return PREV2WDRule.createRule(from, to, word_2);
 	}
 }

@@ -5,11 +5,14 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class NEXT1OR2TAGRule extends AbstractRule {
-	public static final  RuleFactory FACTORY = NEXT1OR2TAGRuleFactory.INSTANCE;
-	
+	public static NEXT1OR2TAGRule createRule(Object from, Object to,
+			Object next1or2Object) {
+		return new NEXT1OR2TAGRule(from, to, next1or2Object);
+	}
+
 	private final Object next1or2Object;
 
-	public NEXT1OR2TAGRule(Object from, Object to, Object next1or2Object) {
+	private NEXT1OR2TAGRule(Object from, Object to, Object next1or2Object) {
 		super(from, to);
 		
 		this.next1or2Object = next1or2Object;

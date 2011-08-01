@@ -10,6 +10,6 @@ public class CURWDRuleFactory extends AbstractSingleRuleFactory {
 	public Rule createRule(Object from, Object to, Context context) {
 		String word0 = context.getToken(0).getWord();
 
-		return new CURWDRule(from, to, word0);
+		return CURWDRule.createRule(from, to, word0);
 	}
 }

@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class WDAND2TAGAFTRule extends AbstractRule {
-	public static final RuleFactory FACTORY = WDAND2TAGAFTRuleFactory.INSTANCE;
-	
+	public static WDAND2TAGAFTRule createRule(Object from, Object to,
+			String word, Object next2Object) {
+		return new WDAND2TAGAFTRule(from, to, word, next2Object);
+	}
+
 	private final String word;
 	private final Object next2Object;
 
-	public WDAND2TAGAFTRule(Object from, Object to, String word, Object next2Object) {
+	private WDAND2TAGAFTRule(Object from, Object to, String word, Object next2Object) {
 		super(from, to);
 		this.word = word;
 		this.next2Object = next2Object;

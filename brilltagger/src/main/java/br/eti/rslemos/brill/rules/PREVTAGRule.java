@@ -4,11 +4,14 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class PREVTAGRule extends AbstractRule {
-	public static final RuleFactory FACTORY = PREVTAGRuleFactory.INSTANCE;
-	
+	public static PREVTAGRule createRule(Object from, Object to,
+			Object prevObject) {
+		return new PREVTAGRule(from, to, prevObject);
+	}
+
 	private final Object prevObject;
 
-	public PREVTAGRule(Object from, Object to, Object prevObject) {
+	private PREVTAGRule(Object from, Object to, Object prevObject) {
 		super(from, to);
 		this.prevObject = prevObject;
 	}

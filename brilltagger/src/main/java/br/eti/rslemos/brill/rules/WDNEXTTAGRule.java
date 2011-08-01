@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class WDNEXTTAGRule extends AbstractRule {
-	public static final RuleFactory FACTORY = WDNEXTTAGRuleFactory.INSTANCE;
-	
+	public static WDNEXTTAGRule createRule(Object from, Object to, String word,
+			Object next1Object) {
+		return new WDNEXTTAGRule(from, to, word, next1Object);
+	}
+
 	private final String word;
 	private final Object next1Object;
 
-	public WDNEXTTAGRule(Object from, Object to, String word, Object next1Object) {
+	private WDNEXTTAGRule(Object from, Object to, String word, Object next1Object) {
 		super(from, to);
 		this.word = word;
 		this.next1Object = next1Object;

@@ -14,7 +14,7 @@ public class NEXTWDRuleBehavior {
 	private boolean matches(String nextWord) {
 		Context context = buildContext();
 		
-		Rule rule = new NEXTWDRule(THIS_TAG, TO_TAG, nextWord);
+		Rule rule = NEXTWDRule.createRule(THIS_TAG, TO_TAG, nextWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class NEXTWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXTWDRule.FACTORY);
+		createAndTestBasicDependency(NEXTWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new NEXTWDRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXTWDRule.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTWDRule.FACTORY);
+		createAndTestMatchability(NEXTWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTWDRule.FACTORY);
+		createAndTestObjectSemantics(NEXTWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXTWDRule.FACTORY, 
+		createAndTestBrillString(NEXTWDRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXTWD " + NEXT1_WORD);
 	}
 }

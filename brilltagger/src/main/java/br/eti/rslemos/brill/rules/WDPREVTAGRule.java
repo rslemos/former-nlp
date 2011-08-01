@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class WDPREVTAGRule extends AbstractRule {
-	public static final AbstractRuleFactory FACTORY = WDPREVTAGRuleFactory.INSTANCE;
-	
+	public static WDPREVTAGRule createRule(Object from, Object to,
+			Object prevObject, String word) {
+		return new WDPREVTAGRule(from, to, prevObject, word);
+	}
+
 	private final String word;
 	private final Object prevObject;
 
-	public WDPREVTAGRule(Object from, Object to, Object prevObject, String word) {
+	private WDPREVTAGRule(Object from, Object to, Object prevObject, String word) {
 		super(from, to);
 		this.word = word;
 		this.prevObject = prevObject;

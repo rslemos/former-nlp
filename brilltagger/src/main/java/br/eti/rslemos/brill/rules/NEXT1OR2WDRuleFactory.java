@@ -16,8 +16,8 @@ public class NEXT1OR2WDRuleFactory extends AbstractRuleFactory {
 		String word2 = context.getToken(2).getWord();
 
 		return Arrays.<Rule> asList(
-				new NEXT1OR2WDRule(from, to, word1),
-				new NEXT1OR2WDRule(from, to, word2)
+				NEXT1OR2WDRule.createRule(from, to, word1),
+				NEXT1OR2WDRule.createRule(from, to, word2)
 		);
 	}
 }

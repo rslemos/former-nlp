@@ -8,6 +8,6 @@ public class SUFFIXRuleFactory extends AbstractAFFIXRuleFactory {
 
 	@Override
 	protected Rule create(Object from, Object to, String word, int length) {
-		return new SUFFIXRule(from, to, word.substring(word.length() - length, word.length()));
+		return SUFFIXRule.createRule(from, to, word.substring(word.length() - length, word.length()));
 	}
 }

@@ -11,6 +11,6 @@ public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
 		Object tag_1 = context.getToken(-1).getTag();
 		Object tag1 = context.getToken(1).getTag();
 
-		return new SURROUNDTAGRule(from, to, tag_1, tag1);
+		return SURROUNDTAGRule.createRule(from, to, tag_1, tag1);
 	}
 }

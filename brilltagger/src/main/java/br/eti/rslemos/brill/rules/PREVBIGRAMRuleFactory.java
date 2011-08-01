@@ -11,6 +11,6 @@ public class PREVBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		String word_2 = context.getToken(-2).getWord();
 		String word_1 = context.getToken(-1).getWord();
 
-		return new PREVBIGRAMRule(from, to, word_2, word_1);
+		return PREVBIGRAMRule.createRule(from, to, word_2, word_1);
 	}
 }

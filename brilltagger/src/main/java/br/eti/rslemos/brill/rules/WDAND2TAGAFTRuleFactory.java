@@ -11,6 +11,6 @@ public class WDAND2TAGAFTRuleFactory extends AbstractSingleRuleFactory {
 		String word0 = context.getToken(0).getWord();
 		Object tag2 = context.getToken(2).getTag();
 
-		return new WDAND2TAGAFTRule(from, to, word0, tag2);
+		return WDAND2TAGAFTRule.createRule(from, to, word0, tag2);
 	}
 }

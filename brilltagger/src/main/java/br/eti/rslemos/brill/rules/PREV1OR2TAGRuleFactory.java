@@ -16,8 +16,8 @@ public class PREV1OR2TAGRuleFactory extends AbstractRuleFactory {
 		Object tag_2 = context.getToken(-2).getTag();
 
 		return Arrays.<Rule> asList(
-				new PREV1OR2TAGRule(from, to, tag_1),
-				new PREV1OR2TAGRule(from, to, tag_2)
+				PREV1OR2TAGRule.createRule(from, to, tag_1),
+				PREV1OR2TAGRule.createRule(from, to, tag_2)
 		);
 	}
 }

@@ -4,12 +4,15 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class SURROUNDTAGRule extends AbstractRule {
-	public static final RuleFactory FACTORY = SURROUNDTAGRuleFactory.INSTANCE;
-	
+	public static SURROUNDTAGRule createRule(Object from, Object to,
+			Object prev1Object, Object next1Object) {
+		return new SURROUNDTAGRule(from, to, prev1Object, next1Object);
+	}
+
 	private final Object prev1Object;
 	private final Object next1Object;
 
-	public SURROUNDTAGRule(Object from, Object to, Object prev1Object, Object next1Object) {
+	private SURROUNDTAGRule(Object from, Object to, Object prev1Object, Object next1Object) {
 		super(from, to);
 		this.prev1Object = prev1Object;
 		this.next1Object = next1Object;

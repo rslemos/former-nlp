@@ -4,12 +4,14 @@ import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 
 public class LBIGRAMRule extends AbstractRule {
-	public static final RuleFactory FACTORY = LBIGRAMRuleFactory.INSTANCE;
-	
+	public static LBIGRAMRule createRule(Object from, Object to, String prevWord, String word) {
+		return new LBIGRAMRule(from, to, prevWord, word);
+	}
+
 	private final String prevWord;
 	private final String word;
 
-	public LBIGRAMRule(Object from, Object to, String prevWord, String word) {
+	private LBIGRAMRule(Object from, Object to, String prevWord, String word) {
 		super(from, to);
 		this.prevWord = prevWord;
 		this.word = word;
