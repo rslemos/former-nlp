@@ -1,7 +1,13 @@
 package br.eti.rslemos.brill.rules.lexical;
 
-import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.*;
-import static br.eti.rslemos.brill.rules.RuleContextMother.*;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.createAndTestBrillString;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.createAndTestObjectSemantics;
+import static br.eti.rslemos.brill.rules.RuleBehaviorUtils.createAndTestUntaggedMatchability;
+import static br.eti.rslemos.brill.rules.RuleContextMother.NEXT1_WORD;
+import static br.eti.rslemos.brill.rules.RuleContextMother.PREV1_WORD;
+import static br.eti.rslemos.brill.rules.RuleContextMother.THIS_WORD;
+import static br.eti.rslemos.brill.rules.RuleContextMother.TO_TAG;
+import static br.eti.rslemos.brill.rules.RuleContextMother.buildUntaggedContext;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -9,13 +15,12 @@ import org.junit.Test;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.rules.lexical.SUFFIXRule;
 
 public class SUFFIXRuleBehavior {
 	private boolean matches(String suffix) {
 		Context context = buildUntaggedContext();
 		
-		Rule rule = new SUFFIXRule(null, TO_TAG, suffix);
+		Rule rule = SUFFIXRuleFactory.INSTANCE.createRule(null, TO_TAG, suffix);
 		return rule.matches(context);
 	}
 
@@ -32,17 +37,17 @@ public class SUFFIXRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(SUFFIXRule.FACTORY);
+		createAndTestUntaggedMatchability(SUFFIXRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SUFFIXRule.FACTORY);
+		createAndTestObjectSemantics(SUFFIXRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(SUFFIXRule.FACTORY, 
+		createAndTestBrillString(SUFFIXRuleFactory.INSTANCE, 
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 1, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 2, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 3, THIS_WORD.length()),

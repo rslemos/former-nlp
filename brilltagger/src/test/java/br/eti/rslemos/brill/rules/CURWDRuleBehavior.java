@@ -14,7 +14,7 @@ public class CURWDRuleBehavior {
 	private boolean matches(String word) {
 		Context context = buildContext();
 		
-		Rule rule = new CURWDRule(THIS_TAG, TO_TAG, word);
+		Rule rule = CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(CURWDRule.FACTORY);
+		createAndTestBasicDependency(CURWDRuleFactory.INSTANCE);
 	}
 
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new CURWDRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(CURWDRule.FACTORY);
+		createAndTestMatchability(CURWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(CURWDRule.FACTORY);
+		createAndTestObjectSemantics(CURWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(CURWDRule.FACTORY, 
+		createAndTestBrillString(CURWDRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

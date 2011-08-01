@@ -14,7 +14,7 @@ public class NEXT1OR2TAGRuleBehavior {
 	private boolean matches(Object next1or2Object) {
 		Context context = buildContext();
 		
-		Rule rule = new NEXT1OR2TAGRule(THIS_TAG, TO_TAG, next1or2Object);
+		Rule rule = NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2Object);
 		return rule.matches(context);
 	}
 	
@@ -37,28 +37,28 @@ public class NEXT1OR2TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT1OR2TAGRule.FACTORY);
+		createAndTestBasicDependency(NEXT1OR2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new NEXT1OR2TAGRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
-		testDependency(new NEXT1OR2TAGRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT1OR2TAGRule.FACTORY);
+		createAndTestMatchability(NEXT1OR2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT1OR2TAGRule.FACTORY);
+		createAndTestObjectSemantics(NEXT1OR2TAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXT1OR2TAGRule.FACTORY, 
+		createAndTestBrillString(NEXT1OR2TAGRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2TAG " + NEXT1_TAG,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2TAG " + NEXT2_TAG);
 	}

@@ -14,7 +14,7 @@ public class SURROUNDTAGRuleBehavior {
 	private boolean matches(Object prev1Object, Object next1Object) {
 		Context context = buildContext();
 		
-		Rule rule = new SURROUNDTAGRule(THIS_TAG, TO_TAG, prev1Object, next1Object);
+		Rule rule = SURROUNDTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1Object, next1Object);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class SURROUNDTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(SURROUNDTAGRule.FACTORY);
+		createAndTestBasicDependency(SURROUNDTAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new SURROUNDTAGRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
+		testDependency(SURROUNDTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(SURROUNDTAGRule.FACTORY);
+		createAndTestMatchability(SURROUNDTAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SURROUNDTAGRule.FACTORY);
+		createAndTestObjectSemantics(SURROUNDTAGRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(SURROUNDTAGRule.FACTORY, 
+		createAndTestBrillString(SURROUNDTAGRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

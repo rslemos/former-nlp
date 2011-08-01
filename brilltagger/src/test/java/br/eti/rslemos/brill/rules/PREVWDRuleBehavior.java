@@ -14,7 +14,7 @@ public class PREVWDRuleBehavior {
 	private boolean matches(String prevWord) {
 		Context context = buildContext();
 		
-		Rule rule = new PREVWDRule(THIS_TAG, TO_TAG, prevWord);
+		Rule rule = PREVWDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevWord);
 		return rule.matches(context);
 	}
 
@@ -37,27 +37,27 @@ public class PREVWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREVWDRule.FACTORY);
+		createAndTestBasicDependency(PREVWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(new PREVWDRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREVWDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVWDRule.FACTORY);
+		createAndTestMatchability(PREVWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVWDRule.FACTORY);
+		createAndTestObjectSemantics(PREVWDRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREVWDRule.FACTORY, 
+		createAndTestBrillString(PREVWDRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREVWD " + PREV1_WORD);
 	}
 }

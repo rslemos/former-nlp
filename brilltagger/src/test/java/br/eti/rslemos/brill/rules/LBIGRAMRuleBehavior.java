@@ -14,7 +14,7 @@ public class LBIGRAMRuleBehavior {
 	private boolean matches(String prevWord, String word) {
 		Context context = buildContext();
 		
-		Rule rule = new LBIGRAMRule(THIS_TAG, TO_TAG, prevWord, word);
+		Rule rule = LBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevWord, word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class LBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(LBIGRAMRule.FACTORY);
+		createAndTestBasicDependency(LBIGRAMRuleFactory.INSTANCE);
 	}
 
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new LBIGRAMRule(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(LBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(LBIGRAMRule.FACTORY);
+		createAndTestMatchability(LBIGRAMRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(LBIGRAMRule.FACTORY);
+		createAndTestObjectSemantics(LBIGRAMRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(LBIGRAMRule.FACTORY, 
+		createAndTestBrillString(LBIGRAMRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " LBIGRAM " + PREV1_WORD + " " + THIS_WORD);
 	}
 }

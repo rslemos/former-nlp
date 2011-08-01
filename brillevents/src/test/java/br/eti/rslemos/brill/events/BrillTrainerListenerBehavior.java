@@ -174,7 +174,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyRuleDiscoveryRoundWithNewRule() {
-		final Rule rule = new CURWDRule(BASE_TAG, "T00", "W00");
+		final Rule rule = CURWDRule.createRule(BASE_TAG, "T00", "W00");
 		
 		trainer.setThreshold(2);
 		

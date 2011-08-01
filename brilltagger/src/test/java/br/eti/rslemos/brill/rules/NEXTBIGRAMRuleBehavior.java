@@ -14,7 +14,7 @@ public class NEXTBIGRAMRuleBehavior {
 	private boolean matches(String next1Word, String next2Word) {
 		Context context = buildContext();
 		
-		Rule rule = new NEXTBIGRAMRule(THIS_TAG, TO_TAG, next1Word, next2Word);
+		Rule rule = NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1Word, next2Word);
 		return rule.matches(context);
 	}
 
@@ -46,27 +46,27 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXTBIGRAMRule.FACTORY);
+		createAndTestBasicDependency(NEXTBIGRAMRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(new NEXTBIGRAMRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTBIGRAMRule.FACTORY);
+		createAndTestMatchability(NEXTBIGRAMRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTBIGRAMRule.FACTORY);
+		createAndTestObjectSemantics(NEXTBIGRAMRuleFactory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXTBIGRAMRule.FACTORY, 
+		createAndTestBrillString(NEXTBIGRAMRuleFactory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }
