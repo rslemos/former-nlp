@@ -12,21 +12,6 @@
 	<artifactId>tagger-gate</artifactId>
 	<name>Gate bindings for token tagger</name>
 
-	<repositories>
-		<repository>
-			<id>gate-ontototext</id>
-			<url>http://maven.ontotext.com/archiva/repository/public</url>
-			<releases>
-				<enabled>true</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
