@@ -1,14 +1,16 @@
 package br.eti.rslemos.tagger;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.HashMap;
 
 import org.junit.Test;
-
-import br.eti.rslemos.tagger.LookupTokenTagger;
-import br.eti.rslemos.tagger.Token;
 
 public class LookupTokenTaggerBehavior {
 	@Test
@@ -18,7 +20,7 @@ public class LookupTokenTaggerBehavior {
 		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Object)"bar"));
 		tagger.tag(token);
 		
-		verify(token, never()).setTag(anyObject());
+		verify(token, never()).setFeature(same(AbstractToken.POS), anyObject());
 	}
 
 	@Test
@@ -29,7 +31,7 @@ public class LookupTokenTaggerBehavior {
 		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Object)"bar"));
 		tagger.tag(token);
 		
-		verify(token).setTag("bar");
+		verify(token).setFeature(AbstractToken.POS, "bar");
 	}
 
 	@Test
@@ -40,7 +42,7 @@ public class LookupTokenTaggerBehavior {
 		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Object)null));
 		tagger.tag(token);
 		
-		verify(token).setTag(null);
+		verify(token).setFeature(AbstractToken.POS, null);
 	}
 
 	@Test
@@ -58,9 +60,9 @@ public class LookupTokenTaggerBehavior {
 		LookupTokenTagger tagger = new LookupTokenTagger(lexicon);
 
 		tagger.tag(token1);
-		verify(token1).setTag("tag-foo");
+		verify(token1).setFeature(AbstractToken.POS, "tag-foo");
 
 		tagger.tag(token2);
-		verify(token2).setTag("tag-bar");
+		verify(token2).setFeature(AbstractToken.POS, "tag-bar");
 	}
 }

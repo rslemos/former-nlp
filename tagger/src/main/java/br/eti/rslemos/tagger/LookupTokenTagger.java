@@ -22,7 +22,7 @@ public class LookupTokenTagger extends AbstractTokenTagger implements Serializab
 	public void tag(Token token) {
 		String word = (String) token.getFeature(AbstractToken.WORD);
 		if (lexicon.containsKey(word))
-			token.setTag(lexicon.get(word));
+			token.setFeature(AbstractToken.POS, lexicon.get(word));
 	}
 
 	public Map<String, Object> getLexicon() {

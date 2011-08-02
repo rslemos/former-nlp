@@ -34,8 +34,8 @@ public class CompositeTaggerBehavior {
 		Token token = mock(Token.class);
 		
 		tagToken(this.buildTagger(), token);
-		
-		verify(token, never()).setTag(anyObject());
+
+		verify(token, never()).setFeature(same(AbstractToken.POS), anyObject());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class CompositeTaggerBehavior {
 		inOrder.verify(subTagger2).tag(anySentence());
 		inOrder.verify(subTagger3).tag(anySentence());
 		
-		verify(token, never()).setTag(anyObject());
+		verify(token, never()).setFeature(same(AbstractToken.POS), anyObject());
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				token.setTag("foobar");
+				token.setFeature(AbstractToken.POS, "foobar");
 			}
 		};
 		Tagger subTagger3 = mock(Tagger.class);
@@ -75,7 +75,7 @@ public class CompositeTaggerBehavior {
 		verify(subTagger1).tag(anySentence());
 		verify(subTagger3).tag(anySentence());
 		
-		verify(token).setTag("foobar");
+		verify(token).setFeature(AbstractToken.POS, "foobar");
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				token.setTag("foobar");
+				token.setFeature(AbstractToken.POS, "foobar");
 			}
 		};
 
@@ -95,7 +95,7 @@ public class CompositeTaggerBehavior {
 			@Override
 			public void tag(Token token) {
 				check[0] = true;
-				token.setTag("foobar");
+				token.setFeature(AbstractToken.POS, "foobar");
 			}
 		};
 		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
@@ -103,7 +103,7 @@ public class CompositeTaggerBehavior {
 		assertTrue(check[0]);
 		
 		verify(subTagger1).tag(anySentence());
-		verify(token, times(1)).setTag("foobar");
+		verify(token, times(1)).setFeature(AbstractToken.POS, "foobar");
 	}
 
 	private void tagToken(CompositeTagger tagger, Token token) {

@@ -21,17 +21,6 @@ public class DelayedContext implements Context {
 			token.setFeature(name, value);
 		}
 	}
-
-	@Deprecated
-	private static class OldSetObjectCommand extends SetObjectCommand {
-		protected OldSetObjectCommand(Token token, Object tag) {
-			super(token, null, tag);
-		}
-
-		public void setObject() {
-			token.setTag(value);
-		}
-	}
 	
 	private Context context;
 	private LinkedList<SetObjectCommand> commands = new LinkedList<SetObjectCommand>();
@@ -93,12 +82,6 @@ public class DelayedContext implements Context {
 
 		public DelayedToken setFeature(String name, Object value) {
 			commands.add(new SetObjectCommand(token, name, value));
-			return this;
-		}
-
-		@Deprecated
-		public DelayedToken setTag(Object value) {
-			commands.add(new OldSetObjectCommand(token, value));
 			return this;
 		}
 

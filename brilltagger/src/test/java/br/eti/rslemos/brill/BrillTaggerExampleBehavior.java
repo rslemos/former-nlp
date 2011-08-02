@@ -18,9 +18,9 @@ public class BrillTaggerExampleBehavior {
 	
 	@Test
 	public void exampleMarkHepple2000() {
-		Token to = new DefaultToken("to").setTag("TO");
-		Token sign = new DefaultToken("sign").setTag("NN");
-		Token up = new DefaultToken("up").setTag("RB");
+		Token to = new DefaultToken("to").setFeature(AbstractToken.POS, "TO");
+		Token sign = new DefaultToken("sign").setFeature(AbstractToken.POS, "NN");
+		Token up = new DefaultToken("up").setFeature(AbstractToken.POS, "RB");
 		
 		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("NN", "VB", "TO");
 		Rule rule2 = WDPREVTAGRuleFactory.INSTANCE.createRule("RB", "RP", "VB", "up");
@@ -38,10 +38,10 @@ public class BrillTaggerExampleBehavior {
 	public void example1RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token Chapman = new DefaultToken("Chapman").setTag("NP");
-		Token killed = new DefaultToken("killed").setTag("VBN");;
-		Token John = new DefaultToken("John").setTag("NP");
-		Token Lennon = new DefaultToken("Lennon").setTag("NP");
+		Token Chapman = new DefaultToken("Chapman").setFeature(AbstractToken.POS, "NP");
+		Token killed = new DefaultToken("killed").setFeature(AbstractToken.POS, "VBN");;
+		Token John = new DefaultToken("John").setFeature(AbstractToken.POS, "NP");
+		Token Lennon = new DefaultToken("Lennon").setFeature(AbstractToken.POS, "NP");
 		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
@@ -55,12 +55,12 @@ public class BrillTaggerExampleBehavior {
 	public void example2RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token John = new DefaultToken("John").setTag("NP");
-		Token Lennon = new DefaultToken("Lennon").setTag("NP");
-		Token was = new DefaultToken("was").setTag("BEDZ");
-		Token shot = new DefaultToken("shot").setTag("VBD");
-		Token by = new DefaultToken("by").setTag("BY");
-		Token Chapman = new DefaultToken("Chapman").setTag("NP");
+		Token John = new DefaultToken("John").setFeature(AbstractToken.POS, "NP");
+		Token Lennon = new DefaultToken("Lennon").setFeature(AbstractToken.POS, "NP");
+		Token was = new DefaultToken("was").setFeature(AbstractToken.POS, "BEDZ");
+		Token shot = new DefaultToken("shot").setFeature(AbstractToken.POS, "VBD");
+		Token by = new DefaultToken("by").setFeature(AbstractToken.POS, "BY");
+		Token Chapman = new DefaultToken("Chapman").setFeature(AbstractToken.POS, "NP");
 		
 		tagger.tag(newDefaultSentence(John, Lennon, was, shot, by, Chapman));
 
@@ -76,12 +76,12 @@ public class BrillTaggerExampleBehavior {
 	public void example3RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 
-		Token He = new DefaultToken("He").setTag("PPS");
-		Token witnessed = new DefaultToken("witnessed").setTag("VBD");
-		Token Lennon = new DefaultToken("Lennon").setTag("NP");
-		Token killed = new DefaultToken("killed").setTag("VBN");
-		Token by = new DefaultToken("by").setTag("BY");
-		Token Chapman = new DefaultToken("Chapman").setTag("NP");
+		Token He = new DefaultToken("He").setFeature(AbstractToken.POS, "PPS");
+		Token witnessed = new DefaultToken("witnessed").setFeature(AbstractToken.POS, "VBD");
+		Token Lennon = new DefaultToken("Lennon").setFeature(AbstractToken.POS, "NP");
+		Token killed = new DefaultToken("killed").setFeature(AbstractToken.POS, "VBN");
+		Token by = new DefaultToken("by").setFeature(AbstractToken.POS, "BY");
+		Token Chapman = new DefaultToken("Chapman").setFeature(AbstractToken.POS, "NP");
 		
 		tagger.tag(newDefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 

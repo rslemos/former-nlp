@@ -248,7 +248,7 @@ public class BrillTrainerBehavior {
 
 	private static Token buildToken(String word, Object tag) {
 		Token token = new DefaultToken(word);
-		token.setTag(tag);
+		token.setFeature(AbstractToken.POS, tag);
 		return token;
 	}
 }

@@ -30,7 +30,7 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 
 		for (Matcher matcher : matchers) {
 			if (matcher.matches(word)) {
-				token.setTag(matcher.getObject());
+				token.setFeature(AbstractToken.POS, matcher.getObject());
 				break;
 			}
 		}

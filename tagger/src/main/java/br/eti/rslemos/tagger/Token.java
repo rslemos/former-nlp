@@ -3,8 +3,6 @@ package br.eti.rslemos.tagger;
 import java.util.Map;
 
 public interface Token {
-	@Deprecated Token setTag(Object tag);
-	
 	Object getFeature(String name);
 	Token setFeature(String name, Object value);
 	

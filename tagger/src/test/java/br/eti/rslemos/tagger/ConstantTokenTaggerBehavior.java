@@ -14,6 +14,6 @@ public class ConstantTokenTaggerBehavior {
 		ConstantTokenTagger tagger = new ConstantTokenTagger("CT");
 		tagger.tag(token);
 		
-		verify(token).setTag("CT");
+		verify(token).setFeature(AbstractToken.POS, "CT");
 	}
 }

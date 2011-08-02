@@ -1,7 +1,6 @@
 package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.brill.rules.RuleFactory;
 
 public class SUFFIXRuleFactory extends AbstractAFFIXRuleFactory {
 	public static final SUFFIXRuleFactory INSTANCE = new SUFFIXRuleFactory();

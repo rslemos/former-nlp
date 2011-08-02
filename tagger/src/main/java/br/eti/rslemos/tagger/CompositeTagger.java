@@ -54,15 +54,6 @@ public class CompositeTagger implements Tagger, Serializable {
 			this.token = token;
 		}
 
-		@Deprecated
-		public FilteringToken setTag(Object tag) {
-			if (!alreadySet.contains(AbstractToken.POS)) {
-				token.setTag(tag);
-				alreadySet.add(AbstractToken.POS);
-			}
-			return this;
-		}
-
 		public Object getFeature(String name) {
 			return token.getFeature(name);
 		}
