@@ -14,7 +14,7 @@ public class WDNEXTTAGRuleBehavior {
 	private boolean matches(String word, Object next1Object) {
 		Context context = buildContext();
 		
-		Rule rule = WDNEXTTAGRule.createRule(THIS_TAG, TO_TAG, word, next1Object);
+		Rule rule = WDNEXTTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word, next1Object);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class WDNEXTTAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(WDNEXTTAGRule.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(WDNEXTTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_TAG), F, F, F, F, T, F, F, F);
 	}
 	
 	@Test

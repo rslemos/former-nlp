@@ -29,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.BrillTrainerEventMatcher;
-import br.eti.rslemos.brill.rules.CURWDRule;
 import br.eti.rslemos.brill.rules.CURWDRuleFactory;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
@@ -174,7 +173,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyRuleDiscoveryRoundWithNewRule() {
-		final Rule rule = CURWDRule.createRule(BASE_TAG, "T00", "W00");
+		final Rule rule = CURWDRuleFactory.INSTANCE.createRule(BASE_TAG, "T00", "W00");
 		
 		trainer.setThreshold(2);
 		

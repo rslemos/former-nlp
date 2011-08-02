@@ -14,7 +14,7 @@ public class PREV2TAGRuleBehavior {
 	private boolean matches(Object prev2Object) {
 		Context context = buildContext();
 		
-		Rule rule = PREV2TAGRule.createRule(THIS_TAG, TO_TAG, prev2Object);
+		Rule rule = PREV2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Object);
 		return rule.matches(context);
 	}
 
@@ -42,7 +42,7 @@ public class PREV2TAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(PREV2TAGRule.createRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
+		testDependency(PREV2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_TAG), F, F, T, F, F, F, F, F);
 	}
 	
 	@Test

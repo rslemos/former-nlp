@@ -14,7 +14,7 @@ public class NEXT1OR2TAGRuleBehavior {
 	private boolean matches(Object next1or2Object) {
 		Context context = buildContext();
 		
-		Rule rule = NEXT1OR2TAGRule.createRule(THIS_TAG, TO_TAG, next1or2Object);
+		Rule rule = NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2Object);
 		return rule.matches(context);
 	}
 	
@@ -42,8 +42,8 @@ public class NEXT1OR2TAGRuleBehavior {
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXT1OR2TAGRule.createRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
-		testDependency(NEXT1OR2TAGRule.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(NEXT1OR2TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
 	}
 	
 	@Test

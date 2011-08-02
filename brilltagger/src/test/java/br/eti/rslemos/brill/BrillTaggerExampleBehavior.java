@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import br.eti.rslemos.brill.rules.NEXTTAGRule;
-import br.eti.rslemos.brill.rules.PREVTAGRule;
-import br.eti.rslemos.brill.rules.WDPREVTAGRule;
+import br.eti.rslemos.brill.rules.NEXTTAGRuleFactory;
+import br.eti.rslemos.brill.rules.PREVTAGRuleFactory;
+import br.eti.rslemos.brill.rules.WDPREVTAGRuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Token;
@@ -21,8 +21,8 @@ public class BrillTaggerExampleBehavior {
 		Token sign = new DefaultToken("sign").setTag("NN");
 		Token up = new DefaultToken("up").setTag("RB");
 		
-		Rule rule1 = PREVTAGRule.createRule("NN", "VB", "TO");
-		Rule rule2 = WDPREVTAGRule.createRule("RB", "RP", "VB", "up");
+		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("NN", "VB", "TO");
+		Rule rule2 = WDPREVTAGRuleFactory.INSTANCE.createRule("RB", "RP", "VB", "up");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		
@@ -93,8 +93,8 @@ public class BrillTaggerExampleBehavior {
 	}
 
 	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {
-		Rule rule1 = PREVTAGRule.createRule("VBN", "VBD", "NP");
-		Rule rule2 = NEXTTAGRule.createRule("VBD", "VBN", "BY");
+		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("VBN", "VBD", "NP");
+		Rule rule2 = NEXTTAGRuleFactory.INSTANCE.createRule("VBD", "VBN", "BY");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		

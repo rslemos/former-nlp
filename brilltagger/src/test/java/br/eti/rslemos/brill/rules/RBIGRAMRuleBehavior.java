@@ -14,7 +14,7 @@ public class RBIGRAMRuleBehavior {
 	private boolean matches(String word, String nextWord) {
 		Context context = buildContext();
 		
-		Rule rule = RBIGRAMRule.createRule(THIS_TAG, TO_TAG, word, nextWord);
+		Rule rule = RBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word, nextWord);
 		return rule.matches(context);
 	}
 
@@ -51,7 +51,7 @@ public class RBIGRAMRuleBehavior {
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(RBIGRAMRule.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(RBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test

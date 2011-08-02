@@ -14,7 +14,7 @@ public class CURWDRuleBehavior {
 	private boolean matches(String word) {
 		Context context = buildContext();
 		
-		Rule rule = CURWDRule.createRule(THIS_TAG, TO_TAG, word);
+		Rule rule = CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word);
 		return rule.matches(context);
 	}
 
@@ -42,7 +42,7 @@ public class CURWDRuleBehavior {
 
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(CURWDRule.createRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 	
 	@Test
