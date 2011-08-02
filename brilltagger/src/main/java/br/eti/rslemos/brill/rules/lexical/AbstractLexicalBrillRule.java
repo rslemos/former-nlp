@@ -2,7 +2,7 @@ package br.eti.rslemos.brill.rules.lexical;
 
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public abstract class AbstractLexicalBrillRule extends AbstractRule {
 
@@ -19,7 +19,7 @@ public abstract class AbstractLexicalBrillRule extends AbstractRule {
 	}
 
 	private boolean thisMatches(Context context) {
-		return thisMatches((String)context.getToken(0).getFeature(AbstractToken.WORD));
+		return thisMatches((String)context.getToken(0).getFeature(Token.WORD));
 	}
 
 	protected abstract boolean thisMatches(String word0);

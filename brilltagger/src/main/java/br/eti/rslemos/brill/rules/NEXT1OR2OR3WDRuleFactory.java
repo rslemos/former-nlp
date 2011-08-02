@@ -6,7 +6,7 @@ import java.util.Collection;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public class NEXT1OR2OR3WDRuleFactory extends AbstractRuleFactory {
 	
@@ -14,9 +14,9 @@ public class NEXT1OR2OR3WDRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		String word1 = (String) context.getToken(1).getFeature(AbstractToken.WORD);
-		String word2 = (String) context.getToken(2).getFeature(AbstractToken.WORD);
-		String word3 = (String) context.getToken(3).getFeature(AbstractToken.WORD);
+		String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+		String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+		String word3 = (String) context.getToken(3).getFeature(Token.WORD);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, word1), 
@@ -44,9 +44,9 @@ public class NEXT1OR2OR3WDRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word1 = (String) context.getToken(1).getFeature(AbstractToken.WORD);
-			String word2 = (String) context.getToken(2).getFeature(AbstractToken.WORD);
-			String word3 = (String) context.getToken(3).getFeature(AbstractToken.WORD);
+			String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+			String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+			String word3 = (String) context.getToken(3).getFeature(Token.WORD);
 			
 			return next1or2or3Word != null 
 			? (next1or2or3Word.equals(word1) | next1or2or3Word.equals(word2) | next1or2or3Word.equals(word3)) 

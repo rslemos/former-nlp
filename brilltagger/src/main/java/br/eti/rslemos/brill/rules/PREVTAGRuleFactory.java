@@ -3,14 +3,14 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public class PREVTAGRuleFactory extends AbstractSingleRuleFactory {
 	public static final PREVTAGRuleFactory INSTANCE = new PREVTAGRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
+		Object tag_1 = context.getToken(-1).getFeature(Token.POS);
 
 		return createRule(from, to, tag_1);
 	}
@@ -33,7 +33,7 @@ public class PREVTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
+			Object tag_1 = context.getToken(-1).getFeature(Token.POS);
 			
 			return prevObject != null ? prevObject.equals(tag_1) : tag_1 == null;
 		}

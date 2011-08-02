@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class DefaultToken extends AbstractToken {
+public final class DefaultToken implements Token {
 
 	private final Map<String, Object> features = new HashMap<String, Object>();
 
 	public DefaultToken(String word) {
-		features.put(AbstractToken.WORD, word);
+		features.put(Token.WORD, word);
 	}
 
 	public DefaultToken(Token token) {
@@ -31,7 +31,7 @@ public final class DefaultToken extends AbstractToken {
 
 	@Override
 	public String toString() {
-		return getFeature(AbstractToken.WORD) + "/" + getFeature(AbstractToken.POS);
+		return getFeature(Token.WORD) + "/" + getFeature(Token.POS);
 	}
 
 	

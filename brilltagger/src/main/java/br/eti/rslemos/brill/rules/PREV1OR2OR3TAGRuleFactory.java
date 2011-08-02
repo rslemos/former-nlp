@@ -6,7 +6,7 @@ import java.util.Collection;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public class PREV1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 	
@@ -14,9 +14,9 @@ public class PREV1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
-		Object tag_2 = context.getToken(-2).getFeature(AbstractToken.POS);
-		Object tag_3 = context.getToken(-3).getFeature(AbstractToken.POS);
+		Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+		Object tag_2 = context.getToken(-2).getFeature(Token.POS);
+		Object tag_3 = context.getToken(-3).getFeature(Token.POS);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, tag_1), 
@@ -44,9 +44,9 @@ public class PREV1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
-			Object tag_2 = context.getToken(-2).getFeature(AbstractToken.POS);
-			Object tag_3 = context.getToken(-3).getFeature(AbstractToken.POS);
+			Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+			Object tag_2 = context.getToken(-2).getFeature(Token.POS);
+			Object tag_3 = context.getToken(-3).getFeature(Token.POS);
 			
 			return prev1or2or3Object != null 
 			? (prev1or2or3Object.equals(tag_1) | prev1or2or3Object.equals(tag_2) | prev1or2or3Object.equals(tag_3)) 

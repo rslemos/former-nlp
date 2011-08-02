@@ -3,9 +3,9 @@ package br.eti.rslemos.brill;
 import java.util.Collections;
 import java.util.List;
 
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Tagger;
+import br.eti.rslemos.tagger.Token;
 
 public class BrillTagger implements Tagger {
 
@@ -44,7 +44,7 @@ public class BrillTagger implements Tagger {
 
 	private static boolean apply(Context context, Rule rule) {
 		if (rule.matches(context)) {
-			context.getToken(0).setFeature(AbstractToken.POS, rule.getTo());
+			context.getToken(0).setFeature(Token.POS, rule.getTo());
 			return true;
 		} else {
 			return false;

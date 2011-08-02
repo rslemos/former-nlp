@@ -3,15 +3,15 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
 	public static final SURROUNDTAGRuleFactory INSTANCE = new SURROUNDTAGRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
-		Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
+		Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+		Object tag1 = context.getToken(1).getFeature(Token.POS);
 
 		return createRule(from, to, tag_1, tag1);
 	}
@@ -36,8 +36,8 @@ public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_1 = context.getToken(-1).getFeature(AbstractToken.POS);
-			Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
+			Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+			Object tag1 = context.getToken(1).getFeature(Token.POS);
 			
 			return (prev1Object != null ? prev1Object.equals(tag_1) : tag_1 == null) &&
 				(next1Object != null ? next1Object.equals(tag1) : tag1 == null);

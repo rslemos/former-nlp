@@ -3,15 +3,15 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public class PREVBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 	public static final PREVBIGRAMRuleFactory INSTANCE = new PREVBIGRAMRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word_2 = (String) context.getToken(-2).getFeature(AbstractToken.WORD);
-		String word_1 = (String) context.getToken(-1).getFeature(AbstractToken.WORD);
+		String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
+		String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
 
 		return createRule(from, to, word_2, word_1);
 	}
@@ -36,8 +36,8 @@ public class PREVBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_2 = (String) context.getToken(-2).getFeature(AbstractToken.WORD);
-			String word_1 = (String) context.getToken(-1).getFeature(AbstractToken.WORD);
+			String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
+			String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
 			
 			return (prev2Word != null ? prev2Word.equals(word_2) : word_2 == null) &&
 				(prev1Word != null ? prev1Word.equals(word_1) : word_1 == null);

@@ -13,7 +13,6 @@ import org.hamcrest.Matcher;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.BrillTrainer.Pair;
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -29,8 +28,8 @@ public class BrillCustomMatchers {
 				
 				Token other = (Token) item;
 				
-				String word = (String) token.getFeature(AbstractToken.WORD);
-				String otherWord = (String) other.getFeature(AbstractToken.WORD);
+				String word = (String) token.getFeature(Token.WORD);
+				String otherWord = (String) other.getFeature(Token.WORD);
 				
 				return
 					(word != null ? word.equals(otherWord) : otherWord == null);
@@ -50,8 +49,8 @@ public class BrillCustomMatchers {
 				
 				Token other = (Token) item;
 				
-				Object tag = token.getFeature(AbstractToken.POS);
-				Object otherTag = other.getFeature(AbstractToken.POS);
+				Object tag = token.getFeature(Token.POS);
+				Object otherTag = other.getFeature(Token.POS);
 				
 				return
 					(tag != null ? tag.equals(otherTag) : otherTag == null);
@@ -78,7 +77,7 @@ public class BrillCustomMatchers {
 			return false;
 		
 		for (Pair<Token, Token> pair : BrillTrainer.pairOf(x, y)) {
-			if (!pair.x.getFeature(AbstractToken.WORD).equals(pair.y.getFeature(AbstractToken.WORD)))
+			if (!pair.x.getFeature(Token.WORD).equals(pair.y.getFeature(Token.WORD)))
 				return false;
 		}
 		
@@ -87,7 +86,7 @@ public class BrillCustomMatchers {
 
 	private static boolean taggedAs(Object baseTag, Sentence sentence) {
 		for (Token token : sentence) {
-			if (token.getFeature(AbstractToken.POS) != baseTag)
+			if (token.getFeature(Token.POS) != baseTag)
 				return false;
 		}
 		

@@ -4,13 +4,12 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
 import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
-	private static final class NullToken extends AbstractToken {
+	private static final class NullToken implements Token {
 		public Object getFeature(String name) {
 			return null;
 		}

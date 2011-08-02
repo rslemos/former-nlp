@@ -6,7 +6,7 @@ import java.util.Collection;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.rules.AbstractRuleFactory;
-import br.eti.rslemos.tagger.AbstractToken;
+import br.eti.rslemos.tagger.Token;
 
 public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
 
@@ -18,7 +18,7 @@ public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		return create(from, to, (String)context.getToken(0).getFeature(AbstractToken.WORD));
+		return create(from, to, (String)context.getToken(0).getFeature(Token.WORD));
 	}
 
 	private Collection<Rule> create(Object from, Object to, String word) {

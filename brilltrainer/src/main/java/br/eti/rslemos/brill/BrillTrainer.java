@@ -14,7 +14,6 @@ import java.util.Queue;
 import org.apache.commons.lang.ObjectUtils;
 
 import br.eti.rslemos.brill.rules.RuleFactory;
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
@@ -137,7 +136,7 @@ public class BrillTrainer {
 		for (Token proofToken : proofSentence) {
 			Token trainingToken = trainingContext.next();
 			
-			if (!ObjectUtils.equals(proofToken.getFeature(AbstractToken.POS), trainingToken.getFeature(AbstractToken.POS))) {
+			if (!ObjectUtils.equals(proofToken.getFeature(Token.POS), trainingToken.getFeature(Token.POS))) {
 				Collection<Rule> rules = invokeRuleFactories(trainingContext, proofToken);
 				
 				board.addTruePositives(rules);
@@ -198,7 +197,7 @@ public class BrillTrainer {
 		Rule rule = score.rule;
 
 		if (rule.matches(trainingSentence))
-			if (ObjectUtils.equals(rule.getFrom(), proofToken.getFeature(AbstractToken.POS)))
+			if (ObjectUtils.equals(rule.getFrom(), proofToken.getFeature(Token.POS)))
 				score.dec();
 	}
 	

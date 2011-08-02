@@ -14,7 +14,7 @@ public class NumberTokenTagger extends ConstantTokenTagger {
 
 	@Override
 	public void tag(Token token) {
-		char[] chars = ((String) token.getFeature(AbstractToken.WORD)).toCharArray();
+		char[] chars = ((String) token.getFeature(Token.WORD)).toCharArray();
 		
 		for (char ch : chars) {
 			if (!(Character.isDigit(ch) || ch == '.' || ch == ','))

@@ -17,7 +17,6 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -33,15 +32,15 @@ public class BrillTaggerBehavior {
 	@Test
 	public void shouldInvokeBaseTaggerAndRuleAndObjectToken() {
 		Token token = mock(Token.class);
-		when(token.getFeature(AbstractToken.WORD)).thenReturn("foo");
-		when(token.getFeature(AbstractToken.POS)).thenReturn("bar");
+		when(token.getFeature(Token.WORD)).thenReturn("foo");
+		when(token.getFeature(Token.POS)).thenReturn("bar");
 
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
 				Token token = context.getToken(0);
-				assertEquals(token.getFeature(AbstractToken.WORD), "foo");
-				assertEquals(token.getFeature(AbstractToken.POS), "bar");
+				assertEquals(token.getFeature(Token.WORD), "foo");
+				assertEquals(token.getFeature(Token.POS), "bar");
 				
 				return true;
 			}
@@ -51,7 +50,7 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token));
 
-		verify(token, times(1)).setFeature(AbstractToken.POS, "foobar");
+		verify(token, times(1)).setFeature(Token.POS, "foobar");
 	}
 
 	@Test
@@ -82,8 +81,8 @@ public class BrillTaggerBehavior {
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
-				verify(token2, never()).setFeature(same(AbstractToken.POS), anyObject());
-				verify(token1, never()).setFeature(same(AbstractToken.POS), anyObject());
+				verify(token2, never()).setFeature(same(Token.POS), anyObject());
+				verify(token1, never()).setFeature(same(Token.POS), anyObject());
 				
 				return true;
 			}
@@ -93,8 +92,8 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
-		verify(token1, times(1)).setFeature(AbstractToken.POS, "foobar");
-		verify(token2, times(1)).setFeature(AbstractToken.POS, "foobar");
+		verify(token1, times(1)).setFeature(Token.POS, "foobar");
+		verify(token2, times(1)).setFeature(Token.POS, "foobar");
 	}
 
 	private static class RuleAdapter extends AbstractRule {

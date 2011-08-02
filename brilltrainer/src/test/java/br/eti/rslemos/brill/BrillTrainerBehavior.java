@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import br.eti.rslemos.brill.rules.CURWDRuleFactory;
 import br.eti.rslemos.brill.rules.RuleFactory;
-import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
@@ -107,7 +106,7 @@ public class BrillTrainerBehavior {
 
 			@Override
 			public boolean matches(Context context) {
-				return (context.getToken(0).getFeature(AbstractToken.WORD) == word) && super.matches(context);
+				return (context.getToken(0).getFeature(Token.WORD) == word) && super.matches(context);
 			}
 		}
 		
@@ -121,7 +120,7 @@ public class BrillTrainerBehavior {
 			}
 
 			public Collection<Rule> create(Context context, Token target) {
-				String word = (String) target.getFeature(AbstractToken.WORD);
+				String word = (String) target.getFeature(Token.WORD);
 				
 				if (word == WORD1)
 					return Collections.singleton(rule1);
@@ -248,7 +247,7 @@ public class BrillTrainerBehavior {
 
 	private static Token buildToken(String word, Object tag) {
 		Token token = new DefaultToken(word);
-		token.setFeature(AbstractToken.POS, tag);
+		token.setFeature(Token.POS, tag);
 		return token;
 	}
 }
