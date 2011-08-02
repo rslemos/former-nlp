@@ -66,8 +66,8 @@ public class BrillTaggerBehavior {
 		tagger.tag(newDefaultSentence(token));
 
 		InOrder inOrder = inOrder(rule1, rule2);
-		inOrder.verify(rule1, times(1)).apply(anyContext());
-		inOrder.verify(rule2, times(1)).apply(anyContext());
+		inOrder.verify(rule1, times(1)).matches(anyContext());
+		inOrder.verify(rule2, times(1)).matches(anyContext());
 	}
 
 	private Context anyContext() {

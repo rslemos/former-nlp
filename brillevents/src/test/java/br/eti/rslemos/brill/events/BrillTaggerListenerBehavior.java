@@ -135,14 +135,14 @@ public class BrillTaggerListenerBehavior {
 		InOrder order = inOrder(listener, rule1);
 		
 		order.verify(listener).contextAdvanced(anyEvent());
-		order.verify(rule1).apply(anyContext());
+		order.verify(rule1).matches(anyContext());
 		order.verify(listener).ruleApplied(argThat(
 				isBasicBrillTaggerEvent()
 					.underRuleOf(rule1)
 					.atSomeContext()));
 
 		order.verify(listener).contextAdvanced(anyEvent());
-		order.verify(rule1).apply(anyContext());
+		order.verify(rule1).matches(anyContext());
 		order.verify(listener).ruleApplied(argThat(
 				isBasicBrillTaggerEvent()
 					.underRuleOf(rule1)
@@ -151,7 +151,7 @@ public class BrillTaggerListenerBehavior {
 		order.verify(listener).contextCommitted(anyEvent());
 		
 		order.verify(listener, never()).ruleApplied(anyEvent());
-		order.verify(rule1, never()).apply(anyContext());
+		order.verify(rule1, never()).matches(anyContext());
 	}
 
 	@Test

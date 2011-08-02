@@ -32,11 +32,6 @@ public abstract class AbstractRule implements Rule {
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}
 
-	@Deprecated
-	public final boolean apply(Context context) {
-		return RuleUtils.applyRule(context, this);
-	}
-
 	public boolean testsTag(Object tag) {
 		return from != null ? from.equals(tag) : tag == null;
 	}

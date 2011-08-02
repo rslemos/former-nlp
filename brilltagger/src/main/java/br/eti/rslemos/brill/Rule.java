@@ -11,8 +11,6 @@ public interface Rule {
 	
 	boolean matches(Context context);
 	
-	@Deprecated boolean apply(Context context);
-
 	boolean equals(Object o);
 
 	int hashCode();

@@ -30,7 +30,7 @@ public abstract privileged aspect BrillTaggerPointcuts {
 		cflow(_onRuleApplication(tagger, rule, sentence, *)) && within(BrillTagger+);
 
 	public pointcut onContextualRuleApplication(BrillTagger tagger, Rule rule, Sentence sentence, Context context):
-		call(boolean Rule+.apply(Context)) && target(rule) && args(context) &&
+		call(boolean BrillTagger.apply(Context+, Rule+)) && args(context, rule) &&
 		cflow(_onRuleApplication(tagger, *, sentence, *)) && within(BrillTagger+);
 }
 
