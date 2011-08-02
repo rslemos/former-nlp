@@ -3,13 +3,14 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.AbstractToken;
 
 public class PREV2WDRuleFactory extends AbstractSingleRuleFactory {
 	public static final PREV2WDRuleFactory INSTANCE = new PREV2WDRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word_2 = context.getToken(-2).getWord();
+		String word_2 = (String) context.getToken(-2).getFeature(AbstractToken.WORD);
 
 		return createRule(from, to, word_2);
 	}
@@ -32,7 +33,7 @@ public class PREV2WDRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_2 = context.getToken(-2).getWord();
+			String word_2 = (String) context.getToken(-2).getFeature(AbstractToken.WORD);
 			
 			return prev2Word != null ? prev2Word.equals(word_2) : word_2 == null;
 		}

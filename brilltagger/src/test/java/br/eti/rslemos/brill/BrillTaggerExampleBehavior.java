@@ -9,6 +9,7 @@ import org.junit.Test;
 import br.eti.rslemos.brill.rules.NEXTTAGRuleFactory;
 import br.eti.rslemos.brill.rules.PREVTAGRuleFactory;
 import br.eti.rslemos.brill.rules.WDPREVTAGRuleFactory;
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Token;
@@ -28,9 +29,9 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(to, sign, up));
 		
-		assertEquals(to.getTag(), "TO");
-		assertEquals(sign.getTag(), "VB");
-		assertEquals(up.getTag(), "RP");
+		assertEquals(to.getFeature(AbstractToken.POS), "TO");
+		assertEquals(sign.getFeature(AbstractToken.POS), "VB");
+		assertEquals(up.getFeature(AbstractToken.POS), "RP");
 	}
 
 	@Test
@@ -44,10 +45,10 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
-		assertEquals(Chapman.getTag(), "NP");
-		assertEquals(killed.getTag(), "VBD");
-		assertEquals(John.getTag(), "NP");
-		assertEquals(Lennon.getTag(), "NP");
+		assertEquals(Chapman.getFeature(AbstractToken.POS), "NP");
+		assertEquals(killed.getFeature(AbstractToken.POS), "VBD");
+		assertEquals(John.getFeature(AbstractToken.POS), "NP");
+		assertEquals(Lennon.getFeature(AbstractToken.POS), "NP");
 	}
 
 	@Test
@@ -63,12 +64,12 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(John, Lennon, was, shot, by, Chapman));
 
-		assertEquals(John.getTag(), "NP");
-		assertEquals(Lennon.getTag(), "NP");
-		assertEquals(was.getTag(), "BEDZ");
-		assertEquals(shot.getTag(), "VBN");
-		assertEquals(by.getTag(), "BY");
-		assertEquals(Chapman.getTag(), "NP");
+		assertEquals(John.getFeature(AbstractToken.POS), "NP");
+		assertEquals(Lennon.getFeature(AbstractToken.POS), "NP");
+		assertEquals(was.getFeature(AbstractToken.POS), "BEDZ");
+		assertEquals(shot.getFeature(AbstractToken.POS), "VBN");
+		assertEquals(by.getFeature(AbstractToken.POS), "BY");
+		assertEquals(Chapman.getFeature(AbstractToken.POS), "NP");
 	}
 
 	@Test
@@ -84,12 +85,12 @@ public class BrillTaggerExampleBehavior {
 		
 		tagger.tag(newDefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 
-		assertEquals(He.getTag(), "PPS");
-		assertEquals(witnessed.getTag(), "VBD");
-		assertEquals(Lennon.getTag(), "NP");
-		assertEquals(killed.getTag(), "VBN");
-		assertEquals(by.getTag(), "BY");
-		assertEquals(Chapman.getTag(), "NP");
+		assertEquals(He.getFeature(AbstractToken.POS), "PPS");
+		assertEquals(witnessed.getFeature(AbstractToken.POS), "VBD");
+		assertEquals(Lennon.getFeature(AbstractToken.POS), "NP");
+		assertEquals(killed.getFeature(AbstractToken.POS), "VBN");
+		assertEquals(by.getFeature(AbstractToken.POS), "BY");
+		assertEquals(Chapman.getFeature(AbstractToken.POS), "NP");
 	}
 
 	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {

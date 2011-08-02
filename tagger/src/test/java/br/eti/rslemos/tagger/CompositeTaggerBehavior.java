@@ -15,14 +15,14 @@ public class CompositeTaggerBehavior {
 	@Test
 	public void shouldTransferTokenProperties() {
 		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn("foo");
-		when(token.getTag()).thenReturn("bar");
+		when(token.getFeature(AbstractToken.WORD)).thenReturn("foo");
+		when(token.getFeature(AbstractToken.POS)).thenReturn("bar");
 		
 		Tagger subTagger = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				assertEquals(token.getWord(), "foo");
-				assertEquals(token.getTag(), "bar");
+				assertEquals(token.getFeature(AbstractToken.WORD), "foo");
+				assertEquals(token.getFeature(AbstractToken.POS), "bar");
 			}
 		};
 		

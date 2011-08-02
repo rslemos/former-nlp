@@ -24,7 +24,7 @@ public class LookupTokenTaggerBehavior {
 	@Test
 	public void shouldObjectToken() {
 		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn("foo");
+		when(token.getFeature(AbstractToken.WORD)).thenReturn("foo");
 		
 		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Object)"bar"));
 		tagger.tag(token);
@@ -35,7 +35,7 @@ public class LookupTokenTaggerBehavior {
 	@Test
 	public void shouldNullObjectToken() {
 		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn("foo");
+		when(token.getFeature(AbstractToken.WORD)).thenReturn("foo");
 		
 		LookupTokenTagger tagger = new LookupTokenTagger(Collections.singletonMap("foo", (Object)null));
 		tagger.tag(token);
@@ -46,10 +46,10 @@ public class LookupTokenTaggerBehavior {
 	@Test
 	public void shouldCorreclyObjectTokens() {
 		Token token1 = mock(Token.class);
-		when(token1.getWord()).thenReturn("foo");
+		when(token1.getFeature(AbstractToken.WORD)).thenReturn("foo");
 
 		Token token2 = mock(Token.class);
-		when(token2.getWord()).thenReturn("bar");
+		when(token2.getFeature(AbstractToken.WORD)).thenReturn("bar");
 		
 		HashMap<String, Object> lexicon = new HashMap<String, Object>();
 		lexicon.put("foo", "tag-foo");

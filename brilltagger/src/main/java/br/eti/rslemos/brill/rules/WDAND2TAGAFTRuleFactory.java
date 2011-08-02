@@ -3,14 +3,15 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.AbstractToken;
 
 public class WDAND2TAGAFTRuleFactory extends AbstractSingleRuleFactory {
 	public static final WDAND2TAGAFTRuleFactory INSTANCE = new WDAND2TAGAFTRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word0 = context.getToken(0).getWord();
-		Object tag2 = context.getToken(2).getTag();
+		String word0 = (String) context.getToken(0).getFeature(AbstractToken.WORD);
+		Object tag2 = context.getToken(2).getFeature(AbstractToken.POS);
 
 		return createRule(from, to, word0, tag2);
 	}
@@ -35,8 +36,8 @@ public class WDAND2TAGAFTRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word0 = context.getToken(0).getWord();
-			Object tag2 = context.getToken(2).getTag();
+			String word0 = (String) context.getToken(0).getFeature(AbstractToken.WORD);
+			Object tag2 = context.getToken(2).getFeature(AbstractToken.POS);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(next2Object != null ? next2Object.equals(tag2) : tag2 == null);

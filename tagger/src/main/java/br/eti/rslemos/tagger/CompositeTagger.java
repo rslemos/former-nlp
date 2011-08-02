@@ -55,16 +55,6 @@ public class CompositeTagger implements Tagger, Serializable {
 		}
 
 		@Deprecated
-		public Object getTag() {
-			return token.getTag();
-		}
-
-		@Deprecated
-		public String getWord() {
-			return token.getWord();
-		}
-
-		@Deprecated
 		public FilteringToken setTag(Object tag) {
 			if (!alreadySet.contains(AbstractToken.POS)) {
 				token.setTag(tag);

@@ -3,13 +3,14 @@ package br.eti.rslemos.brill.rules;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.AbstractToken;
 
 public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 	public static final NEXTTAGRuleFactory INSTANCE = new NEXTTAGRuleFactory();
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag1 = context.getToken(1).getTag();
+		Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
 
 		return createRule(from, to, tag1);
 	}
@@ -33,7 +34,7 @@ public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag1 = context.getToken(1).getTag();
+			Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
 			
 			return nextObject != null ? nextObject.equals(tag1) : tag1 == null;
 		}

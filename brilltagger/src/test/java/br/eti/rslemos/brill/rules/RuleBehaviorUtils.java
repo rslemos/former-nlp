@@ -29,6 +29,7 @@ import java.util.TreeSet;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.Token;
 
 public abstract class RuleBehaviorUtils {
@@ -127,7 +128,7 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestBrillString(RuleFactory factory, String... expected) {
 		Token token = mock(Token.class);
-		when(token.getTag()).thenReturn(TO_TAG);
+		when(token.getFeature(AbstractToken.POS)).thenReturn(TO_TAG);
 		
 		Context context = buildContext();
 		

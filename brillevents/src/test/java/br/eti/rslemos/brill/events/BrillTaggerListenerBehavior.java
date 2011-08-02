@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 import br.eti.rslemos.brill.BrillTagger;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.events.BrillTaggerCustomMatchers.BrillTaggerEventMatcher;
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
@@ -44,10 +45,10 @@ public class BrillTaggerListenerBehavior {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		// stubbing por causa do tokenExternallyEquals() 
-		when(token1.getWord()).thenReturn("token1");
-		when(token1.getTag()).thenReturn(new Object());
-		when(token2.getWord()).thenReturn("token2");
-		when(token2.getTag()).thenReturn(new Object());
+		when(token1.getFeature(AbstractToken.WORD)).thenReturn("token1");
+		when(token1.getFeature(AbstractToken.POS)).thenReturn(new Object());
+		when(token2.getFeature(AbstractToken.WORD)).thenReturn("token2");
+		when(token2.getFeature(AbstractToken.POS)).thenReturn(new Object());
 		
 		
 		tagger = new BrillTagger();

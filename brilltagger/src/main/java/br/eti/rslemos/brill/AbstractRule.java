@@ -3,6 +3,8 @@ package br.eti.rslemos.brill;
 import java.io.IOException;
 import java.io.Writer;
 
+import br.eti.rslemos.tagger.AbstractToken;
+
 public abstract class AbstractRule implements Rule {
 
 	protected Object from;
@@ -25,7 +27,7 @@ public abstract class AbstractRule implements Rule {
 	}
 
 	public boolean matches(Context context) {
-		Object tag0 = context.getToken(0).getTag();
+		Object tag0 = context.getToken(0).getFeature(AbstractToken.POS);
 		
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}

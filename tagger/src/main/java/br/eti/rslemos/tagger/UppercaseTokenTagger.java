@@ -15,7 +15,7 @@ public class UppercaseTokenTagger extends ConstantTokenTagger {
 
 	@Override
 	public void tag(Token token) {
-		if (Character.isUpperCase(token.getWord().charAt(0)))
+		if (Character.isUpperCase(((String) token.getFeature(AbstractToken.WORD)).charAt(0)))
 			super.tag(token);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.SentenceContext;
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -66,8 +67,8 @@ public abstract class RuleContextMother {
 
 	private static Token mockToken(String word, Object tag) {
 		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn(word);
-		when(token.getTag() ).thenReturn(tag);
+		when(token.getFeature(AbstractToken.WORD)).thenReturn(word);
+		when(token.getFeature(AbstractToken.POS) ).thenReturn(tag);
 		
 		return token;
 	}

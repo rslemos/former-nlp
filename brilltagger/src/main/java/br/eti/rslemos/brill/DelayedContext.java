@@ -91,16 +91,6 @@ public class DelayedContext implements Context {
 			this.token = token;
 		}
 
-		@Deprecated
-		public Object getTag() {
-			return token.getTag();
-		}
-
-		@Deprecated
-		public String getWord() {
-			return token.getWord();
-		}
-
 		public DelayedToken setFeature(String name, Object value) {
 			commands.add(new SetObjectCommand(token, name, value));
 			return this;

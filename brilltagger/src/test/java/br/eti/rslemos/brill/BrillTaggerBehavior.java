@@ -2,6 +2,7 @@ package br.eti.rslemos.brill;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.mockito.InOrder;
 
+import br.eti.rslemos.tagger.AbstractToken;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -31,15 +33,15 @@ public class BrillTaggerBehavior {
 	@Test
 	public void shouldInvokeBaseTaggerAndRuleAndObjectToken() {
 		Token token = mock(Token.class);
-		when(token.getWord()).thenReturn("foo");
-		when(token.getTag()).thenReturn("bar");
+		when(token.getFeature(AbstractToken.WORD)).thenReturn("foo");
+		when(token.getFeature(AbstractToken.POS)).thenReturn("bar");
 
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
 				Token token = context.getToken(0);
-				assertEquals(token.getWord(), "foo");
-				assertEquals(token.getTag(), "bar");
+				assertEquals(token.getFeature(AbstractToken.WORD), "foo");
+				assertEquals(token.getFeature(AbstractToken.POS), "bar");
 				
 				return true;
 			}
@@ -49,7 +51,7 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token));
 
-		verify(token, times(1)).setTag("foobar");
+		verify(token, times(1)).setFeature(AbstractToken.POS, "foobar");
 	}
 
 	@Test
@@ -80,8 +82,8 @@ public class BrillTaggerBehavior {
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
-				verify(token2, never()).setTag(anyObject());
-				verify(token1, never()).setTag(anyObject());
+				verify(token2, never()).setFeature(same(AbstractToken.POS), anyObject());
+				verify(token1, never()).setFeature(same(AbstractToken.POS), anyObject());
 				
 				return true;
 			}
@@ -91,8 +93,8 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
-		verify(token1, times(1)).setTag("foobar");
-		verify(token2, times(1)).setTag("foobar");
+		verify(token1, times(1)).setFeature(AbstractToken.POS, "foobar");
+		verify(token2, times(1)).setFeature(AbstractToken.POS, "foobar");
 	}
 
 	private static class RuleAdapter extends AbstractRule {

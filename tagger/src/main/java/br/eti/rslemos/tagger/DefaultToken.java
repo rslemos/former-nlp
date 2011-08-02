@@ -31,7 +31,7 @@ public final class DefaultToken extends AbstractToken {
 
 	@Override
 	public String toString() {
-		return getWord() + "/" + getTag();
+		return getFeature(AbstractToken.WORD) + "/" + getFeature(AbstractToken.POS);
 	}
 
 	

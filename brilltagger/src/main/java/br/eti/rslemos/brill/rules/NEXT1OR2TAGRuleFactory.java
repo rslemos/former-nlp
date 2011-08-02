@@ -6,6 +6,7 @@ import java.util.Collection;
 import br.eti.rslemos.brill.AbstractRule;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
+import br.eti.rslemos.tagger.AbstractToken;
 
 public class NEXT1OR2TAGRuleFactory extends AbstractRuleFactory {
 	
@@ -13,8 +14,8 @@ public class NEXT1OR2TAGRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		Object tag1 = context.getToken(1).getTag();
-		Object tag2 = context.getToken(2).getTag();
+		Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
+		Object tag2 = context.getToken(2).getFeature(AbstractToken.POS);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, tag1),
@@ -41,8 +42,8 @@ public class NEXT1OR2TAGRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag1 = context.getToken(1).getTag();
-			Object tag2 = context.getToken(2).getTag();
+			Object tag1 = context.getToken(1).getFeature(AbstractToken.POS);
+			Object tag2 = context.getToken(2).getFeature(AbstractToken.POS);
 			
 			return next1or2Object != null 
 			? (next1or2Object.equals(tag1) | next1or2Object.equals(tag2)) 
