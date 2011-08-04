@@ -36,8 +36,6 @@
 		<module>brillevents</module>
 		
 		<module>tagger-gate</module>
-		
-		<module>maven-corpus-plugin</module>
 	</modules>
 
 	<dependencyManagement>
