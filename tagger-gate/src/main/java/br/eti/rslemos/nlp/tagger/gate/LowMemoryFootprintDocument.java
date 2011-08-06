@@ -50,14 +50,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 	}
 	
 	public LowMemoryFootprintDocument(List<Sentence> doc, String... featureNames) {
-		this.featureNames = new String[featureNames.length + 1];
-		System.arraycopy(featureNames, 0, this.featureNames, 0, featureNames.length);
-		for (int i = 0; i < featureNames.length; i++) {
-			this.featureNames[i] = this.featureNames[i].intern();
-		}
-		
-		this.featureNames[featureNames.length] = Token.WORD;
-		Arrays.sort(this.featureNames);
+		this.featureNames = stuffAndSortFeatureNames(featureNames);
 		
 		final int idxWORD = Arrays.binarySearch(this.featureNames, Token.WORD);
 		
@@ -88,6 +81,18 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			}
 		}
 		
+	}
+
+	private static String[] stuffAndSortFeatureNames(String... featureNames) {
+		String[] result = new String[featureNames.length + 1];
+		System.arraycopy(featureNames, 0, result, 0, featureNames.length);
+		for (int i = 0; i < featureNames.length; i++) {
+			result[i] = result[i].intern();
+		}
+		
+		result[featureNames.length] = Token.WORD;
+		Arrays.sort(result);
+		return result;
 	}
 
 	@Override
