@@ -21,15 +21,50 @@
  ******************************************************************************/
 package br.eti.rslemos.nlp.tagger.gate;
 
-import gate.Document;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
+import br.eti.rslemos.tagger.DefaultSentence;
+import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Sentence;
+import br.eti.rslemos.tagger.Token;
 
-public class LowMemoryFootprintDocumentUnitTest extends AbstractUnitTest {
+public class LowMemoryFootprintDocumentUnitTest extends DocumentUnitTestHelper {
+
 	@Override
-	protected List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features) {
-		return new LowMemoryFootprintDocument(new LightDocument(doc, annotationSetName), features);
+	protected List<Sentence> createListOfSentences(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		return new LowMemoryFootprintDocument(createDocument(doc_def), extractFeatureNames(doc_def));
+	}
+	
+	private static List<Sentence> createDocument(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		String[] sentencesText = makeSentencesText(doc_def);
+		
+		List<Sentence> doc = new ArrayList<Sentence>(doc_def.length);
+		String fullText = makeFullText(sentencesText);
+		
+		int start = 0;
+		for (int i = 0; i < doc_def.length; i++) {
+			Entry<String, Entry<String, String>[]>[] token_defs = doc_def[i];
+			List<Token> tokens = new ArrayList<Token>(token_defs.length);
+				
+			for (Entry<String, Entry<String, String>[]> token_def : token_defs) {
+				String word = token_def.getKey();
+				DefaultToken token = new DefaultToken(fullText.substring(start, start + word.length()));
+				tokens.add(token);
+				
+				start += word.length() + 1;
+				
+				Entry<String, String>[] feature_defs = token_def.getValue();
+				if (feature_defs != null) {
+					for (Entry<String, String> feature_def : feature_defs) {
+						token.setFeature(feature_def.getKey(), feature_def.getValue());
+					}
+				}
+			}
+			doc.add(new DefaultSentence(tokens));
+		}
+		
+		return doc;
 	}
 }

@@ -29,8 +29,10 @@ import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Array;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import objectexplorer.ObjectGraphMeasurer;
@@ -175,6 +177,42 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 
 	public static <T> T[] makeList(T... v) {
 		return v;
+	}
+
+	public static <K, V> Map<K, V> wrapMap(Entry<K, V>... defs) {
+		Map<K,V> map = new HashMap<K, V>();
+		
+		for (Entry<K, V> def : defs) {
+			map.put(def.getKey(), def.getValue());
+		}
+	
+		return map;
+	}
+
+	protected static String[] makeSentencesText(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		String[] sentenceText = new String[doc_def.length];
+		for (int i = 0; i < doc_def.length; i++) {
+			StringBuilder builder = new StringBuilder();
+			
+			for (Entry<String, Entry<String, String>[]> sentence : doc_def[i]) {
+				builder.append(sentence.getKey());
+				builder.append(' ');
+			}
+			
+			sentenceText[i] = builder.substring(0, builder.length() - 1);
+		}
+		return sentenceText;
+	}
+
+	protected static String makeFullText(String... sentences) {
+		StringBuilder result = new StringBuilder();
+		
+		for (String sentence : sentences) {
+			result.append(sentence);
+			result.append(' ');
+		}
+		
+		return result.substring(0, result.length() - 1);
 	}
 
 }

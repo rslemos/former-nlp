@@ -29,7 +29,7 @@ import br.eti.rslemos.tagger.Sentence;
 
 public class LightDocumentUnitTest extends AbstractUnitTest {
 	@Override
-	protected List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features) {
+	protected List<Sentence> createListOfSentences(Document doc, String annotationSetName) {
 		return new LightDocument(doc, annotationSetName);
 	}
 }

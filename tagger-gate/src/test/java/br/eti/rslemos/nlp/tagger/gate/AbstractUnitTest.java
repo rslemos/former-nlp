@@ -41,27 +41,16 @@ public abstract class AbstractUnitTest extends DocumentUnitTestHelper {
 		Document doc = createDocument(doc_def);
 		reportFootprint("doc", doc);
 
-		return createListOfSentences(doc, "annotationSet", extractFeatureNames(doc_def));
+		return createListOfSentences(doc, "annotationSet");
 	}
 	
-	protected abstract List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features);
+	protected abstract List<Sentence> createListOfSentences(Document doc, String annotationSetName);
 
 	private Document createDocument(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		String[] sentencesText = makeSentencesText(doc_def);
+		
 		Document doc = new DocumentImpl();
-		
-		String[] sentenceText = new String[doc_def.length];
-		for (int i = 0; i < doc_def.length; i++) {
-			StringBuilder builder = new StringBuilder();
-			
-			for (Entry<String, Entry<String, String>[]> sentence : doc_def[i]) {
-				builder.append(sentence.getKey());
-				builder.append(' ');
-			}
-			
-			sentenceText[i] = builder.substring(0, builder.length() - 1);
-		}
-		
-		doc.setContent(new DocumentContentImpl(makeSentenceText(sentenceText)));
+		doc.setContent(new DocumentContentImpl(makeFullText(sentencesText)));
 		AnnotationSet annotations = doc.getAnnotations("annotationSet");
 		
 		long start = 0;
@@ -69,7 +58,7 @@ public abstract class AbstractUnitTest extends DocumentUnitTestHelper {
 			Entry<String, Entry<String, String>[]>[] tokens = doc_def[i];
 			
 			try {
-				annotations.add(start, start + (long) sentenceText[i].length(), "sentence", null);
+				annotations.add(start, start + (long) sentencesText[i].length(), "sentence", null);
 				
 				for (Entry<String, Entry<String, String>[]> token : tokens) {
 					String word = token.getKey();
@@ -81,10 +70,7 @@ public abstract class AbstractUnitTest extends DocumentUnitTestHelper {
 					if (feature_defs != null) {
 						Annotation ann = annotations.get(id);
 						ann.setFeatures(new SimpleFeatureMapImpl());
-						
-						for (Entry<String, String> feature : feature_defs) {
-							ann.getFeatures().put(feature.getKey(), feature.getValue());
-						}
+						ann.getFeatures().putAll(wrapMap(feature_defs));
 					}
 				}
 			} catch (InvalidOffsetException e) {
@@ -93,17 +79,6 @@ public abstract class AbstractUnitTest extends DocumentUnitTestHelper {
 		}
 		
 		return doc;
-	}
-
-	private String makeSentenceText(String... words) {
-		StringBuilder result = new StringBuilder();
-		
-		for (String word : words) {
-			result.append(word);
-			result.append(' ');
-		}
-		
-		return result.substring(0, result.length() - 1);
 	}
 
 }
