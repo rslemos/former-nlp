@@ -71,12 +71,12 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		AnnotationSet tokenAnns = annotations.get("token");
 		Iterator<Annotation> tokenAnnsIt = tokenAnns.iterator();
 		
-		features = new Object[this.featureNames.length][tokenAnns.size()];
+		features = new Object[tokenAnns.size()][this.featureNames.length];
 		for (int i = 0; i < tokenAnns.size(); i++) {
 			Annotation tokenAnn = tokenAnnsIt.next();
 
 			try {
-				features[idxWORD][i] = doc.getContent().getContent(tokenAnn.getStartNode().getOffset(), tokenAnn.getEndNode().getOffset()).toString();
+				features[i][idxWORD] = doc.getContent().getContent(tokenAnn.getStartNode().getOffset(), tokenAnn.getEndNode().getOffset()).toString();
 			} catch (InvalidOffsetException e) {
 				throw new RuntimeException(e);
 			}
@@ -84,7 +84,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			FeatureMap tokenFeatureMap = tokenAnn.getFeatures();
 			for (int j = 0; j < this.featureNames.length; j++) {
 				if (j != idxWORD)
-					features[j][i] = internalize(tokenFeatureMap.get(this.featureNames[j]));
+					features[i][j] = internalize(tokenFeatureMap.get(this.featureNames[j]));
 			}
 		}
 		
@@ -235,7 +235,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			@Override
 			public Entry<String, Object> next() {
 				try {
-					return new SimpleEntry<String, Object>(featureNames[j], features[j][i + sentencesStart[index]]);
+					return new SimpleEntry<String, Object>(featureNames[j], features[i + sentencesStart[index]][j]);
 				} finally {
 					j++;
 				}
