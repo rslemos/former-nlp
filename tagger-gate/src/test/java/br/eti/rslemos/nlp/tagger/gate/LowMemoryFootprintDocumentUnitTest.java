@@ -27,9 +27,9 @@ import java.util.List;
 
 import br.eti.rslemos.tagger.Sentence;
 
-public class LightDocumentUnitTest extends AbstractUnitTest {
+public class LowMemoryFootprintDocumentUnitTest extends AbstractUnitTest {
 	@Override
 	protected List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features) {
-		return new LightDocument(doc, annotationSetName);
+		return new LowMemoryFootprintDocument(doc, annotationSetName, features);
 	}
 }

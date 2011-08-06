@@ -36,6 +36,7 @@ import gate.util.SimpleFeatureMapImpl;
 
 import java.lang.reflect.Array;
 import java.util.AbstractMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -63,12 +64,29 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 		
 		createDocument(doc_def);
 		
-		sentences = createListOfSentences(doc, "annotationSet");
+		sentences = createListOfSentences(doc, "annotationSet", extractFeatureNames(doc_def));
 
 		checkSentences(doc_def);
 	}
 
-	protected abstract List<Sentence> createListOfSentences(Document doc, String annotationSetName);
+	private static String[] extractFeatureNames(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		HashSet<String> featureNames = new HashSet<String>();
+		
+		for (Entry<String, Entry<String, String>[]>[] sentence_def : doc_def) {
+			for (Entry<String, Entry<String, String>[]> token_def : sentence_def) {
+				Entry<String, String>[] features = token_def.getValue();
+				if (features != null) {
+					for (Entry<String, String> feature : features) {
+						featureNames.add(feature.getKey());
+					}
+				}
+			}
+		}
+		
+		return featureNames.toArray(new String[featureNames.size()]);
+	}
+
+	protected abstract List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features);
 
 	private void createDocument(Entry<String, Entry<String, String>[]>[][] doc_def) throws InvalidOffsetException {
 		doc = new DocumentImpl();
