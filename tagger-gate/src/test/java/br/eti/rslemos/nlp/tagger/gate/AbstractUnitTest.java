@@ -39,12 +39,17 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import objectexplorer.ObjectGraphMeasurer;
+import objectexplorer.ObjectGraphMeasurer.Footprint;
+
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
+
+import com.google.common.collect.ImmutableMultiset;
 
 @RunWith(Theories.class)
 public abstract class AbstractUnitTest implements DocumentDataPoints {
@@ -54,6 +59,8 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 
 	@Theory
 	public void testConversion(Entry<String, Entry<String, String>[]>[][] doc_def) throws Exception {
+		System.out.println("==========");
+		
 		createDocument(doc_def);
 		
 		sentences = createListOfSentences(doc, "annotationSet");
@@ -104,6 +111,9 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 	}
 
 	private void checkSentences(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		reportFootprint("doc",       doc);
+		reportFootprint("sentences", sentences);
+		
 		assertThat(sentences, is(not(nullValue(List.class))));
 		assertThat(sentences.size(), is(equalTo(doc_def.length)));
 		
@@ -120,6 +130,8 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 		assertThat(sentence, is(not(nullValue(Sentence.class))));
 		assertThat(sentence.size(), is(equalTo(sentence_def.length)));
 		
+		reportFootprint("sentence_" + sentence_idx , sentence);
+
 		for (int i = 0; i < sentence_def.length; i++) {
 			checkToken(doc_def, sentence_idx, i);
 		}
@@ -140,6 +152,8 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 			assertThat(token.getFeature(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
 			assertThat(token.getFeatures().get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
 		}
+		
+		reportFootprint("token_" + sentence_idx + "_" + token_idx,   token);
 	}
 
 	private String makeSentenceText(String... words) {
@@ -151,6 +165,38 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 		}
 		
 		return result.substring(0, result.length() - 1);
+	}
+	
+	private static void reportFootprint(String name, Object o) {
+		Footprint footprint = ObjectGraphMeasurer.measure(o);
+		System.out.printf("%20s: %10d (%s)\n", name, computeFootprint(footprint), footprint);
+	}
+
+	private static int computeFootprint(Footprint fp) {
+		final int REFERENCE_SIZE = 64 / 8; //memory pointer
+		final int OBJECT_SIZE = 1*REFERENCE_SIZE; //assuming 1 pointer per object allocation
+		final int BOOLEAN_SIZE = 2;
+		final int BYTE_SIZE = 1;
+		final int CHAR_SIZE = 2;
+		final int SHORT_SIZE = 2;
+		final int INT_SIZE = 4;
+		final int LONG_SIZE = 8;
+		final int FLOAT_SIZE = 4;
+		final int DOUBLE_SIZE = 8;
+		
+		ImmutableMultiset<Class<?>> p = fp.getPrimitives();
+		
+		return 
+			fp.getReferences()     * REFERENCE_SIZE +
+			fp.getObjects()        * OBJECT_SIZE    +
+			p.count(boolean.class) * BOOLEAN_SIZE   +
+			p.count(byte.class)    * BYTE_SIZE      +
+			p.count(char.class)    * CHAR_SIZE      +
+			p.count(short.class)   * SHORT_SIZE     +
+			p.count(int.class)     * INT_SIZE       +
+			p.count(long.class)    * LONG_SIZE      +
+			p.count(float.class)   * FLOAT_SIZE     +
+			p.count(double.class)  * DOUBLE_SIZE;
 	}
 	
 	// used to construct datapoints
