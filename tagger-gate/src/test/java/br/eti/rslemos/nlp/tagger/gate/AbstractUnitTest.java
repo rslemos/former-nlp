@@ -100,11 +100,14 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 				int id = annotations.add(start, start + (long) word.length(), "token", null);
 				start += word.length() + 1;
 				
-				Annotation ann = annotations.get(id);
-				ann.setFeatures(new SimpleFeatureMapImpl());
-				
-				for (Entry<String, String> feature : token.getValue()) {
-					ann.getFeatures().put(feature.getKey(), feature.getValue());
+				Entry<String, String>[] feature_defs = token.getValue();
+				if (feature_defs != null) {
+					Annotation ann = annotations.get(id);
+					ann.setFeatures(new SimpleFeatureMapImpl());
+					
+					for (Entry<String, String> feature : feature_defs) {
+						ann.getFeatures().put(feature.getKey(), feature.getValue());
+					}
 				}
 			}
 		}
@@ -139,18 +142,24 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 
 	private void checkToken(Entry<String, Entry<String, String>[]>[][] doc_def, int sentence_idx, int token_idx) {
 		Entry<String, Entry<String, String>[]> token_def = doc_def[sentence_idx][token_idx];
+		Entry<String, String>[] feature_defs = token_def.getValue();
 		
 		Sentence sentence = sentences.get(sentence_idx);
 		Token token = sentence.get(token_idx);
 		
 		assertThat(token, is(not(nullValue(Token.class))));
-		assertThat(token.getFeatures().size(), is(equalTo(token_def.getValue().length + 1)));
+		
 		assertThat(token.getFeature(Token.WORD), is(equalTo((Object)token_def.getKey())));
 		assertThat(token.getFeatures().get(Token.WORD), is(equalTo((Object)token_def.getKey())));
-		
-		for (Entry<String, String> feature_def : token_def.getValue()) {
-			assertThat(token.getFeature(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
-			assertThat(token.getFeatures().get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
+
+		if (feature_defs != null) {
+			assertThat(token.getFeatures().size(), is(equalTo(feature_defs.length + 1)));
+			for (Entry<String, String> feature_def : feature_defs) {
+				assertThat(token.getFeature(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
+				assertThat(token.getFeatures().get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
+			}
+		} else {
+			assertThat(token.getFeatures().size(), is(equalTo(1)));
 		}
 		
 		reportFootprint("token_" + sentence_idx + "_" + token_idx,   token);

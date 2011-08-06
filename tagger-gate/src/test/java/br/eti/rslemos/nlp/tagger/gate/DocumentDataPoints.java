@@ -34,7 +34,7 @@ public interface DocumentDataPoints {
 	@DataPoint public static final Entry<String, Entry<String, String>[]>[][] oneSentenceWithOneToken1 = makeTypedList(
 			Entry[].class,
 			makeList(
-					makeEntry("word", makeTypedList(Entry.class))
+					makeEntry("word", null)
 				)
 		);
 	
