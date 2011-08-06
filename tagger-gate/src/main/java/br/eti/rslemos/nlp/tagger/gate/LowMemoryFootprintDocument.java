@@ -40,8 +40,6 @@ import br.eti.rslemos.tagger.Token;
 
 public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
-	private final int idxWORD;
-
 	private final String[] featureNames;
 	private final Object[][] features;
 	
@@ -61,7 +59,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		this.featureNames[featureNames.length] = Token.WORD;
 		Arrays.sort(this.featureNames);
 		
-		idxWORD = Arrays.binarySearch(this.featureNames, Token.WORD);
+		final int idxWORD = Arrays.binarySearch(this.featureNames, Token.WORD);
 		
 		// build sentences as token offsets (and compute feature matrix size)
 		sentencesEnd = new int[doc.size()];
