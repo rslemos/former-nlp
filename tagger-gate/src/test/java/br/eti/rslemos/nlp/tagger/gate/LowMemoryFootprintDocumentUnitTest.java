@@ -30,6 +30,6 @@ import br.eti.rslemos.tagger.Sentence;
 public class LowMemoryFootprintDocumentUnitTest extends AbstractUnitTest {
 	@Override
 	protected List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features) {
-		return new LowMemoryFootprintDocument(doc, annotationSetName, features);
+		return new LowMemoryFootprintDocument(new LightDocument(doc, annotationSetName), features);
 	}
 }

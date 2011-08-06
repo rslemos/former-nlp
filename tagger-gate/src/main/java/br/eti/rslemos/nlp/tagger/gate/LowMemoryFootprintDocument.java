@@ -21,8 +21,6 @@
  ******************************************************************************/
 package br.eti.rslemos.nlp.tagger.gate;
 
-import gate.Document;
-
 import java.util.AbstractList;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
@@ -45,10 +43,6 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 	
 	private final int[] sentencesEnd;
 
-	public LowMemoryFootprintDocument(Document doc, String annotationSetName, String... featureNames) {
-		this(new LightDocument(doc, annotationSetName), featureNames);
-	}
-	
 	public LowMemoryFootprintDocument(List<Sentence> doc, String... featureNames) {
 		this.featureNames = stuffAndSortFeatureNames(featureNames);
 		
