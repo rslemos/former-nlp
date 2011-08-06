@@ -83,7 +83,7 @@ public final class LightDocument extends AbstractList<Sentence> {
 	}
 
 
-	private final static class LightSentence implements Sentence {
+	private final static class LightSentence extends AbstractList<Token> implements Sentence {
 		private final Annotation annSentence;
 		private final LightDocument lightDoc;
 
@@ -104,11 +104,6 @@ public final class LightDocument extends AbstractList<Sentence> {
 		@Override
 		public int size() {
 			return getAnnAllTokens().size();
-		}
-
-		@Override
-		public Iterator<Token> iterator() {
-			throw new UnsupportedOperationException();
 		}
 	}
 	

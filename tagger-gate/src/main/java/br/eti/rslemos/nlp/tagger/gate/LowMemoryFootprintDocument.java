@@ -21,11 +21,7 @@
  ******************************************************************************/
 package br.eti.rslemos.nlp.tagger.gate;
 
-import gate.Annotation;
-import gate.AnnotationSet;
 import gate.Document;
-import gate.FeatureMap;
-import gate.util.InvalidOffsetException;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
@@ -33,6 +29,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -48,14 +45,13 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 	private final String[] featureNames;
 	private final Object[][] features;
 	
-	private final int[] sentencesStart;
 	private final int[] sentencesEnd;
 
 	public LowMemoryFootprintDocument(Document doc, String annotationSetName, String... featureNames) {
-		this(doc, doc.getAnnotations(annotationSetName), featureNames);
+		this(new LightDocument(doc, annotationSetName), featureNames);
 	}
-
-	public LowMemoryFootprintDocument(Document doc, AnnotationSet annotations, String... featureNames) {
+	
+	public LowMemoryFootprintDocument(List<Sentence> doc, String... featureNames) {
 		this.featureNames = new String[featureNames.length + 1];
 		System.arraycopy(featureNames, 0, this.featureNames, 0, featureNames.length);
 		for (int i = 0; i < featureNames.length; i++) {
@@ -67,58 +63,31 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		
 		idxWORD = Arrays.binarySearch(this.featureNames, Token.WORD);
 		
-		// build token matrix
-		AnnotationSet tokenAnns = annotations.get("token");
-		Iterator<Annotation> tokenAnnsIt = tokenAnns.iterator();
-		
-		features = new Object[tokenAnns.size()][this.featureNames.length];
-		for (int i = 0; i < tokenAnns.size(); i++) {
-			Annotation tokenAnn = tokenAnnsIt.next();
-
-			try {
-				features[i][idxWORD] = doc.getContent().getContent(tokenAnn.getStartNode().getOffset(), tokenAnn.getEndNode().getOffset()).toString();
-			} catch (InvalidOffsetException e) {
-				throw new RuntimeException(e);
-			}
-			
-			FeatureMap tokenFeatureMap = tokenAnn.getFeatures();
-			for (int j = 0; j < this.featureNames.length; j++) {
-				if (j != idxWORD)
-					features[i][j] = internalize(tokenFeatureMap.get(this.featureNames[j]));
-			}
+		// build sentences as token offsets (and compute feature matrix size)
+		sentencesEnd = new int[doc.size()];
+		int i = 0;
+		Iterator<Sentence> sentenceIt = doc.iterator();
+		while (sentenceIt.hasNext()) {
+			Sentence sentence = sentenceIt.next();
+			sentencesEnd[i] = getSentenceStart(i) + sentence.size();
+			i++;
 		}
 		
-		// build sentences as token offsets
-		AnnotationSet sentenceAnns = annotations.get("sentence");
-		Iterator<Annotation> sentenceAnnsIt = sentenceAnns.iterator();
-		sentencesStart = new int[sentenceAnns.size()];
-		sentencesEnd = new int[sentenceAnns.size()];
-		
-		for (int i = 0; i < sentenceAnns.size(); i++) {
-			Annotation sentenceAnn = sentenceAnnsIt.next();
-			long startOffset = sentenceAnn.getStartNode().getOffset();
-			long endOffset = sentenceAnn.getEndNode().getOffset();
-			
-			tokenAnnsIt = tokenAnns.iterator();
-			
-			while (tokenAnnsIt.hasNext()) {
-				Annotation tokenAnn = tokenAnnsIt.next();
-				if (tokenAnn.getStartNode().getOffset() >= startOffset)
-					break;
+		// build token matrix
+		features = new Object[sentencesEnd[doc.size()-1]][this.featureNames.length];
+		int j = 0;
+		for (Sentence sentence : doc) {
+			for (Token token : sentence) {
+				Map<String, Object> featureMap = token.getFeatures();
+
+				for (int k = 0; k < this.featureNames.length; k++) {
+					features[j][k] = featureMap.get(this.featureNames[k]);
+					if (k != idxWORD)
+						features[j][k] = internalize(features[j][k]);
+				}
 				
-				sentencesStart[i]++;
+				j++;
 			}
-			
-			sentencesEnd[i] = sentencesStart[i];
-			while (tokenAnnsIt.hasNext()) {
-				Annotation tokenAnn = tokenAnnsIt.next();
-				if (tokenAnn.getEndNode().getOffset() > endOffset)
-					break;
-				
-				sentencesEnd[i]++;
-			}
-			
-			sentencesEnd[i]++;
 		}
 		
 	}
@@ -130,7 +99,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
 	@Override
 	public int size() {
-		return sentencesStart.length;
+		return sentencesEnd.length;
 	}
 
 	private static Object internalize(Object o) {
@@ -158,6 +127,10 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		return o;
 	}
 
+	private int getSentenceStart(int index) {
+		return index > 0 ? sentencesEnd[index-1] : 0;
+	}
+
 	private final class LowMemoryFootprintSentence implements Sentence {
 		private final int index;
 
@@ -167,7 +140,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
 		@Override
 		public int size() {
-			return sentencesEnd[index] - sentencesStart[index];
+			return sentencesEnd[index] - getSentenceStart(index);
 		}
 
 		@Override
@@ -235,7 +208,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			@Override
 			public Entry<String, Object> next() {
 				try {
-					return new SimpleEntry<String, Object>(featureNames[j], features[i + sentencesStart[index]][j]);
+					return new SimpleEntry<String, Object>(featureNames[j], features[i + getSentenceStart(index)][j]);
 				} finally {
 					j++;
 				}
