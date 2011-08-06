@@ -19,7 +19,7 @@
  * 
  * END COPYRIGHT NOTICE
  ******************************************************************************/
-package br.eti.rslemos.nlp.tagger.gate;
+package br.eti.rslemos.tagger;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
@@ -32,9 +32,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
-import br.eti.rslemos.tagger.Token;
 
 public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
@@ -135,17 +132,14 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			this.index = index;
 		}
 
-		@Override
 		public int size() {
 			return sentencesEnd[index] - getSentenceStart(index);
 		}
 
-		@Override
 		public Token get(int i) throws SentenceIndexOutOfBoundsException {
 			return new LowMemoryFootprintToken(index, i);
 		}
 
-		@Override
 		public Iterator<Token> iterator() {
 			throw new UnsupportedOperationException();
 		}
@@ -160,17 +154,14 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			this.i = i;
 		}
 
-		@Override
 		public Object getFeature(String name) {
 			return getFeatures().get(name);
 		}
 
-		@Override
 		public Map<String, Object> getFeatures() {
 			return new FeatureMap();
 		}
 
-		@Override
 		public Token setFeature(String name, Object value) {
 			throw new UnsupportedOperationException();
 		}
@@ -197,12 +188,10 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		private final class FeatureSetIterator implements Iterator<Entry<String, Object>> {
 			int j = 0;
 
-			@Override
 			public boolean hasNext() {
 				return j < featureNames.length;
 			}
 
-			@Override
 			public Entry<String, Object> next() {
 				try {
 					return new SimpleEntry<String, Object>(featureNames[j], features[i + getSentenceStart(index)][j]);
@@ -211,7 +200,6 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 				}
 			}
 
-			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

@@ -19,11 +19,11 @@
  * 
  * END COPYRIGHT NOTICE
  ******************************************************************************/
-package br.eti.rslemos.nlp.tagger.gate;
+package br.eti.rslemos.tagger;
 
-import static br.eti.rslemos.nlp.tagger.gate.AbstractUnitTest.makeEntry;
-import static br.eti.rslemos.nlp.tagger.gate.AbstractUnitTest.makeList;
-import static br.eti.rslemos.nlp.tagger.gate.AbstractUnitTest.makeTypedList;
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.makeEntry;
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.makeList;
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.makeTypedList;
 
 import java.util.Map.Entry;
 

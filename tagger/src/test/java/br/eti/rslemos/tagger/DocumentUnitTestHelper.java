@@ -19,7 +19,7 @@
  * 
  * END COPYRIGHT NOTICE
  ******************************************************************************/
-package br.eti.rslemos.nlp.tagger.gate;
+package br.eti.rslemos.tagger;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

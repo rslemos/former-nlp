@@ -32,6 +32,7 @@ import gate.util.SimpleFeatureMapImpl;
 import java.util.List;
 import java.util.Map.Entry;
 
+import br.eti.rslemos.tagger.DocumentUnitTestHelper;
 import br.eti.rslemos.tagger.Sentence;
 
 public abstract class AbstractUnitTest extends DocumentUnitTestHelper {

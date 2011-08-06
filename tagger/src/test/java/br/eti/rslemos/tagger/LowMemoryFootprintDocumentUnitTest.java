@@ -19,7 +19,7 @@
  * 
  * END COPYRIGHT NOTICE
  ******************************************************************************/
-package br.eti.rslemos.nlp.tagger.gate;
+package br.eti.rslemos.tagger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
+import br.eti.rslemos.tagger.LowMemoryFootprintDocument;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 

@@ -43,11 +43,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tagger</artifactId>
+			<version>${project.version}</version>
+			<classifier>test</classifier>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>uk.ac.gate</groupId>
 			<artifactId>gate-core</artifactId>
 			<version>6.1</version>
 		</dependency>
 
+		<!-- 
+			These dependency were already declared on tagger module (scoped as "test").
+			Not really used here, but maven won't pull test dependencies transitively.
+		 -->
 		<dependency>
 			<groupId>objectexplorer</groupId>
 			<artifactId>objectexplorer</artifactId>
