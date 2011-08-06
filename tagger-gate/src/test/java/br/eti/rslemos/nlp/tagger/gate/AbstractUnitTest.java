@@ -55,17 +55,14 @@ import com.google.common.collect.ImmutableMultiset;
 @RunWith(Theories.class)
 public abstract class AbstractUnitTest implements DocumentDataPoints {
 	
-	private Document doc;
 	private List<Sentence> sentences;
 
 	@Theory
 	public void testConversion(Entry<String, Entry<String, String>[]>[][] doc_def) throws Exception {
 		System.out.println("==========");
 		
-		createDocument(doc_def);
+		sentences = createListOfSentences(doc_def);
 		
-		sentences = createListOfSentences(doc, "annotationSet", extractFeatureNames(doc_def));
-
 		checkSentences(doc_def);
 	}
 
@@ -86,10 +83,17 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 		return featureNames.toArray(new String[featureNames.size()]);
 	}
 
+	protected List<Sentence> createListOfSentences(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		Document doc = createDocument(doc_def);
+		reportFootprint("doc", doc);
+
+		return createListOfSentences(doc, "annotationSet", extractFeatureNames(doc_def));
+	}
+	
 	protected abstract List<Sentence> createListOfSentences(Document doc, String annotationSetName, String... features);
 
-	private void createDocument(Entry<String, Entry<String, String>[]>[][] doc_def) throws InvalidOffsetException {
-		doc = new DocumentImpl();
+	private Document createDocument(Entry<String, Entry<String, String>[]>[][] doc_def) {
+		Document doc = new DocumentImpl();
 		
 		String[] sentenceText = new String[doc_def.length];
 		for (int i = 0; i < doc_def.length; i++) {
@@ -110,29 +114,34 @@ public abstract class AbstractUnitTest implements DocumentDataPoints {
 		for (int i = 0; i < doc_def.length; i++) {
 			Entry<String, Entry<String, String>[]>[] tokens = doc_def[i];
 			
-			annotations.add(start, start + (long) sentenceText[i].length(), "sentence", null);
-			
-			for (Entry<String, Entry<String, String>[]> token : tokens) {
-				String word = token.getKey();
+			try {
+				annotations.add(start, start + (long) sentenceText[i].length(), "sentence", null);
 				
-				int id = annotations.add(start, start + (long) word.length(), "token", null);
-				start += word.length() + 1;
-				
-				Entry<String, String>[] feature_defs = token.getValue();
-				if (feature_defs != null) {
-					Annotation ann = annotations.get(id);
-					ann.setFeatures(new SimpleFeatureMapImpl());
+				for (Entry<String, Entry<String, String>[]> token : tokens) {
+					String word = token.getKey();
 					
-					for (Entry<String, String> feature : feature_defs) {
-						ann.getFeatures().put(feature.getKey(), feature.getValue());
+					int id = annotations.add(start, start + (long) word.length(), "token", null);
+					start += word.length() + 1;
+					
+					Entry<String, String>[] feature_defs = token.getValue();
+					if (feature_defs != null) {
+						Annotation ann = annotations.get(id);
+						ann.setFeatures(new SimpleFeatureMapImpl());
+						
+						for (Entry<String, String> feature : feature_defs) {
+							ann.getFeatures().put(feature.getKey(), feature.getValue());
+						}
 					}
 				}
+			} catch (InvalidOffsetException e) {
+				throw new RuntimeException(e);
 			}
 		}
+		
+		return doc;
 	}
 
 	private void checkSentences(Entry<String, Entry<String, String>[]>[][] doc_def) {
-		reportFootprint("doc",       doc);
 		reportFootprint("sentences", sentences);
 		
 		assertThat(sentences, is(not(nullValue(List.class))));
