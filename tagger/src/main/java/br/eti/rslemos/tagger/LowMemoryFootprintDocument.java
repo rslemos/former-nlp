@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
+import java.util.TreeSet;
 
 public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
@@ -41,7 +41,14 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 	private final int[] sentencesEnd;
 
 	public LowMemoryFootprintDocument(List<Sentence> doc, String... featureNames) {
-		this.featureNames = stuffAndSortFeatureNames(featureNames);
+		// build set of feature names
+		// (add Token.WORD, avoid duplicates, sort and intern()) 
+		TreeSet<String> featureNameSet = new TreeSet<String>(Arrays.asList(featureNames));
+		featureNameSet.add(Token.WORD);
+		this.featureNames = featureNameSet.toArray(new String[featureNameSet.size()]);
+		for (int i = 0; i < this.featureNames.length; i++) {
+			this.featureNames[i] = this.featureNames[i].intern();
+		}
 		
 		final int idxWORD = Arrays.binarySearch(this.featureNames, Token.WORD);
 		
@@ -72,18 +79,6 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			}
 		}
 		
-	}
-
-	private static String[] stuffAndSortFeatureNames(String... featureNames) {
-		String[] result = new String[featureNames.length + 1];
-		System.arraycopy(featureNames, 0, result, 0, featureNames.length);
-		for (int i = 0; i < featureNames.length; i++) {
-			result[i] = result[i].intern();
-		}
-		
-		result[featureNames.length] = Token.WORD;
-		Arrays.sort(result);
-		return result;
 	}
 
 	@Override
