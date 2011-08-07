@@ -50,6 +50,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tagger</artifactId>
+			<version>${project.version}</version>
+			<classifier>test</classifier>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 </project>

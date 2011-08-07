@@ -21,6 +21,9 @@
  ******************************************************************************/
 package br.eti.rslemos.brill;
 
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.buildSentence;
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.buildText;
+import static br.eti.rslemos.tagger.DocumentUnitTestHelper.buildToken;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +38,6 @@ import br.eti.rslemos.brill.rules.CURWDRuleFactory;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
-import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.Token;
 
@@ -256,19 +258,5 @@ public class BrillTrainerBehavior {
 						buildToken("up", "RP")
 				)
 		);
-	}
-
-	private static  List<Sentence> buildText(Sentence... sentence) {
-		return Arrays.asList(sentence);
-	}
-
-	private static  Sentence buildSentence(Token... tokens) {
-		return new DefaultSentence(Arrays.asList(tokens));
-	}
-
-	private static Token buildToken(String word, Object tag) {
-		Token token = new DefaultToken(word);
-		token.setFeature(Token.POS, tag);
-		return token;
 	}
 }

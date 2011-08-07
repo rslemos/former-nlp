@@ -29,6 +29,7 @@ import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Array;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -129,6 +130,20 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 		}
 		
 		reportFootprint("token_" + sentence_idx + "_" + token_idx,   token);
+	}
+
+	public static  List<Sentence> buildText(Sentence... sentence) {
+		return Arrays.asList(sentence);
+	}
+
+	public static  Sentence buildSentence(Token... tokens) {
+		return new DefaultSentence(Arrays.asList(tokens));
+	}
+
+	public static Token buildToken(String word, Object tag) {
+		Token token = new DefaultToken(word);
+		token.setFeature(Token.POS, tag);
+		return token;
 	}
 
 	protected static void reportFootprint(String name, Object o) {
