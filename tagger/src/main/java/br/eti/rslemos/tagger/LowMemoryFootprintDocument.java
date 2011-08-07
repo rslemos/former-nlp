@@ -23,13 +23,13 @@ package br.eti.rslemos.tagger;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -166,6 +166,19 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			public Set<Entry<String, Object>> entrySet() {
 				return new FeatureSet();
 			}
+
+			@Override
+			public Object put(String key, Object value) {
+				int keyIdx = Arrays.binarySearch(featureNames, key);
+				
+				if (keyIdx < 0)
+					throw new IllegalArgumentException("Feature '" + key + "' not on feature set");
+				
+				Object oldValue = features[i + getSentenceStart(index)][keyIdx];
+				features[i + getSentenceStart(index)][keyIdx] = value;
+				
+				return oldValue;
+			}
 		}
 		
 		private final class FeatureSet extends AbstractSet<Entry<String, Object>> {
@@ -188,8 +201,11 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			}
 
 			public Entry<String, Object> next() {
+				if (!hasNext())
+					throw new NoSuchElementException();
+
 				try {
-					return new SimpleEntry<String, Object>(featureNames[j], features[i + getSentenceStart(index)][j]);
+					return new FeatureEntry(j);
 				} finally {
 					j++;
 				}
@@ -200,5 +216,57 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			}
 		}
 
+		private final class FeatureEntry implements Entry<String, Object> {
+			private final int j;
+
+			private FeatureEntry(int j) {
+				this.j = j;
+			}
+
+			public String getKey() {
+				return featureNames[j];
+			}
+
+			public Object getValue() {
+				return features[i + getSentenceStart(index)][j];
+			}
+
+			public Object setValue(Object value) {
+				Object oldValue = features[i + getSentenceStart(index)][j];
+				features[i + getSentenceStart(index)][j] = value;
+				return oldValue;
+			}
+
+			@Override
+			public int hashCode() {
+				return	(getKey()   == null ? 0 :   getKey().hashCode()) ^
+				(getValue() == null ? 0 : getValue().hashCode());
+			}
+
+			@Override
+			public boolean equals(Object o) {
+				if (o == this)
+					return true;
+
+				if (o == null)
+					return false;
+
+				if (!(o instanceof Entry))
+					return false;
+
+				@SuppressWarnings("unchecked")
+				Entry<String, Object> e = (Entry<String, Object>)o;
+				return eq(getKey(), e.getKey()) && eq(getValue(), e.getValue());
+			}
+
+			@Override
+			public String toString() {
+				return getKey() + "=" + getValue();
+			}
+		}
+	}
+
+	private static boolean eq(Object o1, Object o2) {
+		return o1 == null ? o2 == null : o1.equals(o2);
 	}
 }
