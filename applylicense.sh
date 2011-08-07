@@ -21,6 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 END COPYRIGHT NOTICE
 EOF
 
+# the following files should not have copyright notice
+# (generally because they are distributed under another license)
+EXCLUSIONS=`cat << EOF
+COPYING
+applylicense.sh
+EOF`
+
 NOTICEMARKERSREGEXP="\(BEGIN\|END\) COPYRIGHT NOTICE"
 
 HASHNOTICE="`mktemp -t noticeXXXXX`"
@@ -109,9 +116,12 @@ applyHash() {
 	fi
 }
 
-find -type f ! -path './.git/*'  ! -path '*/target/*' -print |
+EXCLUSIONS="`echo "$EXCLUSIONS" | sed -e "s|^|./|"`"
+
+find \( -path './.git' -o -path '*/target' \) -prune -o -type f -print | grep -vF "$EXCLUSIONS" |
 while read FILE
 do
+	
 	case "`basename "$FILE"`" in
 		*.java | *.aj)
 			applyJava "$FILE"
@@ -119,7 +129,7 @@ do
 		*.xml | *.xsd)
 			applyXML "$FILE"
 			;;
-		*.ad | COPYING | applylicense.sh )
+		*.ad)
 			# ignore
 			;;
 		*)
