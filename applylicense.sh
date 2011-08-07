@@ -1,32 +1,27 @@
 #!/bin/sh
-# BEGIN COPYRIGHT NOTICE
-# 
-# This file is part of program "Natural Language Processing"
-# Copyright 2011  Rodrigo Lemos
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-# 
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# END COPYRIGHT NOTICE
+copyrightNotice() cat << EOF
+BEGIN COPYRIGHT NOTICE
 
-notice() {
-sed "$0" -f - << EOF
-0,/^-\{80\}/d
+This file is part of program "Natural Language Processing"
+Copyright 2011  Rodrigo Lemos
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+END COPYRIGHT NOTICE
 EOF
-}
 
-
-# setup
+NOTICEMARKERSREGEXP="\(BEGIN\|END\) COPYRIGHT NOTICE"
 
 HASHNOTICE="`mktemp -t noticeXXXXX`"
 JAVANOTICE="`mktemp -t noticeXXXXX`"
@@ -35,21 +30,40 @@ XMLNOTICE="`mktemp -t noticeXXXXX`"
 trap "rm -fR $HASHNOTICE $XMLNOTICE $JAVANOTICE" exit
 
 (
-	notice | sed -e 's/^/# /'
+	copyrightNotice | sed -e 's/^/# /'
 ) > "$HASHNOTICE"
 
 (
 	echo "<!--"
-	notice | sed -e 's/^/  /'
+	copyrightNotice | sed -e 's/^/  /'
 	echo "-->"
 ) > "$XMLNOTICE"
 
 (
 	head -c 80 < /dev/zero | tr '\0' '*' | sed -e 's/^*/\//' -e 's/$/\n/'
-	notice | sed -e 's/^/ * /'
+	copyrightNotice | sed -e 's/^/ * /'
 	head -c 80 < /dev/zero | tr '\0' '*' | sed -e 's/^*/ /' -e 's/*$/\/\n/'
 ) > "$JAVANOTICE"
 
+findPreviousLicense() {
+	FILE="$1"
+	GREPOUTPUT=`grep "$NOTICEMARKERSREGEXP" -Zno "$FILE"` || return 1;
+	echo "$GREPOUTPUT" | sed -e "s/:$NOTICEMARKERSREGEXP//g" | tr "\n" " "
+}
+
+stripPreviousLicense() {
+	FILE="$1"
+	INCRBEGIN="$2"
+	INCREND="$3"
+
+	LINES="`findPreviousLicense "$FILE"`" || return
+	set -- $LINES; BEGIN="$1"; END="$2"
+
+	BEGIN="$(($BEGIN $INCRBEGIN))"
+	END="$(($END $INCREND))"
+
+	sed -e "${BEGIN},${END}d" -i "$FILE"
+}
 
 stuffFirstLine() {
 	FILE="$1"
@@ -61,6 +75,7 @@ EOF
 
 applyJava() {
 	FILE="$1"
+	stripPreviousLicense "$FILE" "-1" "+1"
 
 	stuffFirstLine "$FILE"
 	sed -i "$FILE" -e "1r $JAVANOTICE" -e "1d"
@@ -68,6 +83,7 @@ applyJava() {
 
 applyXML() {
 	FILE="$1"
+	stripPreviousLicense "$FILE" "-1" "+1"
 
 	# aaa aaa dd dd:dd:dd aaa dddd
 	if (head -n 1 "$FILE" | grep -q "<?") then
@@ -80,6 +96,7 @@ applyXML() {
 
 applyHash() {
 	FILE="$1"
+	stripPreviousLicense "$FILE"
 
 	# aaa aaa dd dd:dd:dd aaa dddd
 	if (head -n 1 "$FILE" | grep -q "^#... ... .. ..:..:.. ..S\?. ....$") then
@@ -102,7 +119,7 @@ do
 		*.xml | *.xsd)
 			applyXML "$FILE"
 			;;
-		*.ad | COPYING)
+		*.ad | COPYING | applylicense.sh )
 			# ignore
 			;;
 		*)
@@ -123,26 +140,3 @@ do
 	esac
 done
 
-exit 0
-
-# notice text follows
---------------------------------------------------------------------------------
-BEGIN COPYRIGHT NOTICE
-
-This file is part of program "Natural Language Processing"
-Copyright 2011  Rodrigo Lemos
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-END COPYRIGHT NOTICE
