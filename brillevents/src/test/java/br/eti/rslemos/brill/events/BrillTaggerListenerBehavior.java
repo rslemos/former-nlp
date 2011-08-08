@@ -65,10 +65,10 @@ public class BrillTaggerListenerBehavior {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		// stubbing por causa do tokenExternallyEquals() 
-		when(token1.getFeature(Token.WORD)).thenReturn("token1");
-		when(token1.getFeature(Token.POS)).thenReturn(new Object());
-		when(token2.getFeature(Token.WORD)).thenReturn("token2");
-		when(token2.getFeature(Token.POS)).thenReturn(new Object());
+		when(token1.get(Token.WORD)).thenReturn("token1");
+		when(token1.get(Token.POS)).thenReturn(new Object());
+		when(token2.get(Token.WORD)).thenReturn("token2");
+		when(token2.get(Token.POS)).thenReturn(new Object());
 		
 		
 		tagger = new BrillTagger();

@@ -31,8 +31,8 @@ public class NEXTBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word1 = (String) context.getToken(1).getFeature(Token.WORD);
-		String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+		String word1 = (String) context.getToken(1).get(Token.WORD);
+		String word2 = (String) context.getToken(2).get(Token.WORD);
 
 		return createRule(from, to, word1, word2);
 	}
@@ -57,8 +57,8 @@ public class NEXTBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word1 = (String) context.getToken(1).getFeature(Token.WORD);
-			String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+			String word1 = (String) context.getToken(1).get(Token.WORD);
+			String word2 = (String) context.getToken(2).get(Token.WORD);
 			
 			return (next1Word != null ? next1Word.equals(word1) : word1 == null) &&
 				(next2Word != null ? next2Word.equals(word2) : word2 == null);

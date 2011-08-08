@@ -66,8 +66,8 @@ public class BrillTrainerListenerBehavior {
 	@Mock private BrillTrainerListener listener;
 	
 	private Token[][] baseTokens = {
-			{ new DefaultToken("W00").setFeature(Token.POS, BASE_TAG), new DefaultToken("W01").setFeature(Token.POS, BASE_TAG) },
-			{ new DefaultToken("W00").setFeature(Token.POS, BASE_TAG), new DefaultToken("W11").setFeature(Token.POS, BASE_TAG) },
+			{ new DefaultToken("W00").put(Token.POS, BASE_TAG), new DefaultToken("W01").put(Token.POS, BASE_TAG) },
+			{ new DefaultToken("W00").put(Token.POS, BASE_TAG), new DefaultToken("W11").put(Token.POS, BASE_TAG) },
 	};
 	
 	private Sentence[] baseSentences = { 
@@ -78,8 +78,8 @@ public class BrillTrainerListenerBehavior {
 	private List<Sentence> baseCorpus = Arrays.asList(baseSentences);
 
 	private Token[][] proofTokens = {
-			{ new DefaultToken("W00").setFeature(Token.POS, "T00"), new DefaultToken("W01").setFeature(Token.POS, "T01") },
-			{ new DefaultToken("W00").setFeature(Token.POS, "T00"), new DefaultToken("W11").setFeature(Token.POS, "T11") },
+			{ new DefaultToken("W00").put(Token.POS, "T00"), new DefaultToken("W01").put(Token.POS, "T01") },
+			{ new DefaultToken("W00").put(Token.POS, "T00"), new DefaultToken("W11").put(Token.POS, "T11") },
 	};
 	
 	private Sentence[] proofSentences = { 

@@ -31,7 +31,7 @@ public class PREV2TAGRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag_2 = context.getToken(-2).getFeature(Token.POS);
+		Object tag_2 = context.getToken(-2).get(Token.POS);
 
 		return createRule(from, to, tag_2);
 	}
@@ -54,7 +54,7 @@ public class PREV2TAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_2 = context.getToken(-2).getFeature(Token.POS);
+			Object tag_2 = context.getToken(-2).get(Token.POS);
 			
 			return prev2Object != null ? prev2Object.equals(tag_2) : tag_2 == null;
 		}

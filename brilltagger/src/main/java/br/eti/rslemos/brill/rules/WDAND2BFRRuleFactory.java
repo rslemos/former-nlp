@@ -31,8 +31,8 @@ public class WDAND2BFRRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-		String word0 = (String) context.getToken(0).getFeature(Token.WORD);
+		String word_2 = (String) context.getToken(-2).get(Token.WORD);
+		String word0 = (String) context.getToken(0).get(Token.WORD);
 
 		return createRule(from, to, word_2, word0);
 	}
@@ -57,8 +57,8 @@ public class WDAND2BFRRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-			String word0 = (String) context.getToken(0).getFeature(Token.WORD);
+			String word_2 = (String) context.getToken(-2).get(Token.WORD);
+			String word0 = (String) context.getToken(0).get(Token.WORD);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(prev2Word != null ? prev2Word.equals(word_2) : word_2 == null);

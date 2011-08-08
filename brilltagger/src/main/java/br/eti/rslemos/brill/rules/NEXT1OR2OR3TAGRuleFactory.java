@@ -35,9 +35,9 @@ public class NEXT1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		Object tag1 = context.getToken(1).getFeature(Token.POS);
-		Object tag2 = context.getToken(2).getFeature(Token.POS);
-		Object tag3 = context.getToken(3).getFeature(Token.POS);
+		Object tag1 = context.getToken(1).get(Token.POS);
+		Object tag2 = context.getToken(2).get(Token.POS);
+		Object tag3 = context.getToken(3).get(Token.POS);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, tag1), 
@@ -65,9 +65,9 @@ public class NEXT1OR2OR3TAGRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag1 = context.getToken(1).getFeature(Token.POS);
-			Object tag2 = context.getToken(2).getFeature(Token.POS);
-			Object tag3 = context.getToken(3).getFeature(Token.POS);
+			Object tag1 = context.getToken(1).get(Token.POS);
+			Object tag2 = context.getToken(2).get(Token.POS);
+			Object tag3 = context.getToken(3).get(Token.POS);
 			
 			return next1or2or3Object != null 
 			? (next1or2or3Object.equals(tag1) | next1or2or3Object.equals(tag2) | next1or2or3Object.equals(tag3)) 

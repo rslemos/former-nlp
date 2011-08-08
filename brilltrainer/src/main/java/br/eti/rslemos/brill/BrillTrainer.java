@@ -157,7 +157,7 @@ public class BrillTrainer {
 		for (Token proofToken : proofSentence) {
 			Token trainingToken = trainingContext.next();
 			
-			if (!ObjectUtils.equals(proofToken.getFeature(Token.POS), trainingToken.getFeature(Token.POS))) {
+			if (!ObjectUtils.equals(proofToken.get(Token.POS), trainingToken.get(Token.POS))) {
 				Collection<Rule> rules = invokeRuleFactories(trainingContext, proofToken);
 				
 				board.addTruePositives(rules);
@@ -218,7 +218,7 @@ public class BrillTrainer {
 		Rule rule = score.rule;
 
 		if (rule.matches(trainingSentence))
-			if (ObjectUtils.equals(rule.getFrom(), proofToken.getFeature(Token.POS)))
+			if (ObjectUtils.equals(rule.getFrom(), proofToken.get(Token.POS)))
 				score.dec();
 	}
 	

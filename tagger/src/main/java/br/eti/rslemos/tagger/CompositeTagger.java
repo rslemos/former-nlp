@@ -75,13 +75,13 @@ public class CompositeTagger implements Tagger, Serializable {
 			this.token = token;
 		}
 
-		public Object getFeature(String name) {
-			return token.getFeature(name);
+		public Object get(String name) {
+			return token.get(name);
 		}
 
-		public FilteringToken setFeature(String name, Object value) {
+		public FilteringToken put(String name, Object value) {
 			if (!alreadySet.contains(name)) {
-				token.setFeature(name, value);
+				token.put(name, value);
 				alreadySet.add(name);
 			}
 			return this;

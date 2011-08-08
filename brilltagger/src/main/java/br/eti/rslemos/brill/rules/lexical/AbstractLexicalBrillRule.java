@@ -40,7 +40,7 @@ public abstract class AbstractLexicalBrillRule extends AbstractRule {
 	}
 
 	private boolean thisMatches(Context context) {
-		return thisMatches((String)context.getToken(0).getFeature(Token.WORD));
+		return thisMatches((String)context.getToken(0).get(Token.WORD));
 	}
 
 	protected abstract boolean thisMatches(String word0);

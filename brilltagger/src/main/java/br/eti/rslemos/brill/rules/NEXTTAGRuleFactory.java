@@ -31,7 +31,7 @@ public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag1 = context.getToken(1).getFeature(Token.POS);
+		Object tag1 = context.getToken(1).get(Token.POS);
 
 		return createRule(from, to, tag1);
 	}
@@ -55,7 +55,7 @@ public class NEXTTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag1 = context.getToken(1).getFeature(Token.POS);
+			Object tag1 = context.getToken(1).get(Token.POS);
 			
 			return nextObject != null ? nextObject.equals(tag1) : tag1 == null;
 		}

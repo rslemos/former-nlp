@@ -87,8 +87,8 @@ public abstract class RuleContextMother {
 
 	private static Token mockToken(String word, Object tag) {
 		Token token = mock(Token.class);
-		when(token.getFeature(Token.WORD)).thenReturn(word);
-		when(token.getFeature(Token.POS) ).thenReturn(tag);
+		when(token.get(Token.WORD)).thenReturn(word);
+		when(token.get(Token.POS) ).thenReturn(tag);
 		
 		return token;
 	}

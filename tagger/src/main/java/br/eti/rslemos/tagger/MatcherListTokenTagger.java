@@ -47,11 +47,11 @@ public class MatcherListTokenTagger extends AbstractTokenTagger implements Seria
 
 	@Override
 	public void tag(Token token) {
-		String word = ((String) token.getFeature(Token.WORD)).toLowerCase();
+		String word = ((String) token.get(Token.WORD)).toLowerCase();
 
 		for (Matcher matcher : matchers) {
 			if (matcher.matches(word)) {
-				token.setFeature(Token.POS, matcher.getObject());
+				token.put(Token.POS, matcher.getObject());
 				break;
 			}
 		}

@@ -59,7 +59,7 @@ public class LowMemoryFootprintDocumentUnitTest extends DocumentUnitTestHelper {
 				Entry<String, String>[] feature_defs = token_def.getValue();
 				if (feature_defs != null) {
 					for (Entry<String, String> feature_def : feature_defs) {
-						token.setFeature(feature_def.getKey(), feature_def.getValue());
+						token.put(feature_def.getKey(), feature_def.getValue());
 					}
 				}
 			}

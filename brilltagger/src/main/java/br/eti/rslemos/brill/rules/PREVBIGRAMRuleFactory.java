@@ -31,8 +31,8 @@ public class PREVBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-		String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+		String word_2 = (String) context.getToken(-2).get(Token.WORD);
+		String word_1 = (String) context.getToken(-1).get(Token.WORD);
 
 		return createRule(from, to, word_2, word_1);
 	}
@@ -57,8 +57,8 @@ public class PREVBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-			String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+			String word_2 = (String) context.getToken(-2).get(Token.WORD);
+			String word_1 = (String) context.getToken(-1).get(Token.WORD);
 			
 			return (prev2Word != null ? prev2Word.equals(word_2) : word_2 == null) &&
 				(prev1Word != null ? prev1Word.equals(word_1) : word_1 == null);

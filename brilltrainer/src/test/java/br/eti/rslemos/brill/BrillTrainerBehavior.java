@@ -129,7 +129,7 @@ public class BrillTrainerBehavior {
 
 			@Override
 			public boolean matches(Context context) {
-				return (context.getToken(0).getFeature(Token.WORD) == word) && super.matches(context);
+				return (context.getToken(0).get(Token.WORD) == word) && super.matches(context);
 			}
 		}
 		
@@ -143,7 +143,7 @@ public class BrillTrainerBehavior {
 			}
 
 			public Collection<Rule> create(Context context, Token target) {
-				String word = (String) target.getFeature(Token.WORD);
+				String word = (String) target.get(Token.WORD);
 				
 				if (word == WORD1)
 					return Collections.singleton(rule1);

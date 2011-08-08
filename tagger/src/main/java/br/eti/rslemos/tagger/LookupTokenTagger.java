@@ -41,9 +41,9 @@ public class LookupTokenTagger extends AbstractTokenTagger implements Serializab
 
 	@Override
 	public void tag(Token token) {
-		String word = (String) token.getFeature(Token.WORD);
+		String word = (String) token.get(Token.WORD);
 		if (lexicon.containsKey(word))
-			token.setFeature(Token.POS, lexicon.get(word));
+			token.put(Token.POS, lexicon.get(word));
 	}
 
 	public Map<String, Object> getLexicon() {

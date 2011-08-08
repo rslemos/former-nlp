@@ -31,8 +31,8 @@ public class WDPREVTAGRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-		Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+		String word0 = (String) context.getToken(0).get(Token.WORD);
+		Object tag_1 = context.getToken(-1).get(Token.POS);
 
 		return createRule(from, to, tag_1, word0);
 	}
@@ -57,8 +57,8 @@ public class WDPREVTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-			Object tag_1 = context.getToken(-1).getFeature(Token.POS);
+			String word0 = (String) context.getToken(0).get(Token.WORD);
+			Object tag_1 = context.getToken(-1).get(Token.POS);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(prevObject != null ? prevObject.equals(tag_1) : tag_1 == null);

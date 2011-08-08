@@ -35,10 +35,10 @@ public class PREV1OR2OR3OR4WDRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
-		String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-		String word_3 = (String) context.getToken(-3).getFeature(Token.WORD);
-		String word_4 = (String) context.getToken(-4).getFeature(Token.WORD);
+		String word_1 = (String) context.getToken(-1).get(Token.WORD);
+		String word_2 = (String) context.getToken(-2).get(Token.WORD);
+		String word_3 = (String) context.getToken(-3).get(Token.WORD);
+		String word_4 = (String) context.getToken(-4).get(Token.WORD);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, word_1), 
@@ -67,10 +67,10 @@ public class PREV1OR2OR3OR4WDRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
-			String word_2 = (String) context.getToken(-2).getFeature(Token.WORD);
-			String word_3 = (String) context.getToken(-3).getFeature(Token.WORD);
-			String word_4 = (String) context.getToken(-4).getFeature(Token.WORD);
+			String word_1 = (String) context.getToken(-1).get(Token.WORD);
+			String word_2 = (String) context.getToken(-2).get(Token.WORD);
+			String word_3 = (String) context.getToken(-3).get(Token.WORD);
+			String word_4 = (String) context.getToken(-4).get(Token.WORD);
 			
 			return prev1or2or3or4Word != null 
 			? (prev1or2or3or4Word.equals(word_1) | prev1or2or3or4Word.equals(word_2) | prev1or2or3or4Word.equals(word_3) | prev1or2or3or4Word.equals(word_4)) 

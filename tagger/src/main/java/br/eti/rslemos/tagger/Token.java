@@ -27,8 +27,8 @@ public interface Token {
 	public static final String WORD = "_text";
 	public static final String POS = "_pos";
 
-	Object getFeature(String name);
-	Token setFeature(String name, Object value);
+	Object get(String name);
+	Token put(String name, Object value);
 	
 	Map<String, Object> getFeatures();
 }

@@ -29,7 +29,7 @@ import br.eti.rslemos.tagger.Token;
 
 public abstract class AbstractRuleFactory implements RuleFactory {
 	public Collection<Rule> create(Context context, Token target) {
-		return create(context.getToken(0).getFeature(Token.POS), target.getFeature(Token.POS), context);
+		return create(context.getToken(0).get(Token.POS), target.get(Token.POS), context);
 	}
 
 	protected abstract Collection<Rule> create(Object from, Object to, Context context);

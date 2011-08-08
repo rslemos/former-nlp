@@ -39,7 +39,7 @@ public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		return create(from, to, (String)context.getToken(0).getFeature(Token.WORD));
+		return create(from, to, (String)context.getToken(0).get(Token.WORD));
 	}
 
 	private Collection<Rule> create(Object from, Object to, String word) {

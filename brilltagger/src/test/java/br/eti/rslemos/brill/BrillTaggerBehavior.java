@@ -53,15 +53,15 @@ public class BrillTaggerBehavior {
 	@Test
 	public void shouldInvokeBaseTaggerAndRuleAndObjectToken() {
 		Token token = mock(Token.class);
-		when(token.getFeature(Token.WORD)).thenReturn("foo");
-		when(token.getFeature(Token.POS)).thenReturn("bar");
+		when(token.get(Token.WORD)).thenReturn("foo");
+		when(token.get(Token.POS)).thenReturn("bar");
 
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
 				Token token = context.getToken(0);
-				assertEquals(token.getFeature(Token.WORD), "foo");
-				assertEquals(token.getFeature(Token.POS), "bar");
+				assertEquals(token.get(Token.WORD), "foo");
+				assertEquals(token.get(Token.POS), "bar");
 				
 				return true;
 			}
@@ -71,7 +71,7 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token));
 
-		verify(token, times(1)).setFeature(Token.POS, "foobar");
+		verify(token, times(1)).put(Token.POS, "foobar");
 	}
 
 	@Test
@@ -102,8 +102,8 @@ public class BrillTaggerBehavior {
 		Rule rule = new RuleAdapter(null, "foobar") {
 			@Override
 			public boolean matches(Context context) {
-				verify(token2, never()).setFeature(same(Token.POS), anyObject());
-				verify(token1, never()).setFeature(same(Token.POS), anyObject());
+				verify(token2, never()).put(same(Token.POS), anyObject());
+				verify(token1, never()).put(same(Token.POS), anyObject());
 				
 				return true;
 			}
@@ -113,8 +113,8 @@ public class BrillTaggerBehavior {
 		
 		tagger.tag(newDefaultSentence(token1, token2));
 
-		verify(token1, times(1)).setFeature(Token.POS, "foobar");
-		verify(token2, times(1)).setFeature(Token.POS, "foobar");
+		verify(token1, times(1)).put(Token.POS, "foobar");
+		verify(token2, times(1)).put(Token.POS, "foobar");
 	}
 
 	private static class RuleAdapter extends AbstractRule {

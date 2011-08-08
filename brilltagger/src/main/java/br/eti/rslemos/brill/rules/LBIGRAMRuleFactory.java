@@ -31,8 +31,8 @@ public class LBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-		String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+		String word0 = (String) context.getToken(0).get(Token.WORD);
+		String word_1 = (String) context.getToken(-1).get(Token.WORD);
 
 		return createRule(from, to, word_1, word0);
 	}
@@ -57,8 +57,8 @@ public class LBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-			String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+			String word0 = (String) context.getToken(0).get(Token.WORD);
+			String word_1 = (String) context.getToken(-1).get(Token.WORD);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(prevWord != null ? prevWord.equals(word_1) : word_1 == null);

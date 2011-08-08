@@ -148,7 +148,7 @@ public abstract class RuleBehaviorUtils {
 
 	public static void createAndTestBrillString(RuleFactory factory, String... expected) {
 		Token token = mock(Token.class);
-		when(token.getFeature(Token.POS)).thenReturn(TO_TAG);
+		when(token.get(Token.POS)).thenReturn(TO_TAG);
 		
 		Context context = buildContext();
 		

@@ -35,8 +35,8 @@ public class NEXT1OR2WDRuleFactory extends AbstractRuleFactory {
 
 	@Override
 	public Collection<Rule> create(Object from, Object to, Context context) {
-		String word1 = (String) context.getToken(1).getFeature(Token.WORD);
-		String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+		String word1 = (String) context.getToken(1).get(Token.WORD);
+		String word2 = (String) context.getToken(2).get(Token.WORD);
 
 		return Arrays.<Rule> asList(
 				createRule(from, to, word1),
@@ -63,8 +63,8 @@ public class NEXT1OR2WDRuleFactory extends AbstractRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word1 = (String) context.getToken(1).getFeature(Token.WORD);
-			String word2 = (String) context.getToken(2).getFeature(Token.WORD);
+			String word1 = (String) context.getToken(1).get(Token.WORD);
+			String word2 = (String) context.getToken(2).get(Token.WORD);
 			
 			return next1or2Word != null 
 			? (next1or2Word.equals(word1) | next1or2Word.equals(word2)) 

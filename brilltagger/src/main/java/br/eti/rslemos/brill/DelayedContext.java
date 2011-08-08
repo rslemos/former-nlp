@@ -39,7 +39,7 @@ public class DelayedContext implements Context {
 		}
 		
 		public void setObject() {
-			token.setFeature(name, value);
+			token.put(name, value);
 		}
 	}
 	
@@ -101,13 +101,13 @@ public class DelayedContext implements Context {
 			this.token = token;
 		}
 
-		public DelayedToken setFeature(String name, Object value) {
+		public DelayedToken put(String name, Object value) {
 			commands.add(new SetObjectCommand(token, name, value));
 			return this;
 		}
 
-		public Object getFeature(String name) {
-			return token.getFeature(name);
+		public Object get(String name) {
+			return token.get(name);
 		}
 
 		public Map<String, Object> getFeatures() {

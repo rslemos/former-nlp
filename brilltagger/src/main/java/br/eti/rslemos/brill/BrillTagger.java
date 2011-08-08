@@ -65,7 +65,7 @@ public class BrillTagger implements Tagger {
 
 	private static boolean apply(Context context, Rule rule) {
 		if (rule.matches(context)) {
-			context.getToken(0).setFeature(Token.POS, rule.getTo());
+			context.getToken(0).put(Token.POS, rule.getTo());
 			return true;
 		} else {
 			return false;

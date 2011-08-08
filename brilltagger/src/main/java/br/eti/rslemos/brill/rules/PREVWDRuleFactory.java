@@ -31,7 +31,7 @@ public class PREVWDRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+		String word_1 = (String) context.getToken(-1).get(Token.WORD);
 
 		return createRule(from, to, word_1);
 	}
@@ -54,7 +54,7 @@ public class PREVWDRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word_1 = (String) context.getToken(-1).getFeature(Token.WORD);
+			String word_1 = (String) context.getToken(-1).get(Token.WORD);
 			
 			return prevWord != null ? prevWord.equals(word_1) : word_1 == null;
 		}

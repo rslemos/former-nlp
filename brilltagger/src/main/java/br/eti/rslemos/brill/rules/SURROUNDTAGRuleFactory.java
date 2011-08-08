@@ -31,8 +31,8 @@ public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag_1 = context.getToken(-1).getFeature(Token.POS);
-		Object tag1 = context.getToken(1).getFeature(Token.POS);
+		Object tag_1 = context.getToken(-1).get(Token.POS);
+		Object tag1 = context.getToken(1).get(Token.POS);
 
 		return createRule(from, to, tag_1, tag1);
 	}
@@ -57,8 +57,8 @@ public class SURROUNDTAGRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_1 = context.getToken(-1).getFeature(Token.POS);
-			Object tag1 = context.getToken(1).getFeature(Token.POS);
+			Object tag_1 = context.getToken(-1).get(Token.POS);
+			Object tag1 = context.getToken(1).get(Token.POS);
 			
 			return (prev1Object != null ? prev1Object.equals(tag_1) : tag_1 == null) &&
 				(next1Object != null ? next1Object.equals(tag1) : tag1 == null);

@@ -38,7 +38,7 @@ public class PrefixTagger extends ConstantTokenTagger {
 
 	@Override
 	public void tag(Token token) {
-		if (((String) token.getFeature(Token.WORD)).startsWith(prefix))
+		if (((String) token.get(Token.WORD)).startsWith(prefix))
 			super.tag(token);
 	}
 

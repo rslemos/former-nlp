@@ -35,6 +35,6 @@ public class ConstantTokenTaggerBehavior {
 		ConstantTokenTagger tagger = new ConstantTokenTagger("CT");
 		tagger.tag(token);
 		
-		verify(token).setFeature(Token.POS, "CT");
+		verify(token).put(Token.POS, "CT");
 	}
 }

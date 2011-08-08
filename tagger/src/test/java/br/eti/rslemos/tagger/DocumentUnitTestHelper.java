@@ -116,13 +116,13 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 		
 		assertThat(token, is(not(nullValue(Token.class))));
 		
-		assertThat(token.getFeature(Token.WORD), is(equalTo((Object)token_def.getKey())));
+		assertThat(token.get(Token.WORD), is(equalTo((Object)token_def.getKey())));
 		assertThat(token.getFeatures().get(Token.WORD), is(equalTo((Object)token_def.getKey())));
 	
 		if (feature_defs != null) {
 			assertThat(token.getFeatures().size(), is(equalTo(feature_defs.length + 1)));
 			for (Entry<String, String> feature_def : feature_defs) {
-				assertThat(token.getFeature(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
+				assertThat(token.get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
 				assertThat(token.getFeatures().get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
 			}
 		} else {
@@ -142,7 +142,7 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 
 	public static Token buildToken(String word, Object tag) {
 		Token token = new DefaultToken(word);
-		token.setFeature(Token.POS, tag);
+		token.put(Token.POS, tag);
 		return token;
 	}
 

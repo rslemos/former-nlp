@@ -149,7 +149,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			this.i = i;
 		}
 
-		public Object getFeature(String name) {
+		public Object get(String name) {
 			return getFeatures().get(name);
 		}
 
@@ -157,7 +157,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			return new FeatureMap();
 		}
 
-		public Token setFeature(String name, Object value) {
+		public Token put(String name, Object value) {
 			throw new UnsupportedOperationException();
 		}
 

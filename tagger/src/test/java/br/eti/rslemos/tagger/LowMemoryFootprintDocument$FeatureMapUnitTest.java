@@ -74,7 +74,7 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 							private Map<String, Object> create(Entry<String, Object>... elements) {
 								Token token = buildToken(null, null);
 								for (Entry<String, Object> element : elements) {
-									token.setFeature(element.getKey(), element.getValue());
+									token.put(element.getKey(), element.getValue());
 								}
 
 								List<Sentence> text = buildText(buildSentence(token));
@@ -135,7 +135,7 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 	protected Map<String, Object> makePopulatedMap() throws UnsupportedOperationException {
 		List<Sentence> text = buildText(
 				buildSentence(
-						buildToken("foo", "bar").setFeature("featureX", 10)
+						buildToken("foo", "bar").put("featureX", 10)
 					)
 			);
 		

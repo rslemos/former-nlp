@@ -49,8 +49,8 @@ public class BrillCustomMatchers {
 				
 				Token other = (Token) item;
 				
-				String word = (String) token.getFeature(Token.WORD);
-				String otherWord = (String) other.getFeature(Token.WORD);
+				String word = (String) token.get(Token.WORD);
+				String otherWord = (String) other.get(Token.WORD);
 				
 				return
 					(word != null ? word.equals(otherWord) : otherWord == null);
@@ -70,8 +70,8 @@ public class BrillCustomMatchers {
 				
 				Token other = (Token) item;
 				
-				Object tag = token.getFeature(Token.POS);
-				Object otherTag = other.getFeature(Token.POS);
+				Object tag = token.get(Token.POS);
+				Object otherTag = other.get(Token.POS);
 				
 				return
 					(tag != null ? tag.equals(otherTag) : otherTag == null);
@@ -98,7 +98,7 @@ public class BrillCustomMatchers {
 			return false;
 		
 		for (Pair<Token, Token> pair : BrillTrainer.pairOf(x, y)) {
-			if (!pair.x.getFeature(Token.WORD).equals(pair.y.getFeature(Token.WORD)))
+			if (!pair.x.get(Token.WORD).equals(pair.y.get(Token.WORD)))
 				return false;
 		}
 		
@@ -107,7 +107,7 @@ public class BrillCustomMatchers {
 
 	private static boolean taggedAs(Object baseTag, Sentence sentence) {
 		for (Token token : sentence) {
-			if (token.getFeature(Token.POS) != baseTag)
+			if (token.get(Token.POS) != baseTag)
 				return false;
 		}
 		

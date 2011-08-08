@@ -31,8 +31,8 @@ public class WDAND2TAGBFRRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		Object tag_2 = context.getToken(-2).getFeature(Token.POS);
-		String word0 = (String) context.getToken(0).getFeature(Token.WORD);
+		Object tag_2 = context.getToken(-2).get(Token.POS);
+		String word0 = (String) context.getToken(0).get(Token.WORD);
 
 		return createRule(from, to, tag_2, word0);
 	}
@@ -57,8 +57,8 @@ public class WDAND2TAGBFRRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			Object tag_2 = context.getToken(-2).getFeature(Token.POS);
-			String word0 = (String) context.getToken(0).getFeature(Token.WORD);
+			Object tag_2 = context.getToken(-2).get(Token.POS);
+			String word0 = (String) context.getToken(0).get(Token.WORD);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(prev2Object != null ? prev2Object.equals(tag_2) : tag_2 == null);

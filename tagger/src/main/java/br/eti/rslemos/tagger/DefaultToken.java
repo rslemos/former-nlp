@@ -37,11 +37,11 @@ public final class DefaultToken implements Token {
 		features.putAll(token.getFeatures());
 	}
 
-	public Object getFeature(String name) {
+	public Object get(String name) {
 		return features.get(name);
 	}
 
-	public DefaultToken setFeature(String name, Object value) {
+	public DefaultToken put(String name, Object value) {
 		features.put(name, value);
 		return this;
 	}
@@ -52,7 +52,7 @@ public final class DefaultToken implements Token {
 
 	@Override
 	public String toString() {
-		return getFeature(Token.WORD) + "/" + getFeature(Token.POS);
+		return get(Token.WORD) + "/" + get(Token.POS);
 	}
 
 	

@@ -31,7 +31,7 @@ public class NEXTWDRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+		String word1 = (String) context.getToken(1).get(Token.WORD);
 
 		return createRule(from, to, word1);
 	}
@@ -55,7 +55,7 @@ public class NEXTWDRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+			String word1 = (String) context.getToken(1).get(Token.WORD);
 			
 			return nextWord != null ? nextWord.equals(word1) : word1 == null;
 		}

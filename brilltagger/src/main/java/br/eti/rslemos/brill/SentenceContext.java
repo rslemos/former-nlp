@@ -31,11 +31,11 @@ import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
 	private static final class NullToken implements Token {
-		public Object getFeature(String name) {
+		public Object get(String name) {
 			return null;
 		}
 
-		public Token setFeature(String name, Object value) {
+		public Token put(String name, Object value) {
 			throw new IllegalStateException("Can'Object set NULL token tag '" + name + "' to '" + value + "'");
 		}
 

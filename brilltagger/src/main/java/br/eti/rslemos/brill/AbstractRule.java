@@ -48,7 +48,7 @@ public abstract class AbstractRule implements Rule {
 	}
 
 	public boolean matches(Context context) {
-		Object tag0 = context.getToken(0).getFeature(Token.POS);
+		Object tag0 = context.getToken(0).get(Token.POS);
 		
 		return from != null ? from.equals(tag0) : tag0 == null;
 	}

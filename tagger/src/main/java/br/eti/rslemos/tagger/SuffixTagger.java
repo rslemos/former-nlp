@@ -38,7 +38,7 @@ public class SuffixTagger extends ConstantTokenTagger {
 
 	@Override
 	public void tag(Token token) {
-		if (((String) token.getFeature(Token.WORD)).endsWith(suffix))
+		if (((String) token.get(Token.WORD)).endsWith(suffix))
 			super.tag(token);
 	}
 

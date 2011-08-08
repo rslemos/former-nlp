@@ -31,8 +31,8 @@ public class RBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 
 	@Override
 	public Rule createRule(Object from, Object to, Context context) {
-		String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-		String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+		String word0 = (String) context.getToken(0).get(Token.WORD);
+		String word1 = (String) context.getToken(1).get(Token.WORD);
 
 		return createRule(from, to, word0, word1);
 	}
@@ -57,8 +57,8 @@ public class RBIGRAMRuleFactory extends AbstractSingleRuleFactory {
 		}
 	
 		private boolean thisMatches(Context context) {
-			String word0 = (String) context.getToken(0).getFeature(Token.WORD);
-			String word1 = (String) context.getToken(1).getFeature(Token.WORD);
+			String word0 = (String) context.getToken(0).get(Token.WORD);
+			String word1 = (String) context.getToken(1).get(Token.WORD);
 			
 			return (word != null ? word.equals(word0) : word0 == null) &&
 				(nextWord != null ? nextWord.equals(word1) : word1 == null);

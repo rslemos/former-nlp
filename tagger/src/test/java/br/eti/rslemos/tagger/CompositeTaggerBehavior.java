@@ -36,14 +36,14 @@ public class CompositeTaggerBehavior {
 	@Test
 	public void shouldTransferTokenProperties() {
 		Token token = mock(Token.class);
-		when(token.getFeature(Token.WORD)).thenReturn("foo");
-		when(token.getFeature(Token.POS)).thenReturn("bar");
+		when(token.get(Token.WORD)).thenReturn("foo");
+		when(token.get(Token.POS)).thenReturn("bar");
 		
 		Tagger subTagger = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				assertEquals(token.getFeature(Token.WORD), "foo");
-				assertEquals(token.getFeature(Token.POS), "bar");
+				assertEquals(token.get(Token.WORD), "foo");
+				assertEquals(token.get(Token.POS), "bar");
 			}
 		};
 		
@@ -56,7 +56,7 @@ public class CompositeTaggerBehavior {
 		
 		tagToken(this.buildTagger(), token);
 
-		verify(token, never()).setFeature(same(Token.POS), anyObject());
+		verify(token, never()).put(same(Token.POS), anyObject());
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class CompositeTaggerBehavior {
 		inOrder.verify(subTagger2).tag(anySentence());
 		inOrder.verify(subTagger3).tag(anySentence());
 		
-		verify(token, never()).setFeature(same(Token.POS), anyObject());
+		verify(token, never()).put(same(Token.POS), anyObject());
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				token.setFeature(Token.POS, "foobar");
+				token.put(Token.POS, "foobar");
 			}
 		};
 		Tagger subTagger3 = mock(Tagger.class);
@@ -96,7 +96,7 @@ public class CompositeTaggerBehavior {
 		verify(subTagger1).tag(anySentence());
 		verify(subTagger3).tag(anySentence());
 		
-		verify(token).setFeature(Token.POS, "foobar");
+		verify(token).put(Token.POS, "foobar");
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class CompositeTaggerBehavior {
 		Tagger subTagger2 = new AbstractTokenTagger() {
 			@Override
 			public void tag(Token token) {
-				token.setFeature(Token.POS, "foobar");
+				token.put(Token.POS, "foobar");
 			}
 		};
 
@@ -116,7 +116,7 @@ public class CompositeTaggerBehavior {
 			@Override
 			public void tag(Token token) {
 				check[0] = true;
-				token.setFeature(Token.POS, "foobar");
+				token.put(Token.POS, "foobar");
 			}
 		};
 		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
@@ -124,7 +124,7 @@ public class CompositeTaggerBehavior {
 		assertTrue(check[0]);
 		
 		verify(subTagger1).tag(anySentence());
-		verify(token, times(1)).setFeature(Token.POS, "foobar");
+		verify(token, times(1)).put(Token.POS, "foobar");
 	}
 
 	private void tagToken(CompositeTagger tagger, Token token) {
