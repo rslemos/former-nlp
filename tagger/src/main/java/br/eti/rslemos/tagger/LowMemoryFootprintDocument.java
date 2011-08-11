@@ -33,10 +33,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 
+import br.eti.rslemos.tools.collections.PackedArray;
+
 public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
 	private final String[] featureNames;
-	private final Object[][] features;
+	private final PackedArray<Object> features;
 	
 	private final int[] sentencesEnd;
 
@@ -63,16 +65,20 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		}
 		
 		// build token matrix
-		features = new Object[sentencesEnd[doc.size()-1]][this.featureNames.length];
+		features = new PackedArray<Object>(sentencesEnd[doc.size()-1], this.featureNames.length); 
 		int j = 0;
 		for (Sentence sentence : doc) {
 			for (Token token : sentence) {
 				Map<String, Object> featureMap = token.getFeatures();
 
 				for (int k = 0; k < this.featureNames.length; k++) {
-					features[j][k] = featureMap.get(this.featureNames[k]);
+					
+					Object featureValue = featureMap.get(this.featureNames[k]);
+					
 					if (k != idxWORD)
-						features[j][k] = internalize(features[j][k]);
+						featureValue = internalize(featureValue);
+					
+					features.set(internalize(featureValue), j, k);
 				}
 				
 				j++;
@@ -174,8 +180,8 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 				if (keyIdx < 0)
 					throw new IllegalArgumentException("Feature '" + key + "' not on feature set");
 				
-				Object oldValue = features[i + getSentenceStart(index)][keyIdx];
-				features[i + getSentenceStart(index)][keyIdx] = value;
+				Object oldValue = features.get(i + getSentenceStart(index), keyIdx);
+				features.set(value, i + getSentenceStart(index), keyIdx);
 				
 				return oldValue;
 			}
@@ -228,12 +234,12 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			}
 
 			public Object getValue() {
-				return features[i + getSentenceStart(index)][j];
+				return features.get(i + getSentenceStart(index), j);
 			}
 
 			public Object setValue(Object value) {
-				Object oldValue = features[i + getSentenceStart(index)][j];
-				features[i + getSentenceStart(index)][j] = value;
+				Object oldValue = features.get(i + getSentenceStart(index), j);
+				features.set(value, i + getSentenceStart(index), j);
 				return oldValue;
 			}
 
