@@ -33,12 +33,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 
-import br.eti.rslemos.tools.collections.PackedArray;
+import br.eti.rslemos.tools.collections.SimplePackedArray;
 
 public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 
 	private final String[] featureNames;
-	private final PackedArray<Object> features;
+	private final SimplePackedArray<Object> features;
 	
 	private final int[] sentencesEnd;
 
@@ -65,7 +65,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		}
 		
 		// build token matrix
-		features = new PackedArray<Object>(sentencesEnd[doc.size()-1], this.featureNames.length); 
+		features = new SimplePackedArray<Object>(sentencesEnd[doc.size()-1], this.featureNames.length); 
 		int j = 0;
 		for (Sentence sentence : doc) {
 			for (Token token : sentence) {
