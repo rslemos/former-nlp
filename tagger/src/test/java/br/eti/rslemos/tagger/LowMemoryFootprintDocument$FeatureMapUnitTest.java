@@ -42,10 +42,14 @@ import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.MapCreationTester;
+import com.google.common.collect.testing.testers.MapPutAllTester;
+import com.google.common.collect.testing.testers.MapPutTester;
+import com.google.common.collect.testing.testers.SetCreationTester;
 
 public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceTest<String, Object> {
 
-	public static Test suite() {
+	public static Test suite() throws Exception {
 		TestSuite suite = new TestSuite(LowMemoryFootprintDocument$FeatureMapUnitTest.class);
 		
 		suite.addTest(MapTestSuiteBuilder
@@ -116,6 +120,15 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 						CollectionSize.SEVERAL
 					)
 				.named(LowMemoryFootprintDocument$FeatureMapUnitTest.class.getName())
+				.suppressing(
+						MapCreationTester.class.getMethod("testCreateWithDuplicates_nonNullDuplicatesNotRejected"),
+						MapPutTester.class.getMethod("testPut_supportedNotPresent"),
+						MapPutTester.class.getMethod("testPut_nullValueSupported"),
+						MapPutAllTester.class.getMethod("testPutAll_supportedNonePresent"),
+						MapPutAllTester.class.getMethod("testPutAll_supportedSomePresent"),
+						MapPutAllTester.class.getMethod("testPutAll_nullValueSupported"),
+						SetCreationTester.class.getMethod("testCreateWithDuplicates_nonNullDuplicatesNotRejected")
+					)
 				.createTestSuite()
 			);
 
