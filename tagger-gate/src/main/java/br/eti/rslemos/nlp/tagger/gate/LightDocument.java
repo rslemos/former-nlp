@@ -122,7 +122,7 @@ public final class LightDocument extends AbstractList<Sentence> {
 		}
 
 		@Override
-		public Object get(String name) {
+		public Object get(Object name) {
 			return getFeatures().get(name);
 		}
 

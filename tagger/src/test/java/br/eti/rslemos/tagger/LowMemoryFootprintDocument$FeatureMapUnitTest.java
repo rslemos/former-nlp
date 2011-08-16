@@ -146,11 +146,9 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 
 	@Override
 	protected Map<String, Object> makePopulatedMap() throws UnsupportedOperationException {
-		List<Sentence> text = buildText(
-				buildSentence(
-						buildToken("foo", "bar").put("featureX", 10)
-					)
-			);
+		Token token = buildToken("foo", "bar");
+		token.put("featureX", 10);
+		List<Sentence> text = buildText(buildSentence(token));
 		
 		LowMemoryFootprintDocument doc = new LowMemoryFootprintDocument(text, Token.WORD, Token.POS, "featureX", "featureY");
 		

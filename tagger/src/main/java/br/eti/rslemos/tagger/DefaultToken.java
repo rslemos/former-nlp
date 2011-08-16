@@ -37,7 +37,7 @@ public final class DefaultToken implements Token {
 		features.putAll(token.getFeatures());
 	}
 
-	public Object get(String name) {
+	public Object get(Object name) {
 		return features.get(name);
 	}
 

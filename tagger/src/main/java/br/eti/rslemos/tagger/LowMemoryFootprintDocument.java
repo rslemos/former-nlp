@@ -155,7 +155,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 			this.i = i;
 		}
 
-		public Object get(String name) {
+		public Object get(Object name) {
 			return getFeatures().get(name);
 		}
 

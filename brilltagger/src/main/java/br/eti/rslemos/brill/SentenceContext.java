@@ -31,7 +31,7 @@ import br.eti.rslemos.tagger.Token;
 
 public class SentenceContext implements Context {
 	private static final class NullToken implements Token {
-		public Object get(String name) {
+		public Object get(Object name) {
 			return null;
 		}
 

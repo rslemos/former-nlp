@@ -27,8 +27,9 @@ public interface Token {
 	public static final String WORD = "_text";
 	public static final String POS = "_pos";
 
-	Object get(String name);
-	Token put(String name, Object value);
-	
+	Object get(Object name);
+	Object put(String name, Object value);
+
+	@Deprecated
 	Map<String, Object> getFeatures();
 }

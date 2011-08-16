@@ -106,7 +106,7 @@ public class DelayedContext implements Context {
 			return this;
 		}
 
-		public Object get(String name) {
+		public Object get(Object name) {
 			return token.get(name);
 		}
 

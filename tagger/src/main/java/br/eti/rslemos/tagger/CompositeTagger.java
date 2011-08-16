@@ -71,7 +71,7 @@ public class CompositeTagger implements Tagger, Serializable {
 			this.token = token;
 		}
 
-		public Object get(String name) {
+		public Object get(Object name) {
 			return token.get(name);
 		}
 
