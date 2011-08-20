@@ -33,10 +33,6 @@ public class CompositeTagger implements Tagger, Serializable {
 
 	private Tagger[] taggers;
 
-	public CompositeTagger() {
-		this(new Tagger[0]);
-	}
-
 	public CompositeTagger(Tagger... taggers) {
 		this.taggers = taggers;
 	}
