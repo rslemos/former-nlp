@@ -28,23 +28,15 @@ import java.util.NoSuchElementException;
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
 import br.eti.rslemos.tagger.Token;
+import br.eti.rslemos.tagger.MapWrapToken;
 
 public class SentenceContext implements Context {
-	private static final class NullToken implements Token {
-		public Object get(Object name) {
-			return null;
-		}
-
-		public Token put(String name, Object value) {
-			throw new IllegalStateException("Can'Object set NULL token tag '" + name + "' to '" + value + "'");
-		}
-
-		public Map<String, Object> getFeatures() {
-			return Collections.emptyMap();
-		}
+	public static final Token NULL_TOKEN;
+	
+	static {
+		Map<String, Object> emptyMap = Collections.emptyMap();
+		NULL_TOKEN = MapWrapToken.wrap(emptyMap);
 	}
-
-	public static final Token NULL_TOKEN = new NullToken();
 	
 	private final Sentence contents;
 	private int current;

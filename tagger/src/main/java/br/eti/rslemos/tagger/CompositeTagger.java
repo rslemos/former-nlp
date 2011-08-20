@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ForwardingMap;
+
 public class CompositeTagger implements Tagger, Serializable {
 
 	private static final long serialVersionUID = -8583142580025744638L;
@@ -63,7 +65,7 @@ public class CompositeTagger implements Tagger, Serializable {
 		this.taggers = taggers;
 	}
 
-	private static final class FilteringToken implements Token {
+	private static final class FilteringToken extends ForwardingMap<String, Object> implements Token {
 		private final Token token;
 		private Set<String> alreadySet = new HashSet<String>();
 
@@ -71,20 +73,21 @@ public class CompositeTagger implements Tagger, Serializable {
 			this.token = token;
 		}
 
-		public Object get(Object name) {
-			return token.get(name);
-		}
-
-		public FilteringToken put(String name, Object value) {
+		public Object put(String name, Object value) {
 			if (!alreadySet.contains(name)) {
-				token.put(name, value);
 				alreadySet.add(name);
-			}
-			return this;
+				// what the heck? this should be really
+				// return super.put(name, value);
+				// but mockito was choking on it, don't know why; only G*d knows.
+				// since these are equivalent, I'll just move on.
+				return token.put(name, value);
+			} else
+				return get(name);
 		}
 
-		public Map<String, Object> getFeatures() {
-			return token.getFeatures();
+		@Override
+		protected Map<String, Object> delegate() {
+			return token;
 		}
 	}
 

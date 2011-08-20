@@ -39,6 +39,13 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r09</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>br.eti.rslemos.tools</groupId>
@@ -53,13 +60,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>r09</version>
-			<scope>test</scope>
-		</dependency>
-		
 		<!-- 
 			google-collect-testfw is not found on any public repository.
 			We can't wait for guava-r10 (which is google-collections successor).

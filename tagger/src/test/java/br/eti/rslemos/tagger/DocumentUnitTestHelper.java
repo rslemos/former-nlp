@@ -117,16 +117,16 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 		assertThat(token, is(not(nullValue(Token.class))));
 		
 		assertThat(token.get(Token.WORD), is(equalTo((Object)token_def.getKey())));
-		assertThat(token.getFeatures().get(Token.WORD), is(equalTo((Object)token_def.getKey())));
+		assertThat(token.get(Token.WORD), is(equalTo((Object)token_def.getKey())));
 	
 		if (feature_defs != null) {
-			assertThat(token.getFeatures().size(), is(equalTo(feature_defs.length + 1)));
+			assertThat(token.size(), is(equalTo(feature_defs.length + 1)));
 			for (Entry<String, String> feature_def : feature_defs) {
 				assertThat(token.get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
-				assertThat(token.getFeatures().get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
+				assertThat(token.get(feature_def.getKey()), is(equalTo((Object)feature_def.getValue())));
 			}
 		} else {
-			assertThat(token.getFeatures().size(), is(equalTo(1)));
+			assertThat(token.size(), is(equalTo(1)));
 		}
 		
 		reportFootprint("token_" + sentence_idx + "_" + token_idx,   token);

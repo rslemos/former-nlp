@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
@@ -69,7 +68,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		int j = 0;
 		for (Sentence sentence : doc) {
 			for (Token token : sentence) {
-				Map<String, Object> featureMap = token.getFeatures();
+				Map<String, Object> featureMap = token;
 
 				for (int k = 0; k < this.featureNames.length; k++) {
 					
@@ -138,7 +137,7 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		}
 
 		public Token get(int i) throws SentenceIndexOutOfBoundsException {
-			return new LowMemoryFootprintToken(index, i);
+			return new FeatureMap(index, i);
 		}
 
 		public Iterator<Token> iterator() {
@@ -146,45 +145,31 @@ public class LowMemoryFootprintDocument extends AbstractList<Sentence> {
 		}
 	}
 	
-	private final class LowMemoryFootprintToken implements Token {
+	private final class FeatureMap extends AbstractMap<String, Object> implements Token {
 		private final int i;
 		private final int index;
 
-		private LowMemoryFootprintToken(int index, int i) {
+		private FeatureMap(int index, int i) {
 			this.index = index;
 			this.i = i;
 		}
-
-		public Object get(Object name) {
-			return getFeatures().get(name);
+		
+		@Override
+		public Set<Entry<String, Object>> entrySet() {
+			return new FeatureSet();
 		}
 
-		public Map<String, Object> getFeatures() {
-			return new FeatureMap();
-		}
-
-		public Token put(String name, Object value) {
-			throw new UnsupportedOperationException();
-		}
-
-		private final class FeatureMap extends AbstractMap<String, Object> {
-			@Override
-			public Set<Entry<String, Object>> entrySet() {
-				return new FeatureSet();
-			}
-
-			@Override
-			public Object put(String key, Object value) {
-				int keyIdx = Arrays.binarySearch(featureNames, key);
-				
-				if (keyIdx < 0)
-					throw new IllegalArgumentException("Feature '" + key + "' not on feature set");
-				
-				Object oldValue = features.get(i + getSentenceStart(index), keyIdx);
-				features.set(value, i + getSentenceStart(index), keyIdx);
-				
-				return oldValue;
-			}
+		@Override
+		public Object put(String key, Object value) {
+			int keyIdx = Arrays.binarySearch(featureNames, key);
+			
+			if (keyIdx < 0)
+				throw new IllegalArgumentException("Feature '" + key + "' not on feature set");
+			
+			Object oldValue = features.get(i + getSentenceStart(index), keyIdx);
+			features.set(value, i + getSentenceStart(index), keyIdx);
+			
+			return oldValue;
 		}
 		
 		private final class FeatureSet extends AbstractSet<Entry<String, Object>> {

@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import br.eti.rslemos.brill.rules.NEXTTAGRuleFactory;
@@ -36,11 +37,34 @@ import br.eti.rslemos.tagger.Token;
 
 public class BrillTaggerExampleBehavior {
 	
+	private Token He;
+	private Token witnessed;
+	private Token Lennon;
+	private Token killed;
+	private Token Chapman;
+	private Token John;
+	private Token was;
+	private Token shot;
+	private Token by;
+	
+	@Before
+	public void setUp() {
+		John = new DefaultToken("John"); John.put(Token.POS, "NP");
+		Lennon = new DefaultToken("Lennon"); Lennon.put(Token.POS, "NP");
+		was = new DefaultToken("was"); was.put(Token.POS, "BEDZ");
+		shot = new DefaultToken("shot"); shot.put(Token.POS, "VBD");
+		by = new DefaultToken("by"); by.put(Token.POS, "BY");
+		He = new DefaultToken("He"); He.put(Token.POS, "PPS");
+		witnessed = new DefaultToken("witnessed"); witnessed.put(Token.POS, "VBD");
+		killed = new DefaultToken("killed"); killed.put(Token.POS, "VBN");
+		Chapman = new DefaultToken("Chapman"); Chapman.put(Token.POS, "NP");
+	}
+
 	@Test
 	public void exampleMarkHepple2000() {
-		Token to = new DefaultToken("to").put(Token.POS, "TO");
-		Token sign = new DefaultToken("sign").put(Token.POS, "NN");
-		Token up = new DefaultToken("up").put(Token.POS, "RB");
+		Token to = new DefaultToken("to"); to.put(Token.POS, "TO");
+		Token sign = new DefaultToken("sign"); sign.put(Token.POS, "NN");
+		Token up = new DefaultToken("up"); up.put(Token.POS, "RB");
 		
 		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("NN", "VB", "TO");
 		Rule rule2 = WDPREVTAGRuleFactory.INSTANCE.createRule("RB", "RP", "VB", "up");
@@ -58,11 +82,6 @@ public class BrillTaggerExampleBehavior {
 	public void example1RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 		
-		Token Chapman = new DefaultToken("Chapman").put(Token.POS, "NP");
-		Token killed = new DefaultToken("killed").put(Token.POS, "VBN");;
-		Token John = new DefaultToken("John").put(Token.POS, "NP");
-		Token Lennon = new DefaultToken("Lennon").put(Token.POS, "NP");
-		
 		tagger.tag(newDefaultSentence(Chapman, killed, John, Lennon));
 
 		assertEquals(Chapman.get(Token.POS), "NP");
@@ -74,13 +93,6 @@ public class BrillTaggerExampleBehavior {
 	@Test
 	public void example2RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
-		
-		Token John = new DefaultToken("John").put(Token.POS, "NP");
-		Token Lennon = new DefaultToken("Lennon").put(Token.POS, "NP");
-		Token was = new DefaultToken("was").put(Token.POS, "BEDZ");
-		Token shot = new DefaultToken("shot").put(Token.POS, "VBD");
-		Token by = new DefaultToken("by").put(Token.POS, "BY");
-		Token Chapman = new DefaultToken("Chapman").put(Token.POS, "NP");
 		
 		tagger.tag(newDefaultSentence(John, Lennon, was, shot, by, Chapman));
 
@@ -96,13 +108,6 @@ public class BrillTaggerExampleBehavior {
 	public void example3RocheAndSchabes1995() {
 		BrillTagger tagger = buildRocheAndSchabes1995SampleTagger();
 
-		Token He = new DefaultToken("He").put(Token.POS, "PPS");
-		Token witnessed = new DefaultToken("witnessed").put(Token.POS, "VBD");
-		Token Lennon = new DefaultToken("Lennon").put(Token.POS, "NP");
-		Token killed = new DefaultToken("killed").put(Token.POS, "VBN");
-		Token by = new DefaultToken("by").put(Token.POS, "BY");
-		Token Chapman = new DefaultToken("Chapman").put(Token.POS, "NP");
-		
 		tagger.tag(newDefaultSentence(He, witnessed, Lennon, killed, by, Chapman));
 
 		assertEquals(He.get(Token.POS), "PPS");

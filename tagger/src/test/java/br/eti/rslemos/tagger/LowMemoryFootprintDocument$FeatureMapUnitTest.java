@@ -82,9 +82,9 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 								}
 
 								List<Sentence> text = buildText(buildSentence(token));
-								LowMemoryFootprintDocument doc = new LowMemoryFootprintDocument(text, token.getFeatures().keySet().toArray(new String[0]));
+								LowMemoryFootprintDocument doc = new LowMemoryFootprintDocument(text, token.keySet().toArray(new String[0]));
 
-								Map<String, Object> map = doc.get(0).get(0).getFeatures();
+								Map<String, Object> map = doc.get(0).get(0);
 								return map;
 							}
 
@@ -152,7 +152,7 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 		
 		LowMemoryFootprintDocument doc = new LowMemoryFootprintDocument(text, Token.WORD, Token.POS, "featureX", "featureY");
 		
-		return doc.get(0).get(0).getFeatures();
+		return doc.get(0).get(0);
 	}
 
 	@Override

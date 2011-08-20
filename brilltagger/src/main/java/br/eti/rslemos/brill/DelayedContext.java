@@ -24,6 +24,8 @@ package br.eti.rslemos.brill;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.google.common.collect.ForwardingMap;
+
 import br.eti.rslemos.tagger.Token;
 
 public class DelayedContext implements Context {
@@ -93,25 +95,21 @@ public class DelayedContext implements Context {
 		return "DelayedContext [context=" + context	+ " {+ " + commands.size() + " command(s)}]";
 	}
 
-
-	private final class DelayedToken implements Token {
+	private final class DelayedToken extends ForwardingMap<String, Object> implements Token {
 		private final Token token;
 
 		private DelayedToken(Token token) {
 			this.token = token;
 		}
 
-		public DelayedToken put(String name, Object value) {
+		public Object put(String name, Object value) {
 			commands.add(new SetObjectCommand(token, name, value));
-			return this;
+			return get(name);
 		}
 
-		public Object get(Object name) {
-			return token.get(name);
-		}
-
-		public Map<String, Object> getFeatures() {
-			return token.getFeatures();
+		@Override
+		protected Map<String, Object> delegate() {
+			return token;
 		}
 	}
 

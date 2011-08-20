@@ -23,10 +23,22 @@ package br.eti.rslemos.tagger;
 
 import java.util.Map;
 
-public interface Token extends Map<String, Object> {
-	public static final String WORD = "_text";
-	public static final String POS = "_pos";
+import com.google.common.collect.ForwardingMap;
 
-	Object get(Object name);
-	Object put(String name, Object value);
+public class MapWrapToken extends ForwardingMap<String, Object> implements Token {
+
+	private final Map<String, Object> map;
+
+	public MapWrapToken(Map<String, Object> map) {
+		this.map = map;
+	}
+
+	@Override
+	protected Map<String, Object> delegate() {
+		return map;
+	}
+	
+	public static MapWrapToken wrap(Map<String, Object> map) {
+		return new MapWrapToken(map);
+	}
 }

@@ -98,7 +98,8 @@ public final class LightDocument extends AbstractList<Sentence> {
 
 		@Override
 		public Token get(int i) throws SentenceIndexOutOfBoundsException {
-			return new LightToken(lightDoc.getNthAnnotation(getAnnAllTokens(), i), lightDoc.doc);
+			Annotation nthAnnotation = lightDoc.getNthAnnotation(getAnnAllTokens(), i);
+			return new LightToken(lightDoc.doc, nthAnnotation, nthAnnotation.getFeatures());
 		}
 
 		@Override
@@ -107,37 +108,12 @@ public final class LightDocument extends AbstractList<Sentence> {
 		}
 	}
 	
-	private static final class LightToken implements Token {
-		private final Annotation annToken;
-		private final Document doc;
-
-		private LightToken(Annotation annToken, Document doc) {
-			this.annToken = annToken;
-			this.doc = doc;
-		}
-
-		@Override
-		public Map<String, Object> getFeatures() {
-			return new TokenFeatureMap(doc, annToken, annToken.getFeatures());
-		}
-
-		@Override
-		public Object get(Object name) {
-			return getFeatures().get(name);
-		}
-
-		@Override
-		public Token put(String name, Object value) {
-			throw new UnsupportedOperationException();
-		}
-	}
-
-	private static final class TokenFeatureMap extends AbstractMap<String, Object> {
+	private static final class LightToken extends AbstractMap<String, Object> implements Token {
 		private final Document doc;
 		private final Annotation annToken;
 		private final FeatureMap features;
 
-		private TokenFeatureMap(Document doc, Annotation annToken, FeatureMap features) {
+		private LightToken(Document doc, Annotation annToken, FeatureMap features) {
 			this.doc = doc;
 			this.annToken = annToken;
 			this.features = features;

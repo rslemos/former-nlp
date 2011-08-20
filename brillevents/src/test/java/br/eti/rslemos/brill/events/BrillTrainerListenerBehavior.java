@@ -65,9 +65,15 @@ public class BrillTrainerListenerBehavior {
 	
 	@Mock private BrillTrainerListener listener;
 	
+	private static Token makeToken(String word, Object tag) {
+		Token token = new DefaultToken(word);
+		token.put(Token.POS, tag);
+		return token;
+	}
+	
 	private Token[][] baseTokens = {
-			{ new DefaultToken("W00").put(Token.POS, BASE_TAG), new DefaultToken("W01").put(Token.POS, BASE_TAG) },
-			{ new DefaultToken("W00").put(Token.POS, BASE_TAG), new DefaultToken("W11").put(Token.POS, BASE_TAG) },
+			{ makeToken("W00", BASE_TAG), makeToken("W01", BASE_TAG) },
+			{ makeToken("W00", BASE_TAG), makeToken("W11", BASE_TAG) },
 	};
 	
 	private Sentence[] baseSentences = { 
@@ -78,8 +84,8 @@ public class BrillTrainerListenerBehavior {
 	private List<Sentence> baseCorpus = Arrays.asList(baseSentences);
 
 	private Token[][] proofTokens = {
-			{ new DefaultToken("W00").put(Token.POS, "T00"), new DefaultToken("W01").put(Token.POS, "T01") },
-			{ new DefaultToken("W00").put(Token.POS, "T00"), new DefaultToken("W11").put(Token.POS, "T11") },
+			{ makeToken("W00", "T00"), makeToken("W01", "T01") },
+			{ makeToken("W00", "T00"), makeToken("W11", "T11") },
 	};
 	
 	private Sentence[] proofSentences = { 

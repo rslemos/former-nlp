@@ -21,15 +21,21 @@
  ******************************************************************************/
 package br.eti.rslemos.tagger;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.mockito.InOrder;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 public class CompositeTaggerBehavior {
 	
@@ -83,12 +89,7 @@ public class CompositeTaggerBehavior {
 		Token token = mock(Token.class);
 		
 		Tagger subTagger1 = mock(Tagger.class);
-		Tagger subTagger2 = new AbstractTokenTagger() {
-			@Override
-			public void tag(Token token) {
-				token.put(Token.POS, "foobar");
-			}
-		};
+		Tagger subTagger2 = new ConstantTokenTagger("foobar");
 		Tagger subTagger3 = mock(Tagger.class);
 		
 		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
@@ -99,26 +100,23 @@ public class CompositeTaggerBehavior {
 		verify(token).put(Token.POS, "foobar");
 	}
 
+	@SuppressWarnings("serial")
 	@Test
 	public void shouldInvokeAllSubTaggersAndIgnoreObjectOnJustObjectgedToken() {
 		Token token = mock(Token.class);
 		
 		Tagger subTagger1 = mock(Tagger.class);
-		Tagger subTagger2 = new AbstractTokenTagger() {
-			@Override
-			public void tag(Token token) {
-				token.put(Token.POS, "foobar");
-			}
-		};
+		Tagger subTagger2 = new ConstantTokenTagger("foobar");
 
 		final boolean[] check = { false };
-		Tagger subTagger3 = new AbstractTokenTagger() {
+		Tagger subTagger3 = new ConstantTokenTagger("foobar") {
 			@Override
 			public void tag(Token token) {
 				check[0] = true;
-				token.put(Token.POS, "foobar");
+				super.tag(token);
 			}
 		};
+		
 		tagToken(buildTagger(subTagger1, subTagger2, subTagger3), token);
 		
 		assertTrue(check[0]);

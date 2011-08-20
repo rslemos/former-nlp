@@ -21,39 +21,22 @@
  ******************************************************************************/
 package br.eti.rslemos.tagger;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
-public final class DefaultToken implements Token {
+public class DefaultToken extends HashMap<String, Object> implements Token {
 
-	private final Map<String, Object> features = new HashMap<String, Object>();
+	private static final long serialVersionUID = 2837953626186897791L;
 
 	public DefaultToken(String word) {
-		features.put(Token.WORD, word);
+		put(Token.WORD, word);
 	}
 
 	public DefaultToken(Token token) {
-		features.putAll(token.getFeatures());
-	}
-
-	public Object get(Object name) {
-		return features.get(name);
-	}
-
-	public DefaultToken put(String name, Object value) {
-		features.put(name, value);
-		return this;
-	}
-
-	public Map<String, Object> getFeatures() {
-		return Collections.unmodifiableMap(features);
+		putAll(token);
 	}
 
 	@Override
 	public String toString() {
 		return get(Token.WORD) + "/" + get(Token.POS);
 	}
-
-	
 }
