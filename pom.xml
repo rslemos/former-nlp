@@ -95,6 +95,7 @@
 	
 	<scm>
 		<url>ssh://git@github.com:rslemos/nlp.git</url>
+		<developerConnection>scm:git:git://github.com/rslemos/nlp.git</developerConnection>
 	</scm>
 	
 	<build>
