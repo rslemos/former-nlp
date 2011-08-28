@@ -21,7 +21,12 @@
  ******************************************************************************/
 package br.eti.rslemos.ad;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -739,7 +744,7 @@ public class ADParserBehavior {
 		
 		String[] node_info = node.getInfo();
 		assertNotNull(node_info);
-		assertEquals(node_info, info);
+		assertArrayEquals(node_info, info);
 		
 		checkNoChildren(node);
 	}
