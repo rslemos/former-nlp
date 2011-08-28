@@ -44,7 +44,6 @@ public class JAXBBody implements Body {
 		this.sentences = sentences;
 	}
 
-	@Override
 	public Iterator<JAXBSentence> sentences() {
 		return getSentences().iterator();
 	}

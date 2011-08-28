@@ -79,7 +79,6 @@ public class StAXFeatureValue implements FeatureValue {
 		return name;
 	}
 
-	@Override
 	public String getValue() {
 		return getComment();
 	}

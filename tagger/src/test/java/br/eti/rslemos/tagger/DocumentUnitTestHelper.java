@@ -28,7 +28,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Array;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,9 +41,6 @@ import objectexplorer.ObjectGraphMeasurer.Footprint;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-
-import br.eti.rslemos.tagger.Sentence;
-import br.eti.rslemos.tagger.Token;
 
 import com.google.common.collect.ImmutableMultiset;
 
@@ -179,7 +175,7 @@ public abstract class DocumentUnitTestHelper implements DocumentDataPoints {
 	}
 
 	public static <K, V> Entry<K, V> makeEntry(K key, V value) {
-		return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
+		return new SimpleImmutableEntry<K, V>(key, value);
 	}
 
 	public static <T> T[] makeTypedList(Class<T> clazz, T... v) {

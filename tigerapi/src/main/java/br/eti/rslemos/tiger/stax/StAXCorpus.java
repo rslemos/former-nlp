@@ -148,30 +148,24 @@ public class StAXCorpus implements Corpus {
 		return id;
 	}
 
-	@Override
 	public Body getBody() {
 		return null;
 	}
 
-	@Override
 	public Head getHead() {
 		return new Head() {
 
-			@Override
 			public Annotation getAnnotation() {
 				return new Annotation() {
 
-					@Override
 					public EdgeLabel getEdgeLabel() {
 						return null;
 					}
 
-					@Override
 					public List<? extends Feature> getFeatures() {
 						return new LinkedList<Feature>(features.values());
 					}
 
-					@Override
 					public EdgeLabel getSecEdgeLabel() {
 						return null;
 					}
@@ -179,12 +173,10 @@ public class StAXCorpus implements Corpus {
 				};
 			}
 
-			@Override
 			public URI getExternal() {
 				return null;
 			}
 
-			@Override
 			public Meta getMeta() {
 				return metadata;
 			}
@@ -192,7 +184,6 @@ public class StAXCorpus implements Corpus {
 		};
 	}
 
-	@Override
 	public String getVersion() {
 		return null;
 	}

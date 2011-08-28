@@ -74,7 +74,6 @@ public class FastCorpus implements Corpus {
 			//StartDocument start = (StartDocument) xmlstream.nextEvent();
 
 			final XMLEventReader xmlelementstream = factory.createFilteredReader(xmlstream, new EventFilter() {
-				@Override
 				public boolean accept(XMLEvent event) {
 					return event.isStartElement();
 				}
@@ -104,7 +103,6 @@ public class FastCorpus implements Corpus {
 
 				private final Iterator<JAXBSentence> it = new Iterator<JAXBSentence>() {
 
-					@Override
 					public boolean hasNext() {
 						try {
 							return xmlelementstream.peek() != null;
@@ -113,7 +111,6 @@ public class FastCorpus implements Corpus {
 						}
 					}
 
-					@Override
 					public JAXBSentence next() {
 						if (hasNext()) {
 							try {
@@ -126,13 +123,11 @@ public class FastCorpus implements Corpus {
 							throw new NoSuchElementException();
 					}
 
-					@Override
 					public void remove() {
 						throw new UnsupportedOperationException();
 					}
 				};
 
-				@Override
 				public Iterator<? extends Sentence> sentences() {
 					return it;
 				}
@@ -146,22 +141,18 @@ public class FastCorpus implements Corpus {
 		}
 	}
 
-	@Override
 	public String getId() {
 		return id;
 	}
 
-	@Override
 	public String getVersion() {
 		return version;
 	}
 
-	@Override
 	public Head getHead() {
 		return head;
 	}
 
-	@Override
 	public Body getBody() {
 		return body;
 	}

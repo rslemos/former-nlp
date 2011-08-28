@@ -121,7 +121,6 @@ public class Test {
 		List<String> words = new ArrayList<String>(collect.keySet());
 		Collections.sort(words, new Comparator<String>() {
 
-			@Override
 			public int compare(String w1, String w2) {
 				return count(collect.get(w2)) - count(collect.get(w1));
 			}
@@ -153,7 +152,6 @@ public class Test {
 				Entry<String, Integer>[] w = map.entrySet().toArray(new Entry[map.size()]);
 				Arrays.sort(w, new Comparator<Entry<String, Integer>>() {
 
-					@Override
 					public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
 						return o2.getValue() - o1.getValue();
 					}

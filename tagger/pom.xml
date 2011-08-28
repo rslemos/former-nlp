@@ -54,9 +54,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>objectexplorer</groupId>
-			<artifactId>objectexplorer</artifactId>
-			<version>1.0</version>
+			<groupId>memory-measurer</groupId>
+			<artifactId>memory-measurer</artifactId>
+			<version>1.0.rslemos-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 

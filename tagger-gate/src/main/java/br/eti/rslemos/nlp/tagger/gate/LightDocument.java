@@ -29,7 +29,6 @@ import gate.util.InvalidOffsetException;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,6 +38,7 @@ import java.util.Set;
 
 import br.eti.rslemos.tagger.Sentence;
 import br.eti.rslemos.tagger.SentenceIndexOutOfBoundsException;
+import br.eti.rslemos.tagger.SimpleImmutableEntry;
 import br.eti.rslemos.tagger.Token;
 
 public final class LightDocument extends AbstractList<Sentence> {
@@ -159,7 +159,6 @@ public final class LightDocument extends AbstractList<Sentence> {
 			this.doc = doc;
 		}
 
-		@Override
 		public boolean hasNext() {
 			if (first)
 				return true;
@@ -167,12 +166,11 @@ public final class LightDocument extends AbstractList<Sentence> {
 				return iterator != null ? iterator.hasNext() : false;
 		}
 
-		@Override
 		public Entry<String, Object> next() {
 			if (first) {
 				first = false;
 				try {
-					return new SimpleEntry<String, Object>(Token.WORD, 
+					return new SimpleImmutableEntry<String, Object>(Token.WORD, 
 							doc.getContent().getContent(annToken.getStartNode().getOffset(), annToken.getEndNode().getOffset()).toString()
 						);
 				} catch (InvalidOffsetException e) {
@@ -180,13 +178,12 @@ public final class LightDocument extends AbstractList<Sentence> {
 				}
 			} else if (iterator != null) {
 				Entry<Object, Object> entry = iterator.next();
-				return new SimpleEntry<String, Object>(String.valueOf(entry.getKey()), entry.getValue());
+				return new SimpleImmutableEntry<String, Object>(String.valueOf(entry.getKey()), entry.getValue());
 			} else {
 				throw new NoSuchElementException();
 			}
 		}
 
-		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
