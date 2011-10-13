@@ -34,7 +34,6 @@ import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -58,12 +57,16 @@ public class LowMemoryFootprintDocument$FeatureMapUnitTest extends MapInterfaceT
 
 							public SampleElements<Entry<String, Object>> samples() {
 								return new SampleElements<Entry<String, Object>>(
-										Helpers.mapEntry(Token.POS , (Object)"POS"),
-										Helpers.mapEntry(Token.WORD, (Object)"WORD"),
-										Helpers.mapEntry("featureX", (Object)"X"),
-										Helpers.mapEntry("featureY", (Object)"Y"),
-										Helpers.mapEntry("featureZ", (Object)"Z")
+										mapEntry(Token.POS , (Object)"POS"),
+										mapEntry(Token.WORD, (Object)"WORD"),
+										mapEntry("featureX", (Object)"X"),
+										mapEntry("featureY", (Object)"Y"),
+										mapEntry("featureZ", (Object)"Z")
 								);
+							}
+							
+							private Entry<String, Object> mapEntry(String key, Object value) {
+								return Collections.singletonMap(key, value).entrySet().iterator().next();
 							}
 
 							@SuppressWarnings("unchecked")
