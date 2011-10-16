@@ -30,6 +30,7 @@ import gate.util.InvalidOffsetException;
 import java.util.AbstractList;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,20 +57,10 @@ public final class LightDocument extends AbstractList<Sentence> {
 	}
 
 	private Annotation getNthAnnotation(AnnotationSet anns, int i0) {
-		int j = 0;
-		Annotation ann = null;
-		for (Annotation ann0 : anns) {
-			if (j++ == i0) {
-				ann = ann0;
-				break;
-			}
-		}
+		Annotation[] allAnns = anns.toArray(new Annotation[anns.size()]);
+		Arrays.sort(allAnns);
 		
-		if (ann == null) {
-			throw new IndexOutOfBoundsException(String.valueOf(i0));
-		}
-		
-		return ann;
+		return allAnns[i0];
 	}
 
 	@Override
