@@ -1,4 +1,4 @@
-#Tue Aug 02 09:59:01 BRT 2011
+#Thu Nov 10 11:18:49 BRST 2011
 # BEGIN COPYRIGHT NOTICE
 # 
 # This file is part of program "Natural Language Processing"
@@ -20,8 +20,5 @@
 # END COPYRIGHT NOTICE
 activeProfiles=
 eclipse.preferences.version=1
-fullBuildGoals=process-test-resources
 resolveWorkspaceProjects=true
-resourceFilterGoals=process-resources resources\:testResources
-skipCompilerPlugin=true
 version=1
