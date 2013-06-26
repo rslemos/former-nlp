@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,41 +22,41 @@
  ******************************************************************************/
 package br.eti.rslemos.brill.rules;
 
-import br.eti.rslemos.brill.rules.lexical.PREFIXRuleFactory;
-import br.eti.rslemos.brill.rules.lexical.SUFFIXRuleFactory;
+import br.eti.rslemos.brill.rules.lexical.PREFIX;
+import br.eti.rslemos.brill.rules.lexical.SUFFIX;
 
 
 public interface RuleSets {
 	RuleFactory[] BRILL = {
-		CURWDRuleFactory.INSTANCE,
-		LBIGRAMRuleFactory.INSTANCE,
-		NEXT1OR2OR3TAGRuleFactory.INSTANCE,
-		NEXT1OR2TAGRuleFactory.INSTANCE,
-		NEXT1OR2WDRuleFactory.INSTANCE,
-		NEXT2TAGRuleFactory.INSTANCE,
-		NEXT2WDRuleFactory.INSTANCE,
-		NEXTBIGRAMRuleFactory.INSTANCE,
-		NEXTTAGRuleFactory.INSTANCE,
-		NEXTWDRuleFactory.INSTANCE,
-		PREV1OR2OR3TAGRuleFactory.INSTANCE,
-		PREV1OR2TAGRuleFactory.INSTANCE,
-		PREV1OR2WDRuleFactory.INSTANCE,
-		PREV2TAGRuleFactory.INSTANCE,
-		PREV2WDRuleFactory.INSTANCE,
-		PREVBIGRAMRuleFactory.INSTANCE,
-		PREVTAGRuleFactory.INSTANCE,
-		PREVWDRuleFactory.INSTANCE,
-		RBIGRAMRuleFactory.INSTANCE,
-		SURROUNDTAGRuleFactory.INSTANCE,
-		WDAND2AFTRuleFactory.INSTANCE,
-		WDAND2BFRRuleFactory.INSTANCE,
-		WDAND2TAGAFTRuleFactory.INSTANCE,
-		WDAND2TAGBFRRuleFactory.INSTANCE,
-		WDNEXTTAGRuleFactory.INSTANCE,
-		WDPREVTAGRuleFactory.INSTANCE,		
+		CURWD.Factory.INSTANCE,
+		LBIGRAM.Factory.INSTANCE,
+		NEXT1OR2OR3TAG.Factory.INSTANCE,
+		NEXT1OR2TAG.Factory.INSTANCE,
+		NEXT1OR2WD.Factory.INSTANCE,
+		NEXT2TAG.Factory.INSTANCE,
+		NEXT2WD.Factory.INSTANCE,
+		NEXTBIGRAM.Factory.INSTANCE,
+		NEXTTAG.Factory.INSTANCE,
+		NEXTWD.Factory.INSTANCE,
+		PREV1OR2OR3TAG.Factory.INSTANCE,
+		PREV1OR2TAG.Factory.INSTANCE,
+		PREV1OR2WD.Factory.INSTANCE,
+		PREV2TAG.Factory.INSTANCE,
+		PREV2WD.Factory.INSTANCE,
+		PREVBIGRAM.Factory.INSTANCE,
+		PREVTAG.Factory.INSTANCE,
+		PREVWD.Factory.INSTANCE,
+		RBIGRAM.Factory.INSTANCE,
+		SURROUNDTAG.Factory.INSTANCE,
+		WDAND2AFT.Factory.INSTANCE,
+		WDAND2BFR.Factory.INSTANCE,
+		WDAND2TAGAFT.Factory.INSTANCE,
+		WDAND2TAGBFR.Factory.INSTANCE,
+		WDNEXTTAG.Factory.INSTANCE,
+		WDPREVTAG.Factory.INSTANCE,		
 	};
 
 	RuleFactory[] BRILL_LEXICAL = {
-		PREFIXRuleFactory.INSTANCE, SUFFIXRuleFactory.INSTANCE
+		PREFIX.Factory.INSTANCE, SUFFIX.Factory.INSTANCE
 	};
 }

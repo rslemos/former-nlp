@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -158,7 +159,7 @@ public abstract class RuleBehaviorUtils {
 			actual.add(((AbstractRule)rule).toString());
 		}
 		
-		assertEquals(actual, new TreeSet<String>(Arrays.asList(expected)));
+		assertEquals(new TreeSet<String>(Arrays.asList(expected)), actual);
 	}
 
 	public static void createAndTestBasicDependency(RuleFactory factory) {

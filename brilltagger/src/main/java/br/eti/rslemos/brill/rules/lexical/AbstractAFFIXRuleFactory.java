@@ -29,21 +29,21 @@ import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.rules.AbstractRuleFactory;
 import br.eti.rslemos.tagger.Token;
 
-public abstract class AbstractAFFIXRuleFactory extends AbstractRuleFactory {
+public abstract class AbstractAFFIXRuleFactory<R extends Rule> extends AbstractRuleFactory<R> {
 
 	public AbstractAFFIXRuleFactory() {
 		super();
 	}
 
-	protected abstract Rule create(Object from, Object to, String word, int length);
+	protected abstract R create(Object from, Object to, String word, int length);
 
 	@Override
-	public Collection<Rule> create(Object from, Object to, Context context) {
+	public Collection<R> create(Object from, Object to, Context context) {
 		return create(from, to, (String)context.getToken(0).get(Token.WORD));
 	}
 
-	private Collection<Rule> create(Object from, Object to, String word) {
-		Collection<Rule> result = new ArrayList<Rule>(word.length() - 1);
+	private Collection<R> create(Object from, Object to, String word) {
+		Collection<R> result = new ArrayList<R>(word.length() - 1);
 	
 		for (int i = 1; i < word.length(); i++) {
 			result.add(create(from, to, word, i));

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +29,9 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.eti.rslemos.brill.rules.NEXTTAGRuleFactory;
-import br.eti.rslemos.brill.rules.PREVTAGRuleFactory;
-import br.eti.rslemos.brill.rules.WDPREVTAGRuleFactory;
+import br.eti.rslemos.brill.rules.NEXTTAG;
+import br.eti.rslemos.brill.rules.PREVTAG;
+import br.eti.rslemos.brill.rules.WDPREVTAG;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
 import br.eti.rslemos.tagger.Token;
@@ -66,8 +67,8 @@ public class BrillTaggerExampleBehavior {
 		Token sign = new DefaultToken("sign"); sign.put(Token.POS, "NN");
 		Token up = new DefaultToken("up"); up.put(Token.POS, "RB");
 		
-		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("NN", "VB", "TO");
-		Rule rule2 = WDPREVTAGRuleFactory.INSTANCE.createRule("RB", "RP", "VB", "up");
+		Rule rule1 = PREVTAG.Factory.INSTANCE.createRule("NN", "VB", "TO");
+		Rule rule2 = WDPREVTAG.Factory.INSTANCE.createRule("RB", "RP", "VB", "up");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		
@@ -119,8 +120,8 @@ public class BrillTaggerExampleBehavior {
 	}
 
 	private static BrillTagger buildRocheAndSchabes1995SampleTagger() {
-		Rule rule1 = PREVTAGRuleFactory.INSTANCE.createRule("VBN", "VBD", "NP");
-		Rule rule2 = NEXTTAGRuleFactory.INSTANCE.createRule("VBD", "VBN", "BY");
+		Rule rule1 = PREVTAG.Factory.INSTANCE.createRule("VBN", "VBD", "NP");
+		Rule rule2 = NEXTTAG.Factory.INSTANCE.createRule("VBD", "VBN", "BY");
 		
 		BrillTagger tagger = new BrillTagger(Arrays.asList(rule1, rule2));
 		

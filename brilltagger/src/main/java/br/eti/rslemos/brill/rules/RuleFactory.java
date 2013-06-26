@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +28,8 @@ import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.tagger.Token;
 
-public interface RuleFactory {
+public interface RuleFactory<R extends Rule> {
 
-	Collection<Rule> create(Context context, Token target);
+	Collection<R> create(Context context, Token target);
 
 }

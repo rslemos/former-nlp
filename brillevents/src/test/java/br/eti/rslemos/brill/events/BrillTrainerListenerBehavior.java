@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +51,7 @@ import org.mockito.MockitoAnnotations;
 import br.eti.rslemos.brill.BrillTrainer;
 import br.eti.rslemos.brill.Rule;
 import br.eti.rslemos.brill.events.BrillTrainerCustomMatchers.BrillTrainerEventMatcher;
-import br.eti.rslemos.brill.rules.CURWDRuleFactory;
+import br.eti.rslemos.brill.rules.CURWD;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.DefaultSentence;
 import br.eti.rslemos.tagger.DefaultToken;
@@ -103,7 +104,7 @@ public class BrillTrainerListenerBehavior {
 		
 		trainer.addBrillTrainerListener(listener);
 
-		trainer.setRuleFactories(Collections.singletonList((RuleFactory)new CURWDRuleFactory()));
+		trainer.setRuleFactories(Collections.singletonList((RuleFactory)new CURWD.Factory()));
 		
 		/*
 		 * Effective rule discovery should be avoided until strictly necessary.
@@ -200,7 +201,7 @@ public class BrillTrainerListenerBehavior {
 
 	@Test
 	public void shouldNotifyRuleDiscoveryRoundWithNewRule() {
-		final Rule rule = CURWDRuleFactory.INSTANCE.createRule(BASE_TAG, "T00", "W00");
+		final Rule rule = CURWD.Factory.INSTANCE.createRule(BASE_TAG, "T00", "W00");
 		
 		trainer.setThreshold(2);
 		

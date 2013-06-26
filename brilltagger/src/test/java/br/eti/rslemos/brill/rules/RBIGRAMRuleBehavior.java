@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class RBIGRAMRuleBehavior {
 	private boolean matches(String word, String nextWord) {
 		Context context = buildContext();
 		
-		Rule rule = RBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word, nextWord);
+		Rule rule = RBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, word, nextWord);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class RBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(RBIGRAMRuleFactory.INSTANCE);
+		createAndTestBasicDependency(RBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(RBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(RBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD, NEXT1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(RBIGRAMRuleFactory.INSTANCE);
+		createAndTestMatchability(RBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(RBIGRAMRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(RBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(RBIGRAMRuleFactory.INSTANCE, 
+		createAndTestBrillString(RBIGRAM.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " RBIGRAM " + THIS_WORD + " " + NEXT1_WORD);
 	}
 }

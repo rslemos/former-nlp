@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class WDAND2TAGBFRRuleBehavior {
 	private boolean matches(Object prev2Object, String word) {
 		Context context = buildContext();
 		
-		Rule rule = WDAND2TAGBFRRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Object, word);
+		Rule rule = WDAND2TAGBFR.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Object, word);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class WDAND2TAGBFRRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDAND2TAGBFRRuleFactory.INSTANCE);
+		createAndTestBasicDependency(WDAND2TAGBFR.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(WDAND2TAGBFRRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_TAG, THIS_WORD), F, F, T, F, F, F, F, F);
+		testDependency(WDAND2TAGBFR.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_TAG, THIS_WORD), F, F, T, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDAND2TAGBFRRuleFactory.INSTANCE);
+		createAndTestMatchability(WDAND2TAGBFR.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDAND2TAGBFRRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(WDAND2TAGBFR.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(WDAND2TAGBFRRuleFactory.INSTANCE, 
+		createAndTestBrillString(WDAND2TAGBFR.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " WDAND2TAGBFR " + PREV2_TAG + " " + THIS_WORD);
 	}
 }

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -41,7 +42,7 @@ public class SUFFIXRuleBehavior {
 	private boolean matches(String suffix) {
 		Context context = buildUntaggedContext();
 		
-		Rule rule = SUFFIXRuleFactory.INSTANCE.createRule(null, TO_TAG, suffix);
+		Rule rule = SUFFIX.Factory.INSTANCE.createRule(null, TO_TAG, suffix);
 		return rule.matches(context);
 	}
 
@@ -58,17 +59,17 @@ public class SUFFIXRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(SUFFIXRuleFactory.INSTANCE);
+		createAndTestUntaggedMatchability(SUFFIX.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SUFFIXRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(SUFFIX.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(SUFFIXRuleFactory.INSTANCE, 
+		createAndTestBrillString(SUFFIX.Factory.INSTANCE, 
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 1, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 2, THIS_WORD.length()),
 				TO_TAG + " SUFFIX " + THIS_WORD.substring(THIS_WORD.length() - 3, THIS_WORD.length()),

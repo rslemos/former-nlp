@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class WDPREVTAGRuleBehavior {
 	private boolean matches(Object prevObject, String word) {
 		Context context = buildContext();
 		
-		Rule rule = WDPREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevObject, word);
+		Rule rule = WDPREVTAG.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevObject, word);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class WDPREVTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(WDPREVTAGRuleFactory.INSTANCE);
+		createAndTestBasicDependency(WDPREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(WDPREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
+		testDependency(WDPREVTAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, THIS_WORD), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(WDPREVTAGRuleFactory.INSTANCE);
+		createAndTestMatchability(WDPREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(WDPREVTAGRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(WDPREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(WDPREVTAGRuleFactory.INSTANCE, 
+		createAndTestBrillString(WDPREVTAG.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " WDPREVTAG " + PREV1_TAG + " " + THIS_WORD);
 	}
 }

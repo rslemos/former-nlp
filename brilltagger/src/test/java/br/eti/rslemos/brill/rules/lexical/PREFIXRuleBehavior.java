@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -41,7 +42,7 @@ public class PREFIXRuleBehavior {
 	private boolean matches(String prefix) {
 		Context context = buildUntaggedContext();
 		
-		Rule rule = PREFIXRuleFactory.INSTANCE.createRule(null, TO_TAG, prefix);
+		Rule rule = PREFIX.Factory.INSTANCE.createRule(null, TO_TAG, prefix);
 		return rule.matches(context);
 	}
 
@@ -58,17 +59,17 @@ public class PREFIXRuleBehavior {
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestUntaggedMatchability(PREFIXRuleFactory.INSTANCE);
+		createAndTestUntaggedMatchability(PREFIX.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREFIXRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(PREFIX.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREFIXRuleFactory.INSTANCE, 
+		createAndTestBrillString(PREFIX.Factory.INSTANCE, 
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 1),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 2),
 				TO_TAG + " PREFIX " + THIS_WORD.substring(0, 3),

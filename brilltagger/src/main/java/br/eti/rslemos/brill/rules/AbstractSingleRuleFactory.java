@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,13 +28,13 @@ import java.util.Collections;
 import br.eti.rslemos.brill.Context;
 import br.eti.rslemos.brill.Rule;
 
-public abstract class AbstractSingleRuleFactory extends AbstractRuleFactory {
+public abstract class AbstractSingleRuleFactory<R extends Rule> extends AbstractRuleFactory<R> {
 
 	@Override
-	protected Collection<Rule> create(Object from, Object to, Context context) {
+	protected Collection<R> create(Object from, Object to, Context context) {
 		return Collections.singleton(createRule(from, to, context));
 	}
 
-	protected abstract Rule createRule(Object from, Object to, Context context);
+	protected abstract R createRule(Object from, Object to, Context context);
 
 }

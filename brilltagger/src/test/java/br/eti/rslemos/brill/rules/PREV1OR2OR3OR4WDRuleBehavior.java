@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class PREV1OR2OR3OR4WDRuleBehavior {
 	private boolean matches(String prev1or2or3Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREV1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1or2or3Word);
+		Rule rule = PREV1OR2OR3OR4WD.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1or2or3Word);
 		return rule.matches(context);
 	}
 	
@@ -58,30 +59,30 @@ public class PREV1OR2OR3OR4WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREV1OR2OR3OR4WDRuleFactory.INSTANCE);
+		createAndTestBasicDependency(PREV1OR2OR3OR4WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(PREV1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2OR3OR4WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV4_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3OR4WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3OR4WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3OR4WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV3_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2OR3OR4WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV4_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2OR3OR4WDRuleFactory.INSTANCE);
+		createAndTestMatchability(PREV1OR2OR3OR4WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2OR3OR4WDRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(PREV1OR2OR3OR4WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREV1OR2OR3OR4WDRuleFactory.INSTANCE, 
+		createAndTestBrillString(PREV1OR2OR3OR4WD.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV2_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2OR3OR4WD " + PREV3_WORD,

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 	private boolean matches(Object next1or2or3Object) {
 		Context context = buildContext();
 		
-		Rule rule = NEXT1OR2OR3TAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2or3Object);
+		Rule rule = NEXT1OR2OR3TAG.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2or3Object);
 		return rule.matches(context);
 	}
 	
@@ -58,29 +59,29 @@ public class NEXT1OR2OR3TAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT1OR2OR3TAGRuleFactory.INSTANCE);
+		createAndTestBasicDependency(NEXT1OR2OR3TAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXT1OR2OR3TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
-		testDependency(NEXT1OR2OR3TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
-		testDependency(NEXT1OR2OR3TAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT3_TAG), F, F, F, F, F, F, T, F);
+		testDependency(NEXT1OR2OR3TAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_TAG), F, F, F, F, T, F, F, F);
+		testDependency(NEXT1OR2OR3TAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_TAG), F, F, F, F, F, T, F, F);
+		testDependency(NEXT1OR2OR3TAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT3_TAG), F, F, F, F, F, F, T, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT1OR2OR3TAGRuleFactory.INSTANCE);
+		createAndTestMatchability(NEXT1OR2OR3TAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT1OR2OR3TAGRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(NEXT1OR2OR3TAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXT1OR2OR3TAGRuleFactory.INSTANCE, 
+		createAndTestBrillString(NEXT1OR2OR3TAG.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT1_TAG,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT2_TAG,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2OR3TAG " + NEXT3_TAG);

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class PREVTAGRuleBehavior {
 	private boolean matches(Object prevObject) {
 		Context context = buildContext();
 		
-		Rule rule = PREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevObject);
+		Rule rule = PREVTAG.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prevObject);
 		return rule.matches(context);
 	}
 
@@ -58,27 +59,27 @@ public class PREVTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREVTAGRuleFactory.INSTANCE);
+		createAndTestBasicDependency(PREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(PREVTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
+		testDependency(PREVTAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG), F, F, F, T, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVTAGRuleFactory.INSTANCE);
+		createAndTestMatchability(PREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVTAGRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(PREVTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREVTAGRuleFactory.INSTANCE, 
+		createAndTestBrillString(PREVTAG.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREVTAG " + PREV1_TAG);
 	}
 }

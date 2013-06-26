@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class NEXTBIGRAMRuleBehavior {
 	private boolean matches(String next1Word, String next2Word) {
 		Context context = buildContext();
 		
-		Rule rule = NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1Word, next2Word);
+		Rule rule = NEXTBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1Word, next2Word);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class NEXTBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXTBIGRAMRuleFactory.INSTANCE);
+		createAndTestBasicDependency(NEXTBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXTBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXTBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXTBIGRAMRuleFactory.INSTANCE);
+		createAndTestMatchability(NEXTBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXTBIGRAMRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(NEXTBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXTBIGRAMRuleFactory.INSTANCE, 
+		createAndTestBrillString(NEXTBIGRAM.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXTBIGRAM " + NEXT1_WORD + " " + NEXT2_WORD);
 	}
 }

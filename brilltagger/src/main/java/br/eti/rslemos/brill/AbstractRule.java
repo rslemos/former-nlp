@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -92,11 +93,11 @@ public abstract class AbstractRule implements Rule {
 	}
 
 	protected final String getType() {
-		String simpleName = getClass().getSimpleName();
-		if (simpleName.endsWith("Rule"))
-			return simpleName.substring(0, simpleName.length() - 4);
-		else
-			return simpleName;
+		String name = getClass().getName();
+		if (name.endsWith("$Rule"))
+			name = name.substring(0, name.length() - 5);
+		
+		return name.substring(name.lastIndexOf('.') + 1);
 	}
 
 	public void writeRule(Writer out) throws IOException {

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class SURROUNDTAGRuleBehavior {
 	private boolean matches(Object prev1Object, Object next1Object) {
 		Context context = buildContext();
 		
-		Rule rule = SURROUNDTAGRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1Object, next1Object);
+		Rule rule = SURROUNDTAG.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1Object, next1Object);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class SURROUNDTAGRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(SURROUNDTAGRuleFactory.INSTANCE);
+		createAndTestBasicDependency(SURROUNDTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(SURROUNDTAGRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
+		testDependency(SURROUNDTAG.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_TAG, NEXT1_TAG), F, F, F, T, T, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(SURROUNDTAGRuleFactory.INSTANCE);
+		createAndTestMatchability(SURROUNDTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(SURROUNDTAGRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(SURROUNDTAG.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(SURROUNDTAGRuleFactory.INSTANCE, 
+		createAndTestBrillString(SURROUNDTAG.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " SURROUNDTAG " + PREV1_TAG + " " + NEXT1_TAG);
 	}
 }

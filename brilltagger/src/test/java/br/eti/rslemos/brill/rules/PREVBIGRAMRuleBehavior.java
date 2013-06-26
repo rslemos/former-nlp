@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class PREVBIGRAMRuleBehavior {
 	private boolean matches(String prev2Word, String prev1Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREVBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
+		Rule rule = PREVBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev2Word, prev1Word);
 		return rule.matches(context);
 	}
 
@@ -67,27 +68,27 @@ public class PREVBIGRAMRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREVBIGRAMRuleFactory.INSTANCE);
+		createAndTestBasicDependency(PREVBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(PREVBIGRAMRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREVBIGRAM.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD, PREV1_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREVBIGRAMRuleFactory.INSTANCE);
+		createAndTestMatchability(PREVBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREVBIGRAMRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(PREVBIGRAM.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREVBIGRAMRuleFactory.INSTANCE, 
+		createAndTestBrillString(PREVBIGRAM.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREVBIGRAM " + PREV2_WORD + " " + PREV1_WORD);
 	}
 }

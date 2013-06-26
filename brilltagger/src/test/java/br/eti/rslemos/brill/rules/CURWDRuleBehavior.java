@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class CURWDRuleBehavior {
 	private boolean matches(String word) {
 		Context context = buildContext();
 		
-		Rule rule = CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, word);
+		Rule rule = CURWD.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, word);
 		return rule.matches(context);
 	}
 
@@ -58,27 +59,27 @@ public class CURWDRuleBehavior {
 	
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(CURWDRuleFactory.INSTANCE);
+		createAndTestBasicDependency(CURWD.Factory.INSTANCE);
 	}
 
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(CURWDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
+		testDependency(CURWD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, THIS_WORD), F, F, F, F, F, F, F, F);
 	}
 	
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(CURWDRuleFactory.INSTANCE);
+		createAndTestMatchability(CURWD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(CURWDRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(CURWD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(CURWDRuleFactory.INSTANCE, 
+		createAndTestBrillString(CURWD.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " CURWD " + THIS_WORD);
 	}
 }

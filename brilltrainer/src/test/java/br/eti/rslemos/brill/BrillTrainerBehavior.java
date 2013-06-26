@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +35,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.eti.rslemos.brill.rules.CURWDRuleFactory;
+import br.eti.rslemos.brill.rules.CURWD;
 import br.eti.rslemos.brill.rules.RuleFactory;
 import br.eti.rslemos.tagger.ConstantTokenTagger;
 import br.eti.rslemos.tagger.DefaultSentence;
@@ -67,7 +68,7 @@ public class BrillTrainerBehavior {
 		
 		List<Sentence> proof = buildText_ToSignUp();
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRuleFactory.INSTANCE);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWD.Factory.INSTANCE);
 		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
 		new ConstantTokenTagger(FROM_TAG).tag(new DefaultSentence(base.get(0)));
@@ -75,9 +76,9 @@ public class BrillTrainerBehavior {
 		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 3);
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TO", "to")));
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "VB", "sign")));
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "RP", "up")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TO", "to")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "VB", "sign")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "RP", "up")));
 	}
 	
 	@Test
@@ -203,16 +204,16 @@ public class BrillTrainerBehavior {
 				)
 		);
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRuleFactory.INSTANCE);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWD.Factory.INSTANCE);
 		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
 		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 4);
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TAG1", "WORD1")));
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TAG2", "WORD2")));
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TAG3", "WORD3")));
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TAG4", "WORD4")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TAG1", "WORD1")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TAG2", "WORD2")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TAG3", "WORD3")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TAG4", "WORD4")));
 	}
 	
 	@Test
@@ -241,13 +242,13 @@ public class BrillTrainerBehavior {
 				)
 		);
 		
-		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWDRuleFactory.INSTANCE);
+		List<RuleFactory> ruleFactories = Collections.singletonList((RuleFactory)CURWD.Factory.INSTANCE);
 		BrillTrainer trainer = new BrillTrainer(ruleFactories);
 		
 		List<Rule> rules = trainer.train(base, proof).getRules();
 		
 		assertEquals(rules.size(), 1);
-		assertTrue(rules.contains(CURWDRuleFactory.INSTANCE.createRule(FROM_TAG, "TAG1", "WORD1")));
+		assertTrue(rules.contains(CURWD.Factory.INSTANCE.createRule(FROM_TAG, "TAG1", "WORD1")));
 	}
 	
 	public static List<Sentence> buildText_ToSignUp() {

@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class NEXT1OR2WDRuleBehavior {
 	private boolean matches(String next1or2Word) {
 		Context context = buildContext();
 		
-		Rule rule = NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2Word);
+		Rule rule = NEXT1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, next1or2Word);
 		return rule.matches(context);
 	}
 	
@@ -58,28 +59,28 @@ public class NEXT1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(NEXT1OR2WDRuleFactory.INSTANCE);
+		createAndTestBasicDependency(NEXT1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldDependOnContextObject() {
-		testDependency(NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(NEXT1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXT1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(NEXT1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, NEXT2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(NEXT1OR2WDRuleFactory.INSTANCE);
+		createAndTestMatchability(NEXT1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(NEXT1OR2WDRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(NEXT1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(NEXT1OR2WDRuleFactory.INSTANCE, 
+		createAndTestBrillString(NEXT1OR2WD.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2WD " + NEXT1_WORD,
 				THIS_TAG + " " + TO_TAG + " NEXT1OR2WD " + NEXT2_WORD);
 	}

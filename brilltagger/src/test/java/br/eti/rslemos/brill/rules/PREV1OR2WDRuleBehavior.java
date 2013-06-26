@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +36,7 @@ public class PREV1OR2WDRuleBehavior {
 	private boolean matches(String prev1or2Word) {
 		Context context = buildContext();
 		
-		Rule rule = PREV1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1or2Word);
+		Rule rule = PREV1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, TO_TAG, prev1or2Word);
 		return rule.matches(context);
 	}
 	
@@ -58,28 +59,28 @@ public class PREV1OR2WDRuleBehavior {
 
 	@Test
 	public void shouldDependOnFromObject() {
-		createAndTestBasicDependency(PREV1OR2WDRuleFactory.INSTANCE);
+		createAndTestBasicDependency(PREV1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldNotDependOnContextObject() {
-		testDependency(PREV1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
-		testDependency(PREV1OR2WDRuleFactory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV1_WORD), F, F, F, F, F, F, F, F);
+		testDependency(PREV1OR2WD.Factory.INSTANCE.createRule(THIS_TAG, THIS_TAG, PREV2_WORD), F, F, F, F, F, F, F, F);
 	}
 
 	@Test
 	public void shouldCreateRule() {
-		createAndTestMatchability(PREV1OR2WDRuleFactory.INSTANCE);
+		createAndTestMatchability(PREV1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldHaveObjectSemantics() {
-		createAndTestObjectSemantics(PREV1OR2WDRuleFactory.INSTANCE);
+		createAndTestObjectSemantics(PREV1OR2WD.Factory.INSTANCE);
 	}
 	
 	@Test
 	public void shouldBeSerializableToBrillString() {
-		createAndTestBrillString(PREV1OR2WDRuleFactory.INSTANCE, 
+		createAndTestBrillString(PREV1OR2WD.Factory.INSTANCE, 
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV1_WORD,
 				THIS_TAG + " " + TO_TAG + " PREV1OR2WD " + PREV2_WORD);
 	}
