@@ -23,8 +23,8 @@ package br.eti.rslemos.brill;
 
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.TreeSet;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 import br.eti.rslemos.tagger.Corpus;
 import br.eti.rslemos.tagger.Sentence;
@@ -38,38 +38,29 @@ class WorkCorpus {
 	private int[] to;
 	
 	public WorkCorpus(Corpus corpus) {
-		alloc(corpus, null);
+		CorpusStat stat = new CorpusStat(corpus);
+		
+		alloc(stat.sentences, stat.tokens, stat.featureNames);
 		fill(corpus);
 	}
 	
 	public WorkCorpus(Corpus corpus, WorkCorpus copy) {
-		alloc(corpus, copy.featureNames);
+		CorpusStat stat = new CorpusStat(corpus);
+		
+		alloc(stat.sentences, stat.tokens, copy.featureNames);
 		fill(corpus);
 	}
 
-	private final void alloc(Corpus corpus, String[] featureNames) {
-		int tokens = 0;
-		int sentences = 0;
+	private void alloc(int sentences, int tokens, String[] featureNames) {
+		this.featureNames = featureNames;
+		this.features = new Object[tokens][featureNames.length];
 		
-		TreeSet<String> featureNamesSet = new TreeSet<String>();
-		
-		for (Sentence sentence : corpus) {
-			sentences++;
-			for (Token token : sentence) {
-				tokens++;
-				featureNamesSet.addAll(token.keySet());
-			}
-		}
-		
-		this.featureNames = featureNames == null ? featureNamesSet.toArray(new String[featureNamesSet.size()]) : featureNames;
-		
-		this.features = new Object[tokens][this.featureNames.length];
 		int[][] area = new int[2][sentences]; // verify whether the are contiguous
 		this.from = area[0];
 		this.to = area[1];
 	}
-	
-	private final void fill(Corpus corpus) {
+
+	private void fill(Corpus corpus) {
 		int i = 0, j = 0;
 		
 		for (Sentence sentence : corpus) {
@@ -117,5 +108,30 @@ class WorkCorpus {
 
 	private int[] getSentenceBoundaries(int j) {
 		return new int[] { from[j], to[j] };
+	}
+
+	public static class CorpusStat {
+		public final int sentences;
+		public final int tokens;
+		public final String[] featureNames;
+
+		public CorpusStat (Corpus corpus) {
+			int sentences = 0, tokens = 0;
+			
+			TreeSet<String> featureNames = new TreeSet<String>();
+			
+			for (Sentence sentence : corpus) {
+				sentences++;
+				for (Token token : sentence) {
+					tokens++;
+					featureNames.addAll(token.keySet());
+				}
+			}
+			
+			this.sentences = sentences;
+			this.tokens = tokens;
+			this.featureNames = featureNames.toArray(new String[featureNames.size()]);
+		}
+		
 	}
 }
