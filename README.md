@@ -3,6 +3,10 @@ nlp
 
 Natural Language Processing
 
+| Master                                              | Develop                                                |
+| --------------------------------------------------- | ------------------------------------------------------ |
+| [![Master status][master status]][master travis-ci] | [![Develop status][develop status]][develop travis-ci] |
+
 This project is permanently under development using this [successful branching
 model](http://nvie.com/posts/a-successful-git-branching-model/).
 
@@ -14,6 +18,12 @@ Features are developed on "feature/\*" branches. On these branches the ["Only
 the Gods" kōan](http://stevelosh.com/blog/2013/04/git-koans/#only-the-gods)
 maybe regularly violated, as pushed commits can be rebased at will (these
 branches should be temporary anyway).
+
+[master status]: https://travis-ci.org/rslemos/nlp.png?branch=master
+[master travis-ci]: https://travis-ci.org/rslemos/nlp
+
+[develop status]: https://travis-ci.org/rslemos/nlp.png?branch=develop
+[develop travis-ci]: https://travis-ci.org/rslemos/nlp
 
 --------------------------------------------------------------------------------
   BEGIN COPYRIGHT NOTICE
