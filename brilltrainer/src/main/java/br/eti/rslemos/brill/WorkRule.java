@@ -21,36 +21,21 @@
  ******************************************************************************/
 package br.eti.rslemos.brill;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Formatter;
 
-public class RulePattern {
-	@SuppressWarnings("unchecked")
-	ArrayList<String>[] matches = new ArrayList[0];
-	ArrayList<String> sets = new ArrayList<String>();
+class WorkRule {
+
+	Object[] sets;
+	Object[][] matches;
 	
-	public void addMatch(int real, String feature) {
-		// 'real' can be either 0, positive or negative
-		// let the positives occupy the 2*real th position
-		// the negatives will take the -1 -> 1; -2 -> 3; real -> -2*real - 1
-		int stored = (real >= 0) ? (2 * real) : (-2 * real - 1);
-		if (!(matches.length > stored)) {
-			@SuppressWarnings("unchecked")
-			ArrayList<String>[] newmatches = new ArrayList[stored+1];
-			System.arraycopy(matches, 0, newmatches, 0, matches.length);
-			matches = newmatches;
-		}
+	public String toString() {
+		@SuppressWarnings("resource")
+		Formatter result = new Formatter();
 		
-		if (matches[stored] == null)
-			matches[stored] = new ArrayList<String>(2);
+		result.format("matches: %s\n", Arrays.deepToString(matches));
+		result.format("sets: %s\n", Arrays.deepToString(sets));
 		
-		matches[stored].add(feature);
+		return result.toString();
 	}
-
-	public void addSet(int i, String feature) {
-		if (i != 0)
-			throw new IllegalArgumentException();
-		
-		sets.add(feature);
-	}
-
 }

@@ -21,6 +21,22 @@
  ******************************************************************************/
 package br.eti.rslemos.brill;
 
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.Map;
+
 public class Rule {
 
+	public Map<String, Object>[] matches;
+	public Map<String, Object> sets;
+
+	public String toString() {
+		@SuppressWarnings("resource")
+		Formatter result = new Formatter();
+		
+		result.format("matches: %s\n", Arrays.toString(matches));
+		result.format("sets: %s\n", sets);
+		
+		return result.toString();
+	}
 }

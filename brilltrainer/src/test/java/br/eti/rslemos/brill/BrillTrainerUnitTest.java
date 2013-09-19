@@ -44,23 +44,24 @@ public class BrillTrainerUnitTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testNullPatterns() {
-		new BrillTrainer(null);
+		new BrillTrainer().setRulePatterns(null);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testNullInvocation() {
 		Collection<RulePattern> patterns = Collections.emptyList();
-		BrillTrainer trainer = new BrillTrainer(patterns);
-		trainer.train(null, null);
+		BrillTrainer trainer = new BrillTrainer().setRulePatterns(patterns);
+		trainer.setCorpora(null, null);
 	}
 	
 	@Test
 	public void testEmptyPatternsOverEmptyCorpus() {
 		Collection<RulePattern> patterns = Collections.emptyList();
-		BrillTrainer trainer = new BrillTrainer(patterns);
+		BrillTrainer trainer = new BrillTrainer().setRulePatterns(patterns);
 		Corpus base = new DefaultCorpus();
 		Corpus proof = new DefaultCorpus();
-		List<Rule> rules = trainer.train(base, proof);
+		trainer.setCorpora(base, proof);
+		List<Rule> rules = trainer.train();
 		assertThat(rules, is(not(nullValue(List.class))));
 		assertThat(rules.size(), is(equalTo(0)));
 	}
@@ -68,11 +69,69 @@ public class BrillTrainerUnitTest {
 	@Test
 	public void testEmptyPatternsOverText() {
 		Collection<RulePattern> patterns = Collections.emptyList();
-		BrillTrainer trainer = new BrillTrainer(patterns);
+		BrillTrainer trainer = new BrillTrainer().setRulePatterns(patterns);
 		Corpus proof = corpus(sentence("WORD/POS", "The/DET", "quick/ADJ", "brown/ADJ", "fox/NOM", "jumped/VRB", "over/PREP", "the/DET", "lazy/ADJ", "dog/NOM", "./PUN"));
 		Corpus base = retainFeatures(proof, "WORD");
-		List<Rule> rules = trainer.train(base, proof);
+		trainer.setCorpora(base, proof);
+		List<Rule> rules = trainer.train();
 		assertThat(rules, is(not(nullValue(List.class))));
 		assertThat(rules.size(), is(equalTo(0)));
+	}
+	
+	@Test
+	public void testSinglePatternOverText() {
+		RulePattern pattern = new RulePattern();
+		pattern.addMatch(0, "WORD");
+		pattern.addSet(0, "POS");
+		
+		Collection<RulePattern> patterns = Collections.singletonList(pattern);
+		BrillTrainer trainer = new BrillTrainer().setRulePatterns(patterns);
+		Corpus proof = corpus(sentence("WORD/POS", "The/DET", "quick/ADJ", "brown/ADJ", "fox/NOM", "jumped/VRB", "over/PREP", "the/DET", "lazy/ADJ", "dog/NOM", "./PUN"));
+		Corpus base = retainFeatures(proof, "WORD");
+		trainer.setCorpora(base, proof);
+		List<Rule> rules = trainer.train();
+		
+		assertThat(rules, is(not(nullValue(List.class))));
+		assertThat(rules.size(), is(equalTo(10)));
+		
+		assertThat(rules.get(0).matches.length, is(equalTo(1)));
+		assertThat(rules.get(0).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"The"))));
+		assertThat(rules.get(0).sets, is(equalTo(Collections.singletonMap("POS", (Object)"DET"))));
+		
+		assertThat(rules.get(1).matches.length, is(equalTo(1)));
+		assertThat(rules.get(1).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"quick"))));
+		assertThat(rules.get(1).sets, is(equalTo(Collections.singletonMap("POS", (Object)"ADJ"))));
+		
+		assertThat(rules.get(2).matches.length, is(equalTo(1)));
+		assertThat(rules.get(2).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"brown"))));
+		assertThat(rules.get(2).sets, is(equalTo(Collections.singletonMap("POS", (Object)"ADJ"))));
+		
+		assertThat(rules.get(3).matches.length, is(equalTo(1)));
+		assertThat(rules.get(3).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"fox"))));
+		assertThat(rules.get(3).sets, is(equalTo(Collections.singletonMap("POS", (Object)"NOM"))));
+		
+		assertThat(rules.get(4).matches.length, is(equalTo(1)));
+		assertThat(rules.get(4).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"jumped"))));
+		assertThat(rules.get(4).sets, is(equalTo(Collections.singletonMap("POS", (Object)"VRB"))));
+		
+		assertThat(rules.get(5).matches.length, is(equalTo(1)));
+		assertThat(rules.get(5).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"over"))));
+		assertThat(rules.get(5).sets, is(equalTo(Collections.singletonMap("POS", (Object)"PREP"))));
+		
+		assertThat(rules.get(6).matches.length, is(equalTo(1)));
+		assertThat(rules.get(6).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"the"))));
+		assertThat(rules.get(6).sets, is(equalTo(Collections.singletonMap("POS", (Object)"DET"))));
+		
+		assertThat(rules.get(7).matches.length, is(equalTo(1)));
+		assertThat(rules.get(7).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"lazy"))));
+		assertThat(rules.get(7).sets, is(equalTo(Collections.singletonMap("POS", (Object)"ADJ"))));
+		
+		assertThat(rules.get(8).matches.length, is(equalTo(1)));
+		assertThat(rules.get(8).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"dog"))));
+		assertThat(rules.get(8).sets, is(equalTo(Collections.singletonMap("POS", (Object)"NOM"))));
+		
+		assertThat(rules.get(9).matches.length, is(equalTo(1)));
+		assertThat(rules.get(9).matches[0], is(equalTo(Collections.singletonMap("WORD", (Object)"."))));
+		assertThat(rules.get(9).sets, is(equalTo(Collections.singletonMap("POS", (Object)"PUN"))));
 	}
 }
