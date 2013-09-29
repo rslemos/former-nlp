@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,16 +28,15 @@ public class DefaultToken extends HashMap<String, Object> implements Token {
 
 	private static final long serialVersionUID = 2837953626186897791L;
 
+	public DefaultToken() {
+	}
+
+	public DefaultToken(Token token) {
+		super(token);
+	}
+
 	public DefaultToken(String word) {
 		put(Token.WORD, word);
 	}
 
-	public DefaultToken(Token token) {
-		putAll(token);
-	}
-
-	@Override
-	public String toString() {
-		return get(Token.WORD) + "/" + get(Token.POS);
-	}
 }

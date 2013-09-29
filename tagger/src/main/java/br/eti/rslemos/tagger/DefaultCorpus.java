@@ -2,7 +2,6 @@
  * BEGIN COPYRIGHT NOTICE
  * 
  * This file is part of program "Natural Language Processing"
- * Copyright 2011  Rodrigo Lemos
  * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -23,21 +22,11 @@
 package br.eti.rslemos.tagger;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DefaultSentence extends ArrayList<Token> implements Sentence {
+import br.eti.rslemos.tagger.Sentence;
 
-	private static final long serialVersionUID = 3090188575586194869L;
+public class DefaultCorpus extends ArrayList<Sentence> implements Corpus {
 
-	public DefaultSentence(List<Token> sentence) {
-		super(sentence);
-	}
+	private static final long serialVersionUID = 1589303801207424066L;
 
-	public DefaultSentence(Sentence sentence) {
-		super(sentence);
-	}
-
-	public DefaultSentence() {
-		super();
-	}
 }

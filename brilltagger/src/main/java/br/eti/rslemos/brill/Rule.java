@@ -2,7 +2,6 @@
  * BEGIN COPYRIGHT NOTICE
  * 
  * This file is part of program "Natural Language Processing"
- * Copyright 2011  Rodrigo Lemos
  * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -20,24 +19,24 @@
  * 
  * END COPYRIGHT NOTICE
  ******************************************************************************/
-package br.eti.rslemos.tagger;
+package br.eti.rslemos.brill;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.Map;
 
-public class DefaultSentence extends ArrayList<Token> implements Sentence {
+public class Rule {
 
-	private static final long serialVersionUID = 3090188575586194869L;
+	public Map<String, Object>[] matches;
+	public Map<String, Object> sets;
 
-	public DefaultSentence(List<Token> sentence) {
-		super(sentence);
-	}
-
-	public DefaultSentence(Sentence sentence) {
-		super(sentence);
-	}
-
-	public DefaultSentence() {
-		super();
+	public String toString() {
+		@SuppressWarnings("resource")
+		Formatter result = new Formatter();
+		
+		result.format("matches: %s\n", Arrays.toString(matches));
+		result.format("sets: %s\n", sets);
+		
+		return result.toString();
 	}
 }

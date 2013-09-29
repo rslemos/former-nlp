@@ -3,6 +3,7 @@
  * 
  * This file is part of program "Natural Language Processing"
  * Copyright 2011  Rodrigo Lemos
+ * Copyright 2013  Rodrigo Lemos
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,11 +22,9 @@
  ******************************************************************************/
 package br.eti.rslemos.tagger;
 
+import java.util.List;
 
-public interface Sentence extends Iterable<Token> {
 
-	int size();
-
-	Token get(int i) throws SentenceIndexOutOfBoundsException;
+public interface Sentence extends List<Token> {
 
 }
